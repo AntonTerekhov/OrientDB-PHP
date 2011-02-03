@@ -23,13 +23,13 @@ class OrientDB
 
     /**
      * Client protocol version
-     * @var unknown_type
+     * @var int
      */
     public $clientVersion = 2;
 
     /**
      * Server's protocol version.
-     * @var unknown_type
+     * @var int
      */
     public $protocolVersion = null;
 
