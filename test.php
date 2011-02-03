@@ -21,9 +21,11 @@ var_dump($options);
 $db = new OrientDB('localhost', 2424);
 
 echo 'OpenDB non-existent DB' . PHP_EOL;
-
-//    $fault = $db->openDB('demo2', 'writer', 'writer');
-
+try {
+    //$fault = $db->openDB('demo2', 'writer', 'writer');
+} catch (OrientDBException $e) {
+	echo $e->getMessage() . PHP_EOL;
+}
 
 echo 'OpenDB DB' . PHP_EOL;
 $clusters = $db->openDB('demo', 'writer', 'writer');

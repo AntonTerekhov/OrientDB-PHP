@@ -75,9 +75,9 @@ class OrientDB
                             $command,
                             'setAttribs'), $arguments);
 
-            //    		echo "Calling object method '$name' " . implode(', ', $arguments). "\n";
             $command->prepare();
             $data = $command->execute();
+            // @TODO Read protocol version if first called methor get error from server
             if (is_null($this->protocolVersion)) {
                 $this->protocolVersion = $command->getProtocolVersion();
                 if ($this->protocolVersion != $this->clientVersion) {
