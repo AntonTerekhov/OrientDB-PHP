@@ -14,7 +14,6 @@ echo 'Connect...' . PHP_EOL;
 $connect = $db_connect->connect('root', "95D5BA75CDCEDDDE610534B4D8BB13C6CD730665F7F10BCBF3F13F7E43F36A7F");
 
 echo 'Config list' . PHP_EOL;
-
 $options = $db_connect->configList();
 
 var_dump($options);
@@ -23,35 +22,32 @@ $db = new OrientDB('localhost', 2424);
 
 echo 'OpenDB non-existent DB' . PHP_EOL;
 
-//$fault = $db->openDB('demo2', 'writer', 'writer');
+//    $fault = $db->openDB('demo2', 'writer', 'writer');
+
 
 echo 'OpenDB DB' . PHP_EOL;
-
 $clusters = $db->openDB('demo', 'writer', 'writer');
 
 var_dump($clusters);
 
 echo 'Count class' . PHP_EOL;
-
 $count = $db->count('default');
 
-//var_dump($count);
-
-echo 'Load record City:1' . PHP_EOL;
+var_dump($count);
 
 define('DEBUGE', true);
 
+echo 'Load record City:1' . PHP_EOL;
 $record = $db->recordLoad('12:1', '*:1');
 
 var_dump($record);
 
 echo 'Create record City:' . PHP_EOL;
-
 $recordId = $db->recordCreate(12, 'name:"Moscow"');
+
 var_dump($recordId);
 
 echo 'Load record City:' . $recordId . ' ' . PHP_EOL;
-
 $record2 = $db->recordLoad('12:' . $recordId, '');
 
 var_dump($record2);
@@ -62,6 +58,7 @@ try {
 } catch (OrientDBException $e) {
 	echo $e->getMessage() . PHP_EOL;
 }
+
 echo 'Retry load record City:' . $recordId . ' ' . PHP_EOL;
 $record3 = $db->recordLoad('12:' . $recordId, '');
 
@@ -77,6 +74,58 @@ try {
 	echo $e->getMessage() . PHP_EOL;
 }
 
+echo 'Create record City:' . PHP_EOL;
+$recordId2 = $db->recordCreate(12, 'name:"Spb"pop:12000');
+
+var_dump($recordId2);
+
+echo 'Load record City:' . $recordId2 . ' ' . PHP_EOL;
+$record2 = $db->recordLoad('12:' . $recordId2, '');
+
+echo 'Update record City:' . $recordId2 . ' ' . PHP_EOL;
+$result = $db->recordUpdate('12:' . $recordId2, $record2->content);
+
+var_dump($result);
+
+echo 'Load record City:' . $recordId2 . ' ' . PHP_EOL;
+$record2 = $db->recordLoad('12:' . $recordId2, '');
+
+var_dump($record2);
+
+echo 'Update record City:' . $recordId2 . ' with wrong version ' . PHP_EOL;
+try {
+    $result = $db->recordUpdate('12:' . $recordId2, $record2->content . 'version:100');
+    var_dump($result);
+} catch (OrientDBException $e) {
+	echo $e->getMessage() . PHP_EOL;
+}
+
+echo 'Update record City:' . $recordId2 . ' with correct version ' . PHP_EOL;
+try {
+    $result = $db->recordUpdate('12:' . $recordId2, 'version:100', $record2->version);
+} catch (OrientDBException $e) {
+    echo $e->getMessage() . PHP_EOL;
+}
+var_dump($result);
+
+
+echo 'Load record City:' . $recordId2 . ' ' . PHP_EOL;
+$record2 = $db->recordLoad('12:' . $recordId2, '');
+
+var_dump($record2);
+
+echo 'Update record City:' . $recordId2 . ' with wrong document type ' . PHP_EOL;
+try {
+    $result = $db->recordUpdate('12:' . $recordId2, '789:"123123"', $record2->version, OrientDB::RECORD_TYPE_COLUMN);
+} catch (OrientDBException $e) {
+    echo $e->getMessage() . PHP_EOL;
+}
+var_dump($result);
+
+echo 'Load record City:' . $recordId2 . ' ' . PHP_EOL;
+$record3 = $db->recordLoad('12:' . $recordId2, '');
+
+var_dump($record3);
 //$db->closeDB();
 
 

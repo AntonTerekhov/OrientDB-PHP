@@ -4,6 +4,8 @@ class OrientDBCommandRecordDelete extends OrientDBCommandAbstract
 {
 	protected $clusterId;
 
+	protected $recordId;
+
 	protected $recordType;
 
 	protected $version;
