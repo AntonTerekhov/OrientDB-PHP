@@ -37,8 +37,6 @@ $count = $db->count('default');
 
 var_dump($count);
 
-define('DEBUGE', true);
-
 echo 'Load record City:1' . PHP_EOL;
 $record = $db->recordLoad('12:1', '*:1');
 
@@ -54,6 +52,7 @@ $record2 = $db->recordLoad('12:' . $recordId, '');
 
 var_dump($record2);
 
+$db->setDebug(true);
 echo 'Delete record City:' . $recordId . ' with version' . PHP_EOL;
 try {
     $db->recordDelete('12:' . $recordId, 100);
@@ -65,6 +64,7 @@ echo 'Retry load record City:' . $recordId . ' ' . PHP_EOL;
 $record3 = $db->recordLoad('12:' . $recordId, '');
 
 var_dump($record3);
+$db->setDebug(false);
 
 echo 'Retry delete record City:' . $recordId . ' ' . PHP_EOL;
 $db->recordDelete('12:' . $recordId);

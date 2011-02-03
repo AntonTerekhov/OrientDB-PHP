@@ -107,10 +107,13 @@ abstract class OrientDBCommandAbstract
      */
     public $protocolVersion;
 
-    public function __construct($socket, $protocolVersion)
+    protected $debug;
+
+    public function __construct($parent)
     {
-        $this->socket = $socket;
-        $this->protocolVersion = $protocolVersion;
+        $this->socket = $parent->socket;
+        $this->protocolVersion = $parent->protocolVersion;
+        $this->debug = $parent->isDebug();
     }
 
     public function prepare()
@@ -122,6 +125,7 @@ abstract class OrientDBCommandAbstract
 
     public function execute()
     {
+    	$this->socket->debug = $this->debug;
         $this->socket->send($this->requestBytes);
 
         if (is_null($this->protocolVersion)) {
@@ -263,6 +267,8 @@ abstract class OrientDBCommandAbstract
 
     protected function debugCommand($commandName)
     {
-    	if (DEBUGE) echo '>' . $commandName . PHP_EOL;
+    	if ($this->debug) {
+    		echo '>' . $commandName . PHP_EOL;
+    	}
     }
 }

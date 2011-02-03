@@ -6,9 +6,9 @@ class OrientDBCommandRecordCreate extends OrientDBCommandAbstract
 
 	protected $recordType;
 
-	public function __construct($socket, $protocolVersion)
+	public function __construct($parent)
 	{
-		parent::__construct($socket, $protocolVersion);
+		parent::__construct($parent);
 		$this->type = OrientDBCommandAbstract::RECORD_CREATE;
 	}
 

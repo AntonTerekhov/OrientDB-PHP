@@ -19,7 +19,9 @@ class OrientDB
 
     private $host, $port;
 
-    private $socket;
+    public $socket;
+
+    private $debug = false;
 
     /**
      * Client protocol version
@@ -47,7 +49,7 @@ class OrientDB
     {
         $this->host = $host;
         $this->port = $port;
-        $this->socket = new OrientDBSocket($host, $port, $timeout = 30);
+        $this->socket = new OrientDBSocket($host, $port, $timeout);
     }
 
     public function __destruct()
@@ -69,7 +71,7 @@ class OrientDB
     {
         $className = 'OrientDBCommand' . $name;
         if (class_exists($className)) {
-            $command = new $className($this->socket, $this->protocolVersion);
+            $command = new $className($this);
             $this->canExecute($command);
             call_user_func_array(array(
                             $command,
@@ -137,6 +139,14 @@ class OrientDB
         if (in_array($command->type, $require_DB) && !$this->isDBOpen()) {
             throw new OrientDBException('Database not open');
         }
+    }
+
+    public function setDebug($debug) {
+    	$this->debug = $debug;
+    }
+
+    public function isDebug() {
+    	return $this->debug;
     }
 }
 

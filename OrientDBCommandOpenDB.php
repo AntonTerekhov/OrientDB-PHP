@@ -8,9 +8,9 @@ class OrientDBCommandOpenDB extends OrientDBCommandAbstract
      */
     public $sessionId;
 
-	public function __construct($socket, $protocolVersion)
+	public function __construct($parent)
 	{
-		parent::__construct($socket, $protocolVersion);
+		parent::__construct($parent);
 		$this->type = OrientDBCommandAbstract::DB_OPEN;
 	}
 
