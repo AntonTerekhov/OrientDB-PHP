@@ -29,7 +29,7 @@ class OrientDBCommandRecordDelete extends OrientDBCommandAbstract
 	   if (count($this->attribs) > 1) {
             $this->version = (int) $this->attribs[1];
         } else {
-            $this->version = 0;
+            $this->version = -1;
         }
         // Add ClusterId
         $this->addShort($this->clusterId);

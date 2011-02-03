@@ -96,7 +96,7 @@ var_dump($record2);
 
 echo 'Update record City:' . $recordId2 . ' with wrong version ' . PHP_EOL;
 try {
-    $result = $db->recordUpdate('12:' . $recordId2, $record2->content . 'version:100');
+    $result = $db->recordUpdate('12:' . $recordId2, $record2->content . 'version:100', 0);
     var_dump($result);
 } catch (OrientDBException $e) {
 	echo $e->getMessage() . PHP_EOL;
@@ -128,6 +128,13 @@ echo 'Load record City:' . $recordId2 . ' ' . PHP_EOL;
 $record3 = $db->recordLoad('12:' . $recordId2, '');
 
 var_dump($record3);
+
+echo 'Delete record City:' . $recordId2 . ' ' . PHP_EOL;
+$db->recordDelete('12:' . $recordId2);
+
+
+
+
 //$db->closeDB();
 
 
