@@ -130,9 +130,9 @@ $record3 = $db->recordLoad('12:' . $recordId2, '');
 var_dump($record3);
 
 echo 'Delete record City:' . $recordId2 . ' ' . PHP_EOL;
-$db->recordDelete('12:' . $recordId2);
+$result = $db->recordDelete('12:' . $recordId2);
 
-
+var_dump($result);
 
 
 //$db->closeDB();
