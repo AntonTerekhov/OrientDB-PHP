@@ -1,6 +1,6 @@
 <?php
 
-class OrientDBCommandOpenDB extends OrientDBCommandAbstract
+class OrientDBCommandDBOpen extends OrientDBCommandAbstract
 {
 	/**
      * SessionId of current connection. Not used for now
