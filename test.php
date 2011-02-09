@@ -33,6 +33,14 @@ try {
     echo $e->getMessage() . PHP_EOL;
 }
 
+$optionValue = 'info';
+echo 'Set option "' . $optionName . '":"' . $optionValue . '"' . PHP_EOL;
+try {
+    $result = $db_connect->ConfigSet($optionName, $optionValue);
+    var_dump($result);
+} catch (OrientDBException $e) {
+    echo $e->getMessage() . PHP_EOL;
+}
 
 echo 'DB Create' . PHP_EOL;
 try {
