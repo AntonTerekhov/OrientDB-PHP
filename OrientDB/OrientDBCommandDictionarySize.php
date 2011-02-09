@@ -2,14 +2,6 @@
 
 class OrientDBCommandDictionarySize extends OrientDBCommandAbstract
 {
-    protected $key;
-
-	protected $clusterId;
-
-    protected $recordId;
-
-    protected $recordType;
-
 	public function __construct($parent)
 	{
 		parent::__construct($parent);
