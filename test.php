@@ -28,7 +28,7 @@ $db = new OrientDB('localhost', 2424);
 
 echo 'OpenDB non-existent DB' . PHP_EOL;
 try {
-    $fault = $db->openDB('demo2', 'writer', 'writer');
+    //$fault = $db->openDB('demo2', 'writer', 'writer');
 } catch (OrientDBException $e) {
 	echo $e->getMessage() . PHP_EOL;
 }
