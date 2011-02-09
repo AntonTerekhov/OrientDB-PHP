@@ -24,6 +24,16 @@ $options = $db_connect->configList();
 
 var_dump($options);
 
+$optionName = 'log.console.level';
+echo 'Get option "' . 'log.console.level' . '"' . PHP_EOL;
+try {
+    $result = $db_connect->ConfigGet($optionName);
+    var_dump($result);
+} catch (OrientDBException $e) {
+    echo $e->getMessage() . PHP_EOL;
+}
+
+
 echo 'DB Create' . PHP_EOL;
 try {
     //$result = $db_connect->DBCreate('name2', 'local');
@@ -35,7 +45,8 @@ try {
 
 echo 'DB Exists' . PHP_EOL;
 try {
-$result = $db_connect->DBExists();
+    $result = $db_connect->DBExists();
+    var_dump($result);
 } catch (OrientDBException $e) {
     echo $e->getMessage() . PHP_EOL;
 }

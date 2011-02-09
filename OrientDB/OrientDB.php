@@ -2,6 +2,7 @@
 
 require 'OrientDBSocket.php';
 require 'OrientDBCommandAbstract.php';
+require 'OrientDBCommandConfigGet.php';
 require 'OrientDBCommandConfigList.php';
 require 'OrientDBCommandConnect.php';
 require 'OrientDBCommandCount.php';
