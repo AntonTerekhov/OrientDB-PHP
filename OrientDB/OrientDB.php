@@ -13,6 +13,7 @@ require 'OrientDBCommandDBOpen.php';
 require 'OrientDBCommandDictionaryKeys.php';
 require 'OrientDBCommandDictionaryLookup.php';
 require 'OrientDBCommandDictionaryPut.php';
+require 'OrientDBCommandDictionaryRemove.php';
 require 'OrientDBCommandDictionarySize.php';
 require 'OrientDBCommandRecordCreate.php';
 require 'OrientDBCommandRecordDelete.php';
