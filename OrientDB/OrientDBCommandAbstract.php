@@ -101,19 +101,15 @@ abstract class OrientDBCommandAbstract
      */
     protected $requestBytes;
 
-    /**
-     * Server's protocol version. Not used currently
-     * @var unknown_type
-     */
-    public $protocolVersion;
-
     protected $debug;
+
+    private $parent;
 
     public function __construct($parent)
     {
         $this->socket = $parent->socket;
-        $this->protocolVersion = $parent->protocolVersion;
         $this->debug = $parent->isDebug();
+        $this->parent = $parent;
     }
 
     public function prepare()
@@ -128,8 +124,8 @@ abstract class OrientDBCommandAbstract
     	$this->socket->debug = $this->debug;
         $this->socket->send($this->requestBytes);
 
-        if (is_null($this->protocolVersion)) {
-            $this->protocolVersion = $this->readShort();
+        if (is_null($this->parent->protocolVersion)) {
+            $this->parent->setProtocolVersion($this->readShort());
         }
         $this->requestStatus = $this->readByte();
 
@@ -150,11 +146,6 @@ abstract class OrientDBCommandAbstract
         } else {
             throw new OrientDBException('Unknown error');
         }
-    }
-
-    public function getProtocolVersion()
-    {
-        return $this->protocolVersion;
     }
 
     protected abstract function parse();

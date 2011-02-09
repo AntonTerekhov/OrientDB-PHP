@@ -79,12 +79,7 @@ class OrientDB
 
             $command->prepare();
             $data = $command->execute();
-            // @TODO Read protocol version if first called methor get error from server
-            if (is_null($this->protocolVersion)) {
-                $this->protocolVersion = $command->getProtocolVersion();
-                if ($this->protocolVersion != $this->clientVersion) {
-                    throw new OrientDBException('Binary protocol is uncompatible with the Server connected: client=' . $this->clientVersion . ', server=' . $this->protocolVersion);
-                }
+
                 if ($command->type == OrientDBCommandAbstract::CONNECT || $command->type == OrientDBCommandAbstract::DB_OPEN) {
                     $this->connected = true;
                 }
@@ -94,7 +89,6 @@ class OrientDB
                 if ($command->type == OrientDBCommandAbstract::DB_CLOSE) {
                     $this->DBOpen = false;
                 }
-            }
             return $data;
         } else {
             throw new OrientDBException('Command ' . $className . ' currenty not implemented');
@@ -147,6 +141,13 @@ class OrientDB
 
     public function isDebug() {
     	return $this->debug;
+    }
+
+    public function setProtocolVersion($version) {
+    	$this->protocolVersion = $version;
+        if ($this->protocolVersion != $this->clientVersion) {
+            throw new OrientDBException('Binary protocol is uncompatible with the Server connected: client=' . $this->clientVersion . ', server=' . $this->protocolVersion);
+        }
     }
 }
 

@@ -26,16 +26,17 @@ var_dump($options);
 
 $db = new OrientDB('localhost', 2424);
 
+$db->setDebug(true);
 echo 'OpenDB non-existent DB' . PHP_EOL;
 try {
-    //$fault = $db->openDB('demo2', 'writer', 'writer');
+    $fault = $db->openDB('demo2', 'writer', 'writer');
 } catch (OrientDBException $e) {
 	echo $e->getMessage() . PHP_EOL;
 }
 
 echo 'OpenDB DB' . PHP_EOL;
 $clusters = $db->openDB('demo', 'writer', 'writer');
-
+$db->setDebug(false);
 var_dump($clusters);
 
 echo 'Count class' . PHP_EOL;
