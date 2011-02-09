@@ -1,8 +1,8 @@
 <?php
 
-require 'OrientDB.php';
+require 'OrientDB/OrientDB.php';
 
-require '../orientdb/hex_dump.php';
+require 'OrientDB/helpers/hex_dump.php';
 
 $records = 100000;
 
