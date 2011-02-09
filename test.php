@@ -27,7 +27,7 @@ var_dump($options);
 $optionName = 'log.console.level';
 echo 'Get option "' . $optionName . '"' . PHP_EOL;
 try {
-    $result = $db_connect->ConfigGet($optionName);
+    $result = $db_connect->configGet($optionName);
     var_dump($result);
 } catch (OrientDBException $e) {
     echo $e->getMessage() . PHP_EOL;
@@ -36,7 +36,7 @@ try {
 $optionValue = 'info';
 echo 'Set option "' . $optionName . '":"' . $optionValue . '"' . PHP_EOL;
 try {
-    $result = $db_connect->ConfigSet($optionName, $optionValue);
+    $result = $db_connect->configSet($optionName, $optionValue);
     var_dump($result);
 } catch (OrientDBException $e) {
     echo $e->getMessage() . PHP_EOL;
@@ -180,19 +180,20 @@ var_dump($result);
 
 
 echo 'Dictionary size' . PHP_EOL;
-$result = $db->DictionarySize();
+$result = $db->dictionarySize();
 var_dump($result);
 
 
 echo 'Create record City:' . PHP_EOL;
 $recordId3 = $db->recordCreate(12, 'name:"Tunguska"pop:100');
 
+$key = 'mykey';
+
 $db_admin = new OrientDB('localhost', 2424);
 $db_admin->DBOpen('demo', 'admin', 'admin');
-$db_admin->setDebug(true);
 echo 'Dictionary put:' . $recordId3 . PHP_EOL;
 try {
-    $result = $db_admin->dictionaryPut('mykey', OrientDB::RECORD_TYPE_DOCUMENT, '12:' . $recordId3);
+    $result = $db_admin->dictionaryPut($key, OrientDB::RECORD_TYPE_DOCUMENT, '12:' . $recordId3);
 } catch (OrientDBException $e) {
     echo $e->getMessage() . PHP_EOL;
 }
@@ -200,13 +201,23 @@ var_dump($result);
 
 
 echo 'Dictionary size' . PHP_EOL;
-$result = $db_admin->DictionarySize();
+$result = $db_admin->dictionarySize();
 var_dump($result);
 
 
 echo 'Dictionary keys' . PHP_EOL;
-$result = $db_admin->DictionaryKeys();
-var_dump(count($result));
+$result = $db_admin->dictionaryKeys();
+//var_dump($result);
+
+
+$db_admin->setDebug(true);
+echo 'Dictionary Lookup (doesnt work):' . $recordId3 . PHP_EOL;
+try {
+    //$record = $db_admin->dictionaryLookup("LinearGraph");
+} catch (OrientDBException $e) {
+    echo $e->getMessage() . PHP_EOL;
+}
+var_dump($record);
 
 //$db->closeDB();
 
