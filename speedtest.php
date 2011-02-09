@@ -69,17 +69,17 @@ echo microtime(true) - $time_c . PHP_EOL;
 $time_c = microtime(true);
 $db->setDebug(true);
 try {
-    $record = $db->recordLoad('2:' . $linked_records[count($linked_records) - 1], '*:-1');
+    $record = $db->recordLoad('2:' . $linked_records[count($linked_records) - 1], '*:10');
 } catch (OrientDBException $e) {
     echo $e->getMessage() . PHP_EOL;
     echo OrientDBCommandAbstract::$transactionId . PHP_EOL;
 }
-//$db->setDebug(false);
+$db->setDebug(false);
 echo 'Done get linked' . PHP_EOL;
 echo microtime(true) - $time_c . PHP_EOL;
 var_dump($record->content);
 
-$time_c = microtime(true);
+/*$time_c = microtime(true);
 for ($i = 0; $i < count($result); $i++) {
     try {
         $db->recordDelete('2:' . $result[$i]);
@@ -89,6 +89,6 @@ for ($i = 0; $i < count($result); $i++) {
 }
 echo 'Done delete ' . $records . PHP_EOL;
 echo microtime(true) - $time_c . PHP_EOL;
-
+*/
 
 

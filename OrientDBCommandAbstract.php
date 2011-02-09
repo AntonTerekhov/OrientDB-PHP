@@ -167,9 +167,9 @@ abstract class OrientDBCommandAbstract
     protected function readRaw($length)
     {
         $data = '';
-
-        $data = $this->socket->read($length);
-
+        while (($length - strlen($data)) > 0) {
+            $data .= $this->socket->read($length - strlen($data));
+        }
         return $data;
     }
 
