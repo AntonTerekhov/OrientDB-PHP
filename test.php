@@ -204,6 +204,10 @@ $result = $db_admin->DictionarySize();
 var_dump($result);
 
 
+echo 'Dictionary keys' . PHP_EOL;
+$result = $db_admin->DictionaryKeys();
+var_dump(count($result));
+
 //$db->closeDB();
 
 
