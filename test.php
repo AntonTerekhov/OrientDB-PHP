@@ -179,6 +179,11 @@ $result = $db->recordDelete('12:' . $recordId2);
 var_dump($result);
 
 
+echo 'Dictionary size' . PHP_EOL;
+$result = $db->DictionarySize();
+var_dump($result);
+
+
 echo 'Create record City:' . PHP_EOL;
 $recordId3 = $db->recordCreate(12, 'name:"Tunguska"pop:100');
 
@@ -194,6 +199,9 @@ try {
 var_dump($result);
 
 
+echo 'Dictionary size' . PHP_EOL;
+$result = $db_admin->DictionarySize();
+var_dump($result);
 
 
 //$db->closeDB();

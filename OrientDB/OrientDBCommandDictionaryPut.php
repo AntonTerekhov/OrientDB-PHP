@@ -39,6 +39,7 @@ class OrientDBCommandDictionaryPut extends OrientDBCommandAbstract
 
 	protected function parse()
 	{
+//		$this->readRaw(100);
         $record = $this->readRecord();
         return $record;
 	}

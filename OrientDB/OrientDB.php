@@ -11,6 +11,7 @@ require 'OrientDBCommandDBCreate.php';
 require 'OrientDBCommandDBExists.php';
 require 'OrientDBCommandDBOpen.php';
 require 'OrientDBCommandDictionaryPut.php';
+require 'OrientDBCommandDictionarySize.php';
 require 'OrientDBCommandRecordCreate.php';
 require 'OrientDBCommandRecordDelete.php';
 require 'OrientDBCommandRecordLoad.php';
