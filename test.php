@@ -6,6 +6,13 @@ require 'OrientDB/OrientDB.php';
 
 require 'OrientDB/helpers/hex_dump.php';
 
+try {
+    $failed = new OrientDB('localhost', 2420);
+} catch (Exception $e) {
+	echo 'Failded to connect' .  PHP_EOL;
+}
+
+
 $db_connect = new OrientDB('localhost', 2424);
 
 echo 'Connect...' . PHP_EOL;
