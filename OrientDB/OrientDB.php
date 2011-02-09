@@ -6,6 +6,7 @@ require 'OrientDBCommandConfigList.php';
 require 'OrientDBCommandConnect.php';
 require 'OrientDBCommandCount.php';
 require 'OrientDBCommandDBCreate.php';
+require 'OrientDBCommandDBExists.php';
 require 'OrientDBCommandDBOpen.php';
 require 'OrientDBCommandRecordCreate.php';
 require 'OrientDBCommandRecordDelete.php';

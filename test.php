@@ -17,7 +17,7 @@ $db_connect = new OrientDB('localhost', 2424);
 
 echo 'Connect...' . PHP_EOL;
 
-$connect = $db_connect->connect('root', "95D5BA75CDCEDDDE610534B4D8BB13C6CD730665F7F10BCBF3F13F7E43F36A7F");
+$connect = $db_connect->connect('root', "60F3D52B4374C22B19F2EA5AD2812A45FB1C34985C2532D60E267AADB9E3E130");
 
 echo 'Config list' . PHP_EOL;
 $options = $db_connect->configList();
@@ -26,10 +26,18 @@ var_dump($options);
 
 echo 'DB Create' . PHP_EOL;
 try {
-    $result = $db_connect->DBCreate('name2', 'local');
-    var_dump($result);
+    //$result = $db_connect->DBCreate('name2', 'local');
+    //var_dump($result);
 } catch (OrientDBException $e) {
 	echo $e->getMessage() . PHP_EOL;
+}
+
+
+echo 'DB Exists' . PHP_EOL;
+try {
+$result = $db_connect->DBExists();
+} catch (OrientDBException $e) {
+    echo $e->getMessage() . PHP_EOL;
 }
 
 $db = new OrientDB('localhost', 2424);
@@ -42,8 +50,12 @@ try {
 }
 
 echo 'OpenDB DB' . PHP_EOL;
-$clusters = $db->DBOpen('demo', 'writer', 'writer');
-var_dump($clusters);
+try {
+    $clusters = $db->DBOpen('demo', 'writer', 'writer');
+    var_dump($clusters);
+} catch (OrientDBException $e) {
+    echo $e->getMessage() . PHP_EOL;
+}
 
 echo 'Count class' . PHP_EOL;
 $count = $db->count('default');

@@ -3,19 +3,19 @@
 abstract class OrientDBCommandAbstract
 {
 
-    const SHUTDOWN = 01;
+    const SHUTDOWN = 1;
 
-    const CONNECT = 02;
+    const CONNECT = 2;
 
-    const DB_OPEN = 05;
+    const DB_OPEN = 5;
 
-    const DB_CREATE = 06;
+    const DB_CREATE = 6;
 
-    const DB_CLOSE = 07;
+    const DB_CLOSE = 7;
 
-    const DB_EXIST = 08;
+    const DB_EXIST = 8;
 
-    const DB_DELETE = 09;
+    const DB_DELETE = 9;
 
     //    const DATACLUSTER_ADD = 0x10;
 
