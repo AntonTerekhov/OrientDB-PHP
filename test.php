@@ -179,6 +179,23 @@ $result = $db->recordDelete('12:' . $recordId2);
 var_dump($result);
 
 
+echo 'Create record City:' . PHP_EOL;
+$recordId3 = $db->recordCreate(12, 'name:"Tunguska"pop:100');
+
+$db_admin = new OrientDB('localhost', 2424);
+$db_admin->DBOpen('demo', 'admin', 'admin');
+$db_admin->setDebug(true);
+echo 'Dictionary put:' . $recordId3 . PHP_EOL;
+try {
+    $result = $db_admin->dictionaryPut('mykey', OrientDB::RECORD_TYPE_DOCUMENT, '12:' . $recordId3);
+} catch (OrientDBException $e) {
+    echo $e->getMessage() . PHP_EOL;
+}
+var_dump($result);
+
+
+
+
 //$db->closeDB();
 
 

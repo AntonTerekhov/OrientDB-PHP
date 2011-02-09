@@ -10,6 +10,7 @@ require 'OrientDBCommandCount.php';
 require 'OrientDBCommandDBCreate.php';
 require 'OrientDBCommandDBExists.php';
 require 'OrientDBCommandDBOpen.php';
+require 'OrientDBCommandDictionaryPut.php';
 require 'OrientDBCommandRecordCreate.php';
 require 'OrientDBCommandRecordDelete.php';
 require 'OrientDBCommandRecordLoad.php';
