@@ -209,6 +209,12 @@ abstract class OrientDBCommandAbstract
     	$record = new OrientDBRecord();
     	$this->debugCommand('record_classId');
     	$record->classId = $this->readShort();
+    	// @TODO: fix it in more pleasant way
+    	// as seen at enterprise/src/main/java/com/orientechnologies/orient/enterprise/channel/binary/OChannelBinaryProtocol.java
+    	//  RECORD_NULL = -2
+    	if ($record->classId == 65534) {
+    		return false;
+    	}
     	$this->debugCommand('record_type');
     	$record->type = $this->readByte();
     	$this->debugCommand('record_clusterId');

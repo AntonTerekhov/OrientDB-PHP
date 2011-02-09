@@ -191,7 +191,7 @@ $key = 'mykey';
 
 $db_admin = new OrientDB('localhost', 2424);
 $db_admin->DBOpen('demo', 'admin', 'admin');
-echo 'Dictionary put (works partially):' . $recordId3 . PHP_EOL;
+echo 'Dictionary put:' . $recordId3 . PHP_EOL;
 try {
 	$db_admin->setDebug(true);
     $result = $db_admin->dictionaryPut($key, OrientDB::RECORD_TYPE_DOCUMENT, '12:' . $recordId3);
@@ -215,7 +215,9 @@ $result = $db_admin->dictionaryKeys();
 
 echo 'Dictionary Lookup (doesnt work):' . $key . PHP_EOL;
 try {
-    //$record = $db_admin->dictionaryLookup("LinearGraph");
+	$db_admin->setDebug(true);
+//    $record = $db_admin->dictionaryLookup("LinearGraph");
+    $db_admin->setDebug(false);
 } catch (OrientDBException $e) {
     echo $e->getMessage() . PHP_EOL;
 }
