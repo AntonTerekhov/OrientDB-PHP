@@ -33,7 +33,7 @@ try {
     echo $e->getMessage() . PHP_EOL;
 }
 
-/*
+
 echo 'DB Create' . PHP_EOL;
 try {
     //$result = $db_connect->DBCreate('name2', 'local');
