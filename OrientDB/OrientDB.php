@@ -89,7 +89,7 @@ class OrientDB
             $command->prepare();
             $data = $command->execute();
 
-                if ($command->type == OrientDBCommandAbstract::CONNECT || $command->type == OrientDBCommandAbstract::DB_OPEN) {
+                if ($command->type == OrientDBCommandAbstract::CONNECT) {
                     $this->connected = true;
                 }
                 if ($command->type == OrientDBCommandAbstract::DB_OPEN) {
@@ -137,10 +137,10 @@ class OrientDB
                         //OrientDBCommandAbstract::TX_COMMIT
                         );
         if (in_array($command->type, $require_connect) && !$this->isConnected()) {
-            throw new OrientDBException('Not connected to server');
+            throw new OrientDBWrongCommandException('Not connected to server');
         }
         if (in_array($command->type, $require_DB) && !$this->isDBOpen()) {
-            throw new OrientDBException('Database not open');
+            throw new OrientDBWrongCommandException('Database not open');
         }
     }
 
@@ -165,5 +165,9 @@ class OrientDBException extends Exception
 }
 
 class OrientDBConnectException extends OrientDBException
+{
+}
+
+class OrientDBWrongCommandException extends OrientDBException
 {
 }
