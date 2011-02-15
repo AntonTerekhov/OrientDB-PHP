@@ -33,7 +33,6 @@ class OrientDBConfigListTest extends PHPUnit_Framework_TestCase
     }
 
     public function testConfigListOnNotOpenDB() {
-        $this->db->DBOpen('demo', 'writer', 'writer');
         $this->setExpectedException('OrientDBWrongCommandException');
         $list = $this->db->configList();
     }
