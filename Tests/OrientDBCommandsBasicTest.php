@@ -29,6 +29,11 @@ class OrientDBCommandsBasicTest extends PHPUnit_Framework_TestCase {
         $this->db->connect('toor', $this->root_password);
     }
 
+    public function testConnectWithNotEnougnParams() {
+        $this->setExpectedException('OrientDBWrongParamsException');
+        $this->db->connect('root');
+    }
+
     public function testConnectOnAlreadyConnectedDB() {
         $result = $this->db->connect('root', $this->root_password);
         $this->assertTrue($this->db->connect('root', $this->root_password));
@@ -47,6 +52,11 @@ class OrientDBCommandsBasicTest extends PHPUnit_Framework_TestCase {
     public function testOpenDBWithNonExistentDB() {
         $this->setExpectedException('OrientDBException');
         $clusters = $this->db->DBOpen('NONEXISTENT', 'writer', 'writer');
+    }
+
+    public function testOpenDBWithNotEnoughParams() {
+        $this->setExpectedException('OrientDBWrongParamsException');
+        $clusters = $this->db->DBOpen('demo');
     }
 
     public function testConnectOnAlreadyOpenedDB() {
@@ -90,7 +100,7 @@ class OrientDBCommandsBasicTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testAnyCommnandAfterDBClose() {
-    	$this->db->DBOpen('demo', 'writer', 'writer');
+        $this->db->DBOpen('demo', 'writer', 'writer');
         $this->db->DBClose();
         $this->setExpectedException('OrientDBWrongCommandException');
         $this->db->DBOpen('demo', 'writer', 'writer');

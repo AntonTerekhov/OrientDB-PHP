@@ -2,28 +2,34 @@
 
 class OrientDBCommandDBOpen extends OrientDBCommandAbstract
 {
-	/**
+    /**
      * SessionId of current connection. Not used for now
      * @var unknown_type
      */
     public $sessionId;
 
-	public function __construct($parent)
-	{
-		parent::__construct($parent);
-		$this->type = OrientDBCommandAbstract::DB_OPEN;
-	}
+    public function __construct($parent)
+    {
+        parent::__construct($parent);
+        $this->type = OrientDBCommandAbstract::DB_OPEN;
+    }
 
-	public function prepare()
-	{
-		parent::prepare();
+    public function prepare()
+    {
+        parent::prepare();
+        if (count($this->attribs) != 3) {
+            throw new OrientDBWrongParamsException('This command requires DB name, login and password');
+        }
+        // Add DB name
         $this->addString($this->attribs[0]);
+        // Add login
         $this->addString($this->attribs[1]);
+        // Add password
         $this->addString($this->attribs[2]);
-	}
+    }
 
-	protected function parse()
-	{
+    protected function parse()
+    {
         $this->sessionId = $this->readInt();
 
         $numClusters = $this->readInt();
@@ -39,6 +45,5 @@ class OrientDBCommandDBOpen extends OrientDBCommandAbstract
         $config = $this->readBytes();
 
         return array('clusters' => $clusters, 'config' => $config);
-	}
-
+    }
 }
