@@ -179,3 +179,7 @@ class OrientDBConnectException extends OrientDBException
 class OrientDBWrongCommandException extends OrientDBException
 {
 }
+
+class OrientDBWrongParamsException extends OrientDBException
+{
+}
