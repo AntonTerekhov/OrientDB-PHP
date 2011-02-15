@@ -70,11 +70,14 @@ class OrientDBConfigSetTest extends PHPUnit_Framework_TestCase
     public function testConfigSetWithCorrectValue() {
         $this->db->connect('root', $this->root_password);
         $option = 'log.console.level';
+        $startvalue = 'info';
         $value = 'warning';
         $result = $this->db->configSet($option, $value);
         $dbvalue = $this->db->configGet($option);
         $this->assertEquals($value, $dbvalue);
         // Return log level to info
         $result = $this->db->configSet($option, 'info');
+        $returnvalue = $this->db->configGet($option);
+        $this->assertEquals($startvalue, $returnvalue);
     }
 }
