@@ -127,6 +127,10 @@ abstract class OrientDBCommandAbstract
         if (is_null($this->parent->protocolVersion)) {
             $this->parent->setProtocolVersion($this->readShort());
         }
+        if ($this->type == self::DB_CLOSE) {
+        	// No incoming bytes
+        	return;
+        }
         $this->requestStatus = $this->readByte();
 
         $requestTransactionId = $this->readInt();

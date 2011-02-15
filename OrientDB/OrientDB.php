@@ -7,6 +7,7 @@ require 'OrientDBCommandConfigList.php';
 require 'OrientDBCommandConfigSet.php';
 require 'OrientDBCommandConnect.php';
 require 'OrientDBCommandCount.php';
+require 'OrientDBCommandDBClose.php';
 require 'OrientDBCommandDBCreate.php';
 require 'OrientDBCommandDBExists.php';
 require 'OrientDBCommandDBOpen.php';
@@ -47,6 +48,8 @@ class OrientDB
     protected $connected = false;
 
     protected $DBOpen = false;
+
+    protected $active = true;
 
     const RECORD_TYPE_BYTES = 'b';
     const RECORD_TYPE_COLUMN = 'c';
@@ -97,6 +100,8 @@ class OrientDB
                 }
                 if ($command->type == OrientDBCommandAbstract::DB_CLOSE) {
                     $this->DBOpen = false;
+                    $this->active = false;
+                    $this->socket = null;
                 }
             return $data;
         } else {
@@ -136,6 +141,9 @@ class OrientDB
                         OrientDBCommandAbstract::DICTIONARY_KEYS,
                         //OrientDBCommandAbstract::TX_COMMIT
                         );
+        if (!$this->active) {
+        	throw new OrientDBWrongCommandException('DBClose was executed. No interaction posibble.');
+        }
         if (in_array($command->type, $require_connect) && !$this->isConnected()) {
             throw new OrientDBWrongCommandException('Not connected to server');
         }
