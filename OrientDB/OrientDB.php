@@ -23,6 +23,8 @@ require 'OrientDBCommandRecordUpdate.php';
 
 require 'OrientDBRecord.php';
 
+require 'helpers/hex_dump.php';
+
 
 class OrientDB
 {
@@ -56,6 +58,8 @@ class OrientDB
     const RECORD_TYPE_DOCUMENT = 'd';
     const RECORD_TYPE_FLAT = 'f';
 
+    const DB_TYPE_MEMORY = 'memory';
+    const DB_TYPE_LOCAL = 'local';
 
     public function __construct($host, $port, $timeout = 30)
     {
