@@ -64,10 +64,8 @@ class OrientDBDBCreateTest extends PHPUnit_Framework_TestCase
     /**
      * Its strange, but as 0.9.2.4 it is possible to create memory databases with same name
      */
-    /**
-     * Tests below are disabled because of unstable behavior of OrientDB
-     */
-/*    public function testDBCreateWithExistNameAndSameTypeMemory() {
+    public function testDBCreateWithExistNameAndSameTypeMemory() {
+    	$this->markTestSkipped('Disabled because of unstable behavior of OrientDB');
     	$this->sequenceInc();
         $this->db->connect('root', $this->root_password);
         $result = $this->db->DBCreate($this->getDBName(), OrientDB::DB_TYPE_MEMORY);
@@ -76,8 +74,7 @@ class OrientDBDBCreateTest extends PHPUnit_Framework_TestCase
     }
 
     public function testDBCreateWithExistNameAndSameTypeLocal() {
-    	$this->db->setDebug(true);
-        $this->markTestSkipped();
+        $this->markTestSkipped('Disabled because of unstable behavior of OrientDB');
         $this->sequenceInc();
         $this->db->connect('root', $this->root_password);
         $result = $this->db->DBCreate($this->getDBName(), OrientDB::DB_TYPE_LOCAL);
@@ -87,6 +84,7 @@ class OrientDBDBCreateTest extends PHPUnit_Framework_TestCase
     }
 
     public function testDBCreateWithExistNameAndDifferentTypeOne() {
+    	$this->markTestSkipped('Disabled because of unstable behavior of OrientDB');
         $this->sequenceInc();
         $this->db->connect('root', $this->root_password);
         $this->setExpectedException('OrientDBException');
@@ -95,6 +93,7 @@ class OrientDBDBCreateTest extends PHPUnit_Framework_TestCase
     }
 
     public function testDBCreateWithExistNameAndDifferentTypeTwo() {
+    	$this->markTestSkipped('Disabled because of unstable behavior of OrientDB');
     	$this->sequenceInc();
         $this->db->connect('root', $this->root_password);
         $result = $this->db->DBCreate($this->getDBName(), OrientDB::DB_TYPE_MEMORY);
@@ -110,6 +109,7 @@ class OrientDBDBCreateTest extends PHPUnit_Framework_TestCase
     }
 
     public function testDBCreateWithTypeMemory() {
+    	$this->markTestSkipped('Disabled because of unstable behavior of OrientDB');
     	$this->sequenceInc();
         $this->db->connect('root', $this->root_password);
         $result = $this->db->DBCreate($this->getDBName(), OrientDB::DB_TYPE_MEMORY);
@@ -117,6 +117,7 @@ class OrientDBDBCreateTest extends PHPUnit_Framework_TestCase
     }
 
     public function testDBCreateWithTypeLocal() {
+    	$this->markTestSkipped('Disabled because of unstable behavior of OrientDB');
     	$this->sequenceInc();
         $this->db->connect('root', $this->root_password);
         $result = $this->db->DBCreate($this->getDBName(), OrientDB::DB_TYPE_LOCAL);
@@ -129,5 +130,4 @@ class OrientDBDBCreateTest extends PHPUnit_Framework_TestCase
         $this->setExpectedException('OrientDBWrongParamsException');
         $result = $this->db->DBCreate($this->getDBName(), 'INCORRECT');
     }
-*/
 }
