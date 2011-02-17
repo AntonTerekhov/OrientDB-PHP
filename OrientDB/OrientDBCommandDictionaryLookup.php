@@ -13,6 +13,9 @@ class OrientDBCommandDictionaryLookup extends OrientDBCommandAbstract
     public function prepare()
     {
         parent::prepare();
+        if (count($this->attribs) != 1) {
+            throw new OrientDBWrongParamsException('This command requires key name');
+        }
         $this->key = $this->attribs[0];
         // Add key
         $this->addString($this->key);
