@@ -224,7 +224,7 @@ abstract class OrientDBCommandAbstract
     	$this->debugCommand('record_clusterId');
     	$record->clusterId = $this->readShort();
     	$this->debugCommand('record_position');
-    	$record->recordId = $this->readLong();
+    	$record->recordPos = $this->readLong();
     	$this->debugCommand('record_version');
     	$record->version = $this->readInt();
     	$this->debugCommand('record_content');
