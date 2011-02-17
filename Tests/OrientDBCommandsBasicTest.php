@@ -78,7 +78,6 @@ class OrientDBCommandsBasicTest extends PHPUnit_Framework_TestCase {
 
     public function testCloseDBOnNotConnectedDB() {
         $this->setExpectedException('OrientDBWrongCommandException');
-        $this->db->setDebug(true);
         $this->db->DBClose();
     }
 

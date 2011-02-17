@@ -28,7 +28,6 @@ class OrientDBDBExistsTest extends PHPUnit_Framework_TestCase
 
     public function testDBExistsOnConnectedDB() {
         $this->db->connect('root', $this->root_password);
-        $this->db->setDebug(true);
         $this->markTestSkipped('java.lang.NullPointerException');
         $result = $this->db->DBExists();
         $this->assertTrue($result);
