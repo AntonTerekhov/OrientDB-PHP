@@ -2,8 +2,6 @@
 
 require 'OrientDB/OrientDB.php';
 
-require 'OrientDB/helpers/hex_dump.php';
-
 $records = 100000;
 
 $time_c = microtime(true);

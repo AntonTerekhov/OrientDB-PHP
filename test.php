@@ -1,10 +1,7 @@
 <?php
 
-
-
 require 'OrientDB/OrientDB.php';
 
-require 'OrientDB/helpers/hex_dump.php';
 
 try {
     $failed = new OrientDB('localhost', 2420);
