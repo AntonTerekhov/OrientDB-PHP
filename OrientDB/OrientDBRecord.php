@@ -9,7 +9,9 @@ class OrientDBRecord
 
     public $clusterId;
 
-    public $recordId;
+    public $recordPos;
+
+    public $recordID;
 
     public $version;
 
@@ -19,6 +21,7 @@ class OrientDBRecord
 
     public function parse()
     {
+    	$this->recordID = $this->clusterId . ':' . $this->recordPos;
         // @TODO
     }
 }
