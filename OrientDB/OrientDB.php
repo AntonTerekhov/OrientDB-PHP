@@ -111,7 +111,7 @@ class OrientDB
                 }
             return $data;
         } else {
-            throw new OrientDBException('Command ' . $className . ' currenty not implemented');
+            throw new OrientDBWrongCommandException('Command ' . $className . ' currenty not implemented');
         }
 
     }
