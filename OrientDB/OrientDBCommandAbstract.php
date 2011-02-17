@@ -121,15 +121,15 @@ abstract class OrientDBCommandAbstract
 
     public function execute()
     {
-    	$this->socket->debug = $this->debug;
+        $this->socket->debug = $this->debug;
         $this->socket->send($this->requestBytes);
 
         if (is_null($this->parent->protocolVersion)) {
             $this->parent->setProtocolVersion($this->readShort());
         }
         if ($this->type == self::DB_CLOSE) {
-        	// No incoming bytes
-        	return;
+            // No incoming bytes
+            return;
         }
         $this->requestStatus = $this->readByte();
 
@@ -141,9 +141,9 @@ abstract class OrientDBCommandAbstract
         if ($this->requestStatus === chr(OrientDBCommandAbstract::STATUS_SUCCESS)) {
             return $this->parse();
         } elseif ($this->requestStatus === chr(OrientDBCommandAbstract::STATUS_ERROR)) {
-        	$exception = null;
+            $exception = null;
             while ($this->readByte() === chr(OrientDBCommandAbstract::STATUS_ERROR)) {
-            	$javaException = $this->readString();
+                $javaException = $this->readString();
                 $exception = new OrientDBException($this->readString(), 0, is_null($exception) ? null : $exception);
             }
             throw $exception;
@@ -175,21 +175,25 @@ abstract class OrientDBCommandAbstract
 
     protected function readShort()
     {
-        return reset(unpack('n', $this->readRaw(2)));
+        $data = unpack('n', $this->readRaw(2));
+        return reset($data);
     }
 
     protected function readInt()
     {
-        return reset(unpack('N', $this->readRaw(4)));
+        $data = unpack('N', $this->readRaw(4));
+        return reset($data);
     }
 
     protected function readLong()
     {
+        $data = unpack('N', $this->readRaw(4));
         // @TODO wtf? Java sends long as 64-bit
-        if (reset(unpack('N', $this->readRaw(4))) > 0) {
+        if (reset($data) > 0) {
             throw new OrientDBException('64-bit long detected!');
         }
-        return reset(unpack('N', $this->readRaw(4)));
+        $data = unpack('N', $this->readRaw(4));
+        return reset($data);
     }
 
     protected function readString()
@@ -210,27 +214,27 @@ abstract class OrientDBCommandAbstract
 
     protected function readRecord()
     {
-    	$record = new OrientDBRecord();
-    	$this->debugCommand('record_classId');
-    	$record->classId = $this->readShort();
-    	// @TODO: fix it in more pleasant way
-    	// as seen at enterprise/src/main/java/com/orientechnologies/orient/enterprise/channel/binary/OChannelBinaryProtocol.java
-    	//  RECORD_NULL = -2
-    	if ($record->classId == 65534) {
-    		return false;
-    	}
-    	$this->debugCommand('record_type');
-    	$record->type = $this->readByte();
-    	$this->debugCommand('record_clusterId');
-    	$record->clusterId = $this->readShort();
-    	$this->debugCommand('record_position');
-    	$record->recordPos = $this->readLong();
-    	$this->debugCommand('record_version');
-    	$record->version = $this->readInt();
-    	$this->debugCommand('record_content');
-    	$record->content = $this->readBytes();
-    	$record->parse();
-    	return $record;
+        $record = new OrientDBRecord();
+        $this->debugCommand('record_classId');
+        $record->classId = $this->readShort();
+        // @TODO: fix it in more pleasant way
+        // as seen at enterprise/src/main/java/com/orientechnologies/orient/enterprise/channel/binary/OChannelBinaryProtocol.java
+        //  RECORD_NULL = -2
+        if ($record->classId == 65534) {
+            return false;
+        }
+        $this->debugCommand('record_type');
+        $record->type = $this->readByte();
+        $this->debugCommand('record_clusterId');
+        $record->clusterId = $this->readShort();
+        $this->debugCommand('record_position');
+        $record->recordPos = $this->readLong();
+        $this->debugCommand('record_version');
+        $record->version = $this->readInt();
+        $this->debugCommand('record_content');
+        $record->content = $this->readBytes();
+        $record->parse();
+        return $record;
     }
 
     protected function addByte($byte)
@@ -250,7 +254,7 @@ abstract class OrientDBCommandAbstract
 
     protected function addLong($long)
     {
-    	// @TODO support 64-bit
+        // @TODO support 64-bit
         $this->requestBytes .= str_repeat(chr(0), 4) . pack('N', $long);
     }
 
@@ -268,8 +272,8 @@ abstract class OrientDBCommandAbstract
 
     protected function debugCommand($commandName)
     {
-    	if ($this->debug) {
-    		echo '>' . $commandName . PHP_EOL;
-    	}
+        if ($this->debug) {
+            echo '>' . $commandName . PHP_EOL;
+        }
     }
 }
