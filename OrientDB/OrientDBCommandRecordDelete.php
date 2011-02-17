@@ -2,52 +2,59 @@
 
 class OrientDBCommandRecordDelete extends OrientDBCommandAbstract
 {
-	protected $clusterId;
+    protected $clusterId;
 
-	protected $recordId;
+    protected $recordPos;
 
-	protected $recordType;
+    protected $recordType;
 
-	protected $version;
+    protected $version;
 
-	public function __construct($parent)
-	{
-		parent::__construct($parent);
-		$this->type = OrientDBCommandAbstract::RECORD_DELETE;
-	}
+    public function __construct($parent)
+    {
+        parent::__construct($parent);
+        $this->type = OrientDBCommandAbstract::RECORD_DELETE;
+    }
 
-	public function prepare()
-	{
-		parent::prepare();
-		$record_ids = explode(':', $this->attribs[0]);
-        if (count($record_ids) != 2) {
-            throw new OrientDBException('Wrong format for record ID');
+    public function prepare()
+    {
+        parent::prepare();
+        if (count($this->attribs) > 2 || count($this->attribs) < 1) {
+            throw new OrientDBWrongParamsException('This command requires record ID and, optionally, record version');
         }
+        $arr = explode(':', $this->attribs[0]);
+        if (count($arr) != 2) {
+            throw new OrientDBWrongParamsException('Wrong format for record ID');
+        }
+        $this->clusterID = (int) $arr[0];
+        $this->recordPos = (int) $arr[1];
 
-        $this->clusterId = (int) $record_ids[0];
-        $this->recordId = (int) $record_ids[1];
-	   if (count($this->attribs) > 1) {
+        if ($this->clusterID === 0 || $this->recordPos === 0) {
+            throw new OrientDBWrongParamsException('Wrong format for record ID');
+        }
+        if (count($this->attribs) == 2) {
             $this->version = (int) $this->attribs[1];
         } else {
+        	// Pessimistic way
             $this->version = -1;
         }
         // Add ClusterId
-        $this->addShort($this->clusterId);
+        $this->addShort($this->clusterID);
         // Add RecordId
-        $this->addLong($this->recordId);
+        $this->addLong($this->recordPos);
         // Add version
         $this->addInt($this->version);
-	}
+    }
 
-	protected function parse()
-	{
+    protected function parse()
+    {
         $result = $this->readByte();
         if ($result == chr(1)) {
-        	return true;
+            return true;
         } else {
-        	return false;
+            return false;
         }
 
-	}
+    }
 
 }
