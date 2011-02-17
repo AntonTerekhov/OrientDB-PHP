@@ -44,7 +44,7 @@ class OrientDBRecordLoadTest extends PHPUnit_Framework_TestCase
     public function testRecordLoadOnOpenDB() {
         $this->db->DBOpen('demo', 'writer', 'writer');
         $recordPos = $this->db->recordCreate($this->clusterId, $this->recordContent);
-        $record = $this->db->recordLoad($this->clusterId . ':' . $recordPos, '');
+        $record = $this->db->recordLoad($this->clusterId . ':' . $recordPos);
         $this->assertInstanceOf('OrientDBRecord', $record);
         $this->assertAttributeEquals($this->recordContent, 'content', $record);
         $result = $this->db->recordDelete($this->clusterId . ':' . $recordPos);
@@ -81,7 +81,7 @@ class OrientDBRecordLoadTest extends PHPUnit_Framework_TestCase
         $this->assertInternalType('integer', $recordPos);
         $result = $this->db->recordDelete($this->clusterId . ':' . $recordPos);
         $this->assertTrue($result);
-        $record = $this->db->recordLoad($this->clusterId . ':' . $recordPos, '');
+        $record = $this->db->recordLoad($this->clusterId . ':' . $recordPos);
         $this->assertFalse($record);
     }
 

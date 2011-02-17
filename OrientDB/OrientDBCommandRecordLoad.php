@@ -6,6 +6,8 @@ class OrientDBCommandRecordLoad extends OrientDBCommandAbstract
 
     protected $recordPos;
 
+    protected $fetchPlan;
+
     public function __construct($parent)
     {
         parent::__construct($parent);
@@ -15,7 +17,7 @@ class OrientDBCommandRecordLoad extends OrientDBCommandAbstract
     public function prepare()
     {
         parent::prepare();
-        if (count($this->attribs) != 2) {
+        if (count($this->attribs) > 2 || count($this->attribs) < 1) {
             throw new OrientDBWrongParamsException('This command requires record ID and, optionally, fetch plan');
         }
         $arr = explode(':', $this->attribs[0]);
@@ -33,8 +35,11 @@ class OrientDBCommandRecordLoad extends OrientDBCommandAbstract
         // Add RecordId
         $this->addLong($this->recordPos);
         // Fetchplan
-        $this->addString($this->attribs[1]);
-
+        $this->fetchPlan = '';
+        if (count($this->attribs) == 2) {
+            $this->fetchPlan = $this->attribs[1];
+        }
+        $this->addString($this->fetchPlan);
     }
 
     protected function parse()
