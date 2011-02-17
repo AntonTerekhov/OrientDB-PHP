@@ -58,6 +58,8 @@ class OrientDB
     const RECORD_TYPE_DOCUMENT = 'd';
     const RECORD_TYPE_FLAT = 'f';
 
+    public static $recordTypes = array(self::RECORD_TYPE_BYTES, self::RECORD_TYPE_COLUMN, self::RECORD_TYPE_DOCUMENT, self::RECORD_TYPE_FLAT);
+
     const DB_TYPE_MEMORY = 'memory';
     const DB_TYPE_LOCAL = 'local';
 
