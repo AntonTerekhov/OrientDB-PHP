@@ -21,7 +21,10 @@ class OrientDBCommandsBasicTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testConnectWithCorrectUserPassword() {
+        $this->assertFalse($this->db->isConnected());
         $this->assertTrue($this->db->connect('root', $this->root_password));
+        $this->assertTrue($this->db->isConnected());
+        $this->assertFalse($this->db->isDBOpen());
     }
 
     public function testConnectWithIncorrectUserPassword() {
@@ -35,13 +38,19 @@ class OrientDBCommandsBasicTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testConnectOnAlreadyConnectedDB() {
+        $this->assertFalse($this->db->isConnected());
         $result = $this->db->connect('root', $this->root_password);
         $this->assertTrue($this->db->connect('root', $this->root_password));
+        $this->assertTrue($this->db->isConnected());
+        $this->assertFalse($this->db->isDBOpen());
     }
 
     public function testOpenDBWithCorrectUserPassword() {
+        $this->assertFalse($this->db->isDBOpen());
         $clusters = $this->db->DBOpen('demo', 'writer', 'writer');
         $this->assertInternalType( 'array', $clusters);
+        $this->assertFalse($this->db->isConnected());
+        $this->assertTrue($this->db->isDBOpen());
     }
 
     public function testOpenDBWithIncorrectUserPassword() {
@@ -60,20 +69,28 @@ class OrientDBCommandsBasicTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testConnectOnAlreadyOpenedDB() {
+        $this->assertFalse($this->db->isConnected());
         $clusters = $this->db->DBOpen('demo', 'writer', 'writer');
+        $this->assertTrue($this->db->isDBOpen());
         $this->assertTrue($this->db->connect('root', $this->root_password));
+        $this->assertTrue($this->db->isConnected());
     }
 
     public function testOpenDBOnAlreadyConnectedDB() {
         $this->db->connect('root', $this->root_password);
         $clusters = $this->db->DBOpen('demo', 'writer', 'writer');
+        $this->assertTrue($this->db->isDBOpen());
         $this->assertInternalType( 'array', $clusters);
+        $this->assertTrue($this->db->isConnected());
     }
 
     public function testOpenDBOnAlreadyOpenedDB() {
+        $this->assertFalse($this->db->isDBOpen());
         $clusters1 = $this->db->DBOpen('demo', 'writer', 'writer');
         $clusters2 = $this->db->DBOpen('demo', 'admin', 'admin');
         $this->assertInternalType( 'array', $clusters2);
+        $this->assertTrue($this->db->isDBOpen());
+        $this->assertFalse($this->db->isConnected());
     }
 
     public function testCloseDBOnNotConnectedDB() {
@@ -94,7 +111,9 @@ class OrientDBCommandsBasicTest extends PHPUnit_Framework_TestCase {
 
     public function testCloseDBOnOpenedDB() {
         $this->db->DBOpen('demo', 'writer', 'writer');
+        $this->assertTrue($this->db->isDBOpen());
         $this->db->DBClose();
+        $this->assertFalse($this->db->isDBOpen());
         $this->assertAttributeEmpty('socket', $this->db);
     }
 
