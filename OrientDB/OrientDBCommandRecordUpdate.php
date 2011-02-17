@@ -3,9 +3,9 @@
 class OrientDBCommandRecordUpdate extends OrientDBCommandAbstract
 {
 
-    protected $clusterId;
+    protected $clusterID;
 
-    protected $recordId;
+    protected $recordPos;
 
     protected $recordType;
 
@@ -20,30 +20,41 @@ class OrientDBCommandRecordUpdate extends OrientDBCommandAbstract
     public function prepare()
     {
         parent::prepare();
-        $record_ids = explode(':', $this->attribs[0]);
-        if (count($record_ids) != 2) {
-            throw new OrientDBException('Wrong format for record ID');
+        if (count($this->attribs) > 4 || count($this->attribs) < 2) {
+            throw new OrientDBWrongParamsException('This command requires record ID, record content and, optionally, record version and, optionally, record type');
         }
+        $arr = explode(':', $this->attribs[0]);
+        if (count($arr) != 2) {
+            throw new OrientDBWrongParamsException('Wrong format for record ID');
+        }
+        $this->clusterID = (int) $arr[0];
+        $this->recordPos = (int) $arr[1];
 
-        $this->clusterId = (int) $record_ids[0];
-        $this->recordId = (int) $record_ids[1];
+        if ($this->clusterID === 0 || $this->recordPos === 0) {
+            throw new OrientDBWrongParamsException('Wrong format for record ID');
+        }
         // Add ClusterId
-        $this->addShort($this->clusterId);
-        // Add RecordContent
-        $this->addLong($this->recordId);
+        $this->addShort($this->clusterID);
+        // Add Record pos
+        $this->addLong($this->recordPos);
         // Add record content
         $this->addBytes($this->attribs[1]);
         // Add version
-        if (count($this->attribs) > 2) {
-            $this->version = $this->attribs[2];
+        if (count($this->attribs) >= 3) {
+            $this->version = (int) $this->attribs[2];
         } else {
+        	// Pessimistic way
             $this->version = -1;
         }
         $this->addInt($this->version);
-        if (count($this->attribs) > 3) {
-            $this->recordType = $this->attribs[3];
+        if (count($this->attribs) == 4) {
+	        if (in_array($this->attribs[3], OrientDB::$recordTypes)) {
+	            $this->recordType =$this->attribs[3];
+	        } else {
+	            throw new OrientDBWrongParamsException('Incorrect record Type: ' . $this->attribs[2] . '. Awaliable types is: ' . implode(', ', OrientDB::$recordTypes));
+	        }
         } else {
-            $this->recordType = OrientDB::RECORD_TYPE_DOCUMENT;
+        	$this->recordType = OrientDB::RECORD_TYPE_DOCUMENT;
         }
         // Add recordType
         $this->addByte($this->recordType);
