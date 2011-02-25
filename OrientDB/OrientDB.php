@@ -20,6 +20,7 @@ require 'OrientDBCommandRecordCreate.php';
 require 'OrientDBCommandRecordDelete.php';
 require 'OrientDBCommandRecordLoad.php';
 require 'OrientDBCommandRecordUpdate.php';
+require 'OrientDBCommandShutdown.php';
 
 require 'OrientDBRecord.php';
 
