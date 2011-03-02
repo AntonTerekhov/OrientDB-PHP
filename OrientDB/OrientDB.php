@@ -2,6 +2,7 @@
 
 require 'OrientDBSocket.php';
 require 'OrientDBCommandAbstract.php';
+require 'OrientDBCommandCommand.php';
 require 'OrientDBCommandConfigGet.php';
 require 'OrientDBCommandConfigList.php';
 require 'OrientDBCommandConfigSet.php';
@@ -63,6 +64,9 @@ class OrientDB
 
     const DB_TYPE_MEMORY = 'memory';
     const DB_TYPE_LOCAL = 'local';
+
+    const COMMAND_MODE_SYNC = 's';
+    const COMMAND_MODE_ASYNC = 'a';
 
     public function __construct($host, $port, $timeout = 30)
     {
