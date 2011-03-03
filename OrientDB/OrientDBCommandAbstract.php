@@ -23,7 +23,7 @@ abstract class OrientDBCommandAbstract
 
     const DATACLUSTER_COUNT = 12;
 
-    //    const DATACLUSTER_DATARANGE = 0x13;
+    const DATACLUSTER_DATARANGE = 13;
 
     //    const DATASEGMENT_ADD = 0x20;
 

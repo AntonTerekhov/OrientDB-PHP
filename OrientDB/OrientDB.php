@@ -9,6 +9,7 @@ require 'OrientDBCommandConfigSet.php';
 require 'OrientDBCommandConnect.php';
 require 'OrientDBCommandCount.php';
 require 'OrientDBCommandDataclusterCount.php';
+require 'OrientDBCommandDataclusterDatarange.php';
 require 'OrientDBCommandDBClose.php';
 require 'OrientDBCommandDBCreate.php';
 require 'OrientDBCommandDBExists.php';
@@ -137,7 +138,7 @@ class OrientDB
                         //OrientDBCommandAbstract::DATACLUSTER_ADD,
                         //OrientDBCommandAbstract::DATACLUSTER_REMOVE,
                         OrientDBCommandAbstract::DATACLUSTER_COUNT,
-                        //OrientDBCommandAbstract::DATACLUSTER_DATARANGE,
+                        OrientDBCommandAbstract::DATACLUSTER_DATARANGE,
                         //OrientDBCommandAbstract::DATASEGMENT_ADD,
                         //OrientDBCommandAbstract::DATASEGMENT_REMOVE,
                         OrientDBCommandAbstract::RECORD_LOAD,
