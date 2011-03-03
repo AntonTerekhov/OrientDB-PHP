@@ -8,8 +8,10 @@ require 'OrientDBCommandConfigList.php';
 require 'OrientDBCommandConfigSet.php';
 require 'OrientDBCommandConnect.php';
 require 'OrientDBCommandCount.php';
+require 'OrientDBCommandDataclusterAdd.php';
 require 'OrientDBCommandDataclusterCount.php';
 require 'OrientDBCommandDataclusterDatarange.php';
+require 'OrientDBCommandDataclusterRemove.php';
 require 'OrientDBCommandDBClose.php';
 require 'OrientDBCommandDBCreate.php';
 require 'OrientDBCommandDBExists.php';
@@ -69,6 +71,12 @@ class OrientDB
 
     const COMMAND_MODE_SYNC = 's';
     const COMMAND_MODE_ASYNC = 'a';
+
+    const DATACLUSTER_TYPE_LOGICAL = 'LOGICAL';
+    const DATACLUSTER_TYPE_PHYSICAL = 'PHYSICAL';
+    const DATACLUSTER_TYPE_MEMORY = 'MEMORY';
+
+    public static $clusterTypes = array(self::DATACLUSTER_TYPE_LOGICAL, self::DATACLUSTER_TYPE_PHYSICAL, self::DATACLUSTER_TYPE_MEMORY);
 
     public function __construct($host, $port, $timeout = 30)
     {
@@ -135,8 +143,8 @@ class OrientDB
                         OrientDBCommandAbstract::CONFIG_LIST);
         $require_DB = array(
                         OrientDBCommandAbstract::DB_CLOSE,
-                        //OrientDBCommandAbstract::DATACLUSTER_ADD,
-                        //OrientDBCommandAbstract::DATACLUSTER_REMOVE,
+                        OrientDBCommandAbstract::DATACLUSTER_ADD,
+                        OrientDBCommandAbstract::DATACLUSTER_REMOVE,
                         OrientDBCommandAbstract::DATACLUSTER_COUNT,
                         OrientDBCommandAbstract::DATACLUSTER_DATARANGE,
                         //OrientDBCommandAbstract::DATASEGMENT_ADD,
