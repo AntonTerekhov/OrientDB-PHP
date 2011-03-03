@@ -31,7 +31,6 @@ require 'OrientDBRecord.php';
 
 require 'helpers/hex_dump.php';
 
-
 class OrientDB
 {
 
@@ -60,23 +59,37 @@ class OrientDB
     protected $active = true;
 
     const RECORD_TYPE_BYTES = 'b';
+
     const RECORD_TYPE_COLUMN = 'c';
+
     const RECORD_TYPE_DOCUMENT = 'd';
+
     const RECORD_TYPE_FLAT = 'f';
 
-    public static $recordTypes = array(self::RECORD_TYPE_BYTES, self::RECORD_TYPE_COLUMN, self::RECORD_TYPE_DOCUMENT, self::RECORD_TYPE_FLAT);
+    public static $recordTypes = array(
+                    self::RECORD_TYPE_BYTES,
+                    self::RECORD_TYPE_COLUMN,
+                    self::RECORD_TYPE_DOCUMENT,
+                    self::RECORD_TYPE_FLAT);
 
     const DB_TYPE_MEMORY = 'memory';
+
     const DB_TYPE_LOCAL = 'local';
 
     const COMMAND_MODE_SYNC = 's';
+
     const COMMAND_MODE_ASYNC = 'a';
 
     const DATACLUSTER_TYPE_LOGICAL = 'LOGICAL';
+
     const DATACLUSTER_TYPE_PHYSICAL = 'PHYSICAL';
+
     const DATACLUSTER_TYPE_MEMORY = 'MEMORY';
 
-    public static $clusterTypes = array(self::DATACLUSTER_TYPE_LOGICAL, self::DATACLUSTER_TYPE_PHYSICAL, self::DATACLUSTER_TYPE_MEMORY);
+    public static $clusterTypes = array(
+                    self::DATACLUSTER_TYPE_LOGICAL,
+                    self::DATACLUSTER_TYPE_PHYSICAL,
+                    self::DATACLUSTER_TYPE_MEMORY);
 
     public function __construct($host, $port, $timeout = 30)
     {
@@ -113,17 +126,17 @@ class OrientDB
             $command->prepare();
             $data = $command->execute();
 
-                if ($command->type == OrientDBCommandAbstract::CONNECT) {
-                    $this->connected = true;
-                }
-                if ($command->type == OrientDBCommandAbstract::DB_OPEN) {
-                    $this->DBOpen = true;
-                }
-                if ($command->type == OrientDBCommandAbstract::DB_CLOSE) {
-                    $this->DBOpen = false;
-                    $this->active = false;
-                    $this->socket = null;
-                }
+            if ($command->type == OrientDBCommandAbstract::CONNECT) {
+                $this->connected = true;
+            }
+            if ($command->type == OrientDBCommandAbstract::DB_OPEN) {
+                $this->DBOpen = true;
+            }
+            if ($command->type == OrientDBCommandAbstract::DB_CLOSE) {
+                $this->DBOpen = false;
+                $this->active = false;
+                $this->socket = null;
+            }
             return $data;
         } else {
             throw new OrientDBWrongCommandException('Command ' . $className . ' currenty not implemented');
@@ -162,8 +175,9 @@ class OrientDB
                         OrientDBCommandAbstract::DICTIONARY_KEYS,
                         //OrientDBCommandAbstract::TX_COMMIT
                         );
+
         if (!$this->active) {
-        	throw new OrientDBWrongCommandException('DBClose was executed. No interaction posibble.');
+            throw new OrientDBWrongCommandException('DBClose was executed. No interaction posibble.');
         }
         if (in_array($command->type, $require_connect) && !$this->isConnected()) {
             throw new OrientDBWrongCommandException('Not connected to server');
@@ -173,16 +187,19 @@ class OrientDB
         }
     }
 
-    public function setDebug($debug) {
-    	$this->debug = $debug;
+    public function setDebug($debug)
+    {
+        $this->debug = $debug;
     }
 
-    public function isDebug() {
-    	return $this->debug;
+    public function isDebug()
+    {
+        return $this->debug;
     }
 
-    public function setProtocolVersion($version) {
-    	$this->protocolVersion = $version;
+    public function setProtocolVersion($version)
+    {
+        $this->protocolVersion = $version;
         if ($this->protocolVersion != $this->clientVersion) {
             throw new OrientDBException('Binary protocol is uncompatible with the Server connected: client=' . $this->clientVersion . ', server=' . $this->protocolVersion);
         }

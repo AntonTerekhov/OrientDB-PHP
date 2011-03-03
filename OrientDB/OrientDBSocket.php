@@ -30,11 +30,11 @@ class OrientDBSocket
 
     public function read($length = null)
     {
-    	$data = fread($this->socket, $length === null ? $this->bufferLen : $length);
-    	if ($this->debug) {
+        $data = fread($this->socket, $length === null ? $this->bufferLen : $length);
+        if ($this->debug) {
             hex_dump($data);
-    	}
-    	return $data;
+        }
+        return $data;
     }
 
     public function send($data)
@@ -44,6 +44,4 @@ class OrientDBSocket
             hex_dump($data);
         }
     }
-
-
 }

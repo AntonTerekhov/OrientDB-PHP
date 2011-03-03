@@ -2,12 +2,13 @@
 
 class OrientDBCommandDictionaryLookup extends OrientDBCommandAbstract
 {
+
     protected $key;
 
-	public function __construct($parent)
-	{
-		parent::__construct($parent);
-		$this->type = OrientDBCommandAbstract::DICTIONARY_LOOKUP;
+    public function __construct($parent)
+    {
+        parent::__construct($parent);
+        $this->type = OrientDBCommandAbstract::DICTIONARY_LOOKUP;
     }
 
     public function prepare()

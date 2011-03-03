@@ -2,6 +2,7 @@
 
 class OrientDBCommandCommand extends OrientDBCommandAbstract
 {
+
     protected $query;
 
     protected $mode;
@@ -24,10 +25,10 @@ class OrientDBCommandCommand extends OrientDBCommandAbstract
             if ($this->attribs[1] == OrientDB::COMMAND_MODE_SYNC || $this->attribs[1] == OrientDB::COMMAND_MODE_ASYNC) {
                 $this->mode = $this->attribs[1];
                 if ($this->mode == OrientDB::COMMAND_MODE_SYNC) {
-                	throw new OrientDBWrongParamsException('Not implemented');
+                    throw new OrientDBWrongParamsException('Not implemented');
                 }
             } else {
-            	throw new OrientDBWrongParamsException('Wrong command mode');
+                throw new OrientDBWrongParamsException('Wrong command mode');
             }
         }
 
@@ -52,11 +53,11 @@ class OrientDBCommandCommand extends OrientDBCommandAbstract
 
     protected function parse()
     {
-    	$this->debugCommand('status');
+        $this->debugCommand('status');
         $status = $this->readByte();
         if ($status != chr(0)) {
-        	$records = array();
-        	while ($status == chr(1)) {
+            $records = array();
+            while ($status == chr(1)) {
                 $this->debugCommand('class_id');
                 $classID = $this->readShort();
                 $this->debugCommand('record_type');
@@ -83,7 +84,7 @@ class OrientDBCommandCommand extends OrientDBCommandAbstract
 
                 $this->debugCommand('status');
                 $status = $this->readByte();
-        	}
+            }
 
             return $records;
         }

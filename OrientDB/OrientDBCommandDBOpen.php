@@ -2,6 +2,7 @@
 
 class OrientDBCommandDBOpen extends OrientDBCommandAbstract
 {
+
     /**
      * SessionId of current connection. Not used for now
      * @var unknown_type
@@ -35,8 +36,7 @@ class OrientDBCommandDBOpen extends OrientDBCommandAbstract
         $numClusters = $this->readInt();
 
         $clusters = array();
-        for ($i = 0; $i < $numClusters; $i++)
-        {
+        for ($i = 0; $i < $numClusters; $i++) {
             $cluster = $clusters[] = new stdClass();
             $cluster->name = $this->readString();
             $cluster->id = $this->readInt();
@@ -44,6 +44,8 @@ class OrientDBCommandDBOpen extends OrientDBCommandAbstract
         }
         $config = $this->readBytes();
 
-        return array('clusters' => $clusters, 'config' => $config);
+        return array(
+                        'clusters' => $clusters,
+                        'config' => $config);
     }
 }

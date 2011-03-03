@@ -2,6 +2,7 @@
 
 class OrientDBCommandDictionaryRemove extends OrientDBCommandAbstract
 {
+
     protected $key;
 
     public function __construct($parent)

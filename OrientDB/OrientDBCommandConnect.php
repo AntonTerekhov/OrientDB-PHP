@@ -2,6 +2,7 @@
 
 class OrientDBCommandConnect extends OrientDBCommandAbstract
 {
+
     /**
      * SessionId of current connection. Not used for now
      * @var unknown_type

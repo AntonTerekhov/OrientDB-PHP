@@ -2,6 +2,7 @@
 
 class OrientDBCommandRecordLoad extends OrientDBCommandAbstract
 {
+
     protected $clusterID;
 
     protected $recordPos;

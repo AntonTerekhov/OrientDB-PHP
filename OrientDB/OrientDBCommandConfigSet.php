@@ -3,11 +3,11 @@
 class OrientDBCommandConfigSet extends OrientDBCommandAbstract
 {
 
-	public function __construct($parent)
-	{
-		parent::__construct($parent);
-		$this->type = OrientDBCommandAbstract::CONFIG_SET;
-	}
+    public function __construct($parent)
+    {
+        parent::__construct($parent);
+        $this->type = OrientDBCommandAbstract::CONFIG_SET;
+    }
 
     public function prepare()
     {
@@ -21,9 +21,9 @@ class OrientDBCommandConfigSet extends OrientDBCommandAbstract
         $this->addString($this->attribs[1]);
     }
 
-	protected function parse()
-	{
+    protected function parse()
+    {
         return true;
-	}
+    }
 
 }

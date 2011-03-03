@@ -2,6 +2,7 @@
 
 class OrientDBCommandDictionaryPut extends OrientDBCommandAbstract
 {
+
     protected $key;
 
     protected $clusterID;
@@ -31,16 +32,16 @@ class OrientDBCommandDictionaryPut extends OrientDBCommandAbstract
         $this->clusterID = (int) $arr[0];
         $this->recordPos = (int) $arr[1];
         if ($this->clusterID === 0 || $this->recordPos === 0) {
-        	throw new OrientDBWrongParamsException('Wrong format for record ID');
+            throw new OrientDBWrongParamsException('Wrong format for record ID');
         }
         // Process recordType
         $this->recordType = OrientDB::RECORD_TYPE_DOCUMENT;
         if (count($this->attribs) == 3) {
-        	if (in_array($this->attribs[2], OrientDB::$recordTypes)) {
-        		$this->recordType =$this->attribs[2];
-        	} else {
-        		throw new OrientDBWrongParamsException('Incorrect record Type: ' . $this->attribs[2] . '. Awaliable types is: ' . implode(', ', OrientDB::$recordTypes));
-        	}
+            if (in_array($this->attribs[2], OrientDB::$recordTypes)) {
+                $this->recordType = $this->attribs[2];
+            } else {
+                throw new OrientDBWrongParamsException('Incorrect record Type: ' . $this->attribs[2] . '. Awaliable types is: ' . implode(', ', OrientDB::$recordTypes));
+            }
         }
 
         // Add key

@@ -43,18 +43,18 @@ class OrientDBCommandRecordUpdate extends OrientDBCommandAbstract
         if (count($this->attribs) >= 3) {
             $this->version = (int) $this->attribs[2];
         } else {
-        	// Pessimistic way
+            // Pessimistic way
             $this->version = -1;
         }
         $this->addInt($this->version);
         if (count($this->attribs) == 4) {
-	        if (in_array($this->attribs[3], OrientDB::$recordTypes)) {
-	            $this->recordType =$this->attribs[3];
-	        } else {
-	            throw new OrientDBWrongParamsException('Incorrect record Type: ' . $this->attribs[2] . '. Awaliable types is: ' . implode(', ', OrientDB::$recordTypes));
-	        }
+            if (in_array($this->attribs[3], OrientDB::$recordTypes)) {
+                $this->recordType = $this->attribs[3];
+            } else {
+                throw new OrientDBWrongParamsException('Incorrect record Type: ' . $this->attribs[2] . '. Awaliable types is: ' . implode(', ', OrientDB::$recordTypes));
+            }
         } else {
-        	$this->recordType = OrientDB::RECORD_TYPE_DOCUMENT;
+            $this->recordType = OrientDB::RECORD_TYPE_DOCUMENT;
         }
         // Add recordType
         $this->addByte($this->recordType);

@@ -219,7 +219,7 @@ abstract class OrientDBCommandAbstract
         $record->classId = $this->readShort();
         // @TODO: fix it in more pleasant way
         // as seen at enterprise/src/main/java/com/orientechnologies/orient/enterprise/channel/binary/OChannelBinaryProtocol.java
-        //  RECORD_NULL = -2
+        // RECORD_NULL = -2
         if ($record->classId == 65534) {
             return false;
         }

@@ -2,6 +2,7 @@
 
 class OrientDBCommandRecordCreate extends OrientDBCommandAbstract
 {
+
     protected $clusterId;
 
     protected $recordType;
@@ -28,7 +29,7 @@ class OrientDBCommandRecordCreate extends OrientDBCommandAbstract
         $this->recordType = OrientDB::RECORD_TYPE_DOCUMENT;
         if (count($this->attribs) == 3) {
             if (in_array($this->attribs[2], OrientDB::$recordTypes)) {
-                $this->recordType =$this->attribs[2];
+                $this->recordType = $this->attribs[2];
             } else {
                 throw new OrientDBWrongParamsException('Incorrect record Type: ' . $this->attribs[2] . '. Awaliable types is: ' . implode(', ', OrientDB::$recordTypes));
             }

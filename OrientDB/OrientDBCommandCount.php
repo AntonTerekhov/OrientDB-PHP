@@ -3,12 +3,14 @@
 class OrientDBCommandCount extends OrientDBCommandAbstract
 {
 
-    public function __construct($parent) {
+    public function __construct($parent)
+    {
         parent::__construct($parent);
         $this->type = OrientDBCommandAbstract::COUNT;
     }
 
-    public function prepare() {
+    public function prepare()
+    {
         parent::prepare();
         if (count($this->attribs) != 1) {
             throw new OrientDBWrongParamsException('This command requires cluster name');
@@ -17,7 +19,8 @@ class OrientDBCommandCount extends OrientDBCommandAbstract
         $this->addString($this->attribs[0]);
     }
 
-    protected function parse() {
+    protected function parse()
+    {
         $count = $this->readLong();
         return $count;
     }

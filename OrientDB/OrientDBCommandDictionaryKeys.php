@@ -2,6 +2,7 @@
 
 class OrientDBCommandDictionaryKeys extends OrientDBCommandAbstract
 {
+
     public function __construct($parent)
     {
         parent::__construct($parent);
