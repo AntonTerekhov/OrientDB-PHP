@@ -73,4 +73,5 @@ class OrientDBQueryTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($records);
     }
 
+    // @TODO tests with cached records, tests with sync mode
 }
