@@ -4,10 +4,10 @@ class OrientDBCommandDBOpen extends OrientDBCommandAbstract
 {
 
     /**
-     * SessionId of current connection. Not used for now
+     * SessionID of current connection. Not used for now
      * @var unknown_type
      */
-    public $sessionId;
+    public $sessionID;
 
     public function __construct($parent)
     {
@@ -31,7 +31,7 @@ class OrientDBCommandDBOpen extends OrientDBCommandAbstract
 
     protected function parse()
     {
-        $this->sessionId = $this->readInt();
+        $this->sessionID = $this->readInt();
 
         $numClusters = $this->readInt();
 

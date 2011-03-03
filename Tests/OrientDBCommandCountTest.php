@@ -60,23 +60,23 @@ class OrientDBCountTest extends PHPUnit_Framework_TestCase
     public function testCountWithCorrectValue() {
         $clusters = $this->db->DBOpen('demo', 'writer', 'writer');
         $count = $this->db->count($this->clustername);
-        // Find out clusterId
-        $clusterId = 0;
+        // Find out clusterID
+        $clusterID = 0;
         foreach ($clusters['clusters'] as $cluster) {
             if ($cluster->name == $this->clustername) {
-                $clusterId = $cluster->id;
+                $clusterID = $cluster->id;
                 break;
             }
         }
-        if ($clusterId == 0) {
+        if ($clusterID == 0) {
             $this->markTestSkipped('No cluster ' . $this->clustername . ' found');
         }
         // Create temporary record
-        $id = $this->db->recordCreate($clusterId, 'record');
+        $id = $this->db->recordCreate($clusterID, 'record');
         $newcount = $this->db->count($this->clustername);
         $this->assertEquals($count + 1, $newcount);
         // Delete temporary record
-        $this->db->recordDelete($clusterId . ':' . $id);
+        $this->db->recordDelete($clusterID . ':' . $id);
         $newcount = $this->db->count($this->clustername);
         $this->assertEquals($count, $newcount);
     }

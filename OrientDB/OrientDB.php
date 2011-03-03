@@ -3,6 +3,7 @@
 require 'OrientDBSocket.php';
 require 'OrientDBCommandAbstract.php';
 require 'OrientDBCommandCommand.php';
+require 'OrientDBCommandCommit.php';
 require 'OrientDBCommandConfigGet.php';
 require 'OrientDBCommandConfigList.php';
 require 'OrientDBCommandConfigSet.php';
@@ -173,8 +174,7 @@ class OrientDB
                         OrientDBCommandAbstract::DICTIONARY_REMOVE,
                         OrientDBCommandAbstract::DICTIONARY_SIZE,
                         OrientDBCommandAbstract::DICTIONARY_KEYS,
-                        //OrientDBCommandAbstract::TX_COMMIT
-                        );
+                        OrientDBCommandAbstract::TX_COMMIT);
 
         if (!$this->active) {
             throw new OrientDBWrongCommandException('DBClose was executed. No interaction posibble.');

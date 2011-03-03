@@ -13,7 +13,7 @@ class OrientDBRecordLoadTest extends PHPUnit_Framework_TestCase
 
     protected $db;
 
-    protected $clusterId = 1;
+    protected $clusterID = 1;
 
     protected $recordContent = 'testrecord:0';
 
@@ -43,11 +43,12 @@ class OrientDBRecordLoadTest extends PHPUnit_Framework_TestCase
 
     public function testRecordLoadOnOpenDB() {
         $this->db->DBOpen('demo', 'writer', 'writer');
-        $recordPos = $this->db->recordCreate($this->clusterId, $this->recordContent);
-        $record = $this->db->recordLoad($this->clusterId . ':' . $recordPos);
+        $recordPos = $this->db->recordCreate($this->clusterID, $this->recordContent);
+        $record = $this->db->recordLoad($this->clusterID . ':' . $recordPos);
         $this->assertInstanceOf('OrientDBRecord', $record);
         $this->assertAttributeEquals($this->recordContent, 'content', $record);
-        $result = $this->db->recordDelete($this->clusterId . ':' . $recordPos);
+        $this->assertAttributeEquals($this->clusterID . ':' . $recordPos, 'recordID', $record);
+        $result = $this->db->recordDelete($this->clusterID . ':' . $recordPos);
         $this->assertTrue($result);
     }
 
@@ -77,18 +78,18 @@ class OrientDBRecordLoadTest extends PHPUnit_Framework_TestCase
 
     public function testRecordLoadWithDeletedRecordId() {
         $this->db->DBOpen('demo', 'writer', 'writer');
-        $recordPos = $this->db->recordCreate($this->clusterId, $this->recordContent);
+        $recordPos = $this->db->recordCreate($this->clusterID, $this->recordContent);
         $this->assertInternalType('integer', $recordPos);
-        $result = $this->db->recordDelete($this->clusterId . ':' . $recordPos);
+        $result = $this->db->recordDelete($this->clusterID . ':' . $recordPos);
         $this->assertTrue($result);
-        $record = $this->db->recordLoad($this->clusterId . ':' . $recordPos);
+        $record = $this->db->recordLoad($this->clusterID . ':' . $recordPos);
         $this->assertFalse($record);
     }
 
     public function testRecordLoadWithOutOfBoundsRecordId() {
         $this->db->DBOpen('demo', 'writer', 'writer');
         $this->setExpectedException('OrientDBException');
-        $record = $this->db->recordLoad($this->clusterId . ':' . 1000000, '');
+        $record = $this->db->recordLoad($this->clusterID . ':' . 1000000, '');
     }
 
     public function testRecordLoadWithFetchPlan() {

@@ -48,7 +48,7 @@ class OrientDBCommandDictionaryPut extends OrientDBCommandAbstract
         $this->addString($this->key);
         // Add record-type
         $this->addByte($this->recordType);
-        // Add clustedId
+        // Add clustedID
         $this->addShort($this->clusterID);
         // Add RecordPos
         $this->addLong($this->recordPos);

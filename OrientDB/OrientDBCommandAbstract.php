@@ -51,7 +51,7 @@ abstract class OrientDBCommandAbstract
 
     const DICTIONARY_KEYS = 54;
 
-    //    const TX_COMMIT = 0x60;
+    const TX_COMMIT = 60;
 
     const CONFIG_GET = 70;
 
@@ -67,27 +67,27 @@ abstract class OrientDBCommandAbstract
 
     /**
      * Command type
-     * @var unknown_type
+     * @var integer
      */
     public $type;
 
     /**
      * Attributes
-     * @var unknown_type
+     * @var array
      */
     protected $attribs;
 
     /**
-     * TransactionId to identify queries
-     * @var unknown_type
+     * TransactionID to identify queries
+     * @var integer
      */
-    protected static $transactionId = 0;
+    protected static $transactionID = 0;
 
     /**
      * Current transaction id
-     * @var unknown_type
+     * @var integer
      */
-    protected $currentTransactionId;
+    protected $currentTransactionID;
 
     /**
      * Request Status, Success or Error
@@ -97,12 +97,20 @@ abstract class OrientDBCommandAbstract
 
     /**
      * Request bytes tranferred to server
-     * @var unknown_type
+     * @var string
      */
     protected $requestBytes;
 
+    /**
+     * Print debug messages
+     * @var boolean
+     */
     protected $debug;
 
+    /**
+     * Link to OrientDB instanse
+     * @var OrientDB
+     */
     private $parent;
 
     public function __construct($parent)
@@ -115,8 +123,8 @@ abstract class OrientDBCommandAbstract
     public function prepare()
     {
         $this->requestBytes .= chr($this->type);
-        $this->currentTransactionId = ++self::$transactionId;
-        $this->addInt($this->currentTransactionId);
+        $this->currentTransactionID = ++self::$transactionID;
+        $this->addInt($this->currentTransactionID);
     }
 
     public function execute()
@@ -133,8 +141,8 @@ abstract class OrientDBCommandAbstract
         }
         $this->requestStatus = $this->readByte();
 
-        $requestTransactionId = $this->readInt();
-        if ($requestTransactionId !== $this->currentTransactionId) {
+        $requestTransactionID = $this->readInt();
+        if ($requestTransactionID !== $this->currentTransactionID) {
             throw new OrientDBException('Transaction ID mismatch');
         }
 
@@ -215,18 +223,18 @@ abstract class OrientDBCommandAbstract
     protected function readRecord()
     {
         $record = new OrientDBRecord();
-        $this->debugCommand('record_classId');
-        $record->classId = $this->readShort();
+        $this->debugCommand('record_classID');
+        $record->classID = $this->readShort();
         // @TODO: fix it in more pleasant way
         // as seen at enterprise/src/main/java/com/orientechnologies/orient/enterprise/channel/binary/OChannelBinaryProtocol.java
         // RECORD_NULL = -2
-        if ($record->classId == 65534) {
+        if ($record->classID == 65534) {
             return false;
         }
         $this->debugCommand('record_type');
         $record->type = $this->readByte();
-        $this->debugCommand('record_clusterId');
-        $record->clusterId = $this->readShort();
+        $this->debugCommand('record_clusterID');
+        $record->clusterID = $this->readShort();
         $this->debugCommand('record_position');
         $record->recordPos = $this->readLong();
         $this->debugCommand('record_version');

@@ -3,7 +3,7 @@
 class OrientDBCommandRecordDelete extends OrientDBCommandAbstract
 {
 
-    protected $clusterId;
+    protected $clusterID;
 
     protected $recordPos;
 
@@ -39,9 +39,9 @@ class OrientDBCommandRecordDelete extends OrientDBCommandAbstract
             // Pessimistic way
             $this->version = -1;
         }
-        // Add ClusterId
+        // Add ClusterID
         $this->addShort($this->clusterID);
-        // Add RecordId
+        // Add RecordID
         $this->addLong($this->recordPos);
         // Add version
         $this->addInt($this->version);

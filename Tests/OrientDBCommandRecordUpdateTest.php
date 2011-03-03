@@ -13,7 +13,7 @@ class OrientDBRecordUpdateTest extends PHPUnit_Framework_TestCase
 
     protected $db;
 
-    protected $clusterId = 1;
+    protected $clusterID = 1;
 
     protected $recordContent = 'testrecord:0';
 
@@ -45,21 +45,21 @@ class OrientDBRecordUpdateTest extends PHPUnit_Framework_TestCase
 
     public function testRecordUpdateOnOpenDB() {
         $this->db->DBOpen('demo', 'writer', 'writer');
-        $recordPos = $this->db->recordCreate($this->clusterId, $this->recordContent);
+        $recordPos = $this->db->recordCreate($this->clusterID, $this->recordContent);
         $this->assertInternalType('integer', $recordPos);
-        $record1 = $this->db->recordLoad($this->clusterId . ':' . $recordPos, '');
-        $version = $this->db->recordUpdate($this->clusterId . ':' . $recordPos, $this->recordContentUpd);
+        $record1 = $this->db->recordLoad($this->clusterID . ':' . $recordPos, '');
+        $version = $this->db->recordUpdate($this->clusterID . ':' . $recordPos, $this->recordContentUpd);
         $this->assertEquals($record1->version + 1, $version);
-        $record2 = $this->db->recordLoad($this->clusterId . ':' . $recordPos, '');
+        $record2 = $this->db->recordLoad($this->clusterID . ':' . $recordPos, '');
         $this->assertAttributeEquals($version, 'version', $record2);
         $this->assertAttributeEquals($this->recordContentUpd, 'content', $record2);
-        $this->db->recordDelete($this->clusterId  . ':' . $recordPos);
+        $this->db->recordDelete($this->clusterID  . ':' . $recordPos);
     }
 
     public function testRecordUpdateWithWrongOptionCount() {
         $this->db->DBOpen('demo', 'writer', 'writer');
         $this->setExpectedException('OrientDBWrongParamsException');
-        $record = $this->db->recordUpdate($this->clusterId);
+        $record = $this->db->recordUpdate($this->clusterID);
     }
 
     public function testRecordUpdateWithWrongClusterIDOne() {
@@ -82,122 +82,122 @@ class OrientDBRecordUpdateTest extends PHPUnit_Framework_TestCase
 
     public function testRecordUpdateWithSameType() {
         $this->db->DBOpen('demo', 'admin', 'admin');
-        $recordPos = $this->db->recordCreate($this->clusterId, $this->recordContent, OrientDB::RECORD_TYPE_BYTES);
+        $recordPos = $this->db->recordCreate($this->clusterID, $this->recordContent, OrientDB::RECORD_TYPE_BYTES);
         $this->assertInternalType('integer', $recordPos);
-        $version = $this->db->recordUpdate($this->clusterId . ':' . $recordPos, $this->recordContentUpd, 0, OrientDB::RECORD_TYPE_BYTES);
+        $version = $this->db->recordUpdate($this->clusterID . ':' . $recordPos, $this->recordContentUpd, 0, OrientDB::RECORD_TYPE_BYTES);
         $this->assertInternalType('integer', $version);
-        $record2 = $this->db->recordLoad($this->clusterId . ':' . $recordPos, '');
+        $record2 = $this->db->recordLoad($this->clusterID . ':' . $recordPos, '');
         $this->assertAttributeEquals($version, 'version', $record2);
         $this->assertAttributeEquals($this->recordContentUpd, 'content', $record2);
-        $this->db->recordDelete($this->clusterId  . ':' . $recordPos);
+        $this->db->recordDelete($this->clusterID  . ':' . $recordPos);
     }
 
     public function testRecordUpdateWithTypeBytes() {
         $this->db->DBOpen('demo', 'admin', 'admin');
-        $recordPos = $this->db->recordCreate($this->clusterId, $this->recordContent, OrientDB::RECORD_TYPE_DOCUMENT);
+        $recordPos = $this->db->recordCreate($this->clusterID, $this->recordContent, OrientDB::RECORD_TYPE_DOCUMENT);
         $this->assertInternalType('integer', $recordPos);
-        $version = $this->db->recordUpdate($this->clusterId . ':' . $recordPos, $this->recordContentUpd, 0, OrientDB::RECORD_TYPE_BYTES);
+        $version = $this->db->recordUpdate($this->clusterID . ':' . $recordPos, $this->recordContentUpd, 0, OrientDB::RECORD_TYPE_BYTES);
         $this->assertInternalType('integer', $version);
-        $record2 = $this->db->recordLoad($this->clusterId . ':' . $recordPos, '');
+        $record2 = $this->db->recordLoad($this->clusterID . ':' . $recordPos, '');
         $this->assertAttributeEquals($version, 'version', $record2);
         $this->assertAttributeEquals($this->recordContentUpd, 'content', $record2);
-        $this->db->recordDelete($this->clusterId  . ':' . $recordPos);
+        $this->db->recordDelete($this->clusterID  . ':' . $recordPos);
     }
 
 
     public function testRecordUpdateWithTypeColumn() {
         $this->db->DBOpen('demo', 'admin', 'admin');
-        $recordPos = $this->db->recordCreate($this->clusterId, $this->recordContent, OrientDB::RECORD_TYPE_DOCUMENT);
+        $recordPos = $this->db->recordCreate($this->clusterID, $this->recordContent, OrientDB::RECORD_TYPE_DOCUMENT);
         $this->assertInternalType('integer', $recordPos);
-        $version = $this->db->recordUpdate($this->clusterId . ':' . $recordPos, $this->recordContentUpd, 0, OrientDB::RECORD_TYPE_COLUMN);
+        $version = $this->db->recordUpdate($this->clusterID . ':' . $recordPos, $this->recordContentUpd, 0, OrientDB::RECORD_TYPE_COLUMN);
         $this->assertInternalType('integer', $version);
-        $record2 = $this->db->recordLoad($this->clusterId . ':' . $recordPos, '');
+        $record2 = $this->db->recordLoad($this->clusterID . ':' . $recordPos, '');
         $this->assertAttributeEquals($version, 'version', $record2);
         $this->assertAttributeEquals($this->recordContentUpd, 'content', $record2);
-        $this->db->recordDelete($this->clusterId  . ':' . $recordPos);
+        $this->db->recordDelete($this->clusterID  . ':' . $recordPos);
     }
 
     public function testRecordUpdateWithTypeDocument() {
         $this->db->DBOpen('demo', 'admin', 'admin');
-        $recordPos = $this->db->recordCreate($this->clusterId, $this->recordContent, OrientDB::RECORD_TYPE_DOCUMENT);
+        $recordPos = $this->db->recordCreate($this->clusterID, $this->recordContent, OrientDB::RECORD_TYPE_DOCUMENT);
         $this->assertInternalType('integer', $recordPos);
-        $version = $this->db->recordUpdate($this->clusterId . ':' . $recordPos, $this->recordContentUpd, 0, OrientDB::RECORD_TYPE_DOCUMENT);
+        $version = $this->db->recordUpdate($this->clusterID . ':' . $recordPos, $this->recordContentUpd, 0, OrientDB::RECORD_TYPE_DOCUMENT);
         $this->assertInternalType('integer', $version);
-        $record2 = $this->db->recordLoad($this->clusterId . ':' . $recordPos, '');
+        $record2 = $this->db->recordLoad($this->clusterID . ':' . $recordPos, '');
         $this->assertAttributeEquals($version, 'version', $record2);
         $this->assertAttributeEquals($this->recordContentUpd, 'content', $record2);
-        $this->db->recordDelete($this->clusterId  . ':' . $recordPos);
+        $this->db->recordDelete($this->clusterID  . ':' . $recordPos);
     }
 
     public function testRecordUpdateWithTypeFlat() {
         $this->db->DBOpen('demo', 'admin', 'admin');
-        $recordPos = $this->db->recordCreate($this->clusterId, $this->recordContent, OrientDB::RECORD_TYPE_DOCUMENT);
+        $recordPos = $this->db->recordCreate($this->clusterID, $this->recordContent, OrientDB::RECORD_TYPE_DOCUMENT);
         $this->assertInternalType('integer', $recordPos);
-        $version = $this->db->recordUpdate($this->clusterId . ':' . $recordPos, $this->recordContentUpd, 0, OrientDB::RECORD_TYPE_FLAT);
+        $version = $this->db->recordUpdate($this->clusterID . ':' . $recordPos, $this->recordContentUpd, 0, OrientDB::RECORD_TYPE_FLAT);
         $this->assertInternalType('integer', $version);
-        $record2 = $this->db->recordLoad($this->clusterId . ':' . $recordPos, '');
+        $record2 = $this->db->recordLoad($this->clusterID . ':' . $recordPos, '');
         $this->assertAttributeEquals($version, 'version', $record2);
         $this->assertAttributeEquals($this->recordContentUpd, 'content', $record2);
-        $this->db->recordDelete($this->clusterId  . ':' . $recordPos);
+        $this->db->recordDelete($this->clusterID  . ':' . $recordPos);
     }
 
     public function testRecordUpdateWithWrongType() {
         $this->db->DBOpen('demo', 'admin', 'admin');
-        $recordPos = $this->db->recordCreate($this->clusterId, $this->recordContent, OrientDB::RECORD_TYPE_DOCUMENT);
+        $recordPos = $this->db->recordCreate($this->clusterID, $this->recordContent, OrientDB::RECORD_TYPE_DOCUMENT);
         $this->assertInternalType('integer', $recordPos);
         $this->setExpectedException('OrientDBWrongParamsException');
-        $version = $this->db->recordUpdate($this->clusterId . ':' . $recordPos, $this->recordContentUpd, 0, '!');
-        $this->db->recordDelete($this->clusterId  . ':' . $recordPos);
+        $version = $this->db->recordUpdate($this->clusterID . ':' . $recordPos, $this->recordContentUpd, 0, '!');
+        $this->db->recordDelete($this->clusterID  . ':' . $recordPos);
     }
 
     public function testRecordUpdateWithPessimisticVersion() {
         $this->db->DBOpen('demo', 'writer', 'writer');
-        $recordPos = $this->db->recordCreate($this->clusterId, $this->recordContent);
+        $recordPos = $this->db->recordCreate($this->clusterID, $this->recordContent);
         $this->assertInternalType('integer', $recordPos);
-        $version = $this->db->recordUpdate($this->clusterId . ':' . $recordPos, $this->recordContentUpd);
-        $record = $this->db->recordLoad($this->clusterId . ':' . $recordPos, '');
+        $version = $this->db->recordUpdate($this->clusterID . ':' . $recordPos, $this->recordContentUpd);
+        $record = $this->db->recordLoad($this->clusterID . ':' . $recordPos, '');
         $this->assertAttributeEquals($version, 'version', $record);
         $this->assertEquals(1, $version);
         $this->assertAttributeEquals($this->recordContentUpd, 'content', $record);
-        $version2 = $this->db->recordUpdate($this->clusterId . ':' . $recordPos, $this->recordContent, -1);
-        $record2 = $this->db->recordLoad($this->clusterId . ':' . $recordPos, '');
+        $version2 = $this->db->recordUpdate($this->clusterID . ':' . $recordPos, $this->recordContent, -1);
+        $record2 = $this->db->recordLoad($this->clusterID . ':' . $recordPos, '');
         $this->assertAttributeEquals($version2, 'version', $record2);
         $this->assertEquals(2, $version2);
         $this->assertAttributeEquals($this->recordContent, 'content', $record2);
-        $result = $this->db->recordDelete($this->clusterId  . ':' . $recordPos);
+        $result = $this->db->recordDelete($this->clusterID  . ':' . $recordPos);
     }
 
     public function testRecordDeleteWithCorrectVersion() {
         $this->db->DBOpen('demo', 'writer', 'writer');
-        $recordPos = $this->db->recordCreate($this->clusterId, $this->recordContent);
+        $recordPos = $this->db->recordCreate($this->clusterID, $this->recordContent);
         $this->assertInternalType('integer', $recordPos);
-        $version = $this->db->recordUpdate($this->clusterId . ':' . $recordPos, $this->recordContentUpd);
-        $record = $this->db->recordLoad($this->clusterId . ':' . $recordPos, '');
+        $version = $this->db->recordUpdate($this->clusterID . ':' . $recordPos, $this->recordContentUpd);
+        $record = $this->db->recordLoad($this->clusterID . ':' . $recordPos, '');
         $this->assertAttributeEquals($version, 'version', $record);
         $this->assertEquals(1, $version);
         $this->assertAttributeEquals($this->recordContentUpd, 'content', $record);
-        $version2 = $this->db->recordUpdate($this->clusterId . ':' . $recordPos, $this->recordContent, $version);
-        $record2 = $this->db->recordLoad($this->clusterId . ':' . $recordPos, '');
+        $version2 = $this->db->recordUpdate($this->clusterID . ':' . $recordPos, $this->recordContent, $version);
+        $record2 = $this->db->recordLoad($this->clusterID . ':' . $recordPos, '');
         $this->assertAttributeEquals($version2, 'version', $record2);
         $this->assertEquals(2, $version2);
         $this->assertAttributeEquals($this->recordContent, 'content', $record2);
-        $result = $this->db->recordDelete($this->clusterId  . ':' . $recordPos);
+        $result = $this->db->recordDelete($this->clusterID  . ':' . $recordPos);
     }
 
     public function testRecordDeleteWithIncorrectVersion() {
         $this->db->DBOpen('demo', 'writer', 'writer');
-        $recordPos = $this->db->recordCreate($this->clusterId, $this->recordContent);
+        $recordPos = $this->db->recordCreate($this->clusterID, $this->recordContent);
         $this->assertInternalType('integer', $recordPos);
-        $version = $this->db->recordUpdate($this->clusterId . ':' . $recordPos, $this->recordContentUpd);
-        $record = $this->db->recordLoad($this->clusterId . ':' . $recordPos, '');
+        $version = $this->db->recordUpdate($this->clusterID . ':' . $recordPos, $this->recordContentUpd);
+        $record = $this->db->recordLoad($this->clusterID . ':' . $recordPos, '');
         $this->assertAttributeEquals($version, 'version', $record);
         $this->assertEquals(1, $version);
         $this->assertAttributeEquals($this->recordContentUpd, 'content', $record);
-        $version2 = $this->db->recordUpdate($this->clusterId . ':' . $recordPos, $this->recordContent, $version + 1);
-        $record2 = $this->db->recordLoad($this->clusterId . ':' . $recordPos, '');
+        $version2 = $this->db->recordUpdate($this->clusterID . ':' . $recordPos, $this->recordContent, $version + 1);
+        $record2 = $this->db->recordLoad($this->clusterID . ':' . $recordPos, '');
         $this->assertAttributeEquals($version2, 'version', $record2);
         $this->assertEquals(2, $version2);
         $this->assertAttributeEquals($this->recordContent, 'content', $record2);
-        $result = $this->db->recordDelete($this->clusterId  . ':' . $recordPos);
+        $result = $this->db->recordDelete($this->clusterID  . ':' . $recordPos);
     }
 }

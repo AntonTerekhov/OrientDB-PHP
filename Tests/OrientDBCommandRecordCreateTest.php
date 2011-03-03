@@ -13,7 +13,7 @@ class OrientDBRecordCreateTest extends PHPUnit_Framework_TestCase
 
     protected $db;
 
-    protected $clusterId = 1;
+    protected $clusterID = 1;
 
     protected $recordContent = 'testrecord:0';
 
@@ -43,15 +43,15 @@ class OrientDBRecordCreateTest extends PHPUnit_Framework_TestCase
 
     public function testRecordCreateOnOpenDB() {
         $this->db->DBOpen('demo', 'writer', 'writer');
-        $recordPos = $this->db->recordCreate($this->clusterId, $this->recordContent);
+        $recordPos = $this->db->recordCreate($this->clusterID, $this->recordContent);
         $this->assertInternalType('integer', $recordPos);
-        $this->db->recordDelete($this->clusterId  . ':' . $recordPos);
+        $this->db->recordDelete($this->clusterID  . ':' . $recordPos);
     }
 
     public function testRecordCreateWithWrongOptionCount() {
         $this->db->DBOpen('demo', 'writer', 'writer');
         $this->setExpectedException('OrientDBWrongParamsException');
-        $record = $this->db->recordCreate($this->clusterId);
+        $record = $this->db->recordCreate($this->clusterID);
     }
 
     public function testRecordCreateWithWrongClusterID() {
@@ -62,35 +62,35 @@ class OrientDBRecordCreateTest extends PHPUnit_Framework_TestCase
 
     public function testRecordCreateWithTypeBytes() {
         $this->db->DBOpen('demo', 'admin', 'admin');
-        $recordPos = $this->db->recordCreate($this->clusterId, $this->recordContent, OrientDB::RECORD_TYPE_BYTES);
+        $recordPos = $this->db->recordCreate($this->clusterID, $this->recordContent, OrientDB::RECORD_TYPE_BYTES);
         $this->assertInternalType('integer', $recordPos);
-        $this->db->recordDelete($this->clusterId  . ':' . $recordPos);
+        $this->db->recordDelete($this->clusterID  . ':' . $recordPos);
     }
 
     public function testRecordCreateWithTypeColumn() {
         $this->db->DBOpen('demo', 'admin', 'admin');
-        $recordPos = $this->db->recordCreate($this->clusterId, $this->recordContent, OrientDB::RECORD_TYPE_COLUMN);
+        $recordPos = $this->db->recordCreate($this->clusterID, $this->recordContent, OrientDB::RECORD_TYPE_COLUMN);
         $this->assertInternalType('integer', $recordPos);
-        $this->db->recordDelete($this->clusterId  . ':' . $recordPos);
+        $this->db->recordDelete($this->clusterID  . ':' . $recordPos);
     }
 
     public function testRecordCreateWithTypeDocument() {
         $this->db->DBOpen('demo', 'admin', 'admin');
-        $recordPos = $this->db->recordCreate($this->clusterId, $this->recordContent, OrientDB::RECORD_TYPE_DOCUMENT);
+        $recordPos = $this->db->recordCreate($this->clusterID, $this->recordContent, OrientDB::RECORD_TYPE_DOCUMENT);
         $this->assertInternalType('integer', $recordPos);
-        $this->db->recordDelete($this->clusterId  . ':' . $recordPos);
+        $this->db->recordDelete($this->clusterID  . ':' . $recordPos);
     }
 
     public function testRecordCreateWithTypeFlat() {
         $this->db->DBOpen('demo', 'admin', 'admin');
-        $recordPos = $this->db->recordCreate($this->clusterId, $this->recordContent, OrientDB::RECORD_TYPE_FLAT);
+        $recordPos = $this->db->recordCreate($this->clusterID, $this->recordContent, OrientDB::RECORD_TYPE_FLAT);
         $this->assertInternalType('integer', $recordPos);
-        $this->db->recordDelete($this->clusterId  . ':' . $recordPos);
+        $this->db->recordDelete($this->clusterID  . ':' . $recordPos);
     }
 
     public function testRecordCreateWithWrongType() {
         $this->db->DBOpen('demo', 'admin', 'admin');
         $this->setExpectedException('OrientDBWrongParamsException');
-        $recordPos = $this->db->recordCreate($this->clusterId, $this->recordContent, '!');
+        $recordPos = $this->db->recordCreate($this->clusterID, $this->recordContent, '!');
     }
 }

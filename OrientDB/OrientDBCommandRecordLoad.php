@@ -31,9 +31,9 @@ class OrientDBCommandRecordLoad extends OrientDBCommandAbstract
         if ($this->clusterID === 0 || $this->recordPos === 0) {
             throw new OrientDBWrongParamsException('Wrong format for record ID');
         }
-        // Add ClusterId
+        // Add ClusterID
         $this->addShort($this->clusterID);
-        // Add RecordId
+        // Add RecordID
         $this->addLong($this->recordPos);
         // Fetchplan
         $this->fetchPlan = '';
@@ -64,10 +64,10 @@ class OrientDBCommandRecordLoad extends OrientDBCommandAbstract
             }
             // Form a record
             $record = new OrientDBRecord();
-            // @TODO fix classId
-            $record->classId = null;
+            // @TODO fix classID
+            $record->classID = null;
             $record->type = $record_type;
-            $record->clusterId = $this->clusterID;
+            $record->clusterID = $this->clusterID;
             $record->recordPos = $this->recordPos;
             $record->version = $record_version;
             $record->content = $record_content;

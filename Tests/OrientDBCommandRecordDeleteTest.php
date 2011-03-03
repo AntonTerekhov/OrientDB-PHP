@@ -13,7 +13,7 @@ class OrientDBRecordDeleteTest extends PHPUnit_Framework_TestCase
 
     protected $db;
 
-    protected $clusterId = 1;
+    protected $clusterID = 1;
 
     protected $recordContent = 'testrecord:0';
 
@@ -43,9 +43,9 @@ class OrientDBRecordDeleteTest extends PHPUnit_Framework_TestCase
 
     public function testRecordDeleteOnOpenDB() {
         $this->db->DBOpen('demo', 'writer', 'writer');
-        $recordPos = $this->db->recordCreate($this->clusterId, $this->recordContent);
+        $recordPos = $this->db->recordCreate($this->clusterID, $this->recordContent);
         $this->assertInternalType('integer', $recordPos);
-        $result = $this->db->recordDelete($this->clusterId  . ':' . $recordPos);
+        $result = $this->db->recordDelete($this->clusterID  . ':' . $recordPos);
         $this->assertTrue($result);
     }
 
@@ -75,29 +75,29 @@ class OrientDBRecordDeleteTest extends PHPUnit_Framework_TestCase
 
     public function testRecordDeleteWithPessimisticVersion() {
         $this->db->DBOpen('demo', 'writer', 'writer');
-        $recordPos = $this->db->recordCreate($this->clusterId, $this->recordContent);
+        $recordPos = $this->db->recordCreate($this->clusterID, $this->recordContent);
         $this->assertInternalType('integer', $recordPos);
-        $result = $this->db->recordDelete($this->clusterId  . ':' . $recordPos, -1);
+        $result = $this->db->recordDelete($this->clusterID  . ':' . $recordPos, -1);
         $this->assertTrue($result);
     }
 
     public function testRecordDeleteWithCorrectVersion() {
         $this->db->DBOpen('demo', 'writer', 'writer');
-        $recordPos = $this->db->recordCreate($this->clusterId, $this->recordContent);
+        $recordPos = $this->db->recordCreate($this->clusterID, $this->recordContent);
         $this->assertInternalType('integer', $recordPos);
-        $result = $this->db->recordDelete($this->clusterId  . ':' . $recordPos, 0);
+        $result = $this->db->recordDelete($this->clusterID  . ':' . $recordPos, 0);
         $this->assertTrue($result);
     }
 
     public function testRecordDeleteWithIncorrectVersion() {
         $this->db->DBOpen('demo', 'writer', 'writer');
-        $recordPos = $this->db->recordCreate($this->clusterId, $this->recordContent);
+        $recordPos = $this->db->recordCreate($this->clusterID, $this->recordContent);
         $this->assertInternalType('integer', $recordPos);
-        $updateVersion = $this->db->recordUpdate($this->clusterId  . ':' . $recordPos, $this->recordContent);
+        $updateVersion = $this->db->recordUpdate($this->clusterID  . ':' . $recordPos, $this->recordContent);
         $this->setExpectedException('OrientDBException');
-        $result = $this->db->recordDelete($this->clusterId  . ':' . $recordPos, 0);
+        $result = $this->db->recordDelete($this->clusterID  . ':' . $recordPos, 0);
         $this->assertFalse($result);
-        $result = $this->db->recordDelete($this->clusterId  . ':' . $recordPos, $updateVersion);
+        $result = $this->db->recordDelete($this->clusterID  . ':' . $recordPos, $updateVersion);
         $this->assertTrue($result);
     }
 }

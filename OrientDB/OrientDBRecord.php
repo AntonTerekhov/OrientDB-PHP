@@ -3,11 +3,11 @@
 class OrientDBRecord
 {
 
-    public $classId;
+    public $classID;
 
     public $type;
 
-    public $clusterId;
+    public $clusterID;
 
     public $recordPos;
 
@@ -21,7 +21,7 @@ class OrientDBRecord
 
     public function parse()
     {
-        $this->recordID = $this->clusterId . ':' . $this->recordPos;
+        $this->recordID = $this->clusterID . ':' . $this->recordPos;
         // @TODO Parse content to data
     }
 }

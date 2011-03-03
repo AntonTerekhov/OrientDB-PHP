@@ -3,7 +3,7 @@
 class OrientDBCommandRecordCreate extends OrientDBCommandAbstract
 {
 
-    protected $clusterId;
+    protected $clusterID;
 
     protected $recordType;
 
@@ -20,9 +20,9 @@ class OrientDBCommandRecordCreate extends OrientDBCommandAbstract
             throw new OrientDBWrongParamsException('This command requires cluster ID, record content and, optionally, record Type');
         }
         // Process clusterID
-        $this->clusterId = (int) $this->attribs[0];
-        // Add ClusterId
-        $this->addShort($this->clusterId);
+        $this->clusterID = (int) $this->attribs[0];
+        // Add ClusterID
+        $this->addShort($this->clusterID);
         // Add RecordContent
         $this->addBytes($this->attribs[1]);
         // recordType

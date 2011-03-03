@@ -58,11 +58,11 @@ class OrientDBCommandCommand extends OrientDBCommandAbstract
         if ($status != chr(0)) {
             $records = array();
             while ($status == chr(1)) {
-                $this->debugCommand('class_id');
+                $this->debugCommand('classID');
                 $classID = $this->readShort();
                 $this->debugCommand('record_type');
                 $recordType = $this->readByte();
-                $this->debugCommand('cluster_id');
+                $this->debugCommand('clusterID');
                 $clusterID = $this->readShort();
                 $this->debugCommand('record_pos');
                 $recordPos = $this->readLong();
@@ -73,9 +73,9 @@ class OrientDBCommandCommand extends OrientDBCommandAbstract
 
                 // Form a record
                 $record = new OrientDBRecord();
-                $record->classId = $classID;
+                $record->classID = $classID;
                 $record->type = $recordType;
-                $record->clusterId = $clusterID;
+                $record->clusterID = $clusterID;
                 $record->recordPos = $recordPos;
                 $record->version = $recordVersion;
                 $record->content = $content;
