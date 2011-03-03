@@ -11,17 +11,16 @@ echo microtime(true) - $time_c . PHP_EOL;
 
 $time_c = microtime(true);
 echo 'OpenDB DB' . PHP_EOL;
-$clusters = $db->openDB('manekeno', 'admin', 'admin');
+$clusters = $db->DBOpen('speedtest', 'admin', 'admin');
 echo microtime(true) - $time_c . PHP_EOL;
 
-//var_dump($clusters);
 
 
 $time_c = microtime(true);
 $result = array();
 for ($i = 0; $i < $records; $i++) {
     try {
-        $position = $db->recordCreate(2, 'Name:"Anton",Id:' . $i);
+        $position = $db->recordCreate(2, 'Name:"Bill",Id:' . $i);
         $result[] = $position;
     }
     catch (OrientDBException $e) {
@@ -49,7 +48,7 @@ for ($i = 0; $i < $records / 100; $i++) {
     }
     array_walk($links, $callback);
     try {
-        $db->recordUpdate('2:' . $rand_record, 'Name:"Anton",Id:' . $i . ', map:[' . implode(',', $links) . ']');
+        $db->recordUpdate('2:' . $rand_record, 'Name:"Bill",Id:' . $i . ', map:[' . implode(',', $links) . ']');
         $linked_records[] = $rand_record;
     }
     catch (OrientDBException $e) {
@@ -77,7 +76,7 @@ echo 'Done get linked' . PHP_EOL;
 echo microtime(true) - $time_c . PHP_EOL;
 var_dump($record->content);
 
-/*$time_c = microtime(true);
+$time_c = microtime(true);
 for ($i = 0; $i < count($result); $i++) {
     try {
         $db->recordDelete('2:' . $result[$i]);
@@ -87,6 +86,6 @@ for ($i = 0; $i < count($result); $i++) {
 }
 echo 'Done delete ' . $records . PHP_EOL;
 echo microtime(true) - $time_c . PHP_EOL;
-*/
+
 
 
