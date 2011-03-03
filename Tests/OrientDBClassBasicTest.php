@@ -34,13 +34,13 @@ class OrientDBClassBasicTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testMethodNotImplemented() {
-    	$this->setExpectedException('OrientDBWrongCommandException');
-    	$this->db->methodNotExist();
+        $this->setExpectedException('OrientDBWrongCommandException');
+        $this->db->methodNotExist();
     }
 
     public function testProtocolVersion() {
-    	$this->setExpectedException('OrientDBException');
-    	$this->db->setProtocolVersion(3);
+        $this->setExpectedException('OrientDBException');
+        $this->db->setProtocolVersion(3);
     }
 
 }
