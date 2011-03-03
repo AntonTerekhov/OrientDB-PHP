@@ -21,7 +21,7 @@ abstract class OrientDBCommandAbstract
 
     //    const DATACLUSTER_REMOVE = 0x11;
 
-    //    const DATACLUSTER_COUNT = 0x12;
+    const DATACLUSTER_COUNT = 12;
 
     //    const DATACLUSTER_DATARANGE = 0x13;
 
