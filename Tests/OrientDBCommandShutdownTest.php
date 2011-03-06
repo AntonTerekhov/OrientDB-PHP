@@ -27,7 +27,6 @@ class OrientDBShutdownTest extends OrientDBBaseTesting
 
     public function testshutdownOnNotOpenDB() {
         $this->setExpectedException('OrientDBWrongCommandException');
-        $this->setExpectedException('OrientDBException');
         $value = $this->db->shutdown('', '');
     }
 
