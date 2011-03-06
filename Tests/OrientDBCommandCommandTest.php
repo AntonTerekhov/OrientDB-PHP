@@ -3,7 +3,7 @@
 require_once 'OrientDB/OrientDB.php';
 require_once 'OrientDBBaseTest.php';
 
-class OrientDBQueryTest extends OrientDBBaseTesting
+class OrientDBCommandTest extends OrientDBBaseTesting
 {
 
     protected function setUp() {
