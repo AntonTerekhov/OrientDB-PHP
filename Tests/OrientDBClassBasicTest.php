@@ -33,7 +33,7 @@ class OrientDBClassBasicTest extends OrientDBBaseTesting {
 
     public function testProtocolVersion() {
         $this->setExpectedException('OrientDBException');
-        $this->db->setProtocolVersion(3);
+        $this->db->setProtocolVersion(1);
     }
 
 }
