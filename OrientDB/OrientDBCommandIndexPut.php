@@ -1,6 +1,6 @@
 <?php
 
-class OrientDBCommandDictionaryPut extends OrientDBCommandAbstract
+class OrientDBCommandIndexPut extends OrientDBCommandAbstract
 {
 
     protected $key;
@@ -14,7 +14,7 @@ class OrientDBCommandDictionaryPut extends OrientDBCommandAbstract
     public function __construct($parent)
     {
         parent::__construct($parent);
-        $this->type = OrientDBCommandAbstract::DICTIONARY_PUT;
+        $this->type = OrientDBCommandAbstract::INDEX_PUT;
     }
 
     public function prepare()

@@ -1,6 +1,6 @@
 <?php
 
-class OrientDBCommandDictionaryRemove extends OrientDBCommandAbstract
+class OrientDBCommandIndexLookup extends OrientDBCommandAbstract
 {
 
     protected $key;
@@ -8,7 +8,7 @@ class OrientDBCommandDictionaryRemove extends OrientDBCommandAbstract
     public function __construct($parent)
     {
         parent::__construct($parent);
-        $this->type = OrientDBCommandAbstract::DICTIONARY_REMOVE;
+        $this->type = OrientDBCommandAbstract::INDEX_LOOKUP;
     }
 
     public function prepare()

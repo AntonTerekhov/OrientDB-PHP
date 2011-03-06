@@ -1,12 +1,12 @@
 <?php
 
-class OrientDBCommandDictionaryKeys extends OrientDBCommandAbstract
+class OrientDBCommandIndexKeys extends OrientDBCommandAbstract
 {
 
     public function __construct($parent)
     {
         parent::__construct($parent);
-        $this->type = OrientDBCommandAbstract::DICTIONARY_KEYS;
+        $this->type = OrientDBCommandAbstract::INDEX_KEYS;
     }
 
     public function prepare()

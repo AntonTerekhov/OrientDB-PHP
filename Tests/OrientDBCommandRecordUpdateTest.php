@@ -97,19 +97,6 @@ class OrientDBRecordUpdateTest extends OrientDBBaseTesting
         $this->db->recordDelete($this->clusterID  . ':' . $recordPos);
     }
 
-
-    public function testRecordUpdateWithTypeColumn() {
-        $this->db->DBOpen('demo', 'admin', 'admin');
-        $recordPos = $this->db->recordCreate($this->clusterID, $this->recordContent, OrientDB::RECORD_TYPE_DOCUMENT);
-        $this->assertInternalType('integer', $recordPos);
-        $version = $this->db->recordUpdate($this->clusterID . ':' . $recordPos, $this->recordContentUpd, 0, OrientDB::RECORD_TYPE_COLUMN);
-        $this->assertInternalType('integer', $version);
-        $record2 = $this->db->recordLoad($this->clusterID . ':' . $recordPos, '');
-        $this->assertAttributeEquals($version, 'version', $record2);
-        $this->assertAttributeEquals($this->recordContentUpd, 'content', $record2);
-        $this->db->recordDelete($this->clusterID  . ':' . $recordPos);
-    }
-
     public function testRecordUpdateWithTypeDocument() {
         $this->db->DBOpen('demo', 'admin', 'admin');
         $recordPos = $this->db->recordCreate($this->clusterID, $this->recordContent, OrientDB::RECORD_TYPE_DOCUMENT);

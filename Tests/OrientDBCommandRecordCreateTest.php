@@ -60,13 +60,6 @@ class OrientDBRecordCreateTest extends OrientDBBaseTesting
         $this->db->recordDelete($this->clusterID  . ':' . $recordPos);
     }
 
-    public function testRecordCreateWithTypeColumn() {
-        $this->db->DBOpen('demo', 'admin', 'admin');
-        $recordPos = $this->db->recordCreate($this->clusterID, $this->recordContent, OrientDB::RECORD_TYPE_COLUMN);
-        $this->assertInternalType('integer', $recordPos);
-        $this->db->recordDelete($this->clusterID  . ':' . $recordPos);
-    }
-
     public function testRecordCreateWithTypeDocument() {
         $this->db->DBOpen('demo', 'admin', 'admin');
         $recordPos = $this->db->recordCreate($this->clusterID, $this->recordContent, OrientDB::RECORD_TYPE_DOCUMENT);

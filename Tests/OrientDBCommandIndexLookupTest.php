@@ -3,7 +3,7 @@
 require_once 'OrientDB/OrientDB.php';
 require_once 'OrientDBBaseTest.php';
 
-class OrientDBDictionaryLookupTest extends OrientDBBaseTesting
+class OrientDBIndexLookupTest extends OrientDBBaseTesting
 {
 
     protected function setUp() {
@@ -14,37 +14,37 @@ class OrientDBDictionaryLookupTest extends OrientDBBaseTesting
         $this->db = null;
     }
 
-    public function testDictionaryLookupOnNotConnectedDB() {
+    public function testIndexLookupOnNotConnectedDB() {
         $this->setExpectedException('OrientDBWrongCommandException');
-        $list = $this->db->dictionaryLookup();
+        $list = $this->db->indexLookup();
     }
 
-    public function testDictionaryLookupOnConnectedDB() {
+    public function testIndexLookupOnConnectedDB() {
         $this->db->connect('root', $this->root_password);
         $this->setExpectedException('OrientDBWrongCommandException');
-        $list = $this->db->dictionaryLookup();
+        $list = $this->db->indexLookup();
     }
 
-    public function testDictionaryLookupOnNotOpenDB() {
+    public function testIndexLookupOnNotOpenDB() {
         $this->setExpectedException('OrientDBWrongCommandException');
-        $list = $this->db->dictionaryLookup();
+        $list = $this->db->indexLookup();
     }
 
-    public function testDictionaryLookupOnOpenDB() {
+    public function testIndexLookupOnOpenDB() {
         $this->db->DBOpen('demo', 'writer', 'writer');
-        $record = $this->db->dictionaryLookup('key-1');
+        $record = $this->db->indexLookup('key-1');
         $this->assertInstanceOf('OrientDBRecord', $record);
     }
 
-    public function testDictionaryLookupWithWrongOptionCount() {
+    public function testIndexLookupWithWrongOptionCount() {
         $this->db->DBOpen('demo', 'writer', 'writer');
         $this->setExpectedException('OrientDBWrongParamsException');
-        $record = $this->db->dictionaryLookup();
+        $record = $this->db->indexLookup();
     }
 
-    public function testDictionaryLookupWithIncorrectKey() {
+    public function testIndexLookupWithIncorrectKey() {
         $this->db->DBOpen('demo', 'writer', 'writer');
-        $record = $this->db->dictionaryLookup('NONEXIST');
+        $record = $this->db->indexLookup('NONEXIST');
         $this->assertFalse($record);
     }
 }

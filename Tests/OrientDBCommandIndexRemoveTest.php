@@ -3,7 +3,7 @@
 require_once 'OrientDB/OrientDB.php';
 require_once 'OrientDBBaseTest.php';
 
-class OrientDBDictionaryRemoveTest extends OrientDBBaseTesting
+class OrientDBIndexRemoveTest extends OrientDBBaseTesting
 {
 
     protected $key = 'testkey';
@@ -18,46 +18,46 @@ class OrientDBDictionaryRemoveTest extends OrientDBBaseTesting
         $this->db = null;
     }
 
-    public function testDictionaryRemoveOnNotConnectedDB() {
+    public function testIndexRemoveOnNotConnectedDB() {
         $this->setExpectedException('OrientDBWrongCommandException');
-        $list = $this->db->dictionaryRemove();
+        $list = $this->db->indexRemove();
     }
 
-    public function testDictionaryRemoveOnConnectedDB() {
+    public function testIndexRemoveOnConnectedDB() {
         $this->db->connect('root', $this->root_password);
         $this->setExpectedException('OrientDBWrongCommandException');
-        $list = $this->db->dictionaryRemove();
+        $list = $this->db->indexRemove();
     }
 
-    public function testDictionaryRemoveOnNotOpenDB() {
+    public function testIndexRemoveOnNotOpenDB() {
         $this->setExpectedException('OrientDBWrongCommandException');
-        $list = $this->db->dictionaryRemove();
+        $list = $this->db->indexRemove();
     }
 
-    public function testDictionaryRemoveOnOpenDBWriter() {
+    public function testIndexRemoveOnOpenDBWriter() {
         $this->db->DBOpen('demo', 'writer', 'writer');
         $this->setExpectedException('OrientDBException');
-        $record = $this->db->dictionaryRemove($this->key, $this->recordID);
+        $record = $this->db->indexRemove($this->key, $this->recordID);
     }
 
-    public function testDictionaryRemoveOnOpenDBAdmin() {
+    public function testIndexRemoveOnOpenDBAdmin() {
         $this->db->DBOpen('demo', 'admin', 'admin');
-        $this->db->dictionaryPut($this->key, $this->recordID);
-        $record = $this->db->dictionaryRemove($this->key);
+        $this->db->indexPut($this->key, $this->recordID);
+        $record = $this->db->indexRemove($this->key);
         $this->assertAttributeEquals($this->recordID, 'recordID', $record);
-        $result = $this->db->dictionaryLookup($this->key);
+        $result = $this->db->indexLookup($this->key);
         $this->assertFalse($result);
     }
 
-    public function testDictionaryRemoveWithWrongOptionCount() {
+    public function testIndexRemoveWithWrongOptionCount() {
         $this->db->DBOpen('demo', 'writer', 'writer');
         $this->setExpectedException('OrientDBWrongParamsException');
-        $record = $this->db->dictionaryRemove();
+        $record = $this->db->indexRemove();
     }
 
-    public function testDictionaryRemoveWithWrongKey() {
+    public function testIndexRemoveWithWrongKey() {
         $this->db->DBOpen('demo', 'admin', 'admin');
-        $record = $this->db->dictionaryRemove('INVALID');
+        $record = $this->db->indexRemove('INVALID');
         $this->assertFalse($record);
     }
 }

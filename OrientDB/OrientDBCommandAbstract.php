@@ -7,15 +7,19 @@ abstract class OrientDBCommandAbstract
 
     const CONNECT = 2;
 
-    const DB_OPEN = 5;
+    const DB_OPEN = 3;
 
-    const DB_CREATE = 6;
+    const DB_CREATE = 4;
 
-    const DB_CLOSE = 7;
+    const DB_CLOSE = 5;
 
-    const DB_EXIST = 8;
+    const DB_EXIST = 6;
 
-    const DB_DELETE = 9;
+    const DB_DELETE = 7;
+
+    // const DB_SIZE = 8;
+
+    // const DB_COUNTRECORDS = 9;
 
     const DATACLUSTER_ADD = 10;
 
@@ -25,9 +29,9 @@ abstract class OrientDBCommandAbstract
 
     const DATACLUSTER_DATARANGE = 13;
 
-    //    const DATASEGMENT_ADD = 0x20;
+    // const DATASEGMENT_ADD = 20;
 
-    //    const DATASEGMENT_REMOVE = 0x21;
+    // const DATASEGMENT_REMOVE = 21;
 
     const RECORD_LOAD = 30;
 
@@ -41,15 +45,17 @@ abstract class OrientDBCommandAbstract
 
     const COMMAND = 41;
 
-    const DICTIONARY_LOOKUP = 50;
+    const INDEX_LOOKUP = 50;
 
-    const DICTIONARY_PUT = 51;
+    const INDEX_PUT = 51;
 
-    const DICTIONARY_REMOVE = 52;
+    const INDEX_REMOVE = 52;
 
-    const DICTIONARY_SIZE = 53;
+    const INDEX_SIZE = 53;
 
-    const DICTIONARY_KEYS = 54;
+    const INDEX_KEYS = 54;
+
+    // const INDEX_QUERY = 55;
 
     const TX_COMMIT = 60;
 
@@ -224,12 +230,16 @@ abstract class OrientDBCommandAbstract
     {
         $record = new OrientDBRecord();
         $this->debugCommand('record_classID');
-        $record->classID = $this->readShort();
-        // @TODO: fix it in more pleasant way
+        $record->classID = $this->readInt();
         // as seen at enterprise/src/main/java/com/orientechnologies/orient/enterprise/channel/binary/OChannelBinaryProtocol.java
         // RECORD_NULL = -2
-        if ($record->classID == 65534) {
+        if ($record->classID == -2) {
+            // No record
             return false;
+        }
+        if ($record->classID == -1) {
+            // No class
+            $record->classID == null;
         }
         $this->debugCommand('record_type');
         $record->type = $this->readByte();

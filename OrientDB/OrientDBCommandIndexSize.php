@@ -1,12 +1,12 @@
 <?php
 
-class OrientDBCommandDictionarySize extends OrientDBCommandAbstract
+class OrientDBCommandIndexSize extends OrientDBCommandAbstract
 {
 
     public function __construct($parent)
     {
         parent::__construct($parent);
-        $this->type = OrientDBCommandAbstract::DICTIONARY_SIZE;
+        $this->type = OrientDBCommandAbstract::INDEX_SIZE;
     }
 
     public function prepare()

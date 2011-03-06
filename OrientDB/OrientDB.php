@@ -17,11 +17,11 @@ require 'OrientDBCommandDBClose.php';
 require 'OrientDBCommandDBCreate.php';
 require 'OrientDBCommandDBExists.php';
 require 'OrientDBCommandDBOpen.php';
-require 'OrientDBCommandDictionaryKeys.php';
-require 'OrientDBCommandDictionaryLookup.php';
-require 'OrientDBCommandDictionaryPut.php';
-require 'OrientDBCommandDictionaryRemove.php';
-require 'OrientDBCommandDictionarySize.php';
+require 'OrientDBCommandIndexKeys.php';
+require 'OrientDBCommandIndexLookup.php';
+require 'OrientDBCommandIndexPut.php';
+require 'OrientDBCommandIndexRemove.php';
+require 'OrientDBCommandIndexSize.php';
 require 'OrientDBCommandRecordCreate.php';
 require 'OrientDBCommandRecordDelete.php';
 require 'OrientDBCommandRecordLoad.php';
@@ -45,7 +45,7 @@ class OrientDB
      * Client protocol version
      * @var int
      */
-    public $clientVersion = 2;
+    public $clientVersion = 3;
 
     /**
      * Server's protocol version.
@@ -61,15 +61,12 @@ class OrientDB
 
     const RECORD_TYPE_BYTES = 'b';
 
-    const RECORD_TYPE_COLUMN = 'c';
-
     const RECORD_TYPE_DOCUMENT = 'd';
 
     const RECORD_TYPE_FLAT = 'f';
 
     public static $recordTypes = array(
                     self::RECORD_TYPE_BYTES,
-                    self::RECORD_TYPE_COLUMN,
                     self::RECORD_TYPE_DOCUMENT,
                     self::RECORD_TYPE_FLAT);
 
@@ -169,11 +166,11 @@ class OrientDB
                         OrientDBCommandAbstract::RECORD_DELETE,
                         OrientDBCommandAbstract::COUNT,
                         OrientDBCommandAbstract::COMMAND,
-                        OrientDBCommandAbstract::DICTIONARY_LOOKUP,
-                        OrientDBCommandAbstract::DICTIONARY_PUT,
-                        OrientDBCommandAbstract::DICTIONARY_REMOVE,
-                        OrientDBCommandAbstract::DICTIONARY_SIZE,
-                        OrientDBCommandAbstract::DICTIONARY_KEYS,
+                        OrientDBCommandAbstract::INDEX_LOOKUP,
+                        OrientDBCommandAbstract::INDEX_PUT,
+                        OrientDBCommandAbstract::INDEX_REMOVE,
+                        OrientDBCommandAbstract::INDEX_SIZE,
+                        OrientDBCommandAbstract::INDEX_KEYS,
                         OrientDBCommandAbstract::TX_COMMIT);
 
         if (!$this->active) {
