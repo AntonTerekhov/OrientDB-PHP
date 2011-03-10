@@ -157,7 +157,9 @@ abstract class OrientDBCommandAbstract
         } elseif ($this->requestStatus === chr(OrientDBCommandAbstract::STATUS_ERROR)) {
             $exception = null;
             while ($this->readByte() === chr(OrientDBCommandAbstract::STATUS_ERROR)) {
+                $this->debugCommand('exception_javaclass');
                 $javaException = $this->readString();
+                $this->debugCommand('exception_message');
                 $exception = new OrientDBException($this->readString(), 0, is_null($exception) ? null : $exception);
             }
             throw $exception;
