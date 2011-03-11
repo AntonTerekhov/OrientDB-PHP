@@ -160,7 +160,7 @@ abstract class OrientDBCommandAbstract
                 $this->debugCommand('exception_javaclass');
                 $javaException = $this->readString();
                 $this->debugCommand('exception_message');
-                $exception = new OrientDBException($this->readString(), 0, is_null($exception) ? null : $exception);
+                $exception = new OrientDBException($javaException . ': ' . $this->readString(), 0, is_null($exception) ? null : $exception);
             }
             throw $exception;
         } else {
