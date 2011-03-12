@@ -48,7 +48,7 @@ class OrientDBCommandsBasicTest extends OrientDBBaseTesting {
 
     public function testOpenDBWithIncorrectUserPassword() {
         $this->setExpectedException('OrientDBException');
-        $clusters = $this->db->DBOpen('demo', 'writer', 'INCORRECT');
+        $result = $clusters = $this->db->DBOpen('demo', 'writer', 'INCORRECT');
     }
 
     public function testOpenDBWithNonExistentDB() {
