@@ -56,6 +56,13 @@ class OrientDBCommandTest extends OrientDBBaseTesting
         $this->assertInstanceOf('OrientDBRecord', array_pop($records));
     }
 
+    public function testCommandWithModeAsyncAndFetchPlan() {
+        $this->db->DBOpen('demo', 'writer', 'writer');
+        $records = $this->db->command('select from city traverse( any() )', OrientDB::COMMAND_MODE_ASYNC, '*:-1');
+        $this->assertInternalType('array', $records);
+        $this->assertInstanceOf('OrientDBRecord', array_pop($records));
+    }
+
     public function testCommandWithModeSync() {
         $this->db->DBOpen('demo', 'writer', 'writer');
         $records = $this->db->command('select * from [13:1]', OrientDB::COMMAND_MODE_SYNC);

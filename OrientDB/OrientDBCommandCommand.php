@@ -7,6 +7,8 @@ class OrientDBCommandCommand extends OrientDBCommandAbstract
 
     protected $mode;
 
+    protected $fetchPlan;
+
     public function __construct($parent)
     {
         parent::__construct($parent);
@@ -16,17 +18,21 @@ class OrientDBCommandCommand extends OrientDBCommandAbstract
     public function prepare()
     {
         parent::prepare();
-        if (count($this->attribs) > 2 || count($this->attribs) < 1) {
+        if (count($this->attribs) > 3 || count($this->attribs) < 1) {
             throw new OrientDBWrongParamsException('This command requires query and, optionally, mode');
         }
         $this->query = $this->attribs[0];
         $this->mode = OrientDB::COMMAND_MODE_ASYNC;
-        if (count($this->attribs) == 2) {
+        if (count($this->attribs) >= 2) {
             if ($this->attribs[1] == OrientDB::COMMAND_MODE_SYNC || $this->attribs[1] == OrientDB::COMMAND_MODE_ASYNC) {
                 $this->mode = $this->attribs[1];
             } else {
                 throw new OrientDBWrongParamsException('Wrong command mode');
             }
+        }
+        $this->fetchPlan = '*:0';
+        if (count($this->attribs) == 3) {
+            $this->fetchPlan = $this->attribs[2];
         }
 
         // Add mode
@@ -55,10 +61,9 @@ class OrientDBCommandCommand extends OrientDBCommandAbstract
         $buff .= pack('s', -1);
         // End RANGE recordPos is set to -1 to ignore and use TEXT MODE
         $buff .= str_repeat(chr(0xFF), 8);
-        // @TODO 0.9.2.5 - added a fetchplan
-        $fetchPlan = '*:1';
-        $buff .= pack('N', strlen($fetchPlan));
-        $buff .= $fetchPlan;
+        // Add a fetchplan
+        $buff .= pack('N', strlen($this->fetchPlan));
+        $buff .= $this->fetchPlan;
         // Params serialization, we have 0 params
         $buff .= pack('N', 0);
         // Now query object serialization complete, add it to command bytes
