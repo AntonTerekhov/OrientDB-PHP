@@ -58,15 +58,32 @@ class OrientDBCommandTest extends OrientDBBaseTesting
 
     public function testCommandWithModeSync() {
         $this->db->DBOpen('demo', 'writer', 'writer');
-        $this->setExpectedException('OrientDBWrongParamsException');
-        $record = $this->db->command('select * from [10:1]', OrientDB::COMMAND_MODE_SYNC);
+        $records = $this->db->command('select * from [13:1]', OrientDB::COMMAND_MODE_SYNC);
+        $this->assertInternalType('array', $records);
+        $this->assertInstanceOf('OrientDBRecord', array_pop($records));
     }
 
-    public function testCommandWithNoRecords() {
+    public function testCommandWithNoRecordsAsync() {
         $this->db->DBOpen('demo', 'writer', 'writer');
-        $records = $this->db->command('select from 11:4 where any() traverse(0,10) (address.city = "Rome")');
+        $records = $this->db->command('select from 11:4 where any() traverse(0,10) (address.city = "Rome")', OrientDB::COMMAND_MODE_ASYNC);
         $this->assertFalse($records);
     }
+
+    public function testCommandWithNoRecordsSync() {
+        $this->db->DBOpen('demo', 'writer', 'writer');
+        $records = $this->db->command('select from 11:4 where any() traverse(0,10) (address.city = "Rome")', OrientDB::COMMAND_MODE_SYNC);
+        $this->assertFalse($records);
+    }
+
+//    public function testCommandWithSingleRecordSync() {
+//        $this->db->DBOpen('demo', 'writer', 'writer');
+//        $this->db->setDebug(true);
+//
+//        $records = $this->db->command('insert into cluster:testcluster (name) values ("Jay")', OrientDB::COMMAND_MODE_ASYNC);
+//
+//        $this->assertFalse($records);
+//    }
+
 
     // @TODO tests with cached records, tests with sync mode
 }
