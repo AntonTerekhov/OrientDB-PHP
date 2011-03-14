@@ -13,7 +13,7 @@ This library requires PHP 5.3.x
 ## Function list ##
 ### Create a new instance of OrientDB class ###
 `
-$db = new OrientDB($host, $port, $connectTimeout);
+$db = new OrientDB($host, $port[, $connectTimeout]);
 `
 
 *Example:*
@@ -27,28 +27,28 @@ Connects to OrientDB server (not database) with user/passwd specified.
 Returns true on success or throws exception.
 
 `
-$db->connect($userName, $password);
+bool $db->connect($userName, $password);
 `
 
 *Example:*
 
 `
-$db->connect('root', 'passwd');
+$connected = $db->connect('root', 'passwd');
 `
 
 ### Database functions ###
 
 #### DBOpen ####
-Open database for work with or throws exception on failure (non-existent DB, wrong login or password).
+Open database for work with or throws exception on failure (non-existent DB, wrong login or password). Return array consist of cluster information and config.
 
 `
-$db->DBOpen($dbName, $userName, $password);
+array $db->DBOpen($dbName, $userName, $password);
 `
 
 *Example:*
 
 `
-$db->DBOpen('demo', 'writer', 'writer');
+$config = $db->DBOpen('demo', 'writer', 'writer');
 `
 
 #### DBClose ####
@@ -61,10 +61,10 @@ $db->DBClose();
 `
 
 #### DBCreate ####
-Creates new database.
+Creates new database. Return true on success or throw an exception.
 
 `
-$db->DBCreate($dbName, $dbType);
+bool $db->DBCreate($dbName, $dbType);
 `
 
 Avaliable types is: 
@@ -76,13 +76,41 @@ For difference see official [OrientDB docs](http://code.google.com/p/orient/wiki
 
 _Note: this function is now slightly unstable._
 
+
+*Example:*
+
+`
+$isCreated = $db->DBCreate('mydb', OrientDB::DB_TYPE_LOCAL);
+`
+
 #### DBExists ####
-Check if currently opened database is exists.
+Check if currently opened database is exists. Return true on success or throws an exception.
+
+`
+bool $db->DBExists);
+`
+
+*Example:*
+
+`
+$isExests = $db->DBExists();
+`
 
 ### Index functions ###
 
 #### IndexKeys ####
-Return list of keys in index.
+Return list of keys in index as array.
+
+`
+array $db->indexKeys();
+`
+
+*Example:*
+
+`
+$keys = $db->indexKeys();
+`
+
 
 #### IndexLookup ####
 Return record by index key.
