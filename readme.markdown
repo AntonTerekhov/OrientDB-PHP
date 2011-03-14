@@ -69,8 +69,8 @@ bool $db->DBCreate(string $dbName, string $dbType);
 
 Avaliable types is: 
 
-*   OrientDB::DB_TYPE_MEMORY for in memory database
-*   OrientDB::DB_TYPE_LOCAL for physical database
+* `OrientDB::DB_TYPE_MEMORY` for in memory database
+* `OrientDB::DB_TYPE_LOCAL` for physical database
 
 For difference see official [OrientDB docs](http://code.google.com/p/orient/wiki/Concepts#Storage).
 
@@ -134,11 +134,11 @@ OrientDBRecord $db->indexPut(string $key, string $recordID[, string OrientDB::RE
 
 Avaliable record types are:
 
-* OrientDB::RECORD_TYPE_BYTES
-* OrientDB::RECORD_TYPE_DOCUMENT
-* OrientDB::RECORD_TYPE_FLAT
+* `OrientDB::RECORD_TYPE_BYTES`
+* `OrientDB::RECORD_TYPE_DOCUMENT`
+* `OrientDB::RECORD_TYPE_FLAT`
 
-Default value is OrientDB::RECORD_TYPE_DOCUMENT. For difference between types please consult OrientDB manual.
+Default value is `OrientDB::RECORD_TYPE_DOCUMENT`. For difference between types please consult OrientDB manual.
 
 *Example:*
 
@@ -175,10 +175,10 @@ $count = $db->indexSize();
 ## Exceptions list ##
 For present moment OrientDB using this list of exceptions:
 
-* OrientDBException -  base exception, all exceptions are extending this class. This class used as general error class.
-* OrientDBConnectException -  throws on connect errors.
-* OrientDBWrongCommandException - wrong command sequence exception, for example recordLoad() on not opened DB.
-* OrientDBWrongParamsException - wrong params count or other param-related issues.
+* `OrientDBException` -  base exception, all exceptions listed below are extending this class. This class used as general error class (in case of OrientDB problems).
+* `OrientDBConnectException` -  throws on connect errors.
+* `OrientDBWrongCommandException` - wrong command sequence exception, for example recordLoad() on not opened DB.
+* `OrientDBWrongParamsException` - wrong params count or other param-related issues.
 
 ## OrientDBRecord ##
 This is class representing record.
