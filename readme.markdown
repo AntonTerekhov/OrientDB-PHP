@@ -68,6 +68,7 @@ $db->DBCreate($dbName, $dbType);
 `
 
 Avaliable types is: 
+
 *   OrientDB::DB_TYPE_MEMORY for in memory database
 *   OrientDB::DB_TYPE_LOCAL for physical database
 
