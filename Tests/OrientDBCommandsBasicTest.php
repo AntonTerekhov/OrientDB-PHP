@@ -116,4 +116,18 @@ class OrientDBCommandsBasicTest extends OrientDBBaseTesting {
         $this->setExpectedException('OrientDBWrongCommandException');
         $this->db->DBOpen('demo', 'writer', 'writer');
     }
+
+    public function testDBOpenCount() {
+        $i = 0;
+        $tries = 1000;
+        try {
+            while ($i < $tries) {
+                $clusters = $this->db->DBOpen('demo', 'admin', 'admin');
+                $i++;
+            }
+        } catch (OrientDBException $e) {
+            // echo 'Tries: ' . $i . PHP_EOL;
+        }
+        $this->assertEquals($tries, $i, 'New connections is not accepted, reason: ' . $e->getMessage());
+    }
 }
