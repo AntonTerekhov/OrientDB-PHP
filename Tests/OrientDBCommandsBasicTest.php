@@ -124,10 +124,16 @@ class OrientDBCommandsBasicTest extends OrientDBBaseTesting {
             while ($i < $tries) {
                 $clusters = $this->db->DBOpen('demo', 'admin', 'admin');
                 $i++;
+                $this->db = new OrientDB('localhost', 2424);
             }
         } catch (OrientDBException $e) {
             // echo 'Tries: ' . $i . PHP_EOL;
         }
-        $this->assertEquals($tries, $i, 'New connections is not accepted, reason: ' . $e->getMessage());
+        if (isset($e)) {
+            $message = 'New connections is not accepted, reason: ' . $e->getMessage();
+        } else {
+            $message = '';
+        }
+        $this->assertEquals($tries, $i, $message);
     }
 }
