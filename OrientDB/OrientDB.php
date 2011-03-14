@@ -89,6 +89,8 @@ class OrientDB
                     self::DATACLUSTER_TYPE_PHYSICAL,
                     self::DATACLUSTER_TYPE_MEMORY);
 
+    public $cachedRecords = array();
+
     public function __construct($host, $port, $timeout = 30)
     {
         $this->host = $host;

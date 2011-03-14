@@ -80,7 +80,9 @@ class OrientDBCommandCommand extends OrientDBCommandAbstract
                 $records = array();
                 while ($status == chr(1)) {
 
-                    $records[] = $this->readRecord();
+                    $record = $this->readRecord();
+                    $record->parse();
+                    $records[] = $record;
 
                     $this->debugCommand('status');
                     $status = $this->readByte();
@@ -88,12 +90,14 @@ class OrientDBCommandCommand extends OrientDBCommandAbstract
                 // Cache records
                 $cachedRecords = array();
                 while ($status == chr(2)) {
-                    $cachedRecords = $this->readRecord();
-
+                    $this->debugCommand('record_content');
+                    $record = $this->readRecord();
+                    $cachedRecords[$record->recordID] = $record;
                     $this->debugCommand('status');
                     $status = $this->readByte();
                 }
-
+                // Invalidate cache
+                $this->parent->cachedRecords = $cachedRecords;
                 return $records;
             }
             return false;

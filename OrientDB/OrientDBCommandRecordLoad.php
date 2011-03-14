@@ -36,7 +36,7 @@ class OrientDBCommandRecordLoad extends OrientDBCommandAbstract
         // Add RecordID
         $this->addLong($this->recordPos);
         // Fetchplan
-        $this->fetchPlan = '';
+        $this->fetchPlan = '*:0';
         if (count($this->attribs) == 2) {
             $this->fetchPlan = $this->attribs[1];
         }
@@ -55,13 +55,18 @@ class OrientDBCommandRecordLoad extends OrientDBCommandAbstract
             $record_type = $this->readByte();
             $this->debugCommand('status');
             $status = $this->readByte();
+
+            $cachedRecords = array();
             while ($status != chr(0)) {
                 $this->debugCommand('record_content');
                 $record = $this->readRecord();
+                $record->parse();
+                $cachedRecords[$record->recordID] = $record;
                 $this->debugCommand('status');
                 $status = $this->readByte();
-                // @TODO Deal with caching entries
             }
+            // Invalidate cache
+            $this->parent->cachedRecords = $cachedRecords;
             // Form a record
             $record = new OrientDBRecord();
             // @TODO fix classID

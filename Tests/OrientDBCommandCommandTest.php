@@ -82,6 +82,48 @@ class OrientDBCommandTest extends OrientDBBaseTesting
         $this->assertFalse($records);
     }
 
+    public function testCommandWithModeAsyncAndFetchPlanEmpty() {
+        $this->db->DBOpen('demo', 'writer', 'writer');
+        $this->assertEmpty($this->db->cachedRecords);
+        $records = $this->db->command('select from city limit 1', OrientDB::COMMAND_MODE_ASYNC, '*:0');
+        $this->assertInternalType('array', $records);
+        $this->assertInstanceOf('OrientDBRecord', array_pop($records));
+        $this->assertEmpty($this->db->cachedRecords);
+    }
+
+    public function testCommandWithModeAsyncAndFetchPlanOneItem() {
+        $this->db->DBOpen('demo', 'writer', 'writer');
+        $this->assertEmpty($this->db->cachedRecords);
+        $records = $this->db->command('select from city limit 1', OrientDB::COMMAND_MODE_ASYNC, '*:1');
+        $this->assertInternalType('array', $records);
+        $this->assertInstanceOf('OrientDBRecord', array_pop($records));
+        $this->assertEquals(1, count($this->db->cachedRecords));
+        $this->assertInstanceOf('OrientDBRecord', array_pop($this->db->cachedRecords));
+        $records = $this->db->command('select from city limit 1', OrientDB::COMMAND_MODE_ASYNC);
+        $this->assertEmpty($this->db->cachedRecords);
+    }
+
+    public function testCommandWithModeAsyncAndFetchPlanManyItems() {
+        $this->db->DBOpen('demo', 'writer', 'writer');
+        $this->assertEmpty($this->db->cachedRecords);
+        $records = $this->db->command('select from city', OrientDB::COMMAND_MODE_ASYNC, '*:1');
+        $this->assertInternalType('array', $records);
+        $this->assertInstanceOf('OrientDBRecord', array_pop($records));
+        $this->assertGreaterThan(1, count($this->db->cachedRecords));
+        $this->assertInstanceOf('OrientDBRecord', array_pop($this->db->cachedRecords));
+        $records = $this->db->command('select from city limit 1', OrientDB::COMMAND_MODE_ASYNC);
+        $this->assertEmpty($this->db->cachedRecords);
+    }
+
+    public function testCommandWithModeSyncAndFetchPlan() {
+        $this->db->DBOpen('demo', 'writer', 'writer');
+        $this->assertEmpty($this->db->cachedRecords);
+        $records = $this->db->command('select from city limit 1', OrientDB::COMMAND_MODE_SYNC, '*:1');
+        $this->assertInternalType('array', $records);
+        $this->assertInstanceOf('OrientDBRecord', array_pop($records));
+        $this->assertEmpty($this->db->cachedRecords);
+    }
+
 //    public function testCommandWithSingleRecordSync() {
 //        $this->db->DBOpen('demo', 'writer', 'writer');
 //        $this->db->setDebug(true);

@@ -117,7 +117,7 @@ abstract class OrientDBCommandAbstract
      * Link to OrientDB instanse
      * @var OrientDB
      */
-    private $parent;
+    protected $parent;
 
     public function __construct($parent)
     {
