@@ -48,6 +48,7 @@ $db->DBOpen($dbName, $userName, $password);
 *Example:*
 
 `
+<?php
 $db->DBOpen('demo', 'writer', 'writer');
 `
 
@@ -68,10 +69,10 @@ $db->DBCreate($dbName, $dbType);
 `
 
 Avaliable types is: 
-* OrientDB::DB_TYPE_MEMORY for in memory database
-* OrientDB::DB_TYPE_LOCAL for physical database
+ * OrientDB::DB_TYPE_MEMORY for in memory database
+ * OrientDB::DB_TYPE_LOCAL for physical database
 
-For difference see official [OrientDB docs] (http://code.google.com/p/orient/wiki/Concepts#Storage).
+For difference see official [OrientDB docs](http://code.google.com/p/orient/wiki/Concepts#Storage).
 
 _Note: this function is now slightly unstable._
 
