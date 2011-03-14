@@ -39,13 +39,41 @@ $db->connect('root', 'passwd');
 ### Database functions ###
 
 #### DBOpen ####
-Open database for work with.
+Open database for work with or throws exception on failure (non-existent DB, wrong login or password).
+
+`
+$db->DBOpen($dbName, $userName, $password);
+`
+
+*Example:*
+
+`
+$db->DBOpen('demo', 'writer', 'writer');
+`
 
 #### DBClose ####
-Closes currently opened database.
+Closes currently opened database. 
+
+Silently closes currently opened database, if any. Socket to OrientDB server is closed, and no futher commands are possible. Will throw an exception if no database are open on OrientDB instance.
+
+`
+$db->DBClose();
+`
 
 #### DBCreate ####
 Creates new database.
+
+`
+$db->DBCreate($dbName, $dbType);
+`
+
+Avaliable types is: 
+* OrientDB::DB_TYPE_MEMORY for in memory database
+* OrientDB::DB_TYPE_LOCAL for physical database
+
+For difference see official [OrientDB docs] (http://code.google.com/p/orient/wiki/Concepts#Storage).
+
+_Note: this function is now slightly unstable._
 
 #### DBExists ####
 Check if currently opened database is exists.
@@ -59,13 +87,15 @@ Return list of keys in index.
 Return record by index key.
 
 #### IndexPut ####
-Put a record into index on key. Return record.
+Put a record into index on key. Return previous record if exist.
 
 #### IndexRemove ####
-Remove key from index. Return record.
+Remove key from index. Return record existed.
 
 
 #### IndexSize ####
 Return index size.
+
+
 ## Planned TODOs ##
 Fix RecordPos with 64-bit Long
