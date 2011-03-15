@@ -172,6 +172,85 @@ int $db->indexSize();
 $count = $db->indexSize();
 `
 
+### Record manipulation functions ###
+
+#### RecordCreate ####
+Create record in specified cluster with content and type. Return record position in cluster.
+
+`
+int $db->recordCreate( int  $clusterID, string $recordContent[, string $recordType]);
+`
+
+Record types avaliable: 
+
+* `OrientDB::RECORD_TYPE_BYTES`
+* `OrientDB::RECORD_TYPE_DOCUMENT`
+* `OrientDB::RECORD_TYPE_FLAT`
+
+Default type is `OrientDB::RECORD_TYPE_DOCUMENT`
+
+*Example:*
+
+`
+$recordPos = $db->recordCreate(1, 'name:"John"');
+`
+
+#### RecordDelete ####
+Delete record with specified recordID and optionally, version.
+Return true on success, false otherwise or exception.
+
+`
+bool $db->recordDelete(string $recordID[, int $recordVersion]);
+`
+
+*Example:*
+
+`
+$result = $db->recordDelete('1:1', 1);
+`
+
+#### RecordLoad ####
+Load record by recordID and, optionally, fetchplan. Return record.
+
+`
+OrientDBRecord $db->recordLoad(string $recordID[, string $fetchPlan]);
+`
+
+Default fetchplan is `*:0`, which mean load only record specified.
+
+*Example:*
+
+`
+$record = $db->recordLoad('1:1');
+`
+
+If fetchplan is explicit and there are some records returned by OrientDB, they located in `$db->cachedRecords` as assotive array with keys from recordID and values record themselves. 
+
+`
+$record = $db->recordLoad('1:1', '*:-1');
+
+var_dump($db->cachedRecords);
+`
+
+`
+array(2) {
+
+  ["11:0"]=>
+
+  object(OrientDBRecord)#178 (8) {
+
+    ["classID"]=>
+
+    int(7)
+    
+    ...
+`
+
+After next call to any method able to populate in `$db->cachedRecords` (e.g. recordLoad() or command()) this array will be reset.
+
+#### RecordUpdate ####
+
+
 ## Exceptions list ##
 For present moment OrientDB using this list of exceptions:
 
