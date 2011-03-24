@@ -50,5 +50,22 @@ Creates new database.
 #### DBExists ####
 Check if currently opened database is exists.
 
+### Index functions ###
+
+#### IndexKeys ####
+Return list of keys in index.
+
+#### IndexLookup ####
+Return record by index key.
+
+#### IndexPut ####
+Put a record into index on key. Return record.
+
+#### IndexRemove ####
+Remove key from index. Return record.
+
+
+#### IndexSize ####
+Return index size.
 ## Planned TODOs ##
 Fix RecordPos with 64-bit Long
