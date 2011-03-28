@@ -81,7 +81,6 @@ class OrientDBCommandCommand extends OrientDBCommandAbstract
                 while ($status == chr(1)) {
 
                     $record = $this->readRecord();
-                    $record->parse();
                     $records[] = $record;
 
                     $this->debugCommand('status');

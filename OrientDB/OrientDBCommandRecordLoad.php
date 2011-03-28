@@ -60,7 +60,6 @@ class OrientDBCommandRecordLoad extends OrientDBCommandAbstract
             while ($status != chr(0)) {
                 $this->debugCommand('record_content');
                 $record = $this->readRecord();
-                $record->parse();
                 $cachedRecords[$record->recordID] = $record;
                 $this->debugCommand('status');
                 $status = $this->readByte();
