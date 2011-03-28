@@ -39,8 +39,8 @@ class OrientDBRecordLoadTest extends OrientDBBaseTesting
         $recordPos = $this->db->recordCreate($this->clusterID, $this->recordContent);
         $record = $this->db->recordLoad($this->clusterID . ':' . $recordPos);
         $this->assertInstanceOf('OrientDBRecord', $record);
-        $this->assertAttributeEquals($this->recordContent, 'content', $record);
-        $this->assertAttributeEquals($this->clusterID . ':' . $recordPos, 'recordID', $record);
+        $this->assertEquals($this->recordContent, $record->content);
+        $this->assertEquals($this->clusterID . ':' . $recordPos, $record->recordID);
         $result = $this->db->recordDelete($this->clusterID . ':' . $recordPos);
         $this->assertTrue($result);
     }
