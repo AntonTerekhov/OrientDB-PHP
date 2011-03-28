@@ -7,7 +7,6 @@ Current OrientDB version to work with is: `1.0rc-1`
 
 Can work with 0.9.2.5-binary, but this OrientDB release had bug with only 20 new connections is accepted per server startup.
 
-
 This library requires PHP 5.3.x
 
 ## Function list ##
@@ -15,12 +14,9 @@ This library requires PHP 5.3.x
 
     $db = new OrientDB(string $host, int $port[, int $connectTimeout]);
 
-
 *Example:*
 
-
     $db = new OrientDB('localhost', 2424);
-
 
 ### Connect to server ###
 Connects to OrientDB server (not database) with user/passwd specified.
@@ -174,7 +170,7 @@ Default fetchplan is `*:0`, which mean load only record specified.
 
     $record = $db->recordLoad('1:1');
 
-If fetchplan is explicit and there are some records returned by OrientDB, they located in `$db->cachedRecords` as assotive array with keys from recordID and values record themselves. 
+If fetchplan is explicit and there are some records returned by OrientDB, they located in `$db->cachedRecords` as assotive array with keys from recordIDs and values are record themselves. 
 
 This *example*
 
@@ -190,7 +186,7 @@ Will produce something like this:
             int(7)
             ...
 
-*After next call to any method able to populate in `$db->cachedRecords` (e.g. recordLoad() or command()) this **array will be reset.***
+*During next call to any method able to populate in `$db->cachedRecords` (e.g. `recordLoad()` or `command()`) this **array will be reset.***
 
 #### RecordUpdate ####
 
