@@ -5,7 +5,7 @@ Current status is: *Alpha*
 
 Current OrientDB version to work with is: `1.0rc-1`
 
-Can work with 0.9.2.5-binary, but this OrientDB release had bug with only 20 new connections is accepted per server startup.
+Code compatible to previous binary releases of OrientDB can be found in repository's tags.
 
 This library requires PHP 5.3.x
 

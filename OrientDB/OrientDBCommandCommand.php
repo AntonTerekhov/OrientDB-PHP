@@ -68,7 +68,6 @@ class OrientDBCommandCommand extends OrientDBCommandAbstract
         $buff .= pack('N', 0);
         // Now query object serialization complete, add it to command bytes
         $this->addString($buff);
-
     }
 
     protected function parse()
@@ -114,11 +113,11 @@ class OrientDBCommandCommand extends OrientDBCommandAbstract
                 }
                 return $records;
             } else if ($status == 'n') {
-                // Null
+                throw new OrientDBException('"n" type not implemented.');
             } else if ($status == 'r') {
-                // Single record
+                throw new OrientDBException('"r" type not implemented.');
             } else if ($status == 'a') {
-                // Something other
+                throw new OrientDBException('"a" type not implemented.');
             }
         }
 

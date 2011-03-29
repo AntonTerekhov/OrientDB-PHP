@@ -232,15 +232,17 @@ abstract class OrientDBCommandAbstract
     {
         $record = new OrientDBRecord();
         $this->debugCommand('record_classID');
-        $record->classID = $this->readInt();
+        $record->classID = $this->readShort();
+        // @TODO sinse PHP lack to support signed short with big endian byte order unpack we need to see it that way
         // as seen at enterprise/src/main/java/com/orientechnologies/orient/enterprise/channel/binary/OChannelBinaryProtocol.java
-        // RECORD_NULL = -2
-        if ($record->classID == -2) {
-            // No record
+        // -2=no record
+        if ($record->classID == 0xFFFE) {
+            // no record
             return false;
         }
-        if ($record->classID == -1) {
-            // No class
+        // -1=no class id
+        if ($record->classID == 0xFFFF) {
+            // No class ID
             $record->classID == null;
         }
         $this->debugCommand('record_type');
