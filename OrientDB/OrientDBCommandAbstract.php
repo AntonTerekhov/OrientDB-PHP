@@ -222,7 +222,7 @@ abstract class OrientDBCommandAbstract
     protected function readBytes()
     {
         $size = $this->readInt();
-        if ($size == -1) {
+        if ($size == -1 || $size == 0xFFFFFFFF) {
             return null;
         }
         return $this->readRaw($size);
