@@ -107,7 +107,7 @@ class OrientDBCommandsBasicTest extends OrientDBBaseTesting {
         $this->assertTrue($this->db->isDBOpen());
         $this->db->DBClose();
         $this->assertFalse($this->db->isDBOpen());
-        $this->assertAttributeEmpty('socket', $this->db);
+        $this->assertEmpty($this->db->socket);
     }
 
     public function testAnyCommnandAfterDBClose() {
