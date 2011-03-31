@@ -33,7 +33,12 @@ class OrientDBDataclusterAddTest extends OrientDBBaseTesting
     }
 
     public function testDataclusterAddOnOpenDB() {
-        $this->db->DBOpen('demo', 'writer', 'writer');
+        $clusters = $this->db->DBOpen('demo', 'writer', 'writer');
+        foreach ($clusters['clusters'] as $cluster) {
+            if ($cluster->name === $this->clusterName) {
+                $this->db->dataclusterRemove($cluster->id);
+            }
+        }
         $result = $this->db->dataclusterAdd($this->clusterName, OrientDB::DATACLUSTER_TYPE_LOGICAL);
         $this->assertInternalType('integer', $result);
         $this->db->dataclusterRemove($result);
