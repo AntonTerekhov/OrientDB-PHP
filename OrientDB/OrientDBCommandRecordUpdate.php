@@ -30,8 +30,8 @@ class OrientDBCommandRecordUpdate extends OrientDBCommandAbstract
         $this->clusterID = (int) $arr[0];
         $this->recordPos = (int) $arr[1];
 
-        if ($this->clusterID === 0 || $this->recordPos === 0) {
-            throw new OrientDBWrongParamsException('Wrong format for record ID');
+        if ($this->clusterID === 0/* || $this->recordPos === 0*/) {
+            throw new OrientDBWrongParamsException('Wrong cluster ID');
         }
         // Add ClusterID
         $this->addShort($this->clusterID);

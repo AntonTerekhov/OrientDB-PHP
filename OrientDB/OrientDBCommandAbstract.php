@@ -232,7 +232,7 @@ abstract class OrientDBCommandAbstract
     {
         $record = new OrientDBRecord();
         $this->debugCommand('record_classID');
-        $record->classID = $this->readInt();
+        $record->classID = $this->readShort();
         // as seen at enterprise/src/main/java/com/orientechnologies/orient/enterprise/channel/binary/OChannelBinaryProtocol.java
         // RECORD_NULL = -2
         if ($record->classID == -2) {
