@@ -78,6 +78,21 @@ class OrientDBIndexPutTest extends OrientDBBaseTesting
         $record = $this->db->indexPut($this->key, ':INVALID');
     }
 
+    public function testIndexPutWithWrongRecordIDFour() {
+        $recordID = '1:0';
+        $this->db->DBOpen('demo', 'writer', 'writer');
+        $this->setExpectedException('OrientDBWrongParamsException');
+        $record = $this->db->indexPut($this->key, '1:INVALID');
+    }
+
+    public function testIndexPutWithRecordPosZero() {
+        $this->db->DBOpen('demo', 'writer', 'writer');
+        $this->db->indexRemove($this->key);
+        $record = $this->db->indexPut($this->key, '1:0');
+        $this->assertFalse($record);
+        $this->db->indexRemove($this->key);
+    }
+
     public function testIndexPutWithTypeBytes() {
         $this->db->DBOpen('demo', 'admin', 'admin');
         $this->db->indexRemove($this->key);

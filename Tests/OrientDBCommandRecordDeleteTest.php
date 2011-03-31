@@ -66,6 +66,20 @@ class OrientDBRecordDeleteTest extends OrientDBBaseTesting
         $record = $this->db->recordDelete(':INVALID');
     }
 
+    public function testRecordDeleteWithWrongRecordIDFour() {
+        $this->db->DBOpen('demo', 'writer', 'writer');
+        $this->setExpectedException('OrientDBWrongParamsException');
+        $record = $this->db->recordDelete('1:INVALID');
+    }
+
+    public function testRecordDeleteWithRecordPosZero() {
+        // @TODO fix test with DBCreate() and DBDelete()
+        $this->markTestSkipped('Disabled because of demo DB integrity. Need fix with DBCreate() and DBDelete()');
+        $this->db->DBOpen('demo', 'writer', 'writer');
+        $result = $this->db->recordDelete($this->clusterID  . ':' . $recordPos);
+        $this->assertTrue($result);
+    }
+
     public function testRecordDeleteWithNonExistentRecordID() {
         $this->db->DBOpen('demo', 'writer', 'writer');
         $recPos = $this->db->recordCreate($this->clusterID, 'name:"test"');

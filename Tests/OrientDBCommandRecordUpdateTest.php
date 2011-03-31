@@ -55,22 +55,37 @@ class OrientDBRecordUpdateTest extends OrientDBBaseTesting
         $record = $this->db->recordUpdate($this->clusterID);
     }
 
-    public function testRecordUpdateWithWrongClusterIDOne() {
+    public function testRecordUpdateWithWrongRecordIDOne() {
         $this->db->DBOpen('demo', 'writer', 'writer');
         $this->setExpectedException('OrientDBException');
         $record = $this->db->recordUpdate('INVALID', $this->recordContent);
     }
 
-    public function testRecordUpdateWithWrongClusterIDTwo() {
+    public function testRecordUpdateWithWrongRecordIDTwo() {
         $this->db->DBOpen('demo', 'writer', 'writer');
         $this->setExpectedException('OrientDBException');
         $record = $this->db->recordUpdate(':INVALID', $this->recordContent);
     }
 
-    public function testRecordUpdateWithWrongClusterIDThree() {
+    public function testRecordUpdateWithWrongRecordIDThree() {
         $this->db->DBOpen('demo', 'writer', 'writer');
         $this->setExpectedException('OrientDBException');
         $record = $this->db->recordUpdate('INVALID:', $this->recordContent);
+    }
+
+    public function testRecordUpdateWithWrongRecordIDFour() {
+        $this->db->DBOpen('demo', 'writer', 'writer');
+        $this->setExpectedException('OrientDBException');
+        $record = $this->db->recordUpdate('1:INVALID', $this->recordContent);
+    }
+
+    public function testRecordUpdateWithRecordPosZero() {
+        $recordPos = 0;
+        $this->db->DBOpen('demo', 'writer', 'writer');
+        $record = $this->db->recordLoad($this->clusterID . ':' . $recordPos, '');
+        $version = $this->db->recordUpdate($this->clusterID .':' . $recordPos, $record->content);
+        $record2 = $this->db->recordLoad($this->clusterID . ':' . $recordPos, '');
+        $this->assertEquals($version, $record2->version);
     }
 
     public function testRecordUpdateWithSameType() {

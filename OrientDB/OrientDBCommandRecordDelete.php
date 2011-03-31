@@ -30,7 +30,7 @@ class OrientDBCommandRecordDelete extends OrientDBCommandAbstract
         $this->clusterID = (int) $arr[0];
         $this->recordPos = (int) $arr[1];
 
-        if ($this->clusterID === 0 || $this->recordPos === 0) {
+        if ($this->clusterID === 0 || (string) $this->recordPos !== $arr[1]) {
             throw new OrientDBWrongParamsException('Wrong format for record ID');
         }
         if (count($this->attribs) == 2) {

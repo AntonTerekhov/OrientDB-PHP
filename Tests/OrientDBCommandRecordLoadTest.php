@@ -69,6 +69,19 @@ class OrientDBRecordLoadTest extends OrientDBBaseTesting
         $record = $this->db->recordLoad(':INVALID', '');
     }
 
+    public function testRecordLoadWithWrongRecordIDFour() {
+        $this->db->DBOpen('demo', 'writer', 'writer');
+        $this->setExpectedException('OrientDBWrongParamsException');
+        $record = $this->db->recordLoad('1:INVALID', '');
+    }
+
+    public function testRecordLoadWithRecordPosZero() {
+        $recordPos = 0;
+        $this->db->DBOpen('demo', 'writer', 'writer');
+        $record = $this->db->recordLoad($this->clusterID . ':' . $recordPos, '');
+        $this->assertInstanceOf('OrientDBRecord', $record);
+    }
+
     public function testRecordLoadWithDeletedRecordId() {
         $this->db->DBOpen('demo', 'writer', 'writer');
         $recordPos = $this->db->recordCreate($this->clusterID, $this->recordContent);
