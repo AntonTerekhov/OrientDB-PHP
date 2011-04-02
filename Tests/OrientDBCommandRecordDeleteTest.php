@@ -73,11 +73,21 @@ class OrientDBRecordDeleteTest extends OrientDBBaseTesting
     }
 
     public function testRecordDeleteWithRecordPosZero() {
-        // @TODO fix test with DBCreate() and DBDelete()
-        $this->markTestSkipped('Disabled because of demo DB integrity. Need fix with DBCreate() and DBDelete()');
-        $this->db->DBOpen('demo', 'writer', 'writer');
-        $result = $this->db->recordDelete($this->clusterID  . ':' . $recordPos);
+        $dbName = 'RecordZeroTest';
+        $clusterName = 'test';
+        $recordContent = 'testrecord:0';
+        $this->db->connect('root', $this->root_password);
+        $this->db->DBDelete($dbName);
+        $result = $this->db->DBCreate($dbName, OrientDB::DB_TYPE_LOCAL);
         $this->assertTrue($result);
+        $this->db->DBOpen($dbName, 'admin', 'admin');
+        $clusterID = $this->db->dataclusterAdd($clusterName, OrientDB::DATACLUSTER_TYPE_PHYSICAL);
+        $this->assertInternalType('integer', $clusterID);
+        $recordPos = $this->db->recordCreate($clusterID, $recordContent);
+        $this->assertEquals(0, $recordPos);
+        $result = $this->db->recordDelete($clusterID  . ':' . $recordPos);
+        $this->assertTrue($result);
+        $this->db->DBDelete($dbName);
     }
 
     public function testRecordDeleteWithNonExistentRecordID() {
