@@ -15,6 +15,9 @@ class OrientDBDBCreateTest extends OrientDBBaseTesting
     }
 
     protected function tearDown() {
+        if ($this->db->isConnected()) {
+            $result = $this->db->DBDelete($this->getDBName());
+        }
         $this->db = null;
     }
 
@@ -37,8 +40,7 @@ class OrientDBDBCreateTest extends OrientDBBaseTesting
         $this->db->connect('root', $this->root_password);
         $result = $this->db->DBCreate($this->getDBName(), OrientDB::DB_TYPE_MEMORY);
         $this->assertTrue($result);
-        // @TODO Not implemented in OrientDB 0.9.2.4
-        //$result = $this->db->DBDelete($this->getDBName());
+        $result = $this->db->DBDelete($this->getDBName());
     }
 
     public function testDBCreateOnNotOpenDB() {
@@ -55,43 +57,52 @@ class OrientDBDBCreateTest extends OrientDBBaseTesting
     }
 
     /**
-     * Its strange, but as 0.9.2.4 it is possible to create memory databases with same name
+     * @TODO Its strange, but as 0.9.2.4 it is possible to create memory databases with same name
      */
     public function testDBCreateWithExistNameAndSameTypeMemory() {
-        $this->markTestSkipped('Disabled because of unstable behavior of OrientDB');
         $this->sequenceInc();
         $this->db->connect('root', $this->root_password);
         $result = $this->db->DBCreate($this->getDBName(), OrientDB::DB_TYPE_MEMORY);
+        $this->assertTrue($result);
         $result = $this->db->DBCreate($this->getDBName(), OrientDB::DB_TYPE_MEMORY);
         $this->assertTrue($result);
+        $this->db->DBDelete($this->getDBName());
     }
 
     public function testDBCreateWithExistNameAndSameTypeLocal() {
-        $this->markTestSkipped('Disabled because of unstable behavior of OrientDB');
         $this->sequenceInc();
         $this->db->connect('root', $this->root_password);
+        $this->db->DBDelete($this->getDBName());
         $result = $this->db->DBCreate($this->getDBName(), OrientDB::DB_TYPE_LOCAL);
         $this->setExpectedException('OrientDBException');
         $result = $this->db->DBCreate($this->getDBName(), OrientDB::DB_TYPE_LOCAL);
-
+        $this->db->DBDelete($this->getDBName());
     }
 
+    /**
+     * @TODO Its strange, but as 0.9.2.4 it is possible to different databases types with same name
+     */
     public function testDBCreateWithExistNameAndDifferentTypeOne() {
-        $this->markTestSkipped('Disabled because of unstable behavior of OrientDB');
         $this->sequenceInc();
         $this->db->connect('root', $this->root_password);
-        $this->setExpectedException('OrientDBException');
+        $this->db->DBDelete($this->getDBName());
         $result = $this->db->DBCreate($this->getDBName(), OrientDB::DB_TYPE_LOCAL);
         $result = $this->db->DBCreate($this->getDBName(), OrientDB::DB_TYPE_MEMORY);
+        $this->assertTrue($result);
+        $this->db->DBDelete($this->getDBName());
     }
 
+    /**
+     * @TODO Its strange, but as 0.9.2.4 it is possible to create different databases types with same name
+     */
     public function testDBCreateWithExistNameAndDifferentTypeTwo() {
-        $this->markTestSkipped('Disabled because of unstable behavior of OrientDB');
         $this->sequenceInc();
         $this->db->connect('root', $this->root_password);
+        $this->db->DBDelete($this->getDBName());
         $result = $this->db->DBCreate($this->getDBName(), OrientDB::DB_TYPE_MEMORY);
-        $this->setExpectedException('OrientDBException');
         $result = $this->db->DBCreate($this->getDBName(), OrientDB::DB_TYPE_LOCAL);
+        $this->assertTrue($result);
+        $this->db->DBDelete($this->getDBName());
     }
 
     public function testDBCreateWithWrongOptionCount() {
@@ -102,19 +113,19 @@ class OrientDBDBCreateTest extends OrientDBBaseTesting
     }
 
     public function testDBCreateWithTypeMemory() {
-        $this->markTestSkipped('Disabled because of unstable behavior of OrientDB');
         $this->sequenceInc();
         $this->db->connect('root', $this->root_password);
         $result = $this->db->DBCreate($this->getDBName(), OrientDB::DB_TYPE_MEMORY);
         $this->assertTrue($result);
+        $this->db->DBDelete($this->getDBName());
     }
 
     public function testDBCreateWithTypeLocal() {
-        $this->markTestSkipped('Disabled because of unstable behavior of OrientDB');
         $this->sequenceInc();
         $this->db->connect('root', $this->root_password);
         $result = $this->db->DBCreate($this->getDBName(), OrientDB::DB_TYPE_LOCAL);
         $this->assertTrue($result);
+        $this->db->DBDelete($this->getDBName());
     }
 
     public function testDBCreateWithTypeWrong() {

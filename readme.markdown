@@ -65,6 +65,15 @@ _Note: this function is now slightly unstable._
 
     $isCreated = $db->DBCreate('mydb', OrientDB::DB_TYPE_LOCAL);
 
+#### DBDelete ####
+Delete database with name provided. Always return true.
+
+    bool $db->DBDelete(string $dbName);
+
+*Example:*
+
+    $result = $db->DBDelete('testdb');
+
 #### DBExists ####
 Check if currently opened database is exists. Return true on success or throws an exception.
 

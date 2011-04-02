@@ -15,6 +15,7 @@ require 'OrientDBCommandDataclusterDatarange.php';
 require 'OrientDBCommandDataclusterRemove.php';
 require 'OrientDBCommandDBClose.php';
 require 'OrientDBCommandDBCreate.php';
+require 'OrientDBCommandDBDelete.php';
 require 'OrientDBCommandDBExists.php';
 require 'OrientDBCommandDBOpen.php';
 require 'OrientDBCommandIndexKeys.php';
