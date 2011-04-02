@@ -150,13 +150,13 @@ class OrientDB
         $require_connect = array(
                         OrientDBCommandAbstract::SHUTDOWN,
                         OrientDBCommandAbstract::DB_CREATE,
-                        OrientDBCommandAbstract::DB_EXIST,
                         OrientDBCommandAbstract::DB_DELETE,
                         OrientDBCommandAbstract::CONFIG_GET,
                         OrientDBCommandAbstract::CONFIG_SET,
                         OrientDBCommandAbstract::CONFIG_LIST);
         $require_DB = array(
                         OrientDBCommandAbstract::DB_CLOSE,
+                        OrientDBCommandAbstract::DB_EXIST,
                         OrientDBCommandAbstract::DATACLUSTER_ADD,
                         OrientDBCommandAbstract::DATACLUSTER_REMOVE,
                         OrientDBCommandAbstract::DATACLUSTER_COUNT,

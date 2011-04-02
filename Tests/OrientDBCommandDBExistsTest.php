@@ -21,9 +21,8 @@ class OrientDBDBExistsTest extends OrientDBBaseTesting
 
     public function testDBExistsOnConnectedDB() {
         $this->db->connect('root', $this->root_password);
-        $this->markTestSkipped('java.lang.NullPointerException');
+        $this->setExpectedException('OrientDBWrongCommandException');
         $result = $this->db->DBExists();
-        $this->assertTrue($result);
     }
 
     public function testDBExistsOnNotOpenDB() {
@@ -33,7 +32,7 @@ class OrientDBDBExistsTest extends OrientDBBaseTesting
 
     public function testDBExistsOnOpenDB() {
         $this->db->DBOpen('demo', 'writer', 'writer');
-        $this->setExpectedException('OrientDBWrongCommandException');
         $result = $this->db->DBExists();
+        $this->assertTrue($result);
     }
 }
