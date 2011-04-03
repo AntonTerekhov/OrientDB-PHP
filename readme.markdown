@@ -169,7 +169,7 @@ Return true on success, false otherwise or exception.
     $result = $db->recordDelete('1:1', 1);
 
 #### RecordLoad ####
-Load record by recordID and, optionally, fetchplan. Return record.
+Load record by recordID and, optionally, [fetchplan](http://code.google.com/p/orient/wiki/FetchingStrategies). Return record.
 
     OrientDBRecord $db->recordLoad(string $recordID[, string $fetchPlan]);
 
