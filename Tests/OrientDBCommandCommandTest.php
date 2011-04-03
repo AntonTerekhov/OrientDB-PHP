@@ -134,6 +134,12 @@ class OrientDBCommandTest extends OrientDBBaseTesting
         $this->assertInternalType('string', $record);
     }
 
+    public function testCommandUpdateZero() {
+        $this->db->DBOpen('demo', 'writer', 'writer');
+        $record = $this->db->command('update city set name = "_" where name = "' . microtime(true) . '"', OrientDB::COMMAND_QUERY);
+        $this->assertInternalType('string', $record);
+    }
+
     public function testCommandFindReference() {
         $this->db->DBOpen('demo', 'writer', 'writer');
         $links = $this->db->command('find references 14:1', OrientDB::COMMAND_QUERY);
@@ -144,6 +150,12 @@ class OrientDBCommandTest extends OrientDBBaseTesting
     public function testCommandDelete() {
         $this->db->DBOpen('demo', 'writer', 'writer');
         $record = $this->db->command('delete from city where name = "moscow_"', OrientDB::COMMAND_QUERY);
+        $this->assertInternalType('string', $record);
+    }
+
+    public function testCommandDeleteZero() {
+        $this->db->DBOpen('demo', 'writer', 'writer');
+        $record = $this->db->command('delete from city where name = "' . microtime(true) . '"', OrientDB::COMMAND_QUERY);
         $this->assertInternalType('string', $record);
     }
 
