@@ -217,10 +217,9 @@ Record types avaliable:
 
 Default type is `OrientDB::RECORD_TYPE_DOCUMENT`
 
-*Example:*
+*Examples:*
 
     $result = $db->recordDelete('1:1', 'Name:"Bob"');
-
     $result = $db->recordDelete('1:1', 'Name:"Bob"', 1, OrientDB::RECORD_TYPE_DOCUMENT);
 
 ### Config commands ###
@@ -260,6 +259,7 @@ Add new datacluster with specified name and type. Return new cluster ID.
     int $db->dataclusterAdd(string $clusterName, string $clusterType);
 
 Cluster types avaliable:
+
 * `OrientDB::DATACLUSTER_TYPE_LOGICAL`
 * `OrientDB::DATACLUSTER_TYPE_PHYSICAL`
 * `OrientDB::DATACLUSTER_TYPE_MEMORY`
@@ -322,6 +322,7 @@ This command provide an ability to execute remote [SQL commands](http://code.goo
 Command mode is requred to be properly match query text.
 
 Avaliable modes are:
+
 * `OrientDB::COMMAND_QUERY` - for general queryes, including `INSERT`, `UPDATE`, `DELETE`, `FIND REFERENCES`, etc.
 * `OrientDB::COMMAND_SELECT_SYNC` - only for `SELECT` in synchronious mode
 * `OrientDB::COMMAND_SELECT_ASYNC` - only for `SELECT` in asynchronious mode
