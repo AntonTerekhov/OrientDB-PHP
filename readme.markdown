@@ -223,6 +223,136 @@ Default type is `OrientDB::RECORD_TYPE_DOCUMENT`
 
     $result = $db->recordDelete('1:1', 'Name:"Bob"', 1, OrientDB::RECORD_TYPE_DOCUMENT);
 
+### Config commands ###
+
+#### ConfigList ####
+Get list of configurable optons. Return assotiative array with option name as key and values themselves.
+
+    array $db->configList();
+
+*Example:*
+
+    $options = $db->configList();
+
+#### ConfigGet ####
+Get value for config option. Return value as string.
+
+    string $db->configGet(string $optionName);
+
+*Example:*
+
+    $value = $db->configGet('log.console.level');
+
+#### ConfigSet ####
+Set value for config option. Return true on success or thow an exception.
+
+    bool $db->configSet(string $optionName, string $optionValue);
+
+*Example:*
+
+    $result = $db->configSet('log.console.level', 'info');
+
+### Datacluster commands ###
+
+#### DataclusterAdd ####
+Add new datacluster with specified name and type. Return new cluster ID.
+
+    int $db->dataclusterAdd(string $clusterName, string $clusterType);
+
+Cluster types avaliable:
+* `OrientDB::DATACLUSTER_TYPE_LOGICAL`
+* `OrientDB::DATACLUSTER_TYPE_PHYSICAL`
+* `OrientDB::DATACLUSTER_TYPE_MEMORY`
+
+*Example:*
+
+    $clusterID = $db->dataclusterAdd('testcluster', OrientDB::DATACLUSTER_TYPE_PHYSICAL);
+
+#### DateclusterRemove ####
+Removes datacluster by its ID. Return true on success or throw an exception.
+
+    bool $db->dataclusterRemove(int $clusterID);
+
+*Example:*
+
+    $result = $db->dataclusterRemove(10);
+
+#### DataclusterCount ####
+Counts elements in cluster specified. Return count or throw an exception.
+
+    int $db->dataclusterCount(array $clusterIDs);
+
+*Example:*
+
+    $count = $db->dataclusterCount(array(1, 2));
+
+#### DataclusterDatarange ####
+Return datarange for cluster ID specified. Return array of `start` and `end` positions or throw exception.
+
+    array $db->dataclusterDatarange(int $clusterID);
+
+*Example:*
+
+    $data = $db->dataclusterDatarange(int $clusterID);
+    
+    array(2) {
+        ["start"]=>
+        int(0)
+        ["end"]=>
+        int(126)
+    }
+
+### Commit ###
+Commits a transaction. **Not yet implemented**.
+
+### Count ###
+Get count of records in specified cluster. Return int or throw an exception.
+
+    int $db->count(string $clusterName);
+
+*Example:*
+
+    $newcount = $db->count('default');
+
+### Command (querying server) ###
+This command provide an ability to execute remote [SQL commands](http://code.google.com/p/orient/wiki/SQL). Return mixed or throw an exception.
+
+    mixed $db->command(string $query[, int $commandMode[, string $fetchplan]]);
+
+Command mode is requred to be properly match query text.
+
+Avaliable modes are:
+* `OrientDB::COMMAND_QUERY` - for general queryes, including `INSERT`, `UPDATE`, `DELETE`, `FIND REFERENCES`, etc.
+* `OrientDB::COMMAND_SELECT_SYNC` - only for `SELECT` in synchronious mode
+* `OrientDB::COMMAND_SELECT_ASYNC` - only for `SELECT` in asynchronious mode
+
+Default mode is `OrientDB::COMMAND_SELECT_ASYNC`.
+
+[Fetchplan](http://code.google.com/p/orient/wiki/FetchingStrategies) is used to prefetch some records. **Fetchplan is only avaliable in `OrientDB::COMMAND_SELECT_ASYNC` mode.**
+Using fetchplan will populate `$db->cachedRecords` array as for `recordLoad()`.
+
+Default fetchplan is `*:0`.
+
+*Examples:*
+
+    $records = $db->command('select * from city limit 7');
+    $records = $db->command('select from city traverse( any() )', OrientDB::COMMAND_SELECT_ASYNC, '*:-1');
+    $false = $db->command('select from 11:4 where any() traverse(0,10) (address.city = "Rome")', OrientDB::COMMAND_SELECT_SYNC);
+    $links = $db->command('find references 14:1', OrientDB::COMMAND_QUERY);
+    $record = $db->command('insert into city (name, country) values ("Potenza", #14:1)', OrientDB::COMMAND_QUERY);
+    $updatedCount = $db->command('update city set name = "Taranto" where name = "Potenza"', OrientDB::COMMAND_QUERY);
+    $deletedCount = $this->db->command('delete from city where name = "Taranto"', OrientDB::COMMAND_QUERY);
+
+### Shutdown ###
+Remotely shutdown OriendDB server. Require valid user name and password. See [manual](http://code.google.com/p/orient/wiki/NetworkBinaryProtocol#SHUTDOWN) fro details.
+Return nothing on success or thow an exception.
+
+    void $db->shutdown(string $userName, string $password);
+
+*Example:*
+
+    $db->shutdown('root', 'password');
+
 ## Exceptions list ##
 For present moment OrientDB using this list of exceptions:
 
