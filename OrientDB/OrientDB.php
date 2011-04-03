@@ -75,9 +75,11 @@ class OrientDB
 
     const DB_TYPE_LOCAL = 'local';
 
-    const COMMAND_MODE_SYNC = 's';
+    const COMMAND_QUERY = 1;
 
-    const COMMAND_MODE_ASYNC = 'a';
+    const COMMAND_SELECT_SYNC = 2;
+
+    const COMMAND_SELECT_ASYNC = 3;
 
     const DATACLUSTER_TYPE_LOGICAL = 'LOGICAL';
 

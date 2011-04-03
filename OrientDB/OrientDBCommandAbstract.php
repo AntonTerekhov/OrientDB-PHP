@@ -231,20 +231,35 @@ abstract class OrientDBCommandAbstract
 
     protected function readRecord()
     {
-        $record = new OrientDBRecord();
+
         $this->debugCommand('record_classID');
-        $record->classID = $this->readShort();
+        $classID = $this->readShort();
         // @TODO sinse PHP lack to support signed short with big endian byte order unpack we need to see it that way
         // as seen at enterprise/src/main/java/com/orientechnologies/orient/enterprise/channel/binary/OChannelBinaryProtocol.java
+
         // -2=no record
-        if ($record->classID == 0xFFFE) {
+        if ($classID == 0xFFFE) {
             // no record
             return false;
         }
+
+        // -3=Only recordID
+        if ($classID == 0xFFFD) {
+            // only recordID
+            $this->debugCommand('record_clusterID');
+            $clusterID = $this->readShort();
+            $this->debugCommand('record_position');
+            $recordPos = $this->readLong();
+            return $clusterID . ':' . $recordPos;
+        }
+
+        $record = new OrientDBRecord();
         // -1=no class id
-        if ($record->classID == 0xFFFF) {
+        if ($classID == 0xFFFF) {
             // No class ID
             $record->classID == null;
+        } else {
+            $record->classID = $classID;
         }
         $this->debugCommand('record_type');
         $record->type = $this->readByte();
@@ -257,6 +272,7 @@ abstract class OrientDBCommandAbstract
         $this->debugCommand('record_content');
         $record->content = $this->readBytes();
         $record->parse();
+
         return $record;
     }
 

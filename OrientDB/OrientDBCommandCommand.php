@@ -9,6 +9,10 @@ class OrientDBCommandCommand extends OrientDBCommandAbstract
 
     protected $fetchPlan;
 
+    const MODE_SYNC = 's';
+
+    const MODE_ASYNC = 'a';
+
     public function __construct($parent)
     {
         parent::__construct($parent);
@@ -22,13 +26,16 @@ class OrientDBCommandCommand extends OrientDBCommandAbstract
             throw new OrientDBWrongParamsException('This command requires query and, optionally, mode');
         }
         $this->query = $this->attribs[0];
-        $this->mode = OrientDB::COMMAND_MODE_ASYNC;
+        $this->mode = OrientDB::COMMAND_SELECT_ASYNC;
         if (count($this->attribs) >= 2) {
-            if ($this->attribs[1] == OrientDB::COMMAND_MODE_SYNC || $this->attribs[1] == OrientDB::COMMAND_MODE_ASYNC) {
+            if ($this->attribs[1] == OrientDB::COMMAND_SELECT_SYNC || $this->attribs[1] == OrientDB::COMMAND_SELECT_ASYNC || $this->attribs[1] == OrientDB::COMMAND_QUERY) {
                 $this->mode = $this->attribs[1];
             } else {
                 throw new OrientDBWrongParamsException('Wrong command mode');
             }
+        }
+        if (($this->mode == OrientDB::COMMAND_QUERY || $this->mode == OrientDB::COMMAND_SELECT_SYNC )&& count($this->attribs) == 3) {
+            throw new OrientDBWrongParamsException('Fetch is useless with COMMAND_QUERY');
         }
         $this->fetchPlan = '*:0';
         if (count($this->attribs) == 3) {
@@ -36,13 +43,18 @@ class OrientDBCommandCommand extends OrientDBCommandAbstract
         }
 
         // Add mode
-        $this->addByte($this->mode);
-        if ($this->mode == OrientDB::COMMAND_MODE_ASYNC) {
-            $objName = 'com.orientechnologies.orient.core.sql.query.OSQLAsynchQuery';
+        if ($this->mode == OrientDB::COMMAND_QUERY || $this->mode == OrientDB::COMMAND_SELECT_SYNC) {
+            $this->addByte(self::MODE_SYNC);
         } else {
-            $objName = 'com.orientechnologies.orient.core.sql.query.OSQLSynchQuery';
+            $this->addByte(self::MODE_ASYNC);
         }
-//        $objName = 'com.orientechnologies.orient.core.sql.OCommandSQL';
+        if ($this->mode == OrientDB::COMMAND_SELECT_ASYNC) {
+            $objName = 'com.orientechnologies.orient.core.sql.query.OSQLAsynchQuery';
+        } elseif ($this->mode == OrientDB::COMMAND_SELECT_SYNC) {
+            $objName = 'com.orientechnologies.orient.core.sql.query.OSQLSynchQuery';
+        } else {
+            $objName = 'com.orientechnologies.orient.core.sql.OCommandSQL';
+        }
         // Java query object serialization
         $buff = '';
         // Java query object name serialization
@@ -51,19 +63,21 @@ class OrientDBCommandCommand extends OrientDBCommandAbstract
         // Query text serialization in TEXT mode
         $buff .= pack('N', strlen($this->query));
         $buff .= $this->query;
-        // Limit set to -1 to ignore and use TEXT MODE
-        $buff .= pack('N', -1);
-        // Begin RANGE clusterID is set to -1 to ignore and use TEXT MODE
-        $buff .= pack('s', -1);
-        // Begin RANGE recordPos is set to -1 to ignore and use TEXT MODE
-        $buff .= str_repeat(chr(0xFF), 8);
-        // End RANGE clusterID is set to -1 to ignore and use TEXT MODE
-        $buff .= pack('s', -1);
-        // End RANGE recordPos is set to -1 to ignore and use TEXT MODE
-        $buff .= str_repeat(chr(0xFF), 8);
-        // Add a fetchplan
-        $buff .= pack('N', strlen($this->fetchPlan));
-        $buff .= $this->fetchPlan;
+        if ($this->mode == OrientDB::COMMAND_SELECT_ASYNC || $this->mode == OrientDB::COMMAND_SELECT_SYNC) {
+	        // Limit set to -1 to ignore and use TEXT MODE
+	        $buff .= pack('N', -1);
+	        // Begin RANGE clusterID is set to -1 to ignore and use TEXT MODE
+	        $buff .= pack('s', -1);
+	        // Begin RANGE recordPos is set to -1 to ignore and use TEXT MODE
+	        $buff .= str_repeat(chr(0xFF), 8);
+	        // End RANGE clusterID is set to -1 to ignore and use TEXT MODE
+	        $buff .= pack('s', -1);
+	        // End RANGE recordPos is set to -1 to ignore and use TEXT MODE
+	        $buff .= str_repeat(chr(0xFF), 8);
+	        // Add a fetchplan
+	        $buff .= pack('N', strlen($this->fetchPlan));
+	        $buff .= $this->fetchPlan;
+        }
         // Params serialization, we have 0 params
         $buff .= pack('N', 0);
         // Now query object serialization complete, add it to command bytes
@@ -74,7 +88,7 @@ class OrientDBCommandCommand extends OrientDBCommandAbstract
     {
         $this->debugCommand('status');
         $status = $this->readByte();
-        if ($this->mode == OrientDB::COMMAND_MODE_ASYNC) {
+        if ($this->mode == OrientDB::COMMAND_SELECT_ASYNC) {
             if ($status != chr(0)) {
                 $records = array();
                 while ($status == chr(1)) {
@@ -113,11 +127,14 @@ class OrientDBCommandCommand extends OrientDBCommandAbstract
                 }
                 return $records;
             } else if ($status == 'n') {
-                throw new OrientDBException('"n" type not implemented.');
+                // Null
+                throw new OrientDBException('"n" answer type not implemented.');
             } else if ($status == 'r') {
-                throw new OrientDBException('"r" type not implemented.');
+                // Single record
+                return $this->readRecord();
             } else if ($status == 'a') {
-                throw new OrientDBException('"a" type not implemented.');
+                // Something other
+                return $this->readString();
             }
         }
 
