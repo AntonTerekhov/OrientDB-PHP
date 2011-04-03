@@ -164,7 +164,11 @@ Return true on success, false otherwise or exception.
 
     bool $db->recordDelete(string $recordID[, int $recordVersion]);
 
+Default version is -1.
+
 *Example:*
+
+    $result = $db->recordDelete('1:1');
 
     $result = $db->recordDelete('1:1', 1);
 
@@ -198,7 +202,26 @@ Will produce something like this:
 *During next call to any method able to populate in `$db->cachedRecords` (e.g. `recordLoad()` or `command()`) this **array will be reset**.*
 
 #### RecordUpdate ####
+Update record with specified recordID and optionally, version.
+Return true on success, false otherwise or exception.
 
+    bool $db->recordUpdate(string $recordID, string $recordContent[, int $recordVersion[, string $recordType]]);
+
+Default version is -1.
+
+Record types avaliable:
+
+* `OrientDB::RECORD_TYPE_BYTES`
+* `OrientDB::RECORD_TYPE_DOCUMENT`
+* `OrientDB::RECORD_TYPE_FLAT`
+
+Default type is `OrientDB::RECORD_TYPE_DOCUMENT`
+
+*Example:*
+
+    $result = $db->recordDelete('1:1', 'Name:"Bob"');
+
+    $result = $db->recordDelete('1:1', 'Name:"Bob"', 1, OrientDB::RECORD_TYPE_DOCUMENT);
 
 ## Exceptions list ##
 For present moment OrientDB using this list of exceptions:
