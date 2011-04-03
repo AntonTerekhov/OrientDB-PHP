@@ -195,7 +195,7 @@ Will produce something like this:
             int(7)
             ...
 
-*During next call to any method able to populate in `$db->cachedRecords` (e.g. `recordLoad()` or `command()`) this **array will be reset.***
+*During next call to any method able to populate in `$db->cachedRecords` (e.g. `recordLoad()` or `command()`) this **array will be reset**.*
 
 #### RecordUpdate ####
 
