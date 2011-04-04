@@ -29,7 +29,7 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($clusterID . ':' . $recordPos, $record->recordID);
     }
 
-    public function testParseRecordContent()
+    public function testParseRecordContentSimpleString()
     {
     	$record = new OrientDBRecord();
     	$key = 'name';
@@ -40,22 +40,21 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
     	$this->assertEquals($value, $record->data->name);
     }
 
-}
+    public function testParseRecordContentTwoStrings()
+    {
+        $record = new OrientDBRecord();
+        $keys = array('FirstName', 'LastName');
+        $values = array('Василий','Иванов');
 
-/*
- *
- *
- *
- * $record = new OrientDBRecord();
-
-        $record->classID == null;
-
-
-        $record->clusterID = 1;
-
-        $record->recordPos = 1;
-
-        $record->content = '';
-
+        $temp = array();
+        for ($i = 0; $i < count($keys); $i++) {
+           $temp[] =  $keys[$i] . ':"' . $values[$i] . '"';
+        }
+        $record->content = implode(',', $temp);
         $record->parse();
- */
+
+        for ($i = 0; $i < count($keys); $i++) {
+            $this->assertEquals($values[$i], $record->data->$keys[$i]);
+        }
+    }
+}
