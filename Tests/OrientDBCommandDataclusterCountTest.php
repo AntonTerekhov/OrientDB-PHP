@@ -34,7 +34,7 @@ class OrientDBDataclusterCountTest extends OrientDBBaseTesting
         $this->db->DBOpen('demo', 'writer', 'writer');
         $result = $this->db->dataclusterCount(array());
         $this->assertInternalType('integer', $result);
-        $this->assertEquals(0, $result);
+        $this->AssertSame(0, $result);
     }
 
     public function testDataclusteCountWithWrongParamCount() {
@@ -60,6 +60,6 @@ class OrientDBDataclusterCountTest extends OrientDBBaseTesting
         $result1 = $this->db->dataclusterCount(array(1));
         $result2 = $this->db->dataclusterCount(array(2));
         $result = $this->db->dataclusterCount(array(1, 2));
-        $this->assertEquals($result1 + $result2, $result);
+        $this->AssertSame($result1 + $result2, $result);
     }
 }

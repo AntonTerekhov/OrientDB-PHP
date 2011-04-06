@@ -39,8 +39,8 @@ class OrientDBRecordLoadTest extends OrientDBBaseTesting
         $recordPos = $this->db->recordCreate($this->clusterID, $this->recordContent);
         $record = $this->db->recordLoad($this->clusterID . ':' . $recordPos);
         $this->assertInstanceOf('OrientDBRecord', $record);
-        $this->assertEquals($this->recordContent, $record->content);
-        $this->assertEquals($this->clusterID . ':' . $recordPos, $record->recordID);
+        $this->AssertSame($this->recordContent, $record->content);
+        $this->AssertSame($this->clusterID . ':' . $recordPos, $record->recordID);
         $result = $this->db->recordDelete($this->clusterID . ':' . $recordPos);
         $this->assertTrue($result);
     }
@@ -111,7 +111,7 @@ class OrientDBRecordLoadTest extends OrientDBBaseTesting
         $this->assertEmpty($this->db->cachedRecords);
         $record = $this->db->recordLoad(12 . ':' . 1, '*:1');
         $this->assertInstanceOf('OrientDBRecord', $record);
-        $this->assertEquals(1, count($this->db->cachedRecords));
+        $this->AssertSame(1, count($this->db->cachedRecords));
         $record = $this->db->recordLoad(12 . ':' . 1, '*:0');
         $this->assertEmpty($this->db->cachedRecords);
     }
@@ -122,7 +122,7 @@ class OrientDBRecordLoadTest extends OrientDBBaseTesting
         $this->assertEmpty($this->db->cachedRecords);
         $record = $this->db->recordLoad(12 . ':' . 1, '*:2');
         $this->assertInstanceOf('OrientDBRecord', $record);
-        $this->assertEquals(2, count($this->db->cachedRecords));
+        $this->AssertSame(2, count($this->db->cachedRecords));
         $record = $this->db->recordLoad(12 . ':' . 1, '*:0');
         $this->assertEmpty($this->db->cachedRecords);
     }

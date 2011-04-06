@@ -42,10 +42,10 @@ class OrientDBRecordUpdateTest extends OrientDBBaseTesting
         $this->assertInternalType('integer', $recordPos);
         $record1 = $this->db->recordLoad($this->clusterID . ':' . $recordPos, '');
         $version = $this->db->recordUpdate($this->clusterID . ':' . $recordPos, $this->recordContentUpd);
-        $this->assertEquals($record1->version + 1, $version);
+        $this->AssertSame($record1->version + 1, $version);
         $record2 = $this->db->recordLoad($this->clusterID . ':' . $recordPos, '');
-        $this->assertEquals($version, $record2->version);
-        $this->assertEquals($this->recordContentUpd, $record2->content);
+        $this->AssertSame($version, $record2->version);
+        $this->AssertSame($this->recordContentUpd, $record2->content);
         $this->db->recordDelete($this->clusterID  . ':' . $recordPos);
     }
 
@@ -85,7 +85,7 @@ class OrientDBRecordUpdateTest extends OrientDBBaseTesting
         $record = $this->db->recordLoad($this->clusterID . ':' . $recordPos, '');
         $version = $this->db->recordUpdate($this->clusterID .':' . $recordPos, $record->content);
         $record2 = $this->db->recordLoad($this->clusterID . ':' . $recordPos, '');
-        $this->assertEquals($version, $record2->version);
+        $this->AssertSame($version, $record2->version);
     }
 
     public function testRecordUpdateWithSameType() {
@@ -95,8 +95,8 @@ class OrientDBRecordUpdateTest extends OrientDBBaseTesting
         $version = $this->db->recordUpdate($this->clusterID . ':' . $recordPos, $this->recordContentUpd, 0, OrientDB::RECORD_TYPE_BYTES);
         $this->assertInternalType('integer', $version);
         $record2 = $this->db->recordLoad($this->clusterID . ':' . $recordPos, '');
-        $this->assertEquals($version, $record2->version);
-        $this->assertEquals($this->recordContentUpd, $record2->content);
+        $this->AssertSame($version, $record2->version);
+        $this->AssertSame($this->recordContentUpd, $record2->content);
         $this->db->recordDelete($this->clusterID  . ':' . $recordPos);
     }
 
@@ -107,8 +107,8 @@ class OrientDBRecordUpdateTest extends OrientDBBaseTesting
         $version = $this->db->recordUpdate($this->clusterID . ':' . $recordPos, $this->recordContentUpd, 0, OrientDB::RECORD_TYPE_BYTES);
         $this->assertInternalType('integer', $version);
         $record2 = $this->db->recordLoad($this->clusterID . ':' . $recordPos, '');
-        $this->assertEquals($version, $record2->version);
-        $this->assertEquals($this->recordContentUpd, $record2->content);
+        $this->AssertSame($version, $record2->version);
+        $this->AssertSame($this->recordContentUpd, $record2->content);
         $this->db->recordDelete($this->clusterID  . ':' . $recordPos);
     }
 
@@ -119,8 +119,8 @@ class OrientDBRecordUpdateTest extends OrientDBBaseTesting
         $version = $this->db->recordUpdate($this->clusterID . ':' . $recordPos, $this->recordContentUpd, 0, OrientDB::RECORD_TYPE_DOCUMENT);
         $this->assertInternalType('integer', $version);
         $record2 = $this->db->recordLoad($this->clusterID . ':' . $recordPos, '');
-        $this->assertEquals($version, $record2->version);
-        $this->assertEquals($this->recordContentUpd, $record2->content);
+        $this->AssertSame($version, $record2->version);
+        $this->AssertSame($this->recordContentUpd, $record2->content);
         $this->db->recordDelete($this->clusterID  . ':' . $recordPos);
     }
 
@@ -131,8 +131,8 @@ class OrientDBRecordUpdateTest extends OrientDBBaseTesting
         $version = $this->db->recordUpdate($this->clusterID . ':' . $recordPos, $this->recordContentUpd, 0, OrientDB::RECORD_TYPE_FLAT);
         $this->assertInternalType('integer', $version);
         $record2 = $this->db->recordLoad($this->clusterID . ':' . $recordPos, '');
-        $this->assertEquals($version, $record2->version);
-        $this->assertEquals($this->recordContentUpd, $record2->content);
+        $this->AssertSame($version, $record2->version);
+        $this->AssertSame($this->recordContentUpd, $record2->content);
         $this->db->recordDelete($this->clusterID  . ':' . $recordPos);
     }
 
@@ -151,14 +151,14 @@ class OrientDBRecordUpdateTest extends OrientDBBaseTesting
         $this->assertInternalType('integer', $recordPos);
         $version = $this->db->recordUpdate($this->clusterID . ':' . $recordPos, $this->recordContentUpd);
         $record = $this->db->recordLoad($this->clusterID . ':' . $recordPos, '');
-        $this->assertEquals($version, $record->version);
-        $this->assertEquals(1, $version);
-        $this->assertEquals($this->recordContentUpd, $record->content);
+        $this->AssertSame($version, $record->version);
+        $this->AssertSame(1, $version);
+        $this->AssertSame($this->recordContentUpd, $record->content);
         $version2 = $this->db->recordUpdate($this->clusterID . ':' . $recordPos, $this->recordContent, -1);
         $record2 = $this->db->recordLoad($this->clusterID . ':' . $recordPos, '');
-        $this->assertEquals($version2, $record2->version);
-        $this->assertEquals(2, $version2);
-        $this->assertEquals($this->recordContent, $record2->content);
+        $this->AssertSame($version2, $record2->version);
+        $this->AssertSame(2, $version2);
+        $this->AssertSame($this->recordContent, $record2->content);
         $result = $this->db->recordDelete($this->clusterID  . ':' . $recordPos);
     }
 
@@ -168,14 +168,14 @@ class OrientDBRecordUpdateTest extends OrientDBBaseTesting
         $this->assertInternalType('integer', $recordPos);
         $version = $this->db->recordUpdate($this->clusterID . ':' . $recordPos, $this->recordContentUpd);
         $record = $this->db->recordLoad($this->clusterID . ':' . $recordPos, '');
-        $this->assertEquals($version, $record->version);
-        $this->assertEquals(1, $version);
-        $this->assertEquals($this->recordContentUpd, $record->content);
+        $this->AssertSame($version, $record->version);
+        $this->AssertSame(1, $version);
+        $this->AssertSame($this->recordContentUpd, $record->content);
         $version2 = $this->db->recordUpdate($this->clusterID . ':' . $recordPos, $this->recordContent, $version);
         $record2 = $this->db->recordLoad($this->clusterID . ':' . $recordPos, '');
-        $this->assertEquals($version2, $record2->version);
-        $this->assertEquals(2, $version2);
-        $this->assertEquals($this->recordContent, $record2->content);
+        $this->AssertSame($version2, $record2->version);
+        $this->AssertSame(2, $version2);
+        $this->AssertSame($this->recordContent, $record2->content);
         $result = $this->db->recordDelete($this->clusterID  . ':' . $recordPos);
     }
 
@@ -185,14 +185,14 @@ class OrientDBRecordUpdateTest extends OrientDBBaseTesting
         $this->assertInternalType('integer', $recordPos);
         $version = $this->db->recordUpdate($this->clusterID . ':' . $recordPos, $this->recordContentUpd);
         $record = $this->db->recordLoad($this->clusterID . ':' . $recordPos, '');
-        $this->assertEquals($version, $record->version);
-        $this->assertEquals(1, $version);
-        $this->assertEquals($this->recordContentUpd, $record->content);
+        $this->AssertSame($version, $record->version);
+        $this->AssertSame(1, $version);
+        $this->AssertSame($this->recordContentUpd, $record->content);
         $version2 = $this->db->recordUpdate($this->clusterID . ':' . $recordPos, $this->recordContent, $version + 1);
         $record2 = $this->db->recordLoad($this->clusterID . ':' . $recordPos, '');
-        $this->assertEquals($version2, $record2->version);
-        $this->assertEquals(2, $version2);
-        $this->assertEquals($this->recordContent, $record2->content);
+        $this->AssertSame($version2, $record2->version);
+        $this->AssertSame(2, $version2);
+        $this->AssertSame($this->recordContent, $record2->content);
         $result = $this->db->recordDelete($this->clusterID  . ':' . $recordPos);
     }
 }

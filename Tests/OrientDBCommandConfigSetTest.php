@@ -67,10 +67,10 @@ class OrientDBConfigSetTest extends OrientDBBaseTesting
         $value = 'warning';
         $result = $this->db->configSet($option, $value);
         $dbvalue = $this->db->configGet($option);
-        $this->assertEquals($value, $dbvalue);
+        $this->AssertSame($value, $dbvalue);
         // Return log level to info
         $result = $this->db->configSet($option, 'info');
         $returnvalue = $this->db->configGet($option);
-        $this->assertEquals($startvalue, $returnvalue);
+        $this->AssertSame($startvalue, $returnvalue);
     }
 }

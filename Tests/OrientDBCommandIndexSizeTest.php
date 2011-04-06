@@ -47,8 +47,8 @@ class OrientDBindexSizeTest extends OrientDBBaseTesting
         $result2 = $this->db->indexSize();
         $record = $this->db->indexRemove($this->key);
         $result3 = $this->db->indexSize();
-        $this->assertEquals($result1 + 1, $result2);
-        $this->assertEquals($result1, $result3);
+        $this->AssertSame($result1 + 1, $result2);
+        $this->AssertSame($result1, $result3);
     }
 
 }

@@ -134,6 +134,6 @@ class OrientDBCommandsBasicTest extends OrientDBBaseTesting {
         } else {
             $message = '';
         }
-        $this->assertEquals($tries, $i, $message);
+        $this->AssertSame($tries, $i, $message);
     }
 }

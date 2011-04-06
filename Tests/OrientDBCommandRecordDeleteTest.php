@@ -84,7 +84,7 @@ class OrientDBRecordDeleteTest extends OrientDBBaseTesting
         $clusterID = $this->db->dataclusterAdd($clusterName, OrientDB::DATACLUSTER_TYPE_PHYSICAL);
         $this->assertInternalType('integer', $clusterID);
         $recordPos = $this->db->recordCreate($clusterID, $recordContent);
-        $this->assertEquals(0, $recordPos);
+        $this->AssertSame(0, $recordPos);
         $result = $this->db->recordDelete($clusterID  . ':' . $recordPos);
         $this->assertTrue($result);
         $this->db->DBDelete($dbName);

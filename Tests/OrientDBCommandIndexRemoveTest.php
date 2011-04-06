@@ -44,7 +44,7 @@ class OrientDBIndexRemoveTest extends OrientDBBaseTesting
         $this->db->DBOpen('demo', 'admin', 'admin');
         $this->db->indexPut($this->key, $this->recordID);
         $record = $this->db->indexRemove($this->key);
-        $this->assertEquals($this->recordID, $record->recordID);
+        $this->AssertSame($this->recordID, $record->recordID);
         $result = $this->db->indexLookup($this->key);
         $this->assertFalse($result);
     }

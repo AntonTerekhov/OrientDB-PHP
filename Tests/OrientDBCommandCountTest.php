@@ -67,10 +67,10 @@ class OrientDBCountTest extends OrientDBBaseTesting
         // Create temporary record
         $id = $this->db->recordCreate($clusterID, 'record');
         $newcount = $this->db->count($this->clustername);
-        $this->assertEquals($count + 1, $newcount);
+        $this->AssertSame($count + 1, $newcount);
         // Delete temporary record
         $this->db->recordDelete($clusterID . ':' . $id);
         $newcount = $this->db->count($this->clustername);
-        $this->assertEquals($count, $newcount);
+        $this->AssertSame($count, $newcount);
     }
 }

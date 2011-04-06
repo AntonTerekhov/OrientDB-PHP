@@ -97,7 +97,7 @@ class OrientDBCommandTest extends OrientDBBaseTesting
         $records = $this->db->command('select from city limit 1', OrientDB::COMMAND_SELECT_ASYNC, '*:1');
         $this->assertInternalType('array', $records);
         $this->assertInstanceOf('OrientDBRecord', array_pop($records));
-        $this->assertEquals(1, count($this->db->cachedRecords));
+        $this->AssertSame(1, count($this->db->cachedRecords));
         $this->assertInstanceOf('OrientDBRecord', array_pop($this->db->cachedRecords));
         $records = $this->db->command('select from city limit 1', OrientDB::COMMAND_SELECT_ASYNC);
         $this->assertEmpty($this->db->cachedRecords);

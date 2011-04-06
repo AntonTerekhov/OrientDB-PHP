@@ -134,7 +134,7 @@ class OrientDBIndexPutTest extends OrientDBBaseTesting
         $this->assertFalse($record);
         $record = $this->db->indexPut($this->key, $this->recordIDNext);
         $this->assertInstanceOf('OrientDBRecord', $record);
-        $this->assertEquals($this->recordID, $record->recordID);
+        $this->AssertSame($this->recordID, $record->recordID);
         $this->db->indexRemove($this->key);
     }
 
