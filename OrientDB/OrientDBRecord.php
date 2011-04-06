@@ -139,6 +139,8 @@ class OrientDBRecord
         $tokenType = null;
         // is parsing collection
         $isCollection = false;
+        // is escape symbol
+        $escape = false;
 
         $contentLength = strlen($this->content);
         $i = 0;
@@ -230,15 +232,25 @@ class OrientDBRecord
 
                 case self::STATE_STRING:
                     if ($cCode === self::CCODE_ESCAPE) {
-                        // @TODO escaping 1 symbol
-                        $i++;
+                        // escaping 1 symbol
+                        if ($escape ===  true) {
+                            $this->buffer .= $char;
+                            $escape = false;
+                        } else {
+                            $escape = true;
+                        }
                     } elseif ($cCode === self::CCODE_DOUBLE_QUOTE) {
-                        // found end of string value - switch state to comma
-                        $this->state = self::STATE_COMMA;
-                        // fill token
-                        $tokenValue = $this->buffer;
-                        // token type is string
-                        $tokenType = self::TTYPE_STRING;
+                        if ($escape === true) {
+                            $this->buffer .= $char;
+                            $escape = false;
+                        } else {
+                            // found end of string value - switch state to comma
+                            $this->state = self::STATE_COMMA;
+                            // fill token
+                            $tokenValue = $this->buffer;
+                            // token type is string
+                            $tokenType = self::TTYPE_STRING;
+                        }
                     } else {
                         // found next byte in string
                         $this->buffer .= $char;

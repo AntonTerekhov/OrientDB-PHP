@@ -58,6 +58,16 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
         }
     }
 
+	public function testParseRecordContentStringsWithEscape()
+    {
+        $record = new OrientDBRecord();
+        $record->content = 'FirstName:"Василий\\\\",LastName:"Иванов\""';
+        $record->parse();
+
+		$this->assertSame("Василий\\", $record->data->FirstName);
+        $this->assertSame("Иванов\"", $record->data->LastName);
+    }
+
     public function testParseRecordContentCity()
     {
         $record = new OrientDBRecord();
