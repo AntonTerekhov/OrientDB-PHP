@@ -19,7 +19,7 @@ This library requires PHP 5.3.x
     $db = new OrientDB('localhost', 2424);
 
 ### Connect to server ###
-Connects to OrientDB server (not database) with user/passwd specified.
+Connects to OrientDB server (not database) with user and passwod specified.
 Returns true on success or throws exception.
 
     bool $db->connect(string $userName, string $password);
@@ -42,7 +42,7 @@ Open database for work with or throws exception on failure (non-existent DB, wro
 #### DBClose ####
 Closes currently opened database. 
 
-Silently closes currently opened database, if any. Socket to OrientDB server is closed, and no futher commands are possible. Will throw an exception if no database are open on OrientDB instance.
+Silently closes currently opened database, if any. Socket to OrientDB server is closed, and no further commands are possible. Will throw an exception if no database are open on OrientDB instance.
 
     $db->DBClose();
 
@@ -51,7 +51,7 @@ Creates new database. Return true on success or throw an exception.
 
     bool $db->DBCreate(string $dbName, string $dbType);
 
-Avaliable types is: 
+Available types is:
 
 * `OrientDB::DB_TYPE_MEMORY` for in memory database
 * `OrientDB::DB_TYPE_LOCAL` for physical database
@@ -105,11 +105,11 @@ Return record by index key if any, otherwise return false.
     $record = $db->indexLookup('myindexvalue');
 
 #### IndexPut ####
-Put a record into index on key. Return previously assotiated with that key record if exist, otherwise return false.
+Put a record into index on key. Return previously associated with that key record if exist, otherwise return false.
 
     OrientDBRecord $db->indexPut(string $key, string $recordID[, string OrientDB::RECORD_TYPE]);
 
-Avaliable record types are:
+Available record types are:
 
 * `OrientDB::RECORD_TYPE_BYTES`
 * `OrientDB::RECORD_TYPE_DOCUMENT`
@@ -146,7 +146,7 @@ Create record in specified cluster with content and type. Return record position
 
     int $db->recordCreate( int  $clusterID, string $recordContent[, string $recordType]);
 
-Record types avaliable: 
+Record types available:
 
 * `OrientDB::RECORD_TYPE_BYTES`
 * `OrientDB::RECORD_TYPE_DOCUMENT`
@@ -183,7 +183,7 @@ Default fetchplan is `*:0`, which mean load only record specified.
 
     $record = $db->recordLoad('1:1');
 
-If fetchplan is explicit and there are some records returned by OrientDB, they located in `$db->cachedRecords` as assotive array with keys from recordIDs and values are record themselves. 
+If fetchplan is explicit and there are some records returned by OrientDB, they located in `$db->cachedRecords` as associative array with keys from recordIDs and values are record themselves. 
 
 This *example*
 
@@ -225,7 +225,7 @@ Default type is `OrientDB::RECORD_TYPE_DOCUMENT`
 ### Config commands ###
 
 #### ConfigList ####
-Get list of configurable optons. Return assotiative array with option name as key and values themselves.
+Get list of configurable options. Return associative  array with option name as key and values themselves.
 
     array $db->configList();
 
@@ -243,7 +243,7 @@ Get value for config option. Return value as string.
     $value = $db->configGet('log.console.level');
 
 #### ConfigSet ####
-Set value for config option. Return true on success or thow an exception.
+Set value for config option. Return true on success or throw an exception.
 
     bool $db->configSet(string $optionName, string $optionValue);
 
@@ -258,7 +258,7 @@ Add new datacluster with specified name and type. Return new cluster ID.
 
     int $db->dataclusterAdd(string $clusterName, string $clusterType);
 
-Cluster types avaliable:
+Cluster types available:
 
 * `OrientDB::DATACLUSTER_TYPE_LOGICAL`
 * `OrientDB::DATACLUSTER_TYPE_PHYSICAL`
@@ -319,17 +319,17 @@ This command provide an ability to execute remote [SQL commands](http://code.goo
 
     mixed $db->command(string $query[, int $commandMode[, string $fetchplan]]);
 
-Command mode is requred to be properly match query text.
+Command mode is required to be properly match query text.
 
-Avaliable modes are:
+Available modes are:
 
-* `OrientDB::COMMAND_QUERY` - for general queryes, including `INSERT`, `UPDATE`, `DELETE`, `FIND REFERENCES`, etc.
-* `OrientDB::COMMAND_SELECT_SYNC` - only for `SELECT` in synchronious mode
-* `OrientDB::COMMAND_SELECT_ASYNC` - only for `SELECT` in asynchronious mode
+* `OrientDB::COMMAND_QUERY` - for general queries, including `INSERT`, `UPDATE`, `DELETE`, `FIND REFERENCES`, etc.
+* `OrientDB::COMMAND_SELECT_SYNC` - only for `SELECT` in synchronous mode
+* `OrientDB::COMMAND_SELECT_ASYNC` - only for `SELECT` in asynchronous mode
 
 Default mode is `OrientDB::COMMAND_SELECT_ASYNC`.
 
-[Fetchplan](http://code.google.com/p/orient/wiki/FetchingStrategies) is used to prefetch some records. **Fetchplan is only avaliable in `OrientDB::COMMAND_SELECT_ASYNC` mode.**
+[Fetchplan](http://code.google.com/p/orient/wiki/FetchingStrategies) is used to pre-fetch some records. **Fetchplan is only available in `OrientDB::COMMAND_SELECT_ASYNC` mode.**
 Using fetchplan will populate `$db->cachedRecords` array as for `recordLoad()`.
 
 Default fetchplan is `*:0`.
@@ -345,8 +345,8 @@ Default fetchplan is `*:0`.
     $deletedCount = $this->db->command('delete from city where name = "Taranto"', OrientDB::COMMAND_QUERY);
 
 ### Shutdown ###
-Remotely shutdown OriendDB server. Require valid user name and password. See [manual](http://code.google.com/p/orient/wiki/NetworkBinaryProtocol#SHUTDOWN) fro details.
-Return nothing on success or thow an exception.
+Remotely shutdown OriendDB server. Require valid user name and password. See [manual](http://code.google.com/p/orient/wiki/NetworkBinaryProtocol#SHUTDOWN) for details.
+Return nothing on success or throw an exception.
 
     void $db->shutdown(string $userName, string $password);
 
