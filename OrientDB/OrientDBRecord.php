@@ -127,7 +127,6 @@ class OrientDBRecord
     {
         // Form recordID
         $this->recordID = $this->clusterID . ':' . $this->recordPos;
-
         // Parse record content
         $this->data = new StdClass();
         // initial state
@@ -266,10 +265,10 @@ class OrientDBRecord
                         $i++;
                     } else {
                         // switch state to
-                        if ($cCode === self::CCODE_COMMA) {
-                            $this->state = self::STATE_COMMA;
-                        } elseif ($cCode === self::CCODE_CLOSE_BRACKET) {
+                        if ($cCode === self::CCODE_CLOSE_BRACKET) {
                             $this->state = self::STATE_VALUE;
+                        } else {
+                            $this->state = self::STATE_COMMA;
                         }
                         // fill token
                         $tokenValue = $this->buffer;
