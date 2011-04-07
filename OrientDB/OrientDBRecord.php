@@ -4,129 +4,284 @@ class OrientDBRecord
 {
 
     /**
-     *
+     * ClassID
      * @var int
      */
     public $classID;
 
     /**
-     *
+     * ClassName as parsed from document
      * @var string
      */
     public $className;
 
     /**
-     *
-     * @var string Document type
+     * Document type
+     * @example OrientDB::RECORD_TYPE_DOCUMENT
+     * @var string
      */
     public $type;
 
     /**
-     *
-     * @var int ClusterID
+     * ClusterID
+     * @var int
      */
     public $clusterID;
 
     /**
-     *
-     * @var int Record position in cluster
+     * Record position in cluster
+     * @var int
      */
     public $recordPos;
 
     /**
-     *
-     * @var string full qualified record ID '1:1'
+     * Full qualified record ID
+     * @example 1:1
+     * @var string
      */
     public $recordID;
 
     /**
-     *
-     * @var int Document version
+     * Document version
+     * @var int
      */
     public $version;
 
     /**
-     *
-     * @var string Document source
+     * Document source as delivered from OrientDB
+     * @var string
      */
     public $content;
 
     /**
-     *
-     * @var StdClass A placeholder for document data
+     * A placeholder for document data
+     * @var StdClass
      */
     public $data;
 
     /**
-     *
-     * @var int Parser state
+     * Parser state
+     * @example self::STATE_GUESS
+     * @var int
      */
     protected $state;
 
     /**
-     *
-     * @var string Parser buffer
+     * Parser buffer
+     * @var string
      */
     protected $buffer;
 
-    // List of possble states
+    /**
+     * List of possble states
+     */
 
-    const STATE_GUESS = 0; // what we're going to collect?
+    /**
+     * what we're going to collect?
+     */
+    const STATE_GUESS = 0;
 
-    const STATE_NAME = 1; // collecting name
+    /**
+     * collecting field name
+     */
+    const STATE_NAME = 1;
 
-    const STATE_VALUE = 2; // collectiong value
+    /**
+     * collectiong field value
+     */
+    const STATE_VALUE = 2;
 
-    const STATE_STRING = 3; // collecting double-quoted string
+    /**
+     * collecting double-quoted string
+     */
+    const STATE_STRING = 3;
 
-    const STATE_COMMA = 4; // collecting of comma between fileds
+    /**
+     * collecting of comma between fields
+     */
+    const STATE_COMMA = 4;
 
-    const STATE_LINK = 5; // collecting of link to other record
+    /**
+     * collecting of link to other record
+     */
+    const STATE_LINK = 5;
 
-    const STATE_NUMBER = 6; // collecting of number
+    /**
+     * collecting of number
+     */
+    const STATE_NUMBER = 6;
 
-    const STATE_KEY = 7; // collecting of map key
+    /**
+     * collecting of map key
+     */
+    const STATE_KEY = 7;
 
+    /**
+     * character classes
+     */
 
-    const CCLASS_WORD = 1; // char of word class
+    /**
+     * char of word class [a-z-]
+     */
+    const CCLASS_WORD = 1;
 
-    const CCLASS_NUMBER = 2; // char of number class
+    /**
+     * char of number class [0-9]
+     */
+    const CCLASS_NUMBER = 2;
 
-    const CCLASS_OTHER = 0; // any other chars
+    /**
+     * any other chars
+     */
+    const CCLASS_OTHER = 0;
 
+    /**
+     * Character codes
+     */
 
-    // Character codes:
-    const CCODE_AT = 0x40;            // @
-    const CCODE_COLON = 0x3A;         // :
-    const CCODE_DOUBLE_QUOTE = 0x22;  // "
-    const CCODE_ESCAPE = 0x5C;        // \
-    const CCODE_COMMA = 0x2C;         // ,
-    const CCODE_OPEN_BRACKET = 0x5B;  // [
-    const CCODE_CLOSE_BRACKET = 0x5D; // ]
-    const CCODE_OPEN_CURLY = 0x7B;    // {
-    const CCODE_CLOSE_CURLY = 0x7D;   // }
-    const CCODE_ASTERISK = 0x2D;      // *
-    const CCODE_HASH = 0x23;          // #
-    const CCODE_PERIOD = 0x2E;        // .
-    const CCODE_NUM_BYTE = 0x62;      // b
-    const CCODE_NUM_SHORT = 0x73;     // s
-    const CCODE_NUM_LONG = 0x6C;      // l
-    const CCODE_NUM_FLOAT = 0x66;     // f
-    const CCODE_NUM_DOUBLE = 0x64;    // d
+    /**
+     * @
+     */
+    const CCODE_AT = 0x40;
 
+    /**
+     * :
+     */
+    const CCODE_COLON = 0x3A;
 
-    // token types
+    /**
+     * "
+     */
+    const CCODE_DOUBLE_QUOTE = 0x22;
+
+    /**
+     * \
+     */
+    const CCODE_ESCAPE = 0x5C;
+
+    /**
+     * ,
+     */
+    const CCODE_COMMA = 0x2C;
+
+    /**
+     * [
+     */
+    const CCODE_OPEN_BRACKET = 0x5B;
+
+    /**
+     * ]
+     */
+    const CCODE_CLOSE_BRACKET = 0x5D;
+
+    /**
+     * {
+     */
+    const CCODE_OPEN_CURLY = 0x7B;
+
+    /**
+     * }
+     */
+    const CCODE_CLOSE_CURLY = 0x7D;
+
+    /**
+     * *
+     */
+    const CCODE_ASTERISK = 0x2D;
+
+    /**
+     * #
+     */
+    const CCODE_HASH = 0x23;
+
+    /**
+     * .
+     */
+    const CCODE_PERIOD = 0x2E;
+
+    /**
+     * b
+     */
+    const CCODE_NUM_BYTE = 0x62;
+
+    /**
+     * s
+     */
+    const CCODE_NUM_SHORT = 0x73;
+
+    /**
+     * l
+     */
+    const CCODE_NUM_LONG = 0x6C;
+
+    /**
+     * f
+     */
+    const CCODE_NUM_FLOAT = 0x66;
+
+    /**
+     * d
+     */
+    const CCODE_NUM_DOUBLE = 0x64;
+
+    /**
+     * token types
+     */
+
+    /**
+     * Name of field
+     */
     const TTYPE_NAME = 1;
+
+    /**
+     * ClassName
+     */
     const TTYPE_CLASS = 2;
+
+    /**
+     * Null value
+     */
     const TTYPE_NULL = 3;
+
+    /**
+     * String value
+     */
     const TTYPE_STRING = 4;
+
+    /**
+     * Start of collection
+     */
     const TTYPE_COLLECTION_START = 5;
+
+    /**
+     * End of collection
+     */
     const TTYPE_COLLECTION_END = 6;
+
+    /**
+     * Link to recordID
+     */
     const TTYPE_LINK = 7;
+
+    /**
+     * Numeric value
+     */
     const TTYPE_NUMBER = 8;
+
+    /**
+     * Start of map
+     */
     const TTYPE_MAP_START = 9;
+
+    /**
+     * End of map
+     */
     const TTYPE_MAP_END = 10;
 
+    /**
+     * Parses $this->content and populates $this->data
+     * @return void
+     */
     public function parse()
     {
         // Form recordID
@@ -276,7 +431,7 @@ class OrientDBRecord
                 case self::STATE_STRING:
                     if ($cCode === self::CCODE_ESCAPE) {
                         // escaping 1 symbol
-                        if ($escape ===  true) {
+                        if ($escape === true) {
                             $this->buffer .= $char;
                             $escape = false;
                         } else {
@@ -307,7 +462,7 @@ class OrientDBRecord
                         if ($isCollection) {
                             $this->state = self::STATE_VALUE;
                         } elseif ($isMap) {
-                             $this->state = self::STATE_KEY;
+                            $this->state = self::STATE_KEY;
                         } else {
                             $this->state = self::STATE_GUESS;
                         }
@@ -351,10 +506,10 @@ class OrientDBRecord
                             $this->state = self::STATE_VALUE;
                         }
                         // fill token
-                        if ($cCode === self::CCODE_NUM_BYTE || $cCode ===  self::CCODE_NUM_SHORT) {
+                        if ($cCode === self::CCODE_NUM_BYTE || $cCode === self::CCODE_NUM_SHORT) {
                             $tokenValue = (int) $this->buffer;
                             $i++;
-                        } elseif ($cCode === self::CCODE_NUM_LONG || $cCode ===  self::CCODE_NUM_FLOAT || $cCode ===  self::CCODE_NUM_DOUBLE) {
+                        } elseif ($cCode === self::CCODE_NUM_LONG || $cCode === self::CCODE_NUM_FLOAT || $cCode === self::CCODE_NUM_DOUBLE) {
                             $tokenValue = (float) $this->buffer;
                             $i++;
                         } else {
@@ -384,7 +539,7 @@ class OrientDBRecord
             $tokenType = end($stackTT);
             switch ($tokenType) {
                 case false:
-                    // some speed up
+                // some speed up
                 break;
 
                 case self::TTYPE_CLASS:
