@@ -34,7 +34,7 @@ class OrientDBCommandCommand extends OrientDBCommandAbstract
                 throw new OrientDBWrongParamsException('Wrong command mode');
             }
         }
-        if (($this->mode == OrientDB::COMMAND_QUERY || $this->mode == OrientDB::COMMAND_SELECT_SYNC )&& count($this->attribs) == 3) {
+        if (($this->mode == OrientDB::COMMAND_QUERY || $this->mode == OrientDB::COMMAND_SELECT_SYNC) && count($this->attribs) == 3) {
             throw new OrientDBWrongParamsException('Fetch is useless with COMMAND_QUERY');
         }
         $this->fetchPlan = '*:0';
@@ -64,19 +64,19 @@ class OrientDBCommandCommand extends OrientDBCommandAbstract
         $buff .= pack('N', strlen($this->query));
         $buff .= $this->query;
         if ($this->mode == OrientDB::COMMAND_SELECT_ASYNC || $this->mode == OrientDB::COMMAND_SELECT_SYNC) {
-	        // Limit set to -1 to ignore and use TEXT MODE
-	        $buff .= pack('N', -1);
-	        // Begin RANGE clusterID is set to -1 to ignore and use TEXT MODE
-	        $buff .= pack('s', -1);
-	        // Begin RANGE recordPos is set to -1 to ignore and use TEXT MODE
-	        $buff .= str_repeat(chr(0xFF), 8);
-	        // End RANGE clusterID is set to -1 to ignore and use TEXT MODE
-	        $buff .= pack('s', -1);
-	        // End RANGE recordPos is set to -1 to ignore and use TEXT MODE
-	        $buff .= str_repeat(chr(0xFF), 8);
-	        // Add a fetchplan
-	        $buff .= pack('N', strlen($this->fetchPlan));
-	        $buff .= $this->fetchPlan;
+            // Limit set to -1 to ignore and use TEXT MODE
+            $buff .= pack('N', -1);
+            // Begin RANGE clusterID is set to -1 to ignore and use TEXT MODE
+            $buff .= pack('s', -1);
+            // Begin RANGE recordPos is set to -1 to ignore and use TEXT MODE
+            $buff .= str_repeat(chr(0xFF), 8);
+            // End RANGE clusterID is set to -1 to ignore and use TEXT MODE
+            $buff .= pack('s', -1);
+            // End RANGE recordPos is set to -1 to ignore and use TEXT MODE
+            $buff .= str_repeat(chr(0xFF), 8);
+            // Add a fetchplan
+            $buff .= pack('N', strlen($this->fetchPlan));
+            $buff .= $this->fetchPlan;
         }
         // Params serialization, we have 0 params
         $buff .= pack('N', 0);
