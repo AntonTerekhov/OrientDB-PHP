@@ -85,6 +85,8 @@ class OrientDBRecord
 
     const STATE_NUMBER = 6; // collecting of number
 
+    const STATE_KEY = 7; // collecting of map key
+
 
     const CCLASS_WORD = 1; // char of word class
 
@@ -122,6 +124,8 @@ class OrientDBRecord
     const TTYPE_COLLECTION_END = 6;
     const TTYPE_LINK = 7;
     const TTYPE_NUMBER = 8;
+    const TTYPE_MAP_START = 9;
+    const TTYPE_MAP_END = 10;
 
     public function parse()
     {
@@ -139,6 +143,8 @@ class OrientDBRecord
         $tokenType = null;
         // is parsing collection
         $isCollection = false;
+        // is parsing a map
+        $isMap = false;
         // is escape symbol
         $escape = false;
 
@@ -190,6 +196,22 @@ class OrientDBRecord
                     $i++;
                 break;
 
+                case self::STATE_KEY:
+                    if ($cCode === self::CCODE_COLON) {
+                        // Colon found - swith state to value collecting
+                        $this->state = self::STATE_VALUE;
+                        // fill token with data
+                        $tokenValue = $this->buffer;
+                        // set token type to name
+                        $tokenType = self::TTYPE_NAME;
+                        // emptying buffer
+                        $this->buffer = '';
+                    } elseif ($cCode !== self::CCODE_DOUBLE_QUOTE) {
+                        $this->buffer .= $char;
+                    }
+                    $i++;
+                break;
+
                 case self::STATE_VALUE:
                     if ($cCode === self::CCODE_COMMA) {
                         // No value - switch state to guess
@@ -209,8 +231,10 @@ class OrientDBRecord
                     } elseif ($cCode === self::CCODE_OPEN_BRACKET) {
                         // [ found, state is still value
                         $this->state = self::STATE_VALUE;
+                        // token is empty
                         $tokenValue = '';
                         $tokenType = self::TTYPE_COLLECTION_START;
+                        // started collection
                         $isCollection = true;
                     } elseif ($cCode === self::CCODE_CLOSE_BRACKET) {
                         // ] found,
@@ -219,7 +243,26 @@ class OrientDBRecord
                         $tokenValue = '';
                         // token type is collection end
                         $tokenType = self::TTYPE_COLLECTION_END;
+                        // stopped collection
                         $isCollection = false;
+                    } elseif ($cCode === self::CCODE_OPEN_CURLY) {
+                        // found { switch state to name
+                        $this->state = self::STATE_KEY;
+                        // token is empty
+                        $tokenValue = '';
+
+                        $tokenType = self::TTYPE_MAP_START;
+                        // started map
+                        $isMap = true;
+                    } elseif ($cCode === self::CCODE_CLOSE_CURLY) {
+                        // } found
+                        $this->state = self::STATE_COMMA;
+                        // token is empty
+                        $tokenValue = '';
+                        // token type is map end
+                        $tokenType = self::TTYPE_MAP_END;
+                        // stopped map
+                        $isMap = false;
                     } else {
                         if ($cClass === self::CCLASS_NUMBER) {
                             // number found - switch to number collecting
@@ -263,6 +306,8 @@ class OrientDBRecord
                         // Found a comma -  switch to
                         if ($isCollection) {
                             $this->state = self::STATE_VALUE;
+                        } elseif ($isMap) {
+                             $this->state = self::STATE_KEY;
                         } else {
                             $this->state = self::STATE_GUESS;
                         }
@@ -277,10 +322,10 @@ class OrientDBRecord
                         $i++;
                     } else {
                         // switch state to
-                        if ($cCode === self::CCODE_CLOSE_BRACKET) {
-                            $this->state = self::STATE_VALUE;
-                        } else {
+                        if ($cCode === self::CCODE_COMMA) {
                             $this->state = self::STATE_COMMA;
+                        } else {
+                            $this->state = self::STATE_VALUE;
                         }
                         // fill token
                         $tokenValue = $this->buffer;
@@ -300,23 +345,27 @@ class OrientDBRecord
                         // switch state to
                         if ($cCode === self::CCODE_COMMA) {
                             $this->state = self::STATE_COMMA;
-                        } elseif ($cCode === self::CCODE_CLOSE_BRACKET) {
+                        } elseif ($cClass === self::CCLASS_WORD) {
+                            $this->state = self::STATE_COMMA;
+                        } else {
                             $this->state = self::STATE_VALUE;
                         }
                         // fill token
-                        if ($cCode === self::CCODE_COMMA) {
-                            // this is int
+                        if ($cCode === self::CCODE_NUM_BYTE || $cCode ===  self::CCODE_NUM_SHORT) {
                             $tokenValue = (int) $this->buffer;
-                        } elseif ($cCode === self::CCODE_NUM_BYTE || $cCode ===  self::CCODE_NUM_SHORT) {
-                            $tokenValue = (int) $this->buffer;
+                            $i++;
                         } elseif ($cCode === self::CCODE_NUM_LONG || $cCode ===  self::CCODE_NUM_FLOAT || $cCode ===  self::CCODE_NUM_DOUBLE) {
                             $tokenValue = (float) $this->buffer;
+                            $i++;
+                        } else {
+                            // this is int
+                            $tokenValue = (int) $this->buffer;
                         }
                         // token type is link
                         $tokenType = self::TTYPE_NUMBER;
                         // emptying buffer
                         $this->buffer = '';
-                        $i++;
+
                     }
                 break;
 
@@ -334,6 +383,10 @@ class OrientDBRecord
 
             $tokenType = end($stackTT);
             switch ($tokenType) {
+                case false:
+                    // some speed up
+                break;
+
                 case self::TTYPE_CLASS:
                     $value = array_pop($stackTV);
                     array_pop($stackTT);
@@ -341,7 +394,7 @@ class OrientDBRecord
                 break;
 
                 case self::TTYPE_STRING:
-                    if (!$isCollection) {
+                    if (!$isCollection && !$isMap) {
                         $value = array_pop($stackTV);
                         array_pop($stackTT);
                         $name = array_pop($stackTV);
@@ -351,7 +404,7 @@ class OrientDBRecord
                 break;
 
                 case self::TTYPE_LINK:
-                    if (!$isCollection) {
+                    if (!$isCollection && !$isMap) {
                         $value = array_pop($stackTV);
                         array_pop($stackTT);
                         $name = array_pop($stackTV);
@@ -361,7 +414,7 @@ class OrientDBRecord
                 break;
 
                 case self::TTYPE_NUMBER:
-                    if (!$isCollection) {
+                    if (!$isCollection && !$isMap) {
                         $value = array_pop($stackTV);
                         array_pop($stackTT);
                         $name = array_pop($stackTV);
@@ -388,6 +441,23 @@ class OrientDBRecord
                             $values[] = $value;
                         }
                     } while ($searchToken !== self::TTYPE_COLLECTION_START);
+                    $name = array_pop($stackTV);
+                    array_pop($stackTT);
+                    $values = array_reverse($values);
+                    $this->data->$name = $values;
+                break;
+
+                case self::TTYPE_MAP_END:
+                    $values = array();
+                    do {
+                        $searchToken = array_pop($stackTT);
+                        $value = array_pop($stackTV);
+                        if ($searchToken !== self::TTYPE_MAP_START && $searchToken !== self::TTYPE_MAP_END) {
+                            $name = array_pop($stackTV);
+                            array_pop($stackTT);
+                            $values[$name] = $value;
+                        }
+                    } while ($searchToken !== self::TTYPE_MAP_START);
                     $name = array_pop($stackTV);
                     array_pop($stackTT);
                     $values = array_reverse($values);
