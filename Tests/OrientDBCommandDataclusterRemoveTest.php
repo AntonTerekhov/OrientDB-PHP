@@ -8,31 +8,37 @@ class OrientDBDataclusterRemoveTest extends OrientDBBaseTesting
 
     protected $clusterName = 'testdatacluster';
 
-    protected function setUp() {
+    protected function setUp()
+    {
         $this->db = new OrientDB('localhost', 2424);
     }
 
-    protected function tearDown() {
+    protected function tearDown()
+    {
         $this->db = null;
     }
 
-    public function testDataclusterRemoveOnNotConnectedDB() {
+    public function testDataclusterRemoveOnNotConnectedDB()
+    {
         $this->setExpectedException('OrientDBWrongCommandException');
         $result = $this->db->dataclusterRemove(10000);
     }
 
-    public function testDataclusterRemoveOnConnectedDB() {
+    public function testDataclusterRemoveOnConnectedDB()
+    {
         $this->db->connect('root', $this->root_password);
         $this->setExpectedException('OrientDBWrongCommandException');
         $result = $this->db->dataclusterRemove(10000);
     }
 
-    public function testDataclusterRemoveOnNotOpenDB() {
+    public function testDataclusterRemoveOnNotOpenDB()
+    {
         $this->setExpectedException('OrientDBWrongCommandException');
         $result = $this->db->dataclusterRemove();
     }
 
-    public function testDataclusterRemoveOnOpenDB() {
+    public function testDataclusterRemoveOnOpenDB()
+    {
         $clusters = $this->db->DBOpen('demo', 'writer', 'writer');
         foreach ($clusters['clusters'] as $cluster) {
             if ($cluster->name === $this->clusterName) {
@@ -45,19 +51,22 @@ class OrientDBDataclusterRemoveTest extends OrientDBBaseTesting
         $this->assertInternalType('boolean', $result);
     }
 
-    public function testDataclusterRemoveWithWrongParamCount() {
+    public function testDataclusterRemoveWithWrongParamCount()
+    {
         $this->db->DBOpen('demo', 'writer', 'writer');
         $this->setExpectedException('OrientDBWrongParamsException');
         $result = $this->db->dataclusterRemove();
     }
 
-    public function testDataclusterRemoveWithWrongParamType() {
+    public function testDataclusterRemoveWithWrongParamType()
+    {
         $this->db->DBOpen('demo', 'writer', 'writer');
         $this->setExpectedException('OrientDBWrongParamsException');
         $result = $this->db->dataclusterRemove('INVALID');
     }
 
-    public function testDataclusterRemoveOnClusterNotExist() {
+    public function testDataclusterRemoveOnClusterNotExist()
+    {
         $this->db->DBOpen('demo', 'writer', 'writer');
         $this->setExpectedException('OrientDBException');
         $result = $this->db->dataclusterRemove(10000);

@@ -12,31 +12,37 @@ class OrientDBRecordUpdateTest extends OrientDBBaseTesting
 
     protected $recordContentUpd = 'testrecord:1';
 
-    protected function setUp() {
+    protected function setUp()
+    {
         $this->db = new OrientDB('localhost', 2424);
     }
 
-    protected function tearDown() {
+    protected function tearDown()
+    {
         $this->db = null;
     }
 
-    public function testRecordUpdateOnNotConnectedDB() {
+    public function testRecordUpdateOnNotConnectedDB()
+    {
         $this->setExpectedException('OrientDBWrongCommandException');
         $list = $this->db->recordUpdate();
     }
 
-    public function testRecordUpdateOnConnectedDB() {
+    public function testRecordUpdateOnConnectedDB()
+    {
         $this->db->connect('root', $this->root_password);
         $this->setExpectedException('OrientDBWrongCommandException');
         $list = $this->db->recordUpdate();
     }
 
-    public function testRecordUpdateOnNotOpenDB() {
+    public function testRecordUpdateOnNotOpenDB()
+    {
         $this->setExpectedException('OrientDBWrongCommandException');
         $list = $this->db->recordUpdate();
     }
 
-    public function testRecordUpdateOnOpenDB() {
+    public function testRecordUpdateOnOpenDB()
+    {
         $this->db->DBOpen('demo', 'writer', 'writer');
         $recordPos = $this->db->recordCreate($this->clusterID, $this->recordContent);
         $this->assertInternalType('integer', $recordPos);
@@ -46,49 +52,56 @@ class OrientDBRecordUpdateTest extends OrientDBBaseTesting
         $record2 = $this->db->recordLoad($this->clusterID . ':' . $recordPos, '');
         $this->AssertSame($version, $record2->version);
         $this->AssertSame($this->recordContentUpd, $record2->content);
-        $this->db->recordDelete($this->clusterID  . ':' . $recordPos);
+        $this->db->recordDelete($this->clusterID . ':' . $recordPos);
     }
 
-    public function testRecordUpdateWithWrongOptionCount() {
+    public function testRecordUpdateWithWrongOptionCount()
+    {
         $this->db->DBOpen('demo', 'writer', 'writer');
         $this->setExpectedException('OrientDBWrongParamsException');
         $record = $this->db->recordUpdate($this->clusterID);
     }
 
-    public function testRecordUpdateWithWrongRecordIDOne() {
+    public function testRecordUpdateWithWrongRecordIDOne()
+    {
         $this->db->DBOpen('demo', 'writer', 'writer');
         $this->setExpectedException('OrientDBException');
         $record = $this->db->recordUpdate('INVALID', $this->recordContent);
     }
 
-    public function testRecordUpdateWithWrongRecordIDTwo() {
+    public function testRecordUpdateWithWrongRecordIDTwo()
+    {
         $this->db->DBOpen('demo', 'writer', 'writer');
         $this->setExpectedException('OrientDBException');
         $record = $this->db->recordUpdate(':INVALID', $this->recordContent);
     }
 
-    public function testRecordUpdateWithWrongRecordIDThree() {
+    public function testRecordUpdateWithWrongRecordIDThree()
+    {
         $this->db->DBOpen('demo', 'writer', 'writer');
         $this->setExpectedException('OrientDBException');
         $record = $this->db->recordUpdate('INVALID:', $this->recordContent);
     }
 
-    public function testRecordUpdateWithWrongRecordIDFour() {
+    public function testRecordUpdateWithWrongRecordIDFour()
+    {
         $this->db->DBOpen('demo', 'writer', 'writer');
         $this->setExpectedException('OrientDBException');
         $record = $this->db->recordUpdate('1:INVALID', $this->recordContent);
     }
 
-    public function testRecordUpdateWithRecordPosZero() {
+    public function testRecordUpdateWithRecordPosZero()
+    {
         $recordPos = 0;
         $this->db->DBOpen('demo', 'writer', 'writer');
         $record = $this->db->recordLoad($this->clusterID . ':' . $recordPos, '');
-        $version = $this->db->recordUpdate($this->clusterID .':' . $recordPos, $record->content);
+        $version = $this->db->recordUpdate($this->clusterID . ':' . $recordPos, $record->content);
         $record2 = $this->db->recordLoad($this->clusterID . ':' . $recordPos, '');
         $this->AssertSame($version, $record2->version);
     }
 
-    public function testRecordUpdateWithSameType() {
+    public function testRecordUpdateWithSameType()
+    {
         $this->db->DBOpen('demo', 'admin', 'admin');
         $recordPos = $this->db->recordCreate($this->clusterID, $this->recordContent, OrientDB::RECORD_TYPE_BYTES);
         $this->assertInternalType('integer', $recordPos);
@@ -97,10 +110,11 @@ class OrientDBRecordUpdateTest extends OrientDBBaseTesting
         $record2 = $this->db->recordLoad($this->clusterID . ':' . $recordPos, '');
         $this->AssertSame($version, $record2->version);
         $this->AssertSame($this->recordContentUpd, $record2->content);
-        $this->db->recordDelete($this->clusterID  . ':' . $recordPos);
+        $this->db->recordDelete($this->clusterID . ':' . $recordPos);
     }
 
-    public function testRecordUpdateWithTypeBytes() {
+    public function testRecordUpdateWithTypeBytes()
+    {
         $this->db->DBOpen('demo', 'admin', 'admin');
         $recordPos = $this->db->recordCreate($this->clusterID, $this->recordContent, OrientDB::RECORD_TYPE_DOCUMENT);
         $this->assertInternalType('integer', $recordPos);
@@ -109,10 +123,11 @@ class OrientDBRecordUpdateTest extends OrientDBBaseTesting
         $record2 = $this->db->recordLoad($this->clusterID . ':' . $recordPos, '');
         $this->AssertSame($version, $record2->version);
         $this->AssertSame($this->recordContentUpd, $record2->content);
-        $this->db->recordDelete($this->clusterID  . ':' . $recordPos);
+        $this->db->recordDelete($this->clusterID . ':' . $recordPos);
     }
 
-    public function testRecordUpdateWithTypeDocument() {
+    public function testRecordUpdateWithTypeDocument()
+    {
         $this->db->DBOpen('demo', 'admin', 'admin');
         $recordPos = $this->db->recordCreate($this->clusterID, $this->recordContent, OrientDB::RECORD_TYPE_DOCUMENT);
         $this->assertInternalType('integer', $recordPos);
@@ -121,10 +136,11 @@ class OrientDBRecordUpdateTest extends OrientDBBaseTesting
         $record2 = $this->db->recordLoad($this->clusterID . ':' . $recordPos, '');
         $this->AssertSame($version, $record2->version);
         $this->AssertSame($this->recordContentUpd, $record2->content);
-        $this->db->recordDelete($this->clusterID  . ':' . $recordPos);
+        $this->db->recordDelete($this->clusterID . ':' . $recordPos);
     }
 
-    public function testRecordUpdateWithTypeFlat() {
+    public function testRecordUpdateWithTypeFlat()
+    {
         $this->db->DBOpen('demo', 'admin', 'admin');
         $recordPos = $this->db->recordCreate($this->clusterID, $this->recordContent, OrientDB::RECORD_TYPE_DOCUMENT);
         $this->assertInternalType('integer', $recordPos);
@@ -133,19 +149,21 @@ class OrientDBRecordUpdateTest extends OrientDBBaseTesting
         $record2 = $this->db->recordLoad($this->clusterID . ':' . $recordPos, '');
         $this->AssertSame($version, $record2->version);
         $this->AssertSame($this->recordContentUpd, $record2->content);
-        $this->db->recordDelete($this->clusterID  . ':' . $recordPos);
+        $this->db->recordDelete($this->clusterID . ':' . $recordPos);
     }
 
-    public function testRecordUpdateWithWrongType() {
+    public function testRecordUpdateWithWrongType()
+    {
         $this->db->DBOpen('demo', 'admin', 'admin');
         $recordPos = $this->db->recordCreate($this->clusterID, $this->recordContent, OrientDB::RECORD_TYPE_DOCUMENT);
         $this->assertInternalType('integer', $recordPos);
         $this->setExpectedException('OrientDBWrongParamsException');
         $version = $this->db->recordUpdate($this->clusterID . ':' . $recordPos, $this->recordContentUpd, 0, '!');
-        $this->db->recordDelete($this->clusterID  . ':' . $recordPos);
+        $this->db->recordDelete($this->clusterID . ':' . $recordPos);
     }
 
-    public function testRecordUpdateWithPessimisticVersion() {
+    public function testRecordUpdateWithPessimisticVersion()
+    {
         $this->db->DBOpen('demo', 'writer', 'writer');
         $recordPos = $this->db->recordCreate($this->clusterID, $this->recordContent);
         $this->assertInternalType('integer', $recordPos);
@@ -159,10 +177,11 @@ class OrientDBRecordUpdateTest extends OrientDBBaseTesting
         $this->AssertSame($version2, $record2->version);
         $this->AssertSame(2, $version2);
         $this->AssertSame($this->recordContent, $record2->content);
-        $result = $this->db->recordDelete($this->clusterID  . ':' . $recordPos);
+        $result = $this->db->recordDelete($this->clusterID . ':' . $recordPos);
     }
 
-    public function testRecordDeleteWithCorrectVersion() {
+    public function testRecordDeleteWithCorrectVersion()
+    {
         $this->db->DBOpen('demo', 'writer', 'writer');
         $recordPos = $this->db->recordCreate($this->clusterID, $this->recordContent);
         $this->assertInternalType('integer', $recordPos);
@@ -176,10 +195,11 @@ class OrientDBRecordUpdateTest extends OrientDBBaseTesting
         $this->AssertSame($version2, $record2->version);
         $this->AssertSame(2, $version2);
         $this->AssertSame($this->recordContent, $record2->content);
-        $result = $this->db->recordDelete($this->clusterID  . ':' . $recordPos);
+        $result = $this->db->recordDelete($this->clusterID . ':' . $recordPos);
     }
 
-    public function testRecordDeleteWithIncorrectVersion() {
+    public function testRecordDeleteWithIncorrectVersion()
+    {
         $this->db->DBOpen('demo', 'writer', 'writer');
         $recordPos = $this->db->recordCreate($this->clusterID, $this->recordContent);
         $this->assertInternalType('integer', $recordPos);
@@ -193,6 +213,6 @@ class OrientDBRecordUpdateTest extends OrientDBBaseTesting
         $this->AssertSame($version2, $record2->version);
         $this->AssertSame(2, $version2);
         $this->AssertSame($this->recordContent, $record2->content);
-        $result = $this->db->recordDelete($this->clusterID  . ':' . $recordPos);
+        $result = $this->db->recordDelete($this->clusterID . ':' . $recordPos);
     }
 }

@@ -8,49 +8,58 @@ class OrientDBCountTest extends OrientDBBaseTesting
 
     protected $clustername = 'default';
 
-    protected function setUp() {
+    protected function setUp()
+    {
         $this->db = new OrientDB('localhost', 2424);
     }
 
-    protected function tearDown() {
+    protected function tearDown()
+    {
         $this->db = null;
     }
 
-    public function testCountOnNotConnectedDB() {
+    public function testCountOnNotConnectedDB()
+    {
         $this->setExpectedException('OrientDBWrongCommandException');
         $result = $this->db->count($this->clustername);
     }
 
-    public function testCountOnConnectedDB() {
+    public function testCountOnConnectedDB()
+    {
         $this->db->connect('root', $this->root_password);
         $this->setExpectedException('OrientDBWrongCommandException');
         $result = $this->db->count($this->clustername);
     }
 
-    public function testCountOnNotOpenDB() {
+    public function testCountOnNotOpenDB()
+    {
         $this->setExpectedException('OrientDBWrongCommandException');
         $result = $this->db->count($this->clustername);
     }
 
-    public function testCountOnOpenDB() {
+    public function testCountOnOpenDB()
+    {
         $this->db->DBOpen('demo', 'writer', 'writer');
         $result = $this->db->count($this->clustername);
         $this->assertInternalType('integer', $result);
     }
 
-    public function testCountWithWrongCluster() {
+    public function testCountWithWrongCluster()
+    {
         $this->db->DBOpen('demo', 'writer', 'writer');
         $this->setExpectedException('OrientDBException');
         $result = $this->db->count('NONEXISTENT');
     }
 
-    public function testCountWithWrongOptionCount() {
+    public function testCountWithWrongOptionCount()
+    {
         $this->db->DBOpen('demo', 'writer', 'writer');
         $this->setExpectedException('OrientDBWrongParamsException');
         $result = $this->db->count();
     }
 
-    public function testCountWithCorrectValue() {
+    public function testCountWithCorrectValue()
+    {
         $clusters = $this->db->DBOpen('demo', 'writer', 'writer');
         $count = $this->db->count($this->clustername);
         // Find out clusterID

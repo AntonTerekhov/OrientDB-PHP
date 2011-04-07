@@ -8,31 +8,37 @@ class OrientDBDataclusterAddTest extends OrientDBBaseTesting
 
     protected $clusterName = 'testdatacluster';
 
-    protected function setUp() {
+    protected function setUp()
+    {
         $this->db = new OrientDB('localhost', 2424);
     }
 
-    protected function tearDown() {
+    protected function tearDown()
+    {
         $this->db = null;
     }
 
-    public function testDataclusterAddOnNotConnectedDB() {
+    public function testDataclusterAddOnNotConnectedDB()
+    {
         $this->setExpectedException('OrientDBWrongCommandException');
         $result = $this->db->dataclusterAdd('name', OrientDB::DATACLUSTER_TYPE_LOGICAL);
     }
 
-    public function testDataclusterAddOnConnectedDB() {
+    public function testDataclusterAddOnConnectedDB()
+    {
         $this->db->connect('root', $this->root_password);
         $this->setExpectedException('OrientDBWrongCommandException');
         $result = $this->db->dataclusterAdd($this->clusterName, OrientDB::DATACLUSTER_TYPE_LOGICAL);
     }
 
-    public function testDataclusterAddOnNotOpenDB() {
+    public function testDataclusterAddOnNotOpenDB()
+    {
         $this->setExpectedException('OrientDBWrongCommandException');
         $result = $this->db->dataclusterAdd($this->clusterName, OrientDB::DATACLUSTER_TYPE_LOGICAL);
     }
 
-    public function testDataclusterAddOnOpenDB() {
+    public function testDataclusterAddOnOpenDB()
+    {
         $clusters = $this->db->DBOpen('demo', 'writer', 'writer');
         foreach ($clusters['clusters'] as $cluster) {
             if ($cluster->name === $this->clusterName) {
@@ -51,17 +57,18 @@ class OrientDBDataclusterAddTest extends OrientDBBaseTesting
         $this->assertInternalType('integer', $result);
     }
 
-    public function testDataclusterAddWithWrongParamCount() {
+    public function testDataclusterAddWithWrongParamCount()
+    {
         $this->db->DBOpen('demo', 'writer', 'writer');
         $this->setExpectedException('OrientDBWrongParamsException');
         $result = $this->db->dataclusterAdd('name');
     }
 
-    public function testDataclusterAddWithWrongParamType() {
+    public function testDataclusterAddWithWrongParamType()
+    {
         $this->db->DBOpen('demo', 'writer', 'writer');
         $this->setExpectedException('OrientDBWrongParamsException');
         $result = $this->db->dataclusterAdd('name', 'INVALID');
     }
-
 
 }

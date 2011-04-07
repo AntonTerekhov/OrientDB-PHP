@@ -6,31 +6,37 @@ require_once 'OrientDBBaseTest.php';
 class OrientDBConfigListTest extends OrientDBBaseTesting
 {
 
-    protected function setUp() {
+    protected function setUp()
+    {
         $this->db = new OrientDB('localhost', 2424);
     }
 
-    protected function tearDown() {
+    protected function tearDown()
+    {
         $this->db = null;
     }
 
-    public function testConfigListOnNotConnectedDB() {
+    public function testConfigListOnNotConnectedDB()
+    {
         $this->setExpectedException('OrientDBWrongCommandException');
         $list = $this->db->configList();
     }
 
-    public function testConfigListOnConnectedDB() {
+    public function testConfigListOnConnectedDB()
+    {
         $this->db->connect('root', $this->root_password);
         $list = $this->db->configList();
         $this->assertInternalType('array', $list);
     }
 
-    public function testConfigListOnNotOpenDB() {
+    public function testConfigListOnNotOpenDB()
+    {
         $this->setExpectedException('OrientDBWrongCommandException');
         $list = $this->db->configList();
     }
 
-    public function testConfigListOnOpenDB() {
+    public function testConfigListOnOpenDB()
+    {
         $this->db->DBOpen('demo', 'writer', 'writer');
         $this->setExpectedException('OrientDBWrongCommandException');
         $list = $this->db->configList();

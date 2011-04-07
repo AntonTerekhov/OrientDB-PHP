@@ -10,29 +10,35 @@ class OrientDBDBDeleteTest extends OrientDBBaseTesting
 
     protected static $dbSequence = 0;
 
-    protected function setUp() {
+    protected function setUp()
+    {
         $this->db = new OrientDB('localhost', 2424);
     }
 
-    protected function tearDown() {
+    protected function tearDown()
+    {
         $this->db = null;
     }
 
-    protected function sequenceInc() {
+    protected function sequenceInc()
+    {
         self::$dbSequence++;
     }
 
-    protected function getDBName() {
+    protected function getDBName()
+    {
         return $this->dbName . self::$dbSequence;
     }
 
-    public function testDBCreateOnNotConnectedDB() {
+    public function testDBCreateOnNotConnectedDB()
+    {
         $this->sequenceInc();
         $this->setExpectedException('OrientDBWrongCommandException');
         $result = $this->db->DBDelete($this->getDBName());
     }
 
-    public function testDBDeleteOnConnectedDB() {
+    public function testDBDeleteOnConnectedDB()
+    {
         $this->sequenceInc();
         $this->db->connect('root', $this->root_password);
         $result = $this->db->DBCreate($this->getDBName(), OrientDB::DB_TYPE_LOCAL);
@@ -41,20 +47,23 @@ class OrientDBDBDeleteTest extends OrientDBBaseTesting
         $this->assertTrue($result);
     }
 
-    public function testDBDeleteOnNotOpenDB() {
+    public function testDBDeleteOnNotOpenDB()
+    {
         $this->sequenceInc();
         $this->setExpectedException('OrientDBWrongCommandException');
         $result = $this->db->DBDelete($this->getDBName());
     }
 
-    public function testDBDeleteOnOpenDB() {
+    public function testDBDeleteOnOpenDB()
+    {
         $this->sequenceInc();
         $this->db->DBOpen('demo', 'writer', 'writer');
         $this->setExpectedException('OrientDBWrongCommandException');
         $result = $this->db->DBDelete($this->getDBName());
     }
 
-    public function testDBDeleteWithTypeMemory() {
+    public function testDBDeleteWithTypeMemory()
+    {
         $this->sequenceInc();
         $this->db->connect('root', $this->root_password);
         $this->db->DBCreate($this->getDBName(), OrientDB::DB_TYPE_MEMORY);
@@ -62,7 +71,8 @@ class OrientDBDBDeleteTest extends OrientDBBaseTesting
         $this->assertTrue($result);
     }
 
-    public function testDBDeleteWithTypeLocal() {
+    public function testDBDeleteWithTypeLocal()
+    {
         $this->sequenceInc();
         $this->db->connect('root', $this->root_password);
         $this->db->DBCreate($this->getDBName(), OrientDB::DB_TYPE_LOCAL);
@@ -70,14 +80,16 @@ class OrientDBDBDeleteTest extends OrientDBBaseTesting
         $this->assertTrue($result);
     }
 
-    public function testDBDeleteWithNonExistDB() {
+    public function testDBDeleteWithNonExistDB()
+    {
         $this->sequenceInc();
         $this->db->connect('root', $this->root_password);
         $result = $this->db->DBDelete('INVALID');
         $this->assertTrue($result);
     }
 
-    public function testDBDeleteWithWrongOptionCount() {
+    public function testDBDeleteWithWrongOptionCount()
+    {
         $this->sequenceInc();
         $this->db->connect('root', $this->root_password);
         $this->setExpectedException('OrientDBWrongParamsException');

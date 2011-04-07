@@ -3,20 +3,24 @@
 require_once 'OrientDB/OrientDB.php';
 require_once 'OrientDBBaseTest.php';
 
-class OrientDBClassBasicTest extends OrientDBBaseTesting {
+class OrientDBClassBasicTest extends OrientDBBaseTesting
+{
 
-    protected function setUp() {
+    protected function setUp()
+    {
         $this->db = new OrientDB('localhost', 2424);
     }
 
-    protected function tearDown() {
+    protected function tearDown()
+    {
         $this->db = null;
     }
 
     /**
      * @outputBuffering enabled
      */
-    public function testDebug() {
+    public function testDebug()
+    {
         $this->assertFalse($this->db->isDebug());
         $this->db->setDebug(true);
         $this->db->DBOpen('demo', 'writer', 'writer');
@@ -26,12 +30,14 @@ class OrientDBClassBasicTest extends OrientDBBaseTesting {
         $this->assertFalse($this->db->isDebug());
     }
 
-    public function testMethodNotImplemented() {
+    public function testMethodNotImplemented()
+    {
         $this->setExpectedException('OrientDBWrongCommandException');
         $this->db->methodNotExist();
     }
 
-    public function testProtocolVersion() {
+    public function testProtocolVersion()
+    {
         $this->setExpectedException('OrientDBException');
         $this->db->setProtocolVersion(1);
     }

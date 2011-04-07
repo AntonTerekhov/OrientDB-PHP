@@ -10,31 +10,37 @@ class OrientDBRecordLoadTest extends OrientDBBaseTesting
 
     protected $recordContent = 'testrecord:0';
 
-    protected function setUp() {
+    protected function setUp()
+    {
         $this->db = new OrientDB('localhost', 2424);
     }
 
-    protected function tearDown() {
+    protected function tearDown()
+    {
         $this->db = null;
     }
 
-    public function testRecordLoadOnNotConnectedDB() {
+    public function testRecordLoadOnNotConnectedDB()
+    {
         $this->setExpectedException('OrientDBWrongCommandException');
         $list = $this->db->recordLoad();
     }
 
-    public function testRecordLoadOnConnectedDB() {
+    public function testRecordLoadOnConnectedDB()
+    {
         $this->db->connect('root', $this->root_password);
         $this->setExpectedException('OrientDBWrongCommandException');
         $list = $this->db->recordLoad();
     }
 
-    public function testRecordLoadOnNotOpenDB() {
+    public function testRecordLoadOnNotOpenDB()
+    {
         $this->setExpectedException('OrientDBWrongCommandException');
         $list = $this->db->recordLoad();
     }
 
-    public function testRecordLoadOnOpenDB() {
+    public function testRecordLoadOnOpenDB()
+    {
         $this->db->DBOpen('demo', 'writer', 'writer');
         $recordPos = $this->db->recordCreate($this->clusterID, $this->recordContent);
         $record = $this->db->recordLoad($this->clusterID . ':' . $recordPos);
@@ -45,44 +51,51 @@ class OrientDBRecordLoadTest extends OrientDBBaseTesting
         $this->assertTrue($result);
     }
 
-    public function testRecordLoadWithWrongOptionCount() {
+    public function testRecordLoadWithWrongOptionCount()
+    {
         $this->db->DBOpen('demo', 'writer', 'writer');
         $this->setExpectedException('OrientDBWrongParamsException');
         $record = $this->db->recordLoad();
     }
 
-    public function testRecordLoadWithWrongRecordIDOne() {
+    public function testRecordLoadWithWrongRecordIDOne()
+    {
         $this->db->DBOpen('demo', 'writer', 'writer');
         $this->setExpectedException('OrientDBWrongParamsException');
         $record = $this->db->recordLoad('INVALID', '');
     }
 
-    public function testRecordLoadWithWrongRecordIDTwo() {
+    public function testRecordLoadWithWrongRecordIDTwo()
+    {
         $this->db->DBOpen('demo', 'writer', 'writer');
         $this->setExpectedException('OrientDBWrongParamsException');
         $record = $this->db->recordLoad('INVALID:', '');
     }
 
-    public function testRecordLoadWithWrongRecordIDThree() {
+    public function testRecordLoadWithWrongRecordIDThree()
+    {
         $this->db->DBOpen('demo', 'writer', 'writer');
         $this->setExpectedException('OrientDBWrongParamsException');
         $record = $this->db->recordLoad(':INVALID', '');
     }
 
-    public function testRecordLoadWithWrongRecordIDFour() {
+    public function testRecordLoadWithWrongRecordIDFour()
+    {
         $this->db->DBOpen('demo', 'writer', 'writer');
         $this->setExpectedException('OrientDBWrongParamsException');
         $record = $this->db->recordLoad('1:INVALID', '');
     }
 
-    public function testRecordLoadWithRecordPosZero() {
+    public function testRecordLoadWithRecordPosZero()
+    {
         $recordPos = 0;
         $this->db->DBOpen('demo', 'writer', 'writer');
         $record = $this->db->recordLoad($this->clusterID . ':' . $recordPos, '');
         $this->assertInstanceOf('OrientDBRecord', $record);
     }
 
-    public function testRecordLoadWithDeletedRecordId() {
+    public function testRecordLoadWithDeletedRecordId()
+    {
         $this->db->DBOpen('demo', 'writer', 'writer');
         $recordPos = $this->db->recordCreate($this->clusterID, $this->recordContent);
         $this->assertInternalType('integer', $recordPos);
@@ -92,20 +105,23 @@ class OrientDBRecordLoadTest extends OrientDBBaseTesting
         $this->assertFalse($record);
     }
 
-    public function testRecordLoadWithOutOfBoundsRecordId() {
+    public function testRecordLoadWithOutOfBoundsRecordId()
+    {
         $this->db->DBOpen('demo', 'writer', 'writer');
         $this->setExpectedException('OrientDBException');
         $record = $this->db->recordLoad($this->clusterID . ':' . 1000000, '');
     }
 
-    public function testRecordLoadWithFetchPlan() {
+    public function testRecordLoadWithFetchPlan()
+    {
         $this->db->DBOpen('demo', 'writer', 'writer');
         // Load record City:1
         $record = $this->db->recordLoad(12 . ':' . 1, '*:-1');
         $this->assertInstanceOf('OrientDBRecord', $record);
     }
 
-    public function testRecordLoadWithFetchPlanOneItem() {
+    public function testRecordLoadWithFetchPlanOneItem()
+    {
         $this->db->DBOpen('demo', 'writer', 'writer');
         // Load record City:1
         $this->assertEmpty($this->db->cachedRecords);
@@ -116,7 +132,8 @@ class OrientDBRecordLoadTest extends OrientDBBaseTesting
         $this->assertEmpty($this->db->cachedRecords);
     }
 
-    public function testRecordLoadWithFetchPlanManyItems() {
+    public function testRecordLoadWithFetchPlanManyItems()
+    {
         $this->db->DBOpen('demo', 'writer', 'writer');
         // Load record City:1
         $this->assertEmpty($this->db->cachedRecords);

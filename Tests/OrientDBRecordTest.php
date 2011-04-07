@@ -43,12 +43,16 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
     public function testParseRecordContentTwoStrings()
     {
         $record = new OrientDBRecord();
-        $keys = array('FirstName', 'LastName');
-        $values = array('Василий','Иванов');
+        $keys = array(
+                        'FirstName',
+                        'LastName');
+        $values = array(
+                        'Василий',
+                        'Иванов');
 
         $temp = array();
         for ($i = 0; $i < count($keys); $i++) {
-           $temp[] =  $keys[$i] . ':"' . $values[$i] . '"';
+            $temp[] = $keys[$i] . ':"' . $values[$i] . '"';
         }
         $record->content = implode(',', $temp);
         $record->parse();
@@ -121,6 +125,5 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
         $this->assertSame(2, $record->data->rules['database.query']);
         $this->assertSame(2, $record->data->rules['database.command']);
         $this->assertSame(2, $record->data->rules['database.hook.record']);
-
     }
 }

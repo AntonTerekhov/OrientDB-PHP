@@ -10,37 +10,44 @@ class OrientDBindexSizeTest extends OrientDBBaseTesting
 
     protected $recordID = '1:1';
 
-    protected function setUp() {
+    protected function setUp()
+    {
         $this->db = new OrientDB('localhost', 2424);
     }
 
-    protected function tearDown() {
+    protected function tearDown()
+    {
         $this->db = null;
     }
 
-    public function testindexSizeOnNotConnectedDB() {
+    public function testindexSizeOnNotConnectedDB()
+    {
         $this->setExpectedException('OrientDBWrongCommandException');
         $list = $this->db->indexSize();
     }
 
-    public function testindexSizeOnConnectedDB() {
+    public function testindexSizeOnConnectedDB()
+    {
         $this->db->connect('root', $this->root_password);
         $this->setExpectedException('OrientDBWrongCommandException');
         $list = $this->db->indexSize();
     }
 
-    public function testindexSizeOnNotOpenDB() {
+    public function testindexSizeOnNotOpenDB()
+    {
         $this->setExpectedException('OrientDBWrongCommandException');
         $list = $this->db->indexSize();
     }
 
-    public function testindexSizeOnOpenDB() {
+    public function testindexSizeOnOpenDB()
+    {
         $this->db->DBOpen('demo', 'writer', 'writer');
         $result = $this->db->indexSize();
         $this->assertInternalType('integer', $result);
     }
 
-    public function testindexSizeWithWrongOptionCount() {
+    public function testindexSizeWithWrongOptionCount()
+    {
         $this->db->DBOpen('demo', 'admin', 'admin');
         $result1 = $this->db->indexSize();
         $record = $this->db->indexPut($this->key, $this->recordID);

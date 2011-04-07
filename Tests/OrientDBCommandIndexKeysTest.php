@@ -6,31 +6,37 @@ require_once 'OrientDBBaseTest.php';
 class OrientDBIndexKeysTest extends OrientDBBaseTesting
 {
 
-    protected function setUp() {
+    protected function setUp()
+    {
         $this->db = new OrientDB('localhost', 2424);
     }
 
-    protected function tearDown() {
+    protected function tearDown()
+    {
         $this->db = null;
     }
 
-    public function testIndexKeysOnNotConnectedDB() {
+    public function testIndexKeysOnNotConnectedDB()
+    {
         $this->setExpectedException('OrientDBWrongCommandException');
         $list = $this->db->indexKeys();
     }
 
-    public function testIndexKeysOnConnectedDB() {
+    public function testIndexKeysOnConnectedDB()
+    {
         $this->db->connect('root', $this->root_password);
         $this->setExpectedException('OrientDBWrongCommandException');
         $list = $this->db->indexKeys();
     }
 
-    public function testIndexKeysOnNotOpenDB() {
+    public function testIndexKeysOnNotOpenDB()
+    {
         $this->setExpectedException('OrientDBWrongCommandException');
         $list = $this->db->indexKeys();
     }
 
-    public function testIndexKeysOnOpenDB() {
+    public function testIndexKeysOnOpenDB()
+    {
         $this->db->DBOpen('demo', 'writer', 'writer');
         $list = $this->db->indexKeys();
         $this->assertInternalType('array', $list);

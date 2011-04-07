@@ -2,6 +2,7 @@
 
 abstract class OrientDBBaseTesting extends PHPUnit_Framework_TestCase
 {
+
     /**
      * Correct password for root can be found at
      * config/orientdb-server-config.xml in your OrientDB installation

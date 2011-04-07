@@ -12,31 +12,37 @@ class OrientDBIndexPutTest extends OrientDBBaseTesting
 
     protected $recordIDNext = '1:2';
 
-    protected function setUp() {
+    protected function setUp()
+    {
         $this->db = new OrientDB('localhost', 2424);
     }
 
-    protected function tearDown() {
+    protected function tearDown()
+    {
         $this->db = null;
     }
 
-    public function testIndexPutOnNotConnectedDB() {
+    public function testIndexPutOnNotConnectedDB()
+    {
         $this->setExpectedException('OrientDBWrongCommandException');
         $list = $this->db->indexPut();
     }
 
-    public function testIndexPutOnConnectedDB() {
+    public function testIndexPutOnConnectedDB()
+    {
         $this->db->connect('root', $this->root_password);
         $this->setExpectedException('OrientDBWrongCommandException');
         $list = $this->db->indexPut();
     }
 
-    public function testIndexPutOnNotOpenDB() {
+    public function testIndexPutOnNotOpenDB()
+    {
         $this->setExpectedException('OrientDBWrongCommandException');
         $list = $this->db->indexPut();
     }
 
-    public function testIndexPutOnOpenDBWriter() {
+    public function testIndexPutOnOpenDBWriter()
+    {
         $this->db->DBOpen('demo', 'writer', 'writer');
         $this->db->indexRemove($this->key);
         $record = $this->db->indexPut($this->key, $this->recordID);
@@ -45,7 +51,8 @@ class OrientDBIndexPutTest extends OrientDBBaseTesting
         $this->db->indexRemove($this->key);
     }
 
-    public function testIndexPutOnOpenDBAdmin() {
+    public function testIndexPutOnOpenDBAdmin()
+    {
         $this->db->DBOpen('demo', 'admin', 'admin');
         $this->db->indexRemove($this->key);
         $record = $this->db->indexPut($this->key, $this->recordID);
@@ -54,38 +61,44 @@ class OrientDBIndexPutTest extends OrientDBBaseTesting
         $this->db->indexRemove($this->key);
     }
 
-    public function testIndexPutWithWrongOptionCount() {
+    public function testIndexPutWithWrongOptionCount()
+    {
         $this->db->DBOpen('demo', 'writer', 'writer');
         $this->setExpectedException('OrientDBWrongParamsException');
         $record = $this->db->indexPut($this->key);
     }
 
-    public function testIndexPutWithWrongRecordIDOne() {
+    public function testIndexPutWithWrongRecordIDOne()
+    {
         $this->db->DBOpen('demo', 'writer', 'writer');
         $this->setExpectedException('OrientDBWrongParamsException');
         $record = $this->db->indexPut($this->key, 'INVALID');
     }
 
-    public function testIndexPutWithWrongRecordIDTwo() {
+    public function testIndexPutWithWrongRecordIDTwo()
+    {
         $this->db->DBOpen('demo', 'writer', 'writer');
         $this->setExpectedException('OrientDBWrongParamsException');
         $record = $this->db->indexPut($this->key, 'INVALID:');
     }
 
-    public function testIndexPutWithWrongRecordIDThree() {
+    public function testIndexPutWithWrongRecordIDThree()
+    {
         $this->db->DBOpen('demo', 'writer', 'writer');
         $this->setExpectedException('OrientDBWrongParamsException');
         $record = $this->db->indexPut($this->key, ':INVALID');
     }
 
-    public function testIndexPutWithWrongRecordIDFour() {
+    public function testIndexPutWithWrongRecordIDFour()
+    {
         $recordID = '1:0';
         $this->db->DBOpen('demo', 'writer', 'writer');
         $this->setExpectedException('OrientDBWrongParamsException');
         $record = $this->db->indexPut($this->key, '1:INVALID');
     }
 
-    public function testIndexPutWithRecordPosZero() {
+    public function testIndexPutWithRecordPosZero()
+    {
         $this->db->DBOpen('demo', 'writer', 'writer');
         $this->db->indexRemove($this->key);
         $record = $this->db->indexPut($this->key, '1:0');
@@ -93,7 +106,8 @@ class OrientDBIndexPutTest extends OrientDBBaseTesting
         $this->db->indexRemove($this->key);
     }
 
-    public function testIndexPutWithTypeBytes() {
+    public function testIndexPutWithTypeBytes()
+    {
         $this->db->DBOpen('demo', 'admin', 'admin');
         $this->db->indexRemove($this->key);
         $record = $this->db->indexPut($this->key, $this->recordID, OrientDB::RECORD_TYPE_BYTES);
@@ -102,7 +116,8 @@ class OrientDBIndexPutTest extends OrientDBBaseTesting
         $this->db->indexRemove($this->key);
     }
 
-    public function testIndexPutWithTypeDocument() {
+    public function testIndexPutWithTypeDocument()
+    {
         $this->db->DBOpen('demo', 'admin', 'admin');
         $this->db->indexRemove($this->key);
         $record = $this->db->indexPut($this->key, $this->recordID, OrientDB::RECORD_TYPE_DOCUMENT);
@@ -111,7 +126,8 @@ class OrientDBIndexPutTest extends OrientDBBaseTesting
         $this->db->indexRemove($this->key);
     }
 
-    public function testIndexPutWithTypeFlat() {
+    public function testIndexPutWithTypeFlat()
+    {
         $this->db->DBOpen('demo', 'admin', 'admin');
         $this->db->indexRemove($this->key);
         $record = $this->db->indexPut($this->key, $this->recordID, OrientDB::RECORD_TYPE_FLAT);
@@ -120,13 +136,15 @@ class OrientDBIndexPutTest extends OrientDBBaseTesting
         $this->db->indexRemove($this->key);
     }
 
-    public function testIndexPutWithWrongType() {
+    public function testIndexPutWithWrongType()
+    {
         $this->db->DBOpen('demo', 'admin', 'admin');
         $this->setExpectedException('OrientDBWrongParamsException');
         $record = $this->db->indexPut($this->key, $this->recordID, '!');
     }
 
-    public function testIndexPutReturnPrevious() {
+    public function testIndexPutReturnPrevious()
+    {
         $this->db->DBOpen('demo', 'admin', 'admin');
         $this->db->indexRemove($this->key);
         $record = $this->db->indexPut($this->key, $this->recordID);
@@ -138,7 +156,8 @@ class OrientDBIndexPutTest extends OrientDBBaseTesting
         $this->db->indexRemove($this->key);
     }
 
-    public function testIndexPutWrongRecordID() {
+    public function testIndexPutWrongRecordID()
+    {
         $this->db->DBOpen('demo', 'admin', 'admin');
         $this->db->indexRemove($this->key);
         $record = $this->db->indexPut($this->key, '1000000:1000000');

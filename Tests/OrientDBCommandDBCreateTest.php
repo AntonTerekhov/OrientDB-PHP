@@ -10,32 +10,38 @@ class OrientDBDBCreateTest extends OrientDBBaseTesting
 
     protected static $dbSequence = 0;
 
-    protected function setUp() {
+    protected function setUp()
+    {
         $this->db = new OrientDB('localhost', 2424);
     }
 
-    protected function tearDown() {
+    protected function tearDown()
+    {
         if ($this->db->isConnected()) {
             $result = $this->db->DBDelete($this->getDBName());
         }
         $this->db = null;
     }
 
-    protected function sequenceInc() {
+    protected function sequenceInc()
+    {
         self::$dbSequence++;
     }
 
-    protected function getDBName() {
+    protected function getDBName()
+    {
         return $this->dbName . self::$dbSequence;
     }
 
-    public function testDBCreateOnNotConnectedDB() {
+    public function testDBCreateOnNotConnectedDB()
+    {
         $this->sequenceInc();
         $this->setExpectedException('OrientDBWrongCommandException');
         $result = $this->db->DBCreate($this->getDBName(), OrientDB::DB_TYPE_MEMORY);
     }
 
-    public function testDBCreateOnConnectedDB() {
+    public function testDBCreateOnConnectedDB()
+    {
         $this->sequenceInc();
         $this->db->connect('root', $this->root_password);
         $result = $this->db->DBCreate($this->getDBName(), OrientDB::DB_TYPE_MEMORY);
@@ -43,13 +49,15 @@ class OrientDBDBCreateTest extends OrientDBBaseTesting
         $result = $this->db->DBDelete($this->getDBName());
     }
 
-    public function testDBCreateOnNotOpenDB() {
+    public function testDBCreateOnNotOpenDB()
+    {
         $this->sequenceInc();
         $this->setExpectedException('OrientDBWrongCommandException');
         $result = $this->db->DBCreate($this->getDBName(), OrientDB::DB_TYPE_MEMORY);
     }
 
-    public function testDBCreateOnOpenDB() {
+    public function testDBCreateOnOpenDB()
+    {
         $this->sequenceInc();
         $this->db->DBOpen('demo', 'writer', 'writer');
         $this->setExpectedException('OrientDBWrongCommandException');
@@ -59,7 +67,8 @@ class OrientDBDBCreateTest extends OrientDBBaseTesting
     /**
      * @TODO Its strange, but as 0.9.2.4 it is possible to create memory databases with same name
      */
-    public function testDBCreateWithExistNameAndSameTypeMemory() {
+    public function testDBCreateWithExistNameAndSameTypeMemory()
+    {
         $this->sequenceInc();
         $this->db->connect('root', $this->root_password);
         $result = $this->db->DBCreate($this->getDBName(), OrientDB::DB_TYPE_MEMORY);
@@ -69,7 +78,8 @@ class OrientDBDBCreateTest extends OrientDBBaseTesting
         $this->db->DBDelete($this->getDBName());
     }
 
-    public function testDBCreateWithExistNameAndSameTypeLocal() {
+    public function testDBCreateWithExistNameAndSameTypeLocal()
+    {
         $this->sequenceInc();
         $this->db->connect('root', $this->root_password);
         $this->db->DBDelete($this->getDBName());
@@ -82,7 +92,8 @@ class OrientDBDBCreateTest extends OrientDBBaseTesting
     /**
      * @TODO Its strange, but as 0.9.2.4 it is possible to different databases types with same name
      */
-    public function testDBCreateWithExistNameAndDifferentTypeOne() {
+    public function testDBCreateWithExistNameAndDifferentTypeOne()
+    {
         $this->sequenceInc();
         $this->db->connect('root', $this->root_password);
         $this->db->DBDelete($this->getDBName());
@@ -95,7 +106,8 @@ class OrientDBDBCreateTest extends OrientDBBaseTesting
     /**
      * @TODO Its strange, but as 0.9.2.4 it is possible to create different databases types with same name
      */
-    public function testDBCreateWithExistNameAndDifferentTypeTwo() {
+    public function testDBCreateWithExistNameAndDifferentTypeTwo()
+    {
         $this->sequenceInc();
         $this->db->connect('root', $this->root_password);
         $this->db->DBDelete($this->getDBName());
@@ -105,14 +117,16 @@ class OrientDBDBCreateTest extends OrientDBBaseTesting
         $this->db->DBDelete($this->getDBName());
     }
 
-    public function testDBCreateWithWrongOptionCount() {
+    public function testDBCreateWithWrongOptionCount()
+    {
         $this->sequenceInc();
         $this->db->connect('root', $this->root_password);
         $this->setExpectedException('OrientDBWrongParamsException');
         $result = $this->db->DBCreate($this->getDBName());
     }
 
-    public function testDBCreateWithTypeMemory() {
+    public function testDBCreateWithTypeMemory()
+    {
         $this->sequenceInc();
         $this->db->connect('root', $this->root_password);
         $result = $this->db->DBCreate($this->getDBName(), OrientDB::DB_TYPE_MEMORY);
@@ -120,7 +134,8 @@ class OrientDBDBCreateTest extends OrientDBBaseTesting
         $this->db->DBDelete($this->getDBName());
     }
 
-    public function testDBCreateWithTypeLocal() {
+    public function testDBCreateWithTypeLocal()
+    {
         $this->sequenceInc();
         $this->db->connect('root', $this->root_password);
         $result = $this->db->DBCreate($this->getDBName(), OrientDB::DB_TYPE_LOCAL);
@@ -128,7 +143,8 @@ class OrientDBDBCreateTest extends OrientDBBaseTesting
         $this->db->DBDelete($this->getDBName());
     }
 
-    public function testDBCreateWithTypeWrong() {
+    public function testDBCreateWithTypeWrong()
+    {
         $this->sequenceInc();
         $this->db->connect('root', $this->root_password);
         $this->setExpectedException('OrientDBWrongParamsException');
