@@ -14,23 +14,23 @@ class OrientDBCommitTest extends OrientDBBaseTesting
         $this->db = null;
     }
 
-    public function testRecordCreateOnNotConnectedDB() {
+    public function testCommitOnNotConnectedDB() {
         $this->setExpectedException('OrientDBWrongCommandException');
         $list = $this->db->commit();
     }
 
-    public function testRecordCreateOnConnectedDB() {
+    public function testCommitOnConnectedDB() {
         $this->db->connect('root', $this->root_password);
         $this->setExpectedException('OrientDBWrongCommandException');
         $list = $this->db->commit();
     }
 
-    public function testRecordCreateOnNotOpenDB() {
+    public function testCommitOnNotOpenDB() {
         $this->setExpectedException('OrientDBWrongCommandException');
         $list = $this->db->commit();
     }
 
-    public function testRecordCreateOnOpenDB() {
+    public function testCommitOnOpenDB() {
         $this->db->DBOpen('demo', 'writer', 'writer');
         $this->markTestSkipped('Not implemented');
         $recordPos = $this->db->commit();
