@@ -539,6 +539,9 @@ class OrientDBRecord
             $tokenType = end($stackTT);
             switch ($tokenType) {
                 case false:
+                case self::TTYPE_NAME:
+                case self::TTYPE_COLLECTION_START:
+                case self::TTYPE_MAP_START:
                 // some speed up
                 break;
 
