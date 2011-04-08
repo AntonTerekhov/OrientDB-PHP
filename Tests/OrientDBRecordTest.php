@@ -137,4 +137,16 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
         $this->assertSame(2, $record->data->rules['database.command']);
         $this->assertSame(2, $record->data->rules['database.hook.record']);
     }
+
+    public function testParseRecordContentEmptyLink()
+    {
+        $record = new OrientDBRecord();
+        $record->content = 'name:"Rome",country:#14:0,district:#,sea:#';
+        $record->parse();
+
+        $this->assertSame('Rome', $record->data->name);
+        $this->assertSame('#14:0', $record->data->country);
+        $this->assertSame('#', $record->data->district);
+        $this->assertSame('#', $record->data->sea);
+    }
 }
