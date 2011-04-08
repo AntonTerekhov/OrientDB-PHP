@@ -117,6 +117,11 @@ class OrientDBRecord
     const STATE_KEY = 7;
 
     /**
+     * collecting boolean
+     */
+    const STATE_BOOLEAN = 8;
+
+    /**
      * character classes
      */
 
@@ -225,6 +230,16 @@ class OrientDBRecord
     const CCODE_NUM_DOUBLE = 0x64;
 
     /**
+     * f
+     */
+    const CCODE_BOOL_FALSE = 0x66;
+
+    /**
+     * t
+     */
+    const CCODE_BOOL_TRUE = 0x74;
+
+    /**
      * token types
      */
 
@@ -277,6 +292,11 @@ class OrientDBRecord
      * End of map
      */
     const TTYPE_MAP_END = 10;
+
+    /**
+     * Boolean value
+     */
+    const TTYPE_BOOLEAN = 11;
 
     /**
      * Parses $this->content and populates $this->data
@@ -418,6 +438,10 @@ class OrientDBRecord
                         $tokenType = self::TTYPE_MAP_END;
                         // stopped map
                         $isMap = false;
+                    } elseif ($cCode === self::CCODE_BOOL_FALSE || $cCode === self::CCODE_BOOL_TRUE) {
+                        // boolean found - switch state to boolean
+                        $this->state = self::STATE_BOOLEAN;
+                        $this->buffer = $char;
                     } else {
                         if ($cClass === self::CCLASS_NUMBER) {
                             // number found - switch to number collecting
@@ -524,6 +548,25 @@ class OrientDBRecord
                     }
                 break;
 
+                case self::STATE_BOOLEAN:
+                    if ($cClass === self::CCLASS_WORD) {
+                        // found next byte in link
+                        $this->buffer .= $char;
+                        $i++;
+                    } else {
+                        // found end of boolean value - switch state to comma
+                        $this->state = self::STATE_COMMA;
+                        // fill token
+                        if ($this->buffer === 'true') {
+                            $tokenValue = true;
+                        } else {
+                            $tokenValue = false;
+                        }
+                        // token type is string
+                        $tokenType = self::TTYPE_BOOLEAN;
+                    }
+                break;
+
                 default:
                     return;
                 break;
@@ -572,6 +615,16 @@ class OrientDBRecord
                 break;
 
                 case self::TTYPE_NUMBER:
+                    if (!$isCollection && !$isMap) {
+                        $value = array_pop($stackTV);
+                        array_pop($stackTT);
+                        $name = array_pop($stackTV);
+                        array_pop($stackTT);
+                        $this->data->$name = $value;
+                    }
+                break;
+
+                case self::TTYPE_BOOLEAN:
                     if (!$isCollection && !$isMap) {
                         $value = array_pop($stackTV);
                         array_pop($stackTT);
