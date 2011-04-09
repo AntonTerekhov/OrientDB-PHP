@@ -1,38 +1,5 @@
 <?php
 
-require 'OrientDBSocket.php';
-require 'OrientDBCommandAbstract.php';
-require 'OrientDBCommandCommand.php';
-require 'OrientDBCommandCommit.php';
-require 'OrientDBCommandConfigGet.php';
-require 'OrientDBCommandConfigList.php';
-require 'OrientDBCommandConfigSet.php';
-require 'OrientDBCommandConnect.php';
-require 'OrientDBCommandCount.php';
-require 'OrientDBCommandDataclusterAdd.php';
-require 'OrientDBCommandDataclusterCount.php';
-require 'OrientDBCommandDataclusterDatarange.php';
-require 'OrientDBCommandDataclusterRemove.php';
-require 'OrientDBCommandDBClose.php';
-require 'OrientDBCommandDBCreate.php';
-require 'OrientDBCommandDBDelete.php';
-require 'OrientDBCommandDBExists.php';
-require 'OrientDBCommandDBOpen.php';
-require 'OrientDBCommandIndexKeys.php';
-require 'OrientDBCommandIndexLookup.php';
-require 'OrientDBCommandIndexPut.php';
-require 'OrientDBCommandIndexRemove.php';
-require 'OrientDBCommandIndexSize.php';
-require 'OrientDBCommandRecordCreate.php';
-require 'OrientDBCommandRecordDelete.php';
-require 'OrientDBCommandRecordLoad.php';
-require 'OrientDBCommandRecordUpdate.php';
-require 'OrientDBCommandShutdown.php';
-
-require 'OrientDBRecord.php';
-
-require 'helpers/hex_dump.php';
-
 class OrientDB
 {
 
@@ -118,7 +85,7 @@ class OrientDB
 
     public function __call($name, $arguments)
     {
-        $className = 'OrientDBCommand' . $name;
+        $className = 'OrientDBCommand' . ucfirst($name);
         if (class_exists($className)) {
             $command = new $className($this);
             $this->canExecute($command);
@@ -222,4 +189,32 @@ class OrientDBWrongCommandException extends OrientDBException
 
 class OrientDBWrongParamsException extends OrientDBException
 {
+}
+
+
+if (!function_exists('OrientDB_autoload')) {
+    function OrientDB_autoload($className)
+    {
+        $prefix = 'OrientDB';
+        if (strpos($className, $prefix) === 0) {
+            $classTokens = substr($className, strlen($prefix));
+            preg_match_all('/[A-Z]+[^A-Z]+/', $classTokens, $classTokens);
+            $classToken = reset($classTokens[0]);
+
+            switch ($classToken) {
+                case 'Command':
+                    $fileName = 'Commands/' . $className . '.php';
+                break;
+                default:
+                    $fileName = $className . '.php';
+                break;
+            }
+            $fullName = dirname(__FILE__) . '/' . $fileName;
+            if (file_exists($fullName)) {
+                require_once $fullName;
+            }
+        }
+    }
+
+    spl_autoload_register('OrientDB_autoload');
 }

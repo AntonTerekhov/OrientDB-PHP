@@ -32,7 +32,7 @@ class OrientDBSocket
     {
         $data = fread($this->socket, $length === null ? $this->bufferLen : $length);
         if ($this->debug) {
-            hex_dump($data);
+            OrientDBHelpers::hexDump($data);
         }
         return $data;
     }
@@ -41,7 +41,7 @@ class OrientDBSocket
     {
         fwrite($this->socket, $data);
         if ($this->debug) {
-            hex_dump($data);
+            OrientDBHelpers::hexDump($data);
         }
     }
 }

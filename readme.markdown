@@ -7,7 +7,10 @@ Current OrientDB version to work with is: `1.0rc-1`
 
 Code compatible to previous binary releases of OrientDB can be found in repository's tags.
 
-This library requires PHP 5.3.x
+This library requires:
+
+* PHP 5.3.x
+    * spl extension (since PHP 5.3.0 this extension is always available)
 
 ## Function list ##
 ### Create a new instance of OrientDB class ###
