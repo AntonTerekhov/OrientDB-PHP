@@ -38,7 +38,7 @@ class OrientDBCommitTest extends OrientDBBaseTesting
     public function testCommitOnOpenDB()
     {
         $this->db->DBOpen('demo', 'writer', 'writer');
-        $this->markTestSkipped('Not implemented');
+        $this->markTestIncomplete('Not implemented');
         $recordPos = $this->db->commit();
     }
 
