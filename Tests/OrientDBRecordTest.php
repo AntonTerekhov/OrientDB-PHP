@@ -163,4 +163,16 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
         $this->assertSame(999.999, $record->data->float);
         $this->assertSame(456.7654, $record->data->double);
     }
+
+    public function testParseRecordContentMapWithNull()
+    {
+        $record = new OrientDBRecord();
+        $record->content = 'rules:{"database":,"database.cluster.internal":,"database.cluster.orole":}';
+        $record->parse();
+
+        $this->assertInternalType('array', $record->data->rules);
+        $this->assertNull($record->data->rules['database']);
+        $this->assertNull($record->data->rules['database.cluster.internal']);
+        $this->assertNull($record->data->rules['database.cluster.orole']);
+    }
 }
