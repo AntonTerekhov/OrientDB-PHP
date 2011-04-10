@@ -240,6 +240,11 @@ class OrientDBRecord
     const CCODE_BOOL_TRUE = 0x74;
 
     /**
+     * -
+     */
+    const CCODE_MINUS = 0x2D;
+
+    /**
      * token types
      */
 
@@ -463,7 +468,7 @@ class OrientDBRecord
                         $this->buffer = $char;
                         $i++;
                     } else {
-                        if ($cClass === self::CCLASS_NUMBER) {
+                        if ($cClass === self::CCLASS_NUMBER || $cCode === self::CCODE_MINUS) {
                             // number found - switch to number collecting
                             $this->state = self::STATE_NUMBER;
                             $this->buffer = $char;
@@ -538,7 +543,7 @@ class OrientDBRecord
                 break;
 
                 case self::STATE_NUMBER:
-                    if ($cClass === self::CCLASS_NUMBER || $cCode === self::CCODE_PERIOD) {
+                    if ($cClass === self::CCLASS_NUMBER || $cCode === self::CCODE_PERIOD || $cCode === self::CCODE_MINUS) {
                         // found next byte in link
                         $this->buffer .= $char;
                         $i++;
