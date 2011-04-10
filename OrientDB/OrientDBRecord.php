@@ -618,35 +618,8 @@ class OrientDBRecord
                 break;
 
                 case self::TTYPE_STRING:
-                    if (!$isCollection && !$isMap) {
-                        $value = array_pop($stackTV);
-                        array_pop($stackTT);
-                        $name = array_pop($stackTV);
-                        array_pop($stackTT);
-                        $this->data->$name = $value;
-                    }
-                break;
-
                 case self::TTYPE_LINK:
-                    if (!$isCollection && !$isMap) {
-                        $value = array_pop($stackTV);
-                        array_pop($stackTT);
-                        $name = array_pop($stackTV);
-                        array_pop($stackTT);
-                        $this->data->$name = $value;
-                    }
-                break;
-
                 case self::TTYPE_NUMBER:
-                    if (!$isCollection && !$isMap) {
-                        $value = array_pop($stackTV);
-                        array_pop($stackTT);
-                        $name = array_pop($stackTV);
-                        array_pop($stackTT);
-                        $this->data->$name = $value;
-                    }
-                break;
-
                 case self::TTYPE_BOOLEAN:
                     if (!$isCollection && !$isMap) {
                         $value = array_pop($stackTV);
