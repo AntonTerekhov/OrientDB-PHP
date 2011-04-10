@@ -170,14 +170,24 @@ class OrientDBRecord
     const CCODE_COMMA = 0x2C;
 
     /**
+     * (
+     */
+    const CCODE_OPEN_PARENTHESES = 0x28;
+
+    /**
+     * )
+     */
+    const CCODE_CLOSE_PARENTHESES = 0x29;
+
+    /**
      * [
      */
-    const CCODE_OPEN_BRACKET = 0x5B;
+    const CCODE_OPEN_SQUARE = 0x5B;
 
     /**
      * ]
      */
-    const CCODE_CLOSE_BRACKET = 0x5D;
+    const CCODE_CLOSE_SQUARE = 0x5D;
 
     /**
      * {
@@ -425,7 +435,7 @@ class OrientDBRecord
                         // add hash to value
                         $this->buffer = $char;
                         $i++;
-                    } elseif ($cCode === self::CCODE_OPEN_BRACKET) {
+                    } elseif ($cCode === self::CCODE_OPEN_SQUARE) {
                         // [ found, state is still value
                         $this->state = self::STATE_VALUE;
                         // token is empty
@@ -434,7 +444,7 @@ class OrientDBRecord
                         // started collection
                         $isCollection = true;
                         $i++;
-                    } elseif ($cCode === self::CCODE_CLOSE_BRACKET) {
+                    } elseif ($cCode === self::CCODE_CLOSE_SQUARE) {
                         // ] found,
                         $this->state = self::STATE_COMMA;
                         // token is empty
