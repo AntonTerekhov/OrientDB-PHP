@@ -11,6 +11,7 @@ This library requires:
 
 * PHP 5.3.x
     * spl extension (since PHP 5.3.0 this extension is always available)
+    * PCRE extension (as of PHP 5.3.0 this extension cannot be disabled and is therefore always present)
 
 ## Function list ##
 ### Create a new instance of OrientDB class ###
