@@ -252,7 +252,7 @@ class OrientDBRecord
     /**
      * E
      */
-    const CCODE_EXP_UPER = 0x45;
+    const CCODE_EXP_UPPER = 0x45;
 
     /**
      * token types
@@ -553,7 +553,7 @@ class OrientDBRecord
                 break;
 
                 case self::STATE_NUMBER:
-                    if ($cClass === self::CCLASS_NUMBER || $cCode === self::CCODE_PERIOD || $cCode === self::CCODE_MINUS || $cCode === self::CCODE_EXP_LOWER || $cCode === self::CCODE_EXP_UPER) {
+                    if ($cClass === self::CCLASS_NUMBER || $cCode === self::CCODE_PERIOD || $cCode === self::CCODE_MINUS || $cCode === self::CCODE_EXP_LOWER || $cCode === self::CCODE_EXP_UPPER) {
                         // found next byte in link
                         $this->buffer .= $char;
                         $i++;
