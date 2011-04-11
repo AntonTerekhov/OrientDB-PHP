@@ -66,11 +66,23 @@ class OrientDBRecord
     public function parse()
     {
         // Form recordID
-        $this->recordID = $this->clusterID . ':' . $this->recordPos;
+        $this->parseRecordID();
         // Parse record content
         $parser = new OrientDBRecordParser($this->content);
 
         $this->className = $parser->className;
         $this->data = $parser->data;
+    }
+
+    /**
+     *
+     * Parses recordID from $this->clusterID and $this->recordPos
+     * @return void
+     */
+    private function parseRecordID()
+    {
+        if (!empty($this->clusterID) && !empty($this->recordPos)) {
+            $this->recordID = $this->clusterID . ':' . $this->recordPos;
+        }
     }
 }
