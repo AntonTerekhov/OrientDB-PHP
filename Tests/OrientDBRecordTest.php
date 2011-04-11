@@ -202,4 +202,19 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
         $this->assertNull($record->data->rules['database.cluster.internal']);
         $this->assertNull($record->data->rules['database.cluster.orole']);
     }
+
+    public function testParseRecordEmbeddedDocs()
+    {
+        $record = new OrientDBRecord();
+        $record->content = 'City@name:"Rome",country:#14:0,embedded:(City@name:"Rome",country:#14:0)';
+        $record->parse();
+
+        $this->assertSame('City', $record->className);
+        $this->assertSame('Rome', $record->data->name);
+        $this->assertSame('#14:0', $record->data->country);
+        $this->assertInstanceOf('OrientDBRecord', $record->data->embedded);
+        $this->assertSame('City', $record->data->embedded->className);
+        $this->assertSame('Rome', $record->data->embedded->data->name);
+        $this->assertSame('#14:0', $record->data->embedded->data->country);
+    }
 }
