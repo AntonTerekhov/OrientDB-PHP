@@ -519,6 +519,8 @@ class OrientDBRecordParser
                             $tokenValue = $this->buffer;
                             // token type is string
                             $tokenType = self::TTYPE_STRING;
+                            // emptying buffer
+                            $this->buffer = '';
                         }
                     } else {
                         // found next byte in string
