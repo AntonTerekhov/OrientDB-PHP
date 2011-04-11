@@ -468,8 +468,10 @@ class OrientDBRecordParser
                     } elseif ($cCode === self::CCODE_OPEN_PARENTHESES) {
                         // ( found, state is COMMA
                         $this->state = self::STATE_COMMA;
+                        // increment position so we can transfer clean document
+                        $this->i++;
                         // create new parser
-                        $parser = new OrientDBRecordParser(substr($this->content, $this->i + 1));
+                        $parser = new OrientDBRecordParser(substr($this->content, $this->i));
                         // create new embedded document and populate its values
                         $tokenValue = new OrientDBRecord();
                         $tokenValue->data = $parser->data;
@@ -478,8 +480,11 @@ class OrientDBRecordParser
                         $tokenType = self::TTYPE_EMBEDDED;
                         // fast forward to embedded position
                         $this->i += $parser->i;
+                        // increment counter so we can continue on clean document
+                        $this->i++;
                         break;
                     } elseif ($cCode === self::CCODE_CLOSE_PARENTHESES) {
+                        // end of current document reached
                         $this->continue = false;
                         break;
                     } elseif ($cCode === self::CCODE_BOOL_FALSE || $cCode === self::CCODE_BOOL_TRUE) {
@@ -509,8 +514,10 @@ class OrientDBRecordParser
                         } else {
                             $this->state = self::STATE_GUESS;
                         }
+                        $this->i++;
+                    } else {
+                        $this->state = self::STATE_VALUE;
                     }
-                    $this->i++;
                 break;
 
                 case self::STATE_STRING:
