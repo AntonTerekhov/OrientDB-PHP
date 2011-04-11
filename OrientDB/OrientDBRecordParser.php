@@ -499,6 +499,20 @@ class OrientDBRecordParser
                     }
                 break;
 
+                case self::STATE_COMMA:
+                    if ($cCode === self::CCODE_COMMA) {
+                        // Found a comma -  switch to
+                        if ($isCollection) {
+                            $this->state = self::STATE_VALUE;
+                        } elseif ($isMap) {
+                            $this->state = self::STATE_KEY;
+                        } else {
+                            $this->state = self::STATE_GUESS;
+                        }
+                    }
+                    $this->i++;
+                break;
+
                 case self::STATE_STRING:
                     if ($cCode === self::CCODE_ESCAPE) {
                         // escaping 1 symbol
@@ -525,20 +539,6 @@ class OrientDBRecordParser
                     } else {
                         // found next byte in string
                         $this->buffer .= $char;
-                    }
-                    $this->i++;
-                break;
-
-                case self::STATE_COMMA:
-                    if ($cCode === self::CCODE_COMMA) {
-                        // Found a comma -  switch to
-                        if ($isCollection) {
-                            $this->state = self::STATE_VALUE;
-                        } elseif ($isMap) {
-                            $this->state = self::STATE_KEY;
-                        } else {
-                            $this->state = self::STATE_GUESS;
-                        }
                     }
                     $this->i++;
                 break;
