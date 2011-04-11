@@ -236,7 +236,7 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
         $this->assertNull($record->data->rules['database.cluster.orole']);
     }
 
-    public function testParseRecordEmbeddedDocs()
+    public function testParseRecordEmbeddedDoc()
     {
         $record = new OrientDBRecord();
         $record->content = 'City@name:"Rome",country:#14:0,embedded:(City@name:"Rome",country:#14:0)';
@@ -249,5 +249,20 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
         $this->assertSame('City', $record->data->embedded->className);
         $this->assertSame('Rome', $record->data->embedded->data->name);
         $this->assertSame('#14:0', $record->data->embedded->data->country);
+    }
+
+    public function testParseRecordEmbeddedDocsInCollection()
+    {
+        $record = new OrientDBRecord();
+        $record->content = 'values:[(name:"John"),(City:"New York"),(color:"#FFF")]';
+        $record->parse();
+
+        $this->assertInternalType('array', $record->data->values);
+        $this->assertInstanceOf('OrientDBRecord', $record->data->values[0]);
+        $this->assertSame('John', $record->data->values[0]->data->name);
+        $this->assertInstanceOf('OrientDBRecord', $record->data->values[1]);
+        $this->assertSame('New York', $record->data->values[1]->data->City);
+        $this->assertInstanceOf('OrientDBRecord', $record->data->values[2]);
+        $this->assertSame('#FFF', $record->data->values[2]->data->color);
     }
 }
