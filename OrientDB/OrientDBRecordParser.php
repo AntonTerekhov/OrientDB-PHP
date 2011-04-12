@@ -336,9 +336,6 @@ class OrientDBRecordParser
         $this->data = new StdClass();
         // initial state
         $this->state = self::STATE_GUESS;
-        // current
-        $tokenValue = null;
-        $tokenType = null;
         // is parsing collection
         $isCollection = false;
         // is parsing a map
