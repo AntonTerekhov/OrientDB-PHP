@@ -50,6 +50,24 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
         $this->assertNull($record->recordID);
     }
 
+    public function testParseRecordIDZero()
+    {
+        $clusterID = 3;
+        $recordPos = 4;
+
+        $record = new OrientDBRecord();
+        $record->clusterID = $clusterID;
+        $record->recordPos = 0;
+        $record->parse();
+        $this->assertSame($clusterID . ':' . 0, $record->recordID);
+
+        $record = new OrientDBRecord();
+        $record->clusterID = 0;
+        $record->recordPos = $recordPos;
+        $record->parse();
+        $this->assertNull($record->recordID);
+    }
+
     public function testParseRecordContentSimpleString()
     {
         $record = new OrientDBRecord();

@@ -81,7 +81,10 @@ class OrientDBRecord
      */
     private function parseRecordID()
     {
-        if (!empty($this->clusterID) && !empty($this->recordPos)) {
+        if ((int) $this->clusterID !== $this->clusterID || (int) $this->recordPos !== $this->recordPos) {
+            return;
+        }
+        if ($this->clusterID > 0 && $this->recordPos >= 0) {
             $this->recordID = $this->clusterID . ':' . $this->recordPos;
         }
     }
