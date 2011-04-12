@@ -249,6 +249,20 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
         $this->assertSame(1.13e10, $record->data->five);
     }
 
+    public function testParseRecordContentDate()
+    {
+        $record = new OrientDBRecord();
+        $record->content = 'filename:"readme.markdown",permissions:"0644",user:"nobody",group:"nobody",size:11958,modified:1302627138t';
+        $record->parse();
+
+        $this->assertSame('readme.markdown', $record->data->filename);
+        $this->assertSame('0644', $record->data->permissions);
+        $this->assertSame('nobody', $record->data->user);
+        $this->assertSame('nobody', $record->data->group);
+        $this->assertSame(11958, $record->data->size);
+        $this->assertSame(1302627138, $record->data->modified->getTime());
+    }
+
     public function testParseRecordContentMapWithNull()
     {
         $record = new OrientDBRecord();

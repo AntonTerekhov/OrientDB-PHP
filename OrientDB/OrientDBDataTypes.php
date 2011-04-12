@@ -7,6 +7,7 @@
  */
 class OrientDBTypeLink
 {
+
     private $link;
 
     /**
@@ -57,5 +58,46 @@ class OrientDBTypeLink
             return '#' . $this->link;
         }
         return $this->link;
+    }
+}
+
+/**
+ *
+ * Class represent OrientDB date
+ *
+ */
+class OrientDBTypeDate
+{
+
+    private $timestamp;
+
+    public function __construct($time)
+    {
+        if (substr($time, -1, 1) === 't') {
+            $time = substr($time, 0, -1);
+        }
+        if ((string) (int) $time === (string) $time) {
+            $this->timestamp = (int) $time;
+        }
+    }
+
+    public function __toString()
+    {
+        if ($this->timestamp) {
+            return $this->timestamp . 't';
+        }
+        return '';
+    }
+
+    public function getTime()
+    {
+        return $this->timestamp;
+    }
+
+    public function getValue()
+    {
+        if ($this->timestamp) {
+            return $this->timestamp . 't';
+        }
     }
 }

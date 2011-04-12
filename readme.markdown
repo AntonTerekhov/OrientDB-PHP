@@ -397,5 +397,26 @@ Output will be the same:
     #100:99
     100:99
 
+### OrientDBTypeTime ###
+Used to store OrientDB date format on timestamps.
+
+    OrientDBTypeLink(mixed $value);
+
+*Example*:
+
+    $date = new OrientDBTypeDate('1302631023t');
+    $date2 = new OrientDBTypeDate(1302631023);
+
+
+    echo (string) $date . PHP_EOL;
+    echo  $date->getValue() . PHP_EOL;
+    echo  $date->getTime() . PHP_EOL;
+
+Both `$date` and `$date2` will output the same:
+
+    1302631023t
+    1302631023t
+    1302631023
+
 ## Planned TODOs ##
 Fix RecordPos with 64-bit Long

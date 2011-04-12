@@ -252,6 +252,11 @@ class OrientDBRecordParser
     const CCODE_EXP_UPPER = 0x45;
 
     /**
+     * t
+     */
+    const CCODE_DATE = 0x74;
+
+    /**
      * token types
      */
 
@@ -568,11 +573,14 @@ class OrientDBRecordParser
                         } elseif ($cCode === self::CCODE_NUM_LONG || $cCode === self::CCODE_NUM_FLOAT || $cCode === self::CCODE_NUM_DOUBLE) {
                             $tokenValue = (float) $this->buffer;
                             $this->i++;
+                        } elseif ($cCode === self::CCODE_DATE) {
+                            $tokenValue = new OrientDBTypeDate($this->buffer);
+                            $this->i++;
                         } else {
                             // this is int
                             $tokenValue = (int) $this->buffer;
                         }
-                        // token type is link
+                        // token type is number
                         $this->stackPush(self::TTYPE_NUMBER, $tokenValue);
                     }
                 break;
