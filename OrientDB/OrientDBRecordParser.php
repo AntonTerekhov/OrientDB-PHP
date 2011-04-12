@@ -543,7 +543,7 @@ class OrientDBRecordParser
                             $this->state = self::STATE_VALUE;
                         }
                         // token type is link
-                        $this->stackPush(self::TTYPE_LINK);
+                        $this->stackPush(self::TTYPE_LINK, new OrientDBTypeLink($this->buffer));
                     }
                 break;
 

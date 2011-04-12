@@ -369,5 +369,33 @@ For present moment OrientDB using this list of exceptions:
 ## OrientDBRecord ##
 This is class representing record.
 
+## Datatypes ##
+Due to small quantity of PHP's built-in datatypes, this library is introducing some own datatypes.
+
+### OrientDBLink ##
+Used to link records with each other.
+
+    OrientDBTypeLink(string $value);
+
+Value can be defined with or without leading hash sign.
+
+*Example*:
+
+    $link = new OrientDBTypeLink('#100:99');
+    echo $link . PHP_EOL;
+    echo $link->getHash() . PHP_EOL;
+    echo $link->get() . PHP_EOL;
+
+    $link2 = new OrientDBTypeLink('#100:99');
+    echo $link2 . PHP_EOL;
+    echo $link2->getHash() . PHP_EOL;
+    echo $link2->get() . PHP_EOL;
+
+Output will be the same:
+
+    #100:99
+    #100:99
+    100:99
+
 ## Planned TODOs ##
 Fix RecordPos with 64-bit Long

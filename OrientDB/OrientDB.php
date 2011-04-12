@@ -205,6 +205,9 @@ if (!function_exists('OrientDB_autoload')) {
                 case 'Command':
                     $fileName = 'Commands/' . $className . '.php';
                 break;
+                case 'Type':
+                    $fileName = 'OrientDBDataTypes.php';
+                break;
                 default:
                     $fileName = $className . '.php';
                 break;
