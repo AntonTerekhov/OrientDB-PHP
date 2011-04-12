@@ -42,7 +42,7 @@ class OrientDBTypeLinkTest extends PHPUnit_Framework_TestCase
         $link = new OrientDBTypeLink($value);
 
         $this->assertSame('', (string) $link);
-        $this->assertSame(null, $link->get());
-        $this->assertSame(null, $link->getHash());
+        $this->assertNull($link->get());
+        $this->assertNull($link->getHash());
     }
 }
