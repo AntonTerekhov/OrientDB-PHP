@@ -47,6 +47,19 @@ class OrientDBRecordParser
     protected $i = 0;
 
     /**
+     * Stack for token values
+     * @var array
+     */
+    protected $stackTV = array();
+
+    /**
+     *
+     * Stack fo token types
+     * @var array
+     */
+    protected $stackTT = array();
+
+    /**
      * List of possble states
      */
 
@@ -323,9 +336,6 @@ class OrientDBRecordParser
         $this->data = new StdClass();
         // initial state
         $this->state = self::STATE_GUESS;
-        // stacks
-        $stackTT = array();
-        $stackTV = array();
         // current
         $tokenValue = null;
         $tokenType = null;
@@ -365,20 +375,12 @@ class OrientDBRecordParser
                             // Colon found - swith state to value collecting
                             $this->state = self::STATE_VALUE;
                             // fill token with data
-                            $tokenValue = $this->buffer;
-                            // set token type to name
-                            $tokenType = self::TTYPE_NAME;
-                            // emptying buffer
-                            $this->buffer = '';
+                            $this->stackPush(self::TTYPE_NAME);
                         } elseif ($cCode === self::CCODE_AT) {
                             // @ found - this was class name
                             // start to collect name - no state change
                             // fill token with data
-                            $tokenValue = $this->buffer;
-                            // set token type to name
-                            $tokenType = self::TTYPE_CLASS;
-                            // emptying buffer
-                            $this->buffer = '';
+                            $this->stackPush(self::TTYPE_CLASS);
                         }
                     }
                     $this->i++;
@@ -389,11 +391,7 @@ class OrientDBRecordParser
                         // Colon found - swith state to value collecting
                         $this->state = self::STATE_VALUE;
                         // fill token with data
-                        $tokenValue = $this->buffer;
-                        // set token type to name
-                        $tokenType = self::TTYPE_KEY;
-                        // emptying buffer
-                        $this->buffer = '';
+                        $this->stackPush(self::TTYPE_KEY);
                     } elseif ($cCode !== self::CCODE_DOUBLE_QUOTE) {
                         $this->buffer .= $char;
                     }
@@ -404,10 +402,8 @@ class OrientDBRecordParser
                     if ($cCode === self::CCODE_COMMA) {
                         // No value - switch state to comma
                         $this->state = self::STATE_COMMA;
-                        // token is empty
-                        $tokenValue = '';
                         // token type is null
-                        $tokenType = self::TTYPE_NULL;
+                        $this->stackPush(self::TTYPE_NULL);
                     } elseif ($cCode === self::CCODE_DOUBLE_QUOTE) {
                         // switch state to string collecting
                         $this->state = self::STATE_STRING;
@@ -421,47 +417,38 @@ class OrientDBRecordParser
                     } elseif ($cCode === self::CCODE_OPEN_SQUARE) {
                         // [ found, state is still value
                         $this->state = self::STATE_VALUE;
-                        // token is empty
-                        $tokenValue = '';
-                        $tokenType = self::TTYPE_COLLECTION_START;
+                        // token type is collection start
+                        $this->stackPush(self::TTYPE_COLLECTION_START);
                         // started collection
                         $isCollection = true;
                         $this->i++;
                     } elseif ($cCode === self::CCODE_CLOSE_SQUARE) {
                         // ] found,
                         $this->state = self::STATE_COMMA;
-                        // token is empty
-                        $tokenValue = '';
                         // token type is collection end
-                        $tokenType = self::TTYPE_COLLECTION_END;
+                        $this->stackPush(self::TTYPE_COLLECTION_END);
                         // stopped collection
                         $isCollection = false;
                         $this->i++;
                     } elseif ($cCode === self::CCODE_OPEN_CURLY) {
                         // found { switch state to name
                         $this->state = self::STATE_KEY;
-                        // token is empty
-                        $tokenValue = '';
-
-                        $tokenType = self::TTYPE_MAP_START;
+                        // token type is map start
+                        $this->stackPush(self::TTYPE_MAP_START);
                         // started map
                         $isMap = true;
                         $this->i++;
                     } elseif ($cCode === self::CCODE_CLOSE_CURLY) {
                         // } found
                         // check if null value in the end of the map
-                        if (end($stackTT) === self::TTYPE_KEY) {
-                            // token is empty
-                            $tokenValue = '';
+                        if ($this->stackGetLastType() === self::TTYPE_KEY) {
                             // token type is map end
-                            $tokenType = self::TTYPE_NULL;
+                            $this->stackPush(self::TTYPE_NULL);
                             break;
                         }
                         $this->state = self::STATE_COMMA;
-                        // token is empty
-                        $tokenValue = '';
                         // token type is map end
-                        $tokenType = self::TTYPE_MAP_END;
+                        $this->stackPush(self::TTYPE_MAP_END);
                         // stopped map
                         $isMap = false;
                         $this->i++;
@@ -477,7 +464,7 @@ class OrientDBRecordParser
                         $tokenValue->data = $parser->data;
                         $tokenValue->className = $parser->className;
                         // token type is embedded
-                        $tokenType = self::TTYPE_EMBEDDED;
+                        $this->stackPush(self::TTYPE_EMBEDDED, $tokenValue);
                         // fast forward to embedded position
                         $this->i += $parser->i;
                         // increment counter so we can continue on clean document
@@ -536,12 +523,8 @@ class OrientDBRecordParser
                         } else {
                             // found end of string value - switch state to comma
                             $this->state = self::STATE_COMMA;
-                            // fill token
-                            $tokenValue = $this->buffer;
                             // token type is string
-                            $tokenType = self::TTYPE_STRING;
-                            // emptying buffer
-                            $this->buffer = '';
+                            $this->stackPush(self::TTYPE_STRING);
                         }
                     } else {
                         // found next byte in string
@@ -562,12 +545,8 @@ class OrientDBRecordParser
                         } else {
                             $this->state = self::STATE_VALUE;
                         }
-                        // fill token
-                        $tokenValue = $this->buffer;
                         // token type is link
-                        $tokenType = self::TTYPE_LINK;
-                        // emptying buffer
-                        $this->buffer = '';
+                        $this->stackPush(self::TTYPE_LINK);
                     }
                 break;
 
@@ -597,10 +576,7 @@ class OrientDBRecordParser
                             $tokenValue = (int) $this->buffer;
                         }
                         // token type is link
-                        $tokenType = self::TTYPE_NUMBER;
-                        // emptying buffer
-                        $this->buffer = '';
-
+                        $this->stackPush(self::TTYPE_NUMBER, $tokenValue);
                     }
                 break;
 
@@ -619,7 +595,7 @@ class OrientDBRecordParser
                             $tokenValue = false;
                         }
                         // token type is string
-                        $tokenType = self::TTYPE_BOOLEAN;
+                        $this->stackPush(self::TTYPE_BOOLEAN, $tokenValue);
                     }
                 break;
 
@@ -627,16 +603,8 @@ class OrientDBRecordParser
                     return;
                 break;
             }
-            // push all found data to stack
-            if ($tokenValue !== null) {
-                array_push($stackTV, $tokenValue);
-                array_push($stackTT, $tokenType);
-                $tokenValue = null;
-                $tokenType = null;
-            }
 
-            $tokenLast = end($stackTT);
-            switch ($tokenLast) {
+            switch ($this->stackGetLastType()) {
                 case false:
                 case self::TTYPE_NAME:
                 case self::TTYPE_KEY:
@@ -646,8 +614,7 @@ class OrientDBRecordParser
                 break;
 
                 case self::TTYPE_CLASS:
-                    $value = array_pop($stackTV);
-                    array_pop($stackTT);
+                    list(, $value) = $this->stackPop();
                     $this->className = $value;
                 break;
 
@@ -657,20 +624,16 @@ class OrientDBRecordParser
                 case self::TTYPE_BOOLEAN:
                 case self::TTYPE_EMBEDDED:
                     if (!$isCollection && !$isMap) {
-                        $value = array_pop($stackTV);
-                        array_pop($stackTT);
-                        $name = array_pop($stackTV);
-                        array_pop($stackTT);
+                        list(, $value) = $this->stackPop();
+                        list(, $name) = $this->stackPop();
                         $this->data->$name = $value;
                     }
                 break;
 
                 case self::TTYPE_NULL:
                     if (!$isCollection && !$isMap) {
-                        array_pop($stackTV);
-                        array_pop($stackTT);
-                        $name = array_pop($stackTV);
-                        array_pop($stackTT);
+                        $this->stackPop();
+                        list(, $name) = $this->stackPop();
                         $this->data->$name = null;
                     }
                 break;
@@ -678,15 +641,13 @@ class OrientDBRecordParser
                 case self::TTYPE_COLLECTION_END:
                     $values = array();
                     do {
-                        $searchToken = array_pop($stackTT);
-                        $value = array_pop($stackTV);
+                        list($searchToken, $value) = $this->stackPop();
 
                         if ($searchToken !== self::TTYPE_COLLECTION_START && $searchToken !== self::TTYPE_COLLECTION_END) {
                             $values[] = $value;
                         }
                     } while ($searchToken !== self::TTYPE_COLLECTION_START);
-                    $name = array_pop($stackTV);
-                    array_pop($stackTT);
+                    list(, $name) = $this->stackPop();
                     $values = array_reverse($values);
                     $this->data->$name = $values;
                 break;
@@ -694,20 +655,17 @@ class OrientDBRecordParser
                 case self::TTYPE_MAP_END:
                     $values = array();
                     do {
-                        $searchToken = array_pop($stackTT);
-                        $value = array_pop($stackTV);
+                        list($searchToken, $value) = $this->stackPop();
                         // check for null value
                         if ($searchToken === self::TTYPE_NULL) {
                             $value = null;
                         }
                         if ($searchToken !== self::TTYPE_MAP_START && $searchToken !== self::TTYPE_MAP_END) {
-                            $name = array_pop($stackTV);
-                            array_pop($stackTT);
-                            $values[$name] = $value;
+                            list(, $key) = $this->stackPop();
+                            $values[$key] = $value;
                         }
                     } while ($searchToken !== self::TTYPE_MAP_START);
-                    $name = array_pop($stackTV);
-                    array_pop($stackTT);
+                    list(, $name) = $this->stackPop();
                     $values = array_reverse($values);
                     $this->data->$name = $values;
                 break;
@@ -716,5 +674,43 @@ class OrientDBRecordParser
                 break;
             }
         }
+    }
+
+    /**
+     *
+     * Pushes found value to internal stack and flushes $this->buffer. If no
+     * $tokenValue is given, uses $this->buffer
+     * @param int $tokenType
+     * @param mixed $tokenValue
+     */
+    protected function stackPush($tokenType, $tokenValue = null)
+    {
+        array_push($this->stackTT, $tokenType);
+        if ($tokenValue === null) {
+            $tokenValue = $this->buffer;
+        }
+        array_push($this->stackTV, $tokenValue);
+        $this->buffer = '';
+    }
+
+    /**
+     *
+     * Pop value from internal stack
+     * @return array
+     */
+    protected function stackPop()
+    {
+        return array(array_pop($this->stackTT), array_pop($this->stackTV));
+    }
+
+    /**
+     *
+     * Return last token type
+     * @return int
+     * @example TTYPE_NAME
+     */
+    protected function stackGetLastType()
+    {
+        return end($this->stackTT);
     }
 }
