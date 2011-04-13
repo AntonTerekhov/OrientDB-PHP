@@ -100,6 +100,17 @@ class OrientDBRecordUpdateTest extends OrientDBBaseTesting
         $this->AssertSame($version, $record2->version);
     }
 
+    public function testRecordUpdateWithRecordNotExist()
+    {
+        $this->db->DBOpen('demo', 'writer', 'writer');
+        $recordPos = $this->db->recordCreate($this->clusterID, $this->recordContent);
+        $this->assertInternalType('integer', $recordPos);
+        $result = $this->db->recordDelete($this->clusterID . ':' . $recordPos);
+        $this->assertTrue($result);
+        $version = $this->db->recordUpdate($this->clusterID . ':' . $recordPos, $this->recordContentUpd);
+        $this->assertSame(-1, $version);
+    }
+
     public function testRecordUpdateWithSameType()
     {
         $this->db->DBOpen('demo', 'admin', 'admin');
