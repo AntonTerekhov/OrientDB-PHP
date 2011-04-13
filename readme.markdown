@@ -204,9 +204,9 @@ Will produce something like this:
 
 #### RecordUpdate ####
 Update record with specified recordID and, optionally, version.
-Returns `true` on success, `false` otherwise or throws an exception.
+Returns new record version on success, -1 otherwise or throws an exception.
 
-    bool $db->recordUpdate(string $recordID, string $recordContent[, int $recordVersion[, string $recordType]]);
+    int $db->recordUpdate(string $recordID, string $recordContent[, int $recordVersion[, string $recordType]]);
 
 Default version is `-1`. This means no version check will be done.
 
@@ -220,8 +220,8 @@ Default type used is `OrientDB::RECORD_TYPE_DOCUMENT`.
 
 *Examples:*
 
-    $result = $db->recordUpdate('1:1', 'Name:"Bob"');
-    $result = $db->recordUpdate('1:1', 'Name:"Bob"', 1, OrientDB::RECORD_TYPE_DOCUMENT);
+    $version = $db->recordUpdate('1:1', 'Name:"Bob"');
+    $version = $db->recordUpdate('1:1', 'Name:"Bob"', 1, OrientDB::RECORD_TYPE_DOCUMENT);
 
 ### Config commands ###
 
