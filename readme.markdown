@@ -364,7 +364,7 @@ For present moment OrientDB-PHP is using this list of exceptions:
 * `OrientDBWrongParamsException` - wrong params count or other param-related issues.
 
 ## OrientDBRecord ##
-This is class representing record.
+This class is representing OrientDB record.
 
 ## Datatypes ##
 Due to small quantity of PHP's built-in datatypes, this library is introducing some own datatypes.
