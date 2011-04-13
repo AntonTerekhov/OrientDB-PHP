@@ -23,8 +23,8 @@ This library requires:
     $db = new OrientDB('localhost', 2424);
 
 ### Connect to server ###
-Connects to OrientDB server (not database) with user and passwod specified.
-Returns true on success or throws exception.
+Connects to OrientDB server (not database) with user and password specified.
+Returns `true` on success or throws exception.
 
     bool $db->connect(string $userName, string $password);
 
@@ -51,7 +51,7 @@ Silently closes currently opened database, if any. Socket to OrientDB server is 
     $db->DBClose();
 
 #### DBCreate ####
-Creates new database. Return true on success or throw an exception.
+Creates new database. Return `true` on success or throw an exception.
 
     bool $db->DBCreate(string $dbName, string $dbType);
 
@@ -62,15 +62,12 @@ Available types is:
 
 For difference see official [OrientDB docs](http://code.google.com/p/orient/wiki/Concepts#Storage).
 
-_Note: this function is now slightly unstable._
-
-
 *Example:*
 
     $isCreated = $db->DBCreate('mydb', OrientDB::DB_TYPE_LOCAL);
 
 #### DBDelete ####
-Delete database with name provided. Always return true.
+Delete database with name provided. Always return `true`.
 
     bool $db->DBDelete(string $dbName);
 
@@ -79,18 +76,18 @@ Delete database with name provided. Always return true.
     $result = $db->DBDelete('testdb');
 
 #### DBExists ####
-Check if currently opened database is exists. Return true on success or throws an exception.
+Checks if currently opened database is exists. Return `true` on success or throws an exception.
 
     bool $db->DBExists();
 
 *Example:*
 
-    $isExests = $db->DBExists();
+    $isExists = $db->DBExists();
 
 ### Index functions ###
 
 #### IndexKeys ####
-Return list of keys in index as array.
+Returns list of keys in index as array.
 
     array $db->indexKeys();
 
@@ -99,7 +96,7 @@ Return list of keys in index as array.
     $keys = $db->indexKeys();
 
 #### IndexLookup ####
-Return record by index key if any, otherwise return false.
+Returns record by index key if any, otherwise return `false`.
 
 
     OrientDBRecord $db->indexLookup(string $key);
@@ -109,7 +106,7 @@ Return record by index key if any, otherwise return false.
     $record = $db->indexLookup('myindexvalue');
 
 #### IndexPut ####
-Put a record into index on key. Return previously associated with that key record if exist, otherwise return false.
+Put a record into index on key. Returns record previously associated with that key if exist, otherwise returns `false`.
 
     OrientDBRecord $db->indexPut(string $key, string $recordID[, string OrientDB::RECORD_TYPE]);
 
@@ -119,14 +116,14 @@ Available record types are:
 * `OrientDB::RECORD_TYPE_DOCUMENT`
 * `OrientDB::RECORD_TYPE_FLAT`
 
-Default value is `OrientDB::RECORD_TYPE_DOCUMENT`. For difference between types please consult OrientDB manual.
+Default value is `OrientDB::RECORD_TYPE_DOCUMENT`. For difference between types please consult with OrientDB manual.
 
 *Example:*
 
     $record = $db->indexPut('myindexvalue', '1:1');
 
 #### IndexRemove ####
-Remove key from index. Return record existed or false is no key exists.
+Remove key from index. Returns existed record, if any, or `false` if no key exists.
 
     OrientDBRecord $db->indexRemove(string $key);
 
@@ -135,7 +132,7 @@ Remove key from index. Return record existed or false is no key exists.
     $record = $db->indexRemove('myindexvalue');
 
 #### IndexSize ####
-Return index size (count of keys in index).
+Returns index size (count of keys in index).
 
     int $db->indexSize();
 
@@ -146,17 +143,17 @@ Return index size (count of keys in index).
 ### Record manipulation functions ###
 
 #### RecordCreate ####
-Create record in specified cluster with content and type. Return record position in cluster.
+Create record in specified cluster with content and type. Returns record position in cluster.
 
     int $db->recordCreate( int  $clusterID, string $recordContent[, string $recordType]);
 
-Record types available:
+Available record types are:
 
 * `OrientDB::RECORD_TYPE_BYTES`
 * `OrientDB::RECORD_TYPE_DOCUMENT`
 * `OrientDB::RECORD_TYPE_FLAT`
 
-Default type is `OrientDB::RECORD_TYPE_DOCUMENT`
+Default type used is `OrientDB::RECORD_TYPE_DOCUMENT`.
 
 *Example:*
 
@@ -164,11 +161,11 @@ Default type is `OrientDB::RECORD_TYPE_DOCUMENT`
 
 #### RecordDelete ####
 Delete record with specified recordID and optionally, version.
-Return true on success, false otherwise or exception.
+Returns `true` on success, `false` otherwise or throws an exception.
 
     bool $db->recordDelete(string $recordID[, int $recordVersion]);
 
-Default version is -1.
+Default version is `-1`. This means no version check will be done.
 
 *Example:*
 
@@ -177,7 +174,7 @@ Default version is -1.
     $result = $db->recordDelete('1:1', 1);
 
 #### RecordLoad ####
-Load record by recordID and, optionally, [fetchplan](http://code.google.com/p/orient/wiki/FetchingStrategies). Return record.
+Load record by recordID and, optionally, [fetchplan](http://code.google.com/p/orient/wiki/FetchingStrategies). Returns record or `false`. In some cases (e.g. recordPos is out of file bounds) can throw an exception
 
     OrientDBRecord $db->recordLoad(string $recordID[, string $fetchPlan]);
 
@@ -203,33 +200,33 @@ Will produce something like this:
             int(7)
             ...
 
-*During next call to any method able to populate in `$db->cachedRecords` (e.g. `recordLoad()` or `command()`) this **array will be reset**.*
+*During next call to any method which is able to populate `$db->cachedRecords` (e.g. `recordLoad()` or `command()`) this **array will be reset**.*
 
 #### RecordUpdate ####
-Update record with specified recordID and optionally, version.
-Return true on success, false otherwise or exception.
+Update record with specified recordID and, optionally, version.
+Returns `true` on success, `false` otherwise or throws an exception.
 
     bool $db->recordUpdate(string $recordID, string $recordContent[, int $recordVersion[, string $recordType]]);
 
-Default version is -1.
+Default version is `-1`. This means no version check will be done.
 
-Record types avaliable:
+Available record types are:
 
 * `OrientDB::RECORD_TYPE_BYTES`
 * `OrientDB::RECORD_TYPE_DOCUMENT`
 * `OrientDB::RECORD_TYPE_FLAT`
 
-Default type is `OrientDB::RECORD_TYPE_DOCUMENT`
+Default type used is `OrientDB::RECORD_TYPE_DOCUMENT`.
 
 *Examples:*
 
-    $result = $db->recordDelete('1:1', 'Name:"Bob"');
-    $result = $db->recordDelete('1:1', 'Name:"Bob"', 1, OrientDB::RECORD_TYPE_DOCUMENT);
+    $result = $db->recordUpdate('1:1', 'Name:"Bob"');
+    $result = $db->recordUpdate('1:1', 'Name:"Bob"', 1, OrientDB::RECORD_TYPE_DOCUMENT);
 
 ### Config commands ###
 
 #### ConfigList ####
-Get list of configurable options. Return associative  array with option name as key and values themselves.
+Get list of configurable options. Returns associative array with keys from option names and values themselves.
 
     array $db->configList();
 
@@ -238,7 +235,7 @@ Get list of configurable options. Return associative  array with option name as 
     $options = $db->configList();
 
 #### ConfigGet ####
-Get value for config option. Return value as string.
+Get value for config option. Returns value as `string`. If option name not found returns empty `string`.
 
     string $db->configGet(string $optionName);
 
@@ -247,7 +244,7 @@ Get value for config option. Return value as string.
     $value = $db->configGet('log.console.level');
 
 #### ConfigSet ####
-Set value for config option. Return true on success or throw an exception.
+Set value for config option. Returns `true` on success or throws an exception.
 
     bool $db->configSet(string $optionName, string $optionValue);
 
@@ -258,11 +255,11 @@ Set value for config option. Return true on success or throw an exception.
 ### Datacluster commands ###
 
 #### DataclusterAdd ####
-Add new datacluster with specified name and type. Return new cluster ID.
+Add new datacluster with specified name and type. Returns new cluster ID or throws an exception.
 
     int $db->dataclusterAdd(string $clusterName, string $clusterType);
 
-Cluster types available:
+Cluster types available are:
 
 * `OrientDB::DATACLUSTER_TYPE_LOGICAL`
 * `OrientDB::DATACLUSTER_TYPE_PHYSICAL`
@@ -273,7 +270,7 @@ Cluster types available:
     $clusterID = $db->dataclusterAdd('testcluster', OrientDB::DATACLUSTER_TYPE_PHYSICAL);
 
 #### DateclusterRemove ####
-Removes datacluster by its ID. Return true on success or throw an exception.
+Removes datacluster by its ID. Returns `true` on success or throws an exception.
 
     bool $db->dataclusterRemove(int $clusterID);
 
@@ -282,7 +279,7 @@ Removes datacluster by its ID. Return true on success or throw an exception.
     $result = $db->dataclusterRemove(10);
 
 #### DataclusterCount ####
-Counts elements in cluster specified. Return count or throw an exception.
+Counts elements in clusters specified by cluster IDs. Returns count or throws an exception.
 
     int $db->dataclusterCount(array $clusterIDs);
 
@@ -291,7 +288,7 @@ Counts elements in cluster specified. Return count or throw an exception.
     $count = $db->dataclusterCount(array(1, 2));
 
 #### DataclusterDatarange ####
-Return datarange for cluster ID specified. Return array of `start` and `end` positions or throw exception.
+Returns datarange for specified cluster ID. Returns array of `start` and `end` positions or throws an exception.
 
     array $db->dataclusterDatarange(int $clusterID);
 
@@ -310,7 +307,7 @@ Return datarange for cluster ID specified. Return array of `start` and `end` pos
 Commits a transaction. **Not yet implemented**.
 
 ### Count ###
-Get count of records in specified cluster. Return int or throw an exception.
+Get count of records in cluster specified by clusterName. Returns `int` or throws an exception.
 
     int $db->count(string $clusterName);
 
@@ -319,13 +316,13 @@ Get count of records in specified cluster. Return int or throw an exception.
     $newcount = $db->count('default');
 
 ### Command (querying server) ###
-This command provide an ability to execute remote [SQL commands](http://code.google.com/p/orient/wiki/SQL). Return mixed or throw an exception.
+This command provide an ability to execute remote [SQL commands](http://code.google.com/p/orient/wiki/SQL). Returns mixed or throws an exception.
 
     mixed $db->command(string $query[, int $commandMode[, string $fetchplan]]);
 
-Command mode is required to be properly match query text.
+Command mode is required to be properly match with query text.
 
-Available modes are:
+Command modes available are:
 
 * `OrientDB::COMMAND_QUERY` - for general queries, including `INSERT`, `UPDATE`, `DELETE`, `FIND REFERENCES`, etc.
 * `OrientDB::COMMAND_SELECT_SYNC` - only for `SELECT` in synchronous mode
@@ -350,7 +347,7 @@ Default fetchplan is `*:0`.
 
 ### Shutdown ###
 Remotely shutdown OriendDB server. Require valid user name and password. See [manual](http://code.google.com/p/orient/wiki/NetworkBinaryProtocol#SHUTDOWN) for details.
-Return nothing on success or throw an exception.
+Returns nothing on success or throws an exception.
 
     void $db->shutdown(string $userName, string $password);
 
@@ -359,11 +356,11 @@ Return nothing on success or throw an exception.
     $db->shutdown('root', 'password');
 
 ## Exceptions list ##
-For present moment OrientDB using this list of exceptions:
+For present moment OrientDB-PHP is using this list of exceptions:
 
 * `OrientDBException` -  base exception, all exceptions listed below are extending this class. This class used as general error class (in case of OrientDB problems).
-* `OrientDBConnectException` -  throws on connect errors.
-* `OrientDBWrongCommandException` - wrong command sequence exception, for example recordLoad() on not opened DB.
+* `OrientDBConnectException` -  thrown on connect errors.
+* `OrientDBWrongCommandException` - wrong command sequence exception, for example thrown on call `recordLoad()` on DB not opened.
 * `OrientDBWrongParamsException` - wrong params count or other param-related issues.
 
 ## OrientDBRecord ##
@@ -379,26 +376,28 @@ Used to link records with each other.
 
 Value can be defined with or without leading hash sign.
 
-*Example*:
+*Example 1*:
 
     $link = new OrientDBTypeLink('#100:99');
     echo $link . PHP_EOL;
     echo $link->getHash() . PHP_EOL;
     echo $link->get() . PHP_EOL;
 
+*Example 2*:
+
     $link2 = new OrientDBTypeLink('#100:99');
     echo $link2 . PHP_EOL;
     echo $link2->getHash() . PHP_EOL;
     echo $link2->get() . PHP_EOL;
 
-Output will be the same:
+Output of these two examples would be the same:
 
     #100:99
     #100:99
     100:99
 
 ### OrientDBTypeTime ###
-Used to store OrientDB date format on timestamps.
+Used to store OrientDB date format with timestamps.
 
     OrientDBTypeLink(mixed $value);
 
