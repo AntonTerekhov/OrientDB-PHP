@@ -269,7 +269,7 @@ Cluster types available are:
 
     $clusterID = $db->dataclusterAdd('testcluster', OrientDB::DATACLUSTER_TYPE_PHYSICAL);
 
-#### DateclusterRemove ####
+#### DataclusterRemove ####
 Removes datacluster by its ID. Returns `true` on success or throws an exception.
 
     bool $db->dataclusterRemove(int $clusterID);
