@@ -145,8 +145,11 @@ abstract class OrientDBCommandAbstract
             // No incoming bytes
             return;
         }
+
+        $this->debugCommand('request_status');
         $this->requestStatus = $this->readByte();
 
+        $this->debugCommand('TransactionID');
         $requestTransactionID = $this->readInt();
         if ($requestTransactionID !== $this->currentTransactionID) {
             throw new OrientDBException('Transaction ID mismatch');
@@ -160,7 +163,8 @@ abstract class OrientDBCommandAbstract
                 $this->debugCommand('exception_javaclass');
                 $javaException = $this->readString();
                 $this->debugCommand('exception_message');
-                $exception = new OrientDBException($javaException . ': ' . $this->readString(), 0, is_null($exception) ? null : $exception);
+                $javaExceptionDescr = $this->readString();
+                $exception = new OrientDBException($javaException . ': ' . $javaExceptionDescr , 0, is_null($exception) ? null : $exception);
             }
             throw $exception;
         } else {
@@ -215,7 +219,6 @@ abstract class OrientDBCommandAbstract
     protected function readString()
     {
         $size = $this->readInt();
-
         return $this->readRaw($size);
     }
 
