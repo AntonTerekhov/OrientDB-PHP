@@ -202,7 +202,10 @@ abstract class OrientDBCommandAbstract
     protected function readInt()
     {
         $data = unpack('N', $this->readRaw(4));
-        return reset($data);
+        $data = reset($data);
+        // check for x64 systems
+        $data === 0xFFFFFFFF ? $data = -1 : false;
+        return $data;
     }
 
     protected function readLong()
@@ -219,14 +222,16 @@ abstract class OrientDBCommandAbstract
     protected function readString()
     {
         $size = $this->readInt();
+        if ($size === -1) {
+            return null;
+        }
         return $this->readRaw($size);
     }
 
     protected function readBytes()
     {
         $size = $this->readInt();
-        // 0xFFFFFFFF is for x64 systems
-        if ($size == -1 || $size == 0xFFFFFFFF) {
+        if ($size === -1) {
             return null;
         }
         return $this->readRaw($size);
