@@ -54,8 +54,8 @@ class OrientDBRecordEncoder
      *
      * Recursively encodes data to OrientDB representation
      * @param array|StdClass $data Data to be encoded
-     * @param bool $isAssoc is keys needs to be included
-     * @param bool $isArray is this array or class
+     * @param bool $isAssoc Is keys needs to be included
+     * @param bool $isArray Is this array or class
      * @return array Array of tokens
      */
     protected function process($data, $isAssoc = true, $isArray = false)
