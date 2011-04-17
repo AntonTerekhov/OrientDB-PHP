@@ -217,7 +217,7 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
         $this->assertSame(123, $record->data->integer);
         $this->assertSame(112, $record->data->byte);
         $this->assertSame(30, $record->data->short);
-        $this->assertSame(2147483648, $record->data->long);
+        $this->assertSame((double) 2147483648, $record->data->long);
         $this->assertSame(999.999, $record->data->float);
         $this->assertSame(456.7654, $record->data->double);
     }
@@ -231,7 +231,7 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
         $this->assertSame(-123, $record->data->integer);
         $this->assertSame(-112, $record->data->byte);
         $this->assertSame(-30, $record->data->short);
-        $this->assertSame(-2147483648, $record->data->long);
+        $this->assertSame((double) -2147483648, $record->data->long);
         $this->assertSame(-999.999, $record->data->float);
         $this->assertSame(-456.7654, $record->data->double);
     }
