@@ -1,6 +1,6 @@
 <?php
 
-class OrientDBRecordParser
+class OrientDBRecordDecoder
 {
 
     /**
@@ -328,14 +328,14 @@ class OrientDBRecordParser
     public function __construct($content)
     {
         $this->content = $content;
-        $this->parse();
+        $this->decode();
     }
 
     /**
      * Parses $this->content and populates $this->data and $this->className
      * @return void
      */
-    protected function parse()
+    protected function decode()
     {
         // Parse record content
         $this->data = new StdClass();
@@ -389,6 +389,7 @@ class OrientDBRecordParser
                 break;
 
                 case self::STATE_KEY:
+                    // @TODO If map keys can contain escaping characters
                     if ($cCode === self::CCODE_COLON) {
                         // Colon found - swith state to value collecting
                         $this->state = self::STATE_VALUE;
@@ -460,7 +461,7 @@ class OrientDBRecordParser
                         // increment position so we can transfer clean document
                         $this->i++;
                         // create new parser
-                        $parser = new OrientDBRecordParser(substr($this->content, $this->i));
+                        $parser = new OrientDBRecordDecoder(substr($this->content, $this->i));
                         // create new embedded document and populate its values
                         $tokenValue = new OrientDBRecord();
                         $tokenValue->data = $parser->data;

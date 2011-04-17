@@ -68,10 +68,16 @@ class OrientDBRecord
         // Form recordID
         $this->parseRecordID();
         // Parse record content
-        $parser = new OrientDBRecordParser($this->content);
+        $parser = new OrientDBRecordDecoder($this->content);
 
         $this->className = $parser->className;
         $this->data = $parser->data;
+    }
+
+    public function __toString()
+    {
+        $encoder = new OrientDBRecordEncoder($this->data, $this->className);
+        return $encoder->buffer;
     }
 
     /**

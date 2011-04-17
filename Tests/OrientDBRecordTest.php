@@ -109,6 +109,8 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
 
         $this->assertSame("Василий\\", $record->data->FirstName);
         $this->assertSame("Иванов\"", $record->data->LastName);
+
+        $this->assertSame($record->content, $record->__toString());
     }
 
     public function testParseRecordContentWithBoolean()
@@ -120,6 +122,8 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($record->data->False);
         $this->assertSame("Smith", $record->data->LastName);
         $this->assertTrue($record->data->true);
+
+        $this->assertSame($record->content, $record->__toString());
     }
 
     public function testParseRecordContentCity()
@@ -132,6 +136,8 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
         $this->assertSame('Rome', $record->data->name);
         $this->assertInstanceOf('OrientDBTypeLink', $record->data->country);
         $this->assertSame('#14:0', (string) $record->data->country);
+
+        $this->assertSame($record->content, $record->__toString());
     }
 
     public function testParseRecordContentCollection()
@@ -144,6 +150,8 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
         $this->assertSame('Alice', $record->data->people[0]);
         $this->assertSame('Bob', $record->data->people[1]);
         $this->assertSame('Eva', $record->data->people[2]);
+
+        $this->assertSame($record->content, $record->__toString());
     }
 
     public function testParseRecordContentComplex()
@@ -169,6 +177,8 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
         $this->assertNull($record->data->invitedBy);
         $this->assertNull($record->data->salary_cloned);
         $this->assertSame(120.3, $record->data->salary);
+
+        $this->assertSame($record->content, $record->__toString());
     }
 
     public function testParseRecordContentMap()
@@ -191,6 +201,8 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
         $this->assertSame(2, $record->data->rules['database.query']);
         $this->assertSame(2, $record->data->rules['database.command']);
         $this->assertSame(2, $record->data->rules['database.hook.record']);
+
+        $this->assertSame($record->content, $record->__toString());
     }
 
     public function testParseRecordContentEmptyLink()
@@ -206,6 +218,8 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
         $this->assertSame('', (string) $record->data->district);
         $this->assertInstanceOf('OrientDBTypeLink', $record->data->sea);
         $this->assertSame('', (string) $record->data->sea);
+
+        $this->assertSame($record->content, $record->__toString());
     }
 
     public function testParseRecordContentNumberFormats()
@@ -261,6 +275,8 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
         $this->assertSame('nobody', $record->data->group);
         $this->assertSame(11958, $record->data->size);
         $this->assertSame(1302627138, $record->data->modified->getTime());
+
+        $this->assertSame($record->content, $record->__toString());
     }
 
     public function testParseRecordContentMapWithNull()
@@ -273,6 +289,8 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
         $this->assertNull($record->data->rules['database']);
         $this->assertNull($record->data->rules['database.cluster.internal']);
         $this->assertNull($record->data->rules['database.cluster.orole']);
+
+        $this->assertSame($record->content, $record->__toString());
     }
 
     public function testParseRecordEmbeddedDoc()
@@ -290,6 +308,8 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
         $this->assertSame('Rome', $record->data->embedded->data->name);
         $this->assertInstanceOf('OrientDBTypeLink', $record->data->embedded->data->country);
         $this->assertSame('#14:0', (string) $record->data->embedded->data->country);
+
+        $this->assertSame($record->content, $record->__toString());
     }
 
     public function testParseRecordEmbeddedDocsInCollection()
@@ -305,5 +325,7 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
         $this->assertSame('New York', $record->data->values[1]->data->City);
         $this->assertInstanceOf('OrientDBRecord', $record->data->values[2]);
         $this->assertSame('#FFF', $record->data->values[2]->data->color);
+
+        $this->assertSame($record->content, $record->__toString());
     }
 }
