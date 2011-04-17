@@ -54,10 +54,7 @@ class OrientDBTypeLink
      */
     public function getHash()
     {
-        if ($this->link) {
-            return '#' . $this->link;
-        }
-        return $this->link;
+        return '#' . $this->link;
     }
 }
 
