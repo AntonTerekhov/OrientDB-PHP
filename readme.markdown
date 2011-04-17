@@ -385,7 +385,7 @@ Value can be defined with or without leading hash sign.
 
 *Example 2*:
 
-    $link2 = new OrientDBTypeLink('#100:99');
+    $link2 = new OrientDBTypeLink('100:99');
     echo $link2 . PHP_EOL;
     echo $link2->getHash() . PHP_EOL;
     echo $link2->get() . PHP_EOL;
