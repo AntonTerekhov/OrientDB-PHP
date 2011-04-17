@@ -16,9 +16,11 @@ class OrientDBCommandIndexKeys extends OrientDBCommandAbstract
 
     protected function parse()
     {
+        $this->debugCommand('keys_count');
         $keysCount = $this->readInt();
         $keys = array();
         for ($i = 0; $i < $keysCount; $i++) {
+            $this->debugCommand('read_keys');
             $keys[] = $this->readString();
         }
         return $keys;
