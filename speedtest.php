@@ -1,4 +1,10 @@
 <?php
+/**
+ * This file can be used to speedtest OrientDB-PHP library on creating,
+ * modifying and deleting records.
+ *
+ * Before use, you must create DB named 'speedtest' manually.
+ */
 
 require 'OrientDB/OrientDB.php';
 
