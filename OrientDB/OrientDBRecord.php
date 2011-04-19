@@ -59,6 +59,14 @@ class OrientDBRecord
      */
     public $data;
 
+	/**
+	 * Construct new instance
+	 */
+	public function __construct()
+	{
+		$this->data = new stdClass();
+	}
+
     /**
      * Parses $this->content and populates $this->data
      * @return void
