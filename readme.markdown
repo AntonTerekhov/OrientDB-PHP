@@ -5,7 +5,7 @@ A *plain* PHP driver to [OrientDB graph database](http://code.google.com/p/orien
 
 Current status is: *Beta*.
 
-Code is licensed under New BSD License and provided "as is". For complete license information see file LICENSE.
+Code is licensed under New BSD License and provided "as is". For complete license information see file `LICENSE`.
 
 Current OrientDB version to work with is: `1.0rc-1`.  
 Requires OrientDB revision `r2688` from Orient's SVN repository.
