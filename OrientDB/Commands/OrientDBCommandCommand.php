@@ -96,7 +96,7 @@ class OrientDBCommandCommand extends OrientDBCommandAbstract
                     $record = $this->readRecord();
                     $records[] = $record;
 
-                    $this->debugCommand('status');
+                    $this->debugCommand('record_status_next');
                     $status = $this->readByte();
                 }
                 // Cache records
@@ -105,7 +105,7 @@ class OrientDBCommandCommand extends OrientDBCommandAbstract
                     $this->debugCommand('record_content');
                     $record = $this->readRecord();
                     $cachedRecords[$record->recordID] = $record;
-                    $this->debugCommand('status');
+                    $this->debugCommand('record_status_cache');
                     $status = $this->readByte();
                 }
                 // Invalidate cache

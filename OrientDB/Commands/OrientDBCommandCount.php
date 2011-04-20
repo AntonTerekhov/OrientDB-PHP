@@ -21,6 +21,7 @@ class OrientDBCommandCount extends OrientDBCommandAbstract
 
     protected function parse()
     {
+        $this->debugCommand('count');
         $count = $this->readLong();
         return $count;
     }

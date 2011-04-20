@@ -11,11 +11,15 @@ class OrientDBCommandConfigList extends OrientDBCommandAbstract
 
     protected function parse()
     {
+        $this->debugCommand('options_count');
         $numOptions = $this->readShort();
 
         $options = array();
         for ($i = 0; $i < $numOptions; $i++) {
-            $options[$this->readString()] = $this->readString();
+            $this->debugCommand('option_name');
+            $optionName = $this->readString();
+            $this->debugCommand('option_value');
+            $options[$optionName] = $this->readString();
         }
 
         return $options;

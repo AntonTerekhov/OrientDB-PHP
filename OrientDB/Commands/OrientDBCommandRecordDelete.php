@@ -49,6 +49,7 @@ class OrientDBCommandRecordDelete extends OrientDBCommandAbstract
 
     protected function parse()
     {
+        $this->debugCommand('delete_result');
         $result = $this->readByte();
         if ($result == chr(1)) {
             return true;

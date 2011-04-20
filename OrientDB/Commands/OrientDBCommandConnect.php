@@ -29,6 +29,7 @@ class OrientDBCommandConnect extends OrientDBCommandAbstract
 
     protected function parse()
     {
+        $this->debugCommand('sessionID');
         $this->sessionID = $this->readInt();
         return true;
     }

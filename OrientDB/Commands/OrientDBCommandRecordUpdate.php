@@ -62,6 +62,7 @@ class OrientDBCommandRecordUpdate extends OrientDBCommandAbstract
 
     protected function parse()
     {
+        $this->debugCommand('record_version');
         $version = $this->readInt();
         return $version;
     }

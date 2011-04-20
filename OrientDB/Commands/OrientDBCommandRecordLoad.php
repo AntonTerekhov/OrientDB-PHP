@@ -45,6 +45,7 @@ class OrientDBCommandRecordLoad extends OrientDBCommandAbstract
 
     protected function parse()
     {
+        $this->debugCommand('record_status_first');
         $status = $this->readByte();
         if ($status != chr(0)) {
             $this->debugCommand('record_content');
@@ -53,7 +54,7 @@ class OrientDBCommandRecordLoad extends OrientDBCommandAbstract
             $record_version = $this->readInt();
             $this->debugCommand('record_type');
             $record_type = $this->readByte();
-            $this->debugCommand('status');
+            $this->debugCommand('record_status_cache');
             $status = $this->readByte();
 
             $cachedRecords = array();
@@ -61,7 +62,7 @@ class OrientDBCommandRecordLoad extends OrientDBCommandAbstract
                 $this->debugCommand('record_content');
                 $record = $this->readRecord();
                 $cachedRecords[$record->recordID] = $record;
-                $this->debugCommand('status');
+                $this->debugCommand('record_status_next');
                 $status = $this->readByte();
             }
             // Invalidate cache

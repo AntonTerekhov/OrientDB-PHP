@@ -39,6 +39,7 @@ class OrientDBCommandRecordCreate extends OrientDBCommandAbstract
 
     protected function parse()
     {
+        $this->debugCommand('record_pos');
         $position = $this->readLong();
         return $position;
     }

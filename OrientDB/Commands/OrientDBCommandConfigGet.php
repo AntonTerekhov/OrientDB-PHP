@@ -21,6 +21,7 @@ class OrientDBCommandConfigGet extends OrientDBCommandAbstract
 
     protected function parse()
     {
+        $this->debugCommand('config_value');
         $value = $this->readString();
 
         return $value;

@@ -20,7 +20,7 @@ class OrientDBCommandIndexKeys extends OrientDBCommandAbstract
         $keysCount = $this->readInt();
         $keys = array();
         for ($i = 0; $i < $keysCount; $i++) {
-            $this->debugCommand('read_keys');
+            $this->debugCommand('read_key');
             $keys[] = $this->readString();
         }
         return $keys;

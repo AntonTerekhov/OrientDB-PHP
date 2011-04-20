@@ -16,6 +16,7 @@ class OrientDBCommandIndexSize extends OrientDBCommandAbstract
 
     protected function parse()
     {
+        $this->debugCommand('size');
         $result = $this->readInt();
         return $result;
     }

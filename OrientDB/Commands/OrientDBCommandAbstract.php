@@ -139,7 +139,9 @@ abstract class OrientDBCommandAbstract
         $this->socket->send($this->requestBytes);
 
         if (is_null($this->parent->protocolVersion)) {
-            $this->parent->setProtocolVersion($this->readShort());
+            $this->debugCommand('protocol_version');
+            $serverProtocolVersion = $this->readShort();
+            $this->parent->setProtocolVersion($serverProtocolVersion);
         }
         if ($this->type == self::DB_CLOSE) {
             // No incoming bytes

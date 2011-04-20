@@ -31,17 +31,23 @@ class OrientDBCommandDBOpen extends OrientDBCommandAbstract
 
     protected function parse()
     {
+        $this->debugCommand('sessionID');
         $this->sessionID = $this->readInt();
 
+        $this->debugCommand('clusters');
         $numClusters = $this->readInt();
 
         $clusters = array();
         for ($i = 0; $i < $numClusters; $i++) {
             $cluster = $clusters[] = new stdClass();
+            $this->debugCommand('cluster_name');
             $cluster->name = $this->readString();
+            $this->debugCommand('clusterID');
             $cluster->id = $this->readInt();
+            $this->debugCommand('cluster_type');
             $cluster->type = $this->readString();
         }
+        $this->debugCommand('config_bytes');
         $config = $this->readBytes();
 
         return array(
