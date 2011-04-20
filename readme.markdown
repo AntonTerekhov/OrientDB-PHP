@@ -560,6 +560,38 @@ Both `$date` and `$date2` will output the same:
     1302631023t
     1302631023
 
+## Debugging with OrientDB-PHP ##
+For debug purposes you can enable or disable debug output at anytime.
+
+*Example*:
+
+    $db->DBOpen('demo', 'writer', 'writer');
+    $recordPos = $db->recordCreate($clusterID, $recordContent);
+    $this->db->setDebug(true);
+    $record = $db->recordLoad($clusterID . ':' . $recordPos);
+    $this->db->setDebug(false);
+    $result = $db->recordDelete($clusterID . ':' . $recordPos);
+
+The above example will output debug messages only for `recordLoad()` to standard output stream (browser or console) in this manner:
+
+         0 : 1e 00 00 00 04 00 01 00 00 00 00 00 00 00 8f 00 [................]
+        10 : 00 00 03 2a 3a 30                               [...*:0]
+    >request_status
+         0 : 00                                              [.]
+    >TransactionID
+         0 : 00 00 00 04                                     [....]
+    >record_status_first
+         0 : 01                                              [.]
+    >record_content
+         0 : 00 00 00 0c                                     [....]
+         0 : 74 65 73 74 72 65 63 6f 72 64 3a 30             [testrecord:0]
+    >record_version
+         0 : 00 00 00 00                                     [....]
+    >record_type
+         0 : 64                                              [d]
+    >record_status_cache
+         0 : 00                                              [.]
+
 ## Planned TODOs ##
 * Fix RecordPos with 64-bit Long.
 * Full support on Java primitive data types, e.g. short or byte.
