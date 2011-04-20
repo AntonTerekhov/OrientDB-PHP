@@ -598,7 +598,7 @@ The above example will output debug messages only for `recordLoad()` to standard
 * Possible more OOP-style work with OrientDBRecord.
 
 ## Known bugs ##
-* Poor support on `index*()` function from OrientDB on x64 PHP.
+* Poor support on `index*()` function from OrientDB on x64.
 * Record version on `recordUpdate()` can be greater that in-DB version. This is a bug from OrientDB.
 
 ## If you found a bug ##
