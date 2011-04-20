@@ -329,13 +329,13 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
         $this->assertSame($record->content, $record->__toString());
     }
 
-	public function testCreateRecord()
-	{
-		$record = new OrientDBRecord();
-		$record->data->FirstName = 'Bruce';
-		$record->data->LastName = 'Wayne';
-		$record->data->appearance = 1939;
+    public function testCreateRecord()
+    {
+        $record = new OrientDBRecord();
+        $record->data->FirstName = 'Bruce';
+        $record->data->LastName = 'Wayne';
+        $record->data->appearance = 1939;
 
-		$this->assertSame('FirstName:"Bruce",LastName:"Wayne",appearance:1939', (string) $record);
-	}
+        $this->assertSame('FirstName:"Bruce",LastName:"Wayne",appearance:1939', (string) $record);
+    }
 }
