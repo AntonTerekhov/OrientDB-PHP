@@ -6,7 +6,7 @@ class OrientDBCommandDataclusterCount extends OrientDBCommandAbstract
     public function __construct($parent)
     {
         parent::__construct($parent);
-        $this->type = OrientDBCommandAbstract::DATACLUSTER_COUNT;
+        $this->opType = OrientDBCommandAbstract::DATACLUSTER_COUNT;
     }
 
     public function prepare()

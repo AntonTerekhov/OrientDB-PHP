@@ -10,7 +10,7 @@ class OrientDBCommandDataclusterAdd extends OrientDBCommandAbstract
     public function __construct($parent)
     {
         parent::__construct($parent);
-        $this->type = OrientDBCommandAbstract::DATACLUSTER_ADD;
+        $this->opType = OrientDBCommandAbstract::DATACLUSTER_ADD;
     }
 
     public function prepare()

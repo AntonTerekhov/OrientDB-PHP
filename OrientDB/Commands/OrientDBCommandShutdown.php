@@ -6,7 +6,7 @@ class OrientDBCommandShutdown extends OrientDBCommandAbstract
     public function __construct($parent)
     {
         parent::__construct($parent);
-        $this->type = OrientDBCommandAbstract::SHUTDOWN;
+        $this->opType = OrientDBCommandAbstract::SHUTDOWN;
     }
 
     public function prepare()

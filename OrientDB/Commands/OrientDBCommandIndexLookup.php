@@ -8,7 +8,7 @@ class OrientDBCommandIndexLookup extends OrientDBCommandAbstract
     public function __construct($parent)
     {
         parent::__construct($parent);
-        $this->type = OrientDBCommandAbstract::INDEX_LOOKUP;
+        $this->opType = OrientDBCommandAbstract::INDEX_LOOKUP;
     }
 
     public function prepare()

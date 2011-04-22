@@ -75,7 +75,7 @@ abstract class OrientDBCommandAbstract
      * Command type
      * @var integer
      */
-    public $type;
+    public $opType;
 
     /**
      * Attributes
@@ -128,7 +128,7 @@ abstract class OrientDBCommandAbstract
 
     public function prepare()
     {
-        $this->requestBytes .= chr($this->type);
+        $this->addByte(chr($this->opType));
         $this->currentTransactionID = ++self::$transactionID;
         $this->addInt($this->currentTransactionID);
     }
@@ -143,7 +143,7 @@ abstract class OrientDBCommandAbstract
             $serverProtocolVersion = $this->readShort();
             $this->parent->setProtocolVersion($serverProtocolVersion);
         }
-        if ($this->type == self::DB_CLOSE) {
+        if ($this->opType == self::DB_CLOSE) {
             // No incoming bytes
             return;
         }

@@ -8,7 +8,7 @@ class OrientDBCommandDataclusterRemove extends OrientDBCommandAbstract
     public function __construct($parent)
     {
         parent::__construct($parent);
-        $this->type = OrientDBCommandAbstract::DATACLUSTER_REMOVE;
+        $this->opType = OrientDBCommandAbstract::DATACLUSTER_REMOVE;
     }
 
     public function prepare()

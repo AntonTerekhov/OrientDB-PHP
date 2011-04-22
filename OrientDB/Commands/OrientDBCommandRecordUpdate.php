@@ -14,7 +14,7 @@ class OrientDBCommandRecordUpdate extends OrientDBCommandAbstract
     public function __construct($parent)
     {
         parent::__construct($parent);
-        $this->type = OrientDBCommandAbstract::RECORD_UPDATE;
+        $this->opType = OrientDBCommandAbstract::RECORD_UPDATE;
     }
 
     public function prepare()

@@ -8,7 +8,7 @@ class OrientDBCommandIndexRemove extends OrientDBCommandAbstract
     public function __construct($parent)
     {
         parent::__construct($parent);
-        $this->type = OrientDBCommandAbstract::INDEX_REMOVE;
+        $this->opType = OrientDBCommandAbstract::INDEX_REMOVE;
     }
 
     public function prepare()

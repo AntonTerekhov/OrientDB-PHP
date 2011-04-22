@@ -6,7 +6,7 @@ class OrientDBCommandCount extends OrientDBCommandAbstract
     public function __construct($parent)
     {
         parent::__construct($parent);
-        $this->type = OrientDBCommandAbstract::COUNT;
+        $this->opType = OrientDBCommandAbstract::COUNT;
     }
 
     public function prepare()

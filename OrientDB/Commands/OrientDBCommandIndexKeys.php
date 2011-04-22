@@ -6,7 +6,7 @@ class OrientDBCommandIndexKeys extends OrientDBCommandAbstract
     public function __construct($parent)
     {
         parent::__construct($parent);
-        $this->type = OrientDBCommandAbstract::INDEX_KEYS;
+        $this->opType = OrientDBCommandAbstract::INDEX_KEYS;
     }
 
     public function prepare()

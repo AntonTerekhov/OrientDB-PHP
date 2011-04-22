@@ -8,7 +8,7 @@ class OrientDBCommandDataclusterDatarange extends OrientDBCommandAbstract
     public function __construct($parent)
     {
         parent::__construct($parent);
-        $this->type = OrientDBCommandAbstract::DATACLUSTER_DATARANGE;
+        $this->opType = OrientDBCommandAbstract::DATACLUSTER_DATARANGE;
     }
 
     public function prepare()

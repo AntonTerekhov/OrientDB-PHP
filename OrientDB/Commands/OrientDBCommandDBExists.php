@@ -6,7 +6,7 @@ class OrientDBCommandDBExists extends OrientDBCommandAbstract
     public function __construct($parent)
     {
         parent::__construct($parent);
-        $this->type = OrientDBCommandAbstract::DB_EXIST;
+        $this->opType = OrientDBCommandAbstract::DB_EXIST;
     }
 
     public function prepare()

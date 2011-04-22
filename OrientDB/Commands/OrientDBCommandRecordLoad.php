@@ -12,7 +12,7 @@ class OrientDBCommandRecordLoad extends OrientDBCommandAbstract
     public function __construct($parent)
     {
         parent::__construct($parent);
-        $this->type = OrientDBCommandAbstract::RECORD_LOAD;
+        $this->opType = OrientDBCommandAbstract::RECORD_LOAD;
     }
 
     public function prepare()

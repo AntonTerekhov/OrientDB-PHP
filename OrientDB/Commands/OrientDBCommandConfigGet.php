@@ -6,7 +6,7 @@ class OrientDBCommandConfigGet extends OrientDBCommandAbstract
     public function __construct($parent)
     {
         parent::__construct($parent);
-        $this->type = OrientDBCommandAbstract::CONFIG_GET;
+        $this->opType = OrientDBCommandAbstract::CONFIG_GET;
     }
 
     public function prepare()

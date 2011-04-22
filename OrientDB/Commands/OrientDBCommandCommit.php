@@ -6,7 +6,7 @@ class OrientDBCommandCommit extends OrientDBCommandAbstract
     public function __construct($parent)
     {
         parent::__construct($parent);
-        $this->type = OrientDBCommandAbstract::TX_COMMIT;
+        $this->opType = OrientDBCommandAbstract::TX_COMMIT;
     }
 
     public function prepare()

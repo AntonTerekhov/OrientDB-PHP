@@ -12,7 +12,7 @@ class OrientDBCommandConnect extends OrientDBCommandAbstract
     public function __construct($parent)
     {
         parent::__construct($parent);
-        $this->type = OrientDBCommandAbstract::CONNECT;
+        $this->opType = OrientDBCommandAbstract::CONNECT;
     }
 
     public function prepare()

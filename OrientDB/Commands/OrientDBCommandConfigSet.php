@@ -6,7 +6,7 @@ class OrientDBCommandConfigSet extends OrientDBCommandAbstract
     public function __construct($parent)
     {
         parent::__construct($parent);
-        $this->type = OrientDBCommandAbstract::CONFIG_SET;
+        $this->opType = OrientDBCommandAbstract::CONFIG_SET;
     }
 
     public function prepare()

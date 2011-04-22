@@ -6,7 +6,7 @@ class OrientDBCommandDBDelete extends OrientDBCommandAbstract
     public function __construct($parent)
     {
         parent::__construct($parent);
-        $this->type = OrientDBCommandAbstract::DB_DELETE;
+        $this->opType = OrientDBCommandAbstract::DB_DELETE;
     }
 
     public function prepare()

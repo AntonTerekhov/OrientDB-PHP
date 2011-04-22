@@ -96,13 +96,13 @@ class OrientDB
             $command->prepare();
             $data = $command->execute();
 
-            if ($command->type == OrientDBCommandAbstract::CONNECT) {
+            if ($command->opType == OrientDBCommandAbstract::CONNECT) {
                 $this->connected = true;
             }
-            if ($command->type == OrientDBCommandAbstract::DB_OPEN) {
+            if ($command->opType == OrientDBCommandAbstract::DB_OPEN) {
                 $this->DBOpen = true;
             }
-            if ($command->type == OrientDBCommandAbstract::DB_CLOSE) {
+            if ($command->opType == OrientDBCommandAbstract::DB_CLOSE) {
                 $this->DBOpen = false;
                 $this->active = false;
                 $this->socket = null;
@@ -148,10 +148,10 @@ class OrientDB
         if (!$this->active) {
             throw new OrientDBWrongCommandException('DBClose was executed. No interaction posibble.');
         }
-        if (in_array($command->type, $require_connect) && !$this->isConnected()) {
+        if (in_array($command->opType, $require_connect) && !$this->isConnected()) {
             throw new OrientDBWrongCommandException('Not connected to server');
         }
-        if (in_array($command->type, $require_DB) && !$this->isDBOpen()) {
+        if (in_array($command->opType, $require_DB) && !$this->isDBOpen()) {
             throw new OrientDBWrongCommandException('Database not open');
         }
     }

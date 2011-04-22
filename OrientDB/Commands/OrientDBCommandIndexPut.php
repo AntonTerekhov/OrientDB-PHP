@@ -14,7 +14,7 @@ class OrientDBCommandIndexPut extends OrientDBCommandAbstract
     public function __construct($parent)
     {
         parent::__construct($parent);
-        $this->type = OrientDBCommandAbstract::INDEX_PUT;
+        $this->opType = OrientDBCommandAbstract::INDEX_PUT;
     }
 
     public function prepare()

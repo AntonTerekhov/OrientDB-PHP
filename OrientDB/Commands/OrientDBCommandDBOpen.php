@@ -12,7 +12,7 @@ class OrientDBCommandDBOpen extends OrientDBCommandAbstract
     public function __construct($parent)
     {
         parent::__construct($parent);
-        $this->type = OrientDBCommandAbstract::DB_OPEN;
+        $this->opType = OrientDBCommandAbstract::DB_OPEN;
     }
 
     public function prepare()

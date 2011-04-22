@@ -6,7 +6,7 @@ class OrientDBCommandConfigList extends OrientDBCommandAbstract
     public function __construct($parent)
     {
         parent::__construct($parent);
-        $this->type = OrientDBCommandAbstract::CONFIG_LIST;
+        $this->opType = OrientDBCommandAbstract::CONFIG_LIST;
     }
 
     protected function parse()
