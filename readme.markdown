@@ -515,29 +515,48 @@ Due to small quantity of PHP's built-in datatypes, this library is introducing s
 ### OrientDBLink ##
 Used to link records with each other.
 
+Two variants of constructing new instance is available:
+
     OrientDBTypeLink(string $value);
 
-Value can be defined with or without leading hash sign.
+String value can be defined with or without leading hash sign.
 
-*Example 1*:
+    OrientDBTypeLink(int $clusterID, int $recordPos);
+
+*Example 1*: String with hash sign
 
     $link = new OrientDBTypeLink('#100:99');
     echo $link . PHP_EOL;
     echo $link->getHash() . PHP_EOL;
     echo $link->get() . PHP_EOL;
+    echo $link->clusterID . PHP_EOL;
+    echo $link->recordPos . PHP_EOL;
 
-*Example 2*:
+*Example 2*: String without hash sign
 
     $link2 = new OrientDBTypeLink('100:99');
     echo $link2 . PHP_EOL;
     echo $link2->getHash() . PHP_EOL;
     echo $link2->get() . PHP_EOL;
+    echo $link->clusterID . PHP_EOL;
+    echo $link->recordPos . PHP_EOL;
 
-Output of these two examples would be the same:
+*Example 3*: Two integers
+
+    $link3 = new OrientDBTypeLink(100, 99);
+    echo $link2 . PHP_EOL;
+    echo $link2->getHash() . PHP_EOL;
+    echo $link2->get() . PHP_EOL;
+    echo $link->clusterID . PHP_EOL;
+    echo $link->recordPos . PHP_EOL;
+
+Output of all these examples would be the same:
 
     #100:99
     #100:99
     100:99
+    100
+    99
 
 ### OrientDBTypeTime ###
 Used to store OrientDB date format with timestamps.
