@@ -260,7 +260,7 @@ abstract class OrientDBCommandAbstract
             $clusterID = $this->readShort();
             $this->debugCommand('record_position');
             $recordPos = $this->readLong();
-            return $clusterID . ':' . $recordPos;
+            return new OrientDBTypeLink($clusterID, $recordPos);
         }
 
         $record = new OrientDBRecord();
