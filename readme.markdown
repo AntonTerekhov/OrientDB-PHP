@@ -48,6 +48,9 @@ You can always re-test the whole library by typing
     phpunit Tests/
 
 ## Function list ##
+
+Some functions requires to be already connected to OrientDB server (using `connect()`) or to have database opened (using `DBOpen()`). This can be referenced at [protocol description](http://code.google.com/p/orient/wiki/NetworkBinaryProtocol#Operation_types). If sequence is wrong - exception `OrientDBWrongCommandException` will be thrown and no interaction with server will be made.
+
 ### Create a new instance of OrientDB class ###
 
     $db = new OrientDB(string $host, int $port[, int $connectTimeout]);
@@ -110,13 +113,13 @@ Delete database with name provided. Always return `true`.
     $result = $db->DBDelete('testdb');
 
 #### DBExists ####
-Checks if currently opened database is exists. Return `true` on success or throws an exception.
+Checks if database with name provided is exists. Return `true` on success, `false` is no database exists or throws an exception.
 
-    bool $db->DBExists();
+    bool $db->DBExists(string $dbName);
 
 *Example:*
 
-    $isExists = $db->DBExists();
+    $isExists = $db->DBExists('demo');
 
 ### Index functions ###
 
@@ -394,7 +397,7 @@ For present moment OrientDB-PHP is using this list of exceptions:
 
 * `OrientDBException` -  base exception, all exceptions listed below are extending this class. This class used as general error class (in case of OrientDB problems).
 * `OrientDBConnectException` -  thrown on connect errors.
-* `OrientDBWrongCommandException` - wrong command sequence exception, for example thrown on call `recordLoad()` on DB not opened.
+* `OrientDBWrongCommandException` - wrong command sequence exception, for example thrown on call `recordLoad()` if DB is not opened yet.
 * `OrientDBWrongParamsException` - wrong params count or other param-related issues.
 
 ## OrientDBRecord ##

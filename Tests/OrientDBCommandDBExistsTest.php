@@ -19,26 +19,37 @@ class OrientDBDBExistsTest extends OrientDBBaseTesting
     public function testDBExistsOnNotConnectedDB()
     {
         $this->setExpectedException('OrientDBWrongCommandException');
-        $result = $this->db->DBExists();
+        $result = $this->db->DBExists('demo');
     }
 
     public function testDBExistsOnConnectedDB()
     {
         $this->db->connect('root', $this->root_password);
-        $this->setExpectedException('OrientDBWrongCommandException');
-        $result = $this->db->DBExists();
+        $result = $this->db->DBExists('demo');
+
+        $this->assertTrue($result);
+
+        $result = $this->db->DBExists('INVALID');
+        $this->assertFalse($result);
     }
 
     public function testDBExistsOnNotOpenDB()
     {
         $this->setExpectedException('OrientDBWrongCommandException');
-        $result = $this->db->DBExists();
+        $result = $this->db->DBExists('demo');
     }
 
     public function testDBExistsOnOpenDB()
     {
         $this->db->DBOpen('demo', 'writer', 'writer');
+        $this->setExpectedException('OrientDBWrongCommandException');
+        $result = $this->db->DBExists('demo');
+    }
+
+    public function testDBExistsWithWrongOptionCount()
+    {
+        $this->db->connect('root', $this->root_password);
+        $this->setExpectedException('OrientDBWrongParamsException');
         $result = $this->db->DBExists();
-        $this->assertTrue($result);
     }
 }
