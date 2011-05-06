@@ -13,7 +13,7 @@ class OrientDB
      * Client protocol version
      * @var int
      */
-    public $clientVersion = 4;
+    public $clientVersion = 5;
 
     /**
      * Server's protocol version.
@@ -26,6 +26,12 @@ class OrientDB
     protected $DBOpen = false;
 
     protected $active = true;
+
+    /**
+     * SessionID returned from OrientDB, used to further identify queries
+     * @var int
+     */
+    public $sessionID;
 
     const RECORD_TYPE_BYTES = 'b';
 

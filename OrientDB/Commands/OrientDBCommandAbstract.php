@@ -84,7 +84,7 @@ abstract class OrientDBCommandAbstract
     protected $attribs;
 
     /**
-     * TransactionID to identify queries
+     * TransactionID to identify DB_OPEN and CONNECT queries
      * @var integer
      */
     protected static $transactionID = 0;
@@ -129,7 +129,11 @@ abstract class OrientDBCommandAbstract
     public function prepare()
     {
         $this->addByte(chr($this->opType));
-        $this->currentTransactionID = ++self::$transactionID;
+        if ($this->opType === self::DB_OPEN || $this->opType === self::CONNECT) {
+            $this->currentTransactionID = -(++self::$transactionID);
+        } else {
+            $this->currentTransactionID = $this->parent->sessionID;
+        }
         $this->addInt($this->currentTransactionID);
     }
 
@@ -158,7 +162,11 @@ abstract class OrientDBCommandAbstract
         }
 
         if ($this->requestStatus === chr(OrientDBCommandAbstract::STATUS_SUCCESS)) {
-            return $this->parse();
+            $data = $this->parse();
+            if (is_null($this->parent->sessionID)) {
+                $this->parent->sessionID = $this->sessionID;
+            }
+            return $data;
         } elseif ($this->requestStatus === chr(OrientDBCommandAbstract::STATUS_ERROR)) {
             $exception = null;
             while ($this->readByte() === chr(OrientDBCommandAbstract::STATUS_ERROR)) {
@@ -205,9 +213,7 @@ abstract class OrientDBCommandAbstract
     {
         $data = unpack('N', $this->readRaw(4));
         $data = reset($data);
-        // check for x64 systems
-        $data === 0xFFFFFFFF ? $data = -1 : false;
-        return $data;
+        return self::convertComplement($data);
     }
 
     protected function readLong()
@@ -324,5 +330,23 @@ abstract class OrientDBCommandAbstract
         if ($this->debug) {
             echo '>' . $commandName . PHP_EOL;
         }
+    }
+
+    /**
+     *
+     * convert twos-complement integet after unpack() on x64 systems
+     * @param int $int
+     * @return int
+     */
+    public static function convertComplement($int)
+    {
+        /*
+         *  Valid 32-bit signed integer is -2147483648 < x < 2147483647
+         *  -2^(n-1) < x < 2^(n-1) -1 where n = 32
+         */
+        if ($int > 2147483647) {
+            return -(($int ^ 0xFFFFFFFF) + 1);
+        }
+        return $int;
     }
 }

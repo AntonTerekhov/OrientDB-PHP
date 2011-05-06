@@ -4,8 +4,8 @@ class OrientDBCommandConnect extends OrientDBCommandAbstract
 {
 
     /**
-     * SessionID of current connection. Not used for now
-     * @var unknown_type
+     * SessionID of current connection
+     * @var int
      */
     public $sessionID;
 

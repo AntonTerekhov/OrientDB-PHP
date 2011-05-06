@@ -7,8 +7,8 @@ Current status is: *Beta*.
 
 Code is licensed under New BSD License and provided "as is". For complete license information see file `LICENSE`.
 
-Current OrientDB version to work with is: `1.0rc-1`.  
-Requires OrientDB revision `r2688` from Orient's SVN repository.
+Current OrientDB version to work with is: `1.0rc1` (revision 2824).
+It can be downloaded from OrientDB's [Downloads page](http://code.google.com/p/orient/downloads/list).
 
 Code compatible to previous [binary releases](http://code.google.com/p/orient/downloads/list) of OrientDB can be found in repository's tags or in [Downloads](https://github.com/AntonTerekhov/OrientDB-PHP/archives/master) section.
 
@@ -31,7 +31,7 @@ To install most recent version of library, just type
 
 where you want its file to be located.
 
-You can also want to get latest stable version, so check out [Downloads](https://github.com/AntonTerekhov/OrientDB-PHP/archives/master) section.
+You can also want to get latest stable version, so check out [Downloads](https://github.com/AntonTerekhov/OrientDB-PHP/archives/master) section. Stables are marked with tags including this library version and OrientDB version.
 
 ## Using OrientDB-PHP ##
 OrientDB-PHP uses autoload functionality, so you only need to include `OrientDB.php` file.
