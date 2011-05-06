@@ -621,7 +621,6 @@ The above example will output debug messages only for `recordLoad()` to standard
 
 ## Known bugs ##
 * Poor support on `index*()` function from OrientDB on x64.
-* Record version on `recordUpdate()` can be greater that in-DB version. This is a bug from OrientDB.
 
 ## If you found a bug ##
 If you found a bug - feel free to contact me via gitHub, email, or open a new issue.

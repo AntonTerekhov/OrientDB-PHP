@@ -219,12 +219,8 @@ class OrientDBRecordUpdateTest extends OrientDBBaseTesting
         $this->AssertSame($version, $record->version);
         $this->AssertSame(1, $version);
         $this->AssertSame($this->recordContentUpd, $record->content);
+        $this->setExpectedException('OrientDBException');
         $version2 = $this->db->recordUpdate($this->clusterID . ':' . $recordPos, $this->recordContent, $version + 1);
-        $record2 = $this->db->recordLoad($this->clusterID . ':' . $recordPos, '');
-        $this->AssertSame($version2, $record2->version);
-        $this->AssertSame(2, $version2);
-        $this->AssertSame($this->recordContent, $record2->content);
-        $result = $this->db->recordDelete($this->clusterID . ':' . $recordPos);
     }
 
     public function testRecordDeleteWithIncorrectVersionIsLesser()
