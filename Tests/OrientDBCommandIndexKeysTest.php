@@ -38,7 +38,6 @@ class OrientDBIndexKeysTest extends OrientDBBaseTesting
     public function testIndexKeysOnOpenDB()
     {
         $this->db->DBOpen('demo', 'writer', 'writer');
-        $this->markTestSkipped('Temporary skip test on x64');
         $list = $this->db->indexKeys();
         $this->assertInternalType('array', $list);
     }
