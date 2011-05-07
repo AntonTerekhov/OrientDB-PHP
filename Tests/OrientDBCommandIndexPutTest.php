@@ -43,7 +43,7 @@ class OrientDBIndexPutTest extends OrientDBBaseTesting
 
     public function testIndexPutOnOpenDBWriter()
     {
-        $this->db->DBOpen('demo', 'writer', 'writer');
+        $this->db->DBOpen('demo', 'admin', 'admin');
         $this->db->indexRemove($this->key);
         $record = $this->db->indexPut($this->key, $this->recordID);
         // No records was on that key before
@@ -99,7 +99,7 @@ class OrientDBIndexPutTest extends OrientDBBaseTesting
 
     public function testIndexPutWithRecordPosZero()
     {
-        $this->db->DBOpen('demo', 'writer', 'writer');
+        $this->db->DBOpen('demo', 'admin', 'admin');
         $this->db->indexRemove($this->key);
         $record = $this->db->indexPut($this->key, '1:0');
         $this->assertFalse($record);
