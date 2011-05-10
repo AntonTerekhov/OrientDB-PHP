@@ -620,7 +620,7 @@ The above example will output debug messages only for `recordLoad()` to standard
 * Possible more OOP-style work with OrientDBRecord.
 
 ## Known bugs ##
-* Poor support on `index*()` function from OrientDB on x64.
+None.
 
 ## If you found a bug ##
 If you found a bug - feel free to contact me via gitHub, email, or open a new issue.
