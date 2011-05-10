@@ -132,7 +132,13 @@ abstract class OrientDBCommandAbstract
         if ($this->opType === self::DB_OPEN || $this->opType === self::CONNECT) {
             $this->currentTransactionID = -(++self::$transactionID);
         } else {
-            $this->currentTransactionID = $this->parent->sessionID;
+            if (in_array($this->opType, $this->parent->getCommandsRequiresConnect())) {
+                $this->currentTransactionID = $this->parent->getSessionIDServer();
+            } elseif (in_array($this->opType, $this->parent->getCommandsRequiresDBOpen())) {
+                $this->currentTransactionID = $this->parent->getSessionIDDB();
+            } else {
+                throw new OrientDBWrongCommandException('Unknown command');
+            }
         }
         $this->addInt($this->currentTransactionID);
     }
@@ -163,8 +169,10 @@ abstract class OrientDBCommandAbstract
 
         if ($this->requestStatus === chr(OrientDBCommandAbstract::STATUS_SUCCESS)) {
             $data = $this->parse();
-            if (is_null($this->parent->sessionID)) {
-                $this->parent->sessionID = $this->sessionID;
+            if ($this->opType === self::DB_OPEN) {
+                $this->parent->setSessionIDDB($this->sessionID);
+            } elseif ($this->opType === self::CONNECT) {
+                $this->parent->setSessionIDServer($this->sessionID);
             }
             return $data;
         } elseif ($this->requestStatus === chr(OrientDBCommandAbstract::STATUS_ERROR)) {
@@ -334,7 +342,7 @@ abstract class OrientDBCommandAbstract
 
     /**
      *
-     * convert twos-complement integet after unpack() on x64 systems
+     * convert twos-complement integer after unpack() on x64 systems
      * @param int $int
      * @return int
      */

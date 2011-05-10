@@ -28,10 +28,16 @@ class OrientDB
     protected $active = true;
 
     /**
-     * SessionID returned from OrientDB, used to further identify queries
+     * SessionID returned from OrientDB, used to further identify queries to server
      * @var int
      */
-    public $sessionID;
+    private $sessionIDServer;
+
+    /**
+     * SessionID returned from OrientDB, used to further identify queries to DB
+     * @var int
+     */
+    private $sessionIDDB;
 
     const RECORD_TYPE_BYTES = 'b';
 
@@ -66,6 +72,36 @@ class OrientDB
                     self::DATACLUSTER_TYPE_MEMORY);
 
     public $cachedRecords = array();
+
+    private static $requireConnect = array(
+                        OrientDBCommandAbstract::SHUTDOWN,
+                        OrientDBCommandAbstract::DB_CREATE,
+                        OrientDBCommandAbstract::DB_DELETE,
+                        OrientDBCommandAbstract::DB_EXIST,
+                        OrientDBCommandAbstract::CONFIG_GET,
+                        OrientDBCommandAbstract::CONFIG_SET,
+                        OrientDBCommandAbstract::CONFIG_LIST);
+
+    private static $requireDBOpen = array(
+                        OrientDBCommandAbstract::DB_CLOSE,
+                        OrientDBCommandAbstract::DATACLUSTER_ADD,
+                        OrientDBCommandAbstract::DATACLUSTER_REMOVE,
+                        OrientDBCommandAbstract::DATACLUSTER_COUNT,
+                        OrientDBCommandAbstract::DATACLUSTER_DATARANGE,
+                        //OrientDBCommandAbstract::DATASEGMENT_ADD,
+                        //OrientDBCommandAbstract::DATASEGMENT_REMOVE,
+                        OrientDBCommandAbstract::RECORD_LOAD,
+                        OrientDBCommandAbstract::RECORD_CREATE,
+                        OrientDBCommandAbstract::RECORD_UPDATE,
+                        OrientDBCommandAbstract::RECORD_DELETE,
+                        OrientDBCommandAbstract::COUNT,
+                        OrientDBCommandAbstract::COMMAND,
+                        OrientDBCommandAbstract::INDEX_LOOKUP,
+                        OrientDBCommandAbstract::INDEX_PUT,
+                        OrientDBCommandAbstract::INDEX_REMOVE,
+                        OrientDBCommandAbstract::INDEX_SIZE,
+                        OrientDBCommandAbstract::INDEX_KEYS,
+                        OrientDBCommandAbstract::TX_COMMIT);
 
     public function __construct($host, $port, $timeout = 30)
     {
@@ -122,42 +158,14 @@ class OrientDB
 
     protected function canExecute($command)
     {
-        $require_connect = array(
-                        OrientDBCommandAbstract::SHUTDOWN,
-                        OrientDBCommandAbstract::DB_CREATE,
-                        OrientDBCommandAbstract::DB_DELETE,
-                        OrientDBCommandAbstract::DB_EXIST,
-                        OrientDBCommandAbstract::CONFIG_GET,
-                        OrientDBCommandAbstract::CONFIG_SET,
-                        OrientDBCommandAbstract::CONFIG_LIST);
-        $require_DB = array(
-                        OrientDBCommandAbstract::DB_CLOSE,
-                        OrientDBCommandAbstract::DATACLUSTER_ADD,
-                        OrientDBCommandAbstract::DATACLUSTER_REMOVE,
-                        OrientDBCommandAbstract::DATACLUSTER_COUNT,
-                        OrientDBCommandAbstract::DATACLUSTER_DATARANGE,
-                        //OrientDBCommandAbstract::DATASEGMENT_ADD,
-                        //OrientDBCommandAbstract::DATASEGMENT_REMOVE,
-                        OrientDBCommandAbstract::RECORD_LOAD,
-                        OrientDBCommandAbstract::RECORD_CREATE,
-                        OrientDBCommandAbstract::RECORD_UPDATE,
-                        OrientDBCommandAbstract::RECORD_DELETE,
-                        OrientDBCommandAbstract::COUNT,
-                        OrientDBCommandAbstract::COMMAND,
-                        OrientDBCommandAbstract::INDEX_LOOKUP,
-                        OrientDBCommandAbstract::INDEX_PUT,
-                        OrientDBCommandAbstract::INDEX_REMOVE,
-                        OrientDBCommandAbstract::INDEX_SIZE,
-                        OrientDBCommandAbstract::INDEX_KEYS,
-                        OrientDBCommandAbstract::TX_COMMIT);
 
         if (!$this->active) {
             throw new OrientDBWrongCommandException('DBClose was executed. No interaction posibble.');
         }
-        if (in_array($command->opType, $require_connect) && !$this->isConnected()) {
+        if (in_array($command->opType, $this->getCommandsRequiresConnect()) && !$this->isConnected()) {
             throw new OrientDBWrongCommandException('Not connected to server');
         }
-        if (in_array($command->opType, $require_DB) && !$this->isDBOpen()) {
+        if (in_array($command->opType, $this->getCommandsRequiresDBOpen()) && !$this->isDBOpen()) {
             throw new OrientDBWrongCommandException('Database not open');
         }
     }
@@ -178,6 +186,60 @@ class OrientDB
         if ($this->protocolVersion != $this->clientVersion) {
             throw new OrientDBException('Binary protocol is uncompatible with the Server connected: client=' . $this->clientVersion . ', server=' . $this->protocolVersion);
         }
+    }
+
+    /**
+     * Returns list of commands require to previously run connect()
+     * @return array
+     */
+    public function getCommandsRequiresConnect()
+    {
+        return self::$requireConnect;
+    }
+
+    /**
+     * Returns list of commands require to previously run DBOpen()
+     * @return array
+     */
+    public function getCommandsRequiresDBOpen()
+    {
+        return self::$requireDBOpen;
+    }
+
+    /**
+     * Set sessionID for use with server queries
+     * @param int $sessionID
+     */
+    public function setSessionIDServer($sessionID)
+    {
+        $this->sessionIDServer = $sessionID;
+    }
+
+    /**
+     * Set sessionID for use with DB queries
+     * @param int $sessionID
+     */
+    public function setSessionIDDB($sessionID)
+    {
+        $this->sessionIDDB = $sessionID;
+    }
+
+    /**
+     * Return sessionID for server queries
+     * @return int
+     */
+    public function getSessionIDServer()
+    {
+        return $this->sessionIDServer;
+    }
+
+    /**
+     * Return sessinID for DB queries
+     * @return int
+     */
+    public function getSessionIDDB()
+    {
+        return $this->sessionIDDB;
     }
 }
 
