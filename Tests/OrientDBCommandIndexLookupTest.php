@@ -40,10 +40,12 @@ class OrientDBIndexLookupTest extends OrientDBBaseTesting
         $key = 'testkey';
         $this->db->DBOpen('demo', 'admin', 'admin');
         $this->db->indexPut($key, '13:1');
-        $this->db->DBOpen('demo', 'writer', 'writer');
-        $record = $this->db->indexLookup($key);
-        $this->assertInstanceOf('OrientDBRecord', $record);
+        $db = new OrientDB('localhost', 2424);
+        $db->DBOpen('demo', 'writer', 'writer');
+        $record = $db->indexLookup($key);
         $result = $this->db->indexRemove($key);
+        $this->assertInstanceOf('OrientDBRecord', $record);
+
     }
 
     public function testIndexLookupWithWrongOptionCount()
