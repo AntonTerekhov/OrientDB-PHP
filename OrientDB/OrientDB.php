@@ -46,9 +46,9 @@ class OrientDB
     const RECORD_TYPE_FLAT = 'f';
 
     public static $recordTypes = array(
-                    self::RECORD_TYPE_BYTES,
-                    self::RECORD_TYPE_DOCUMENT,
-                    self::RECORD_TYPE_FLAT);
+        self::RECORD_TYPE_BYTES,
+        self::RECORD_TYPE_DOCUMENT,
+        self::RECORD_TYPE_FLAT);
 
     const DB_TYPE_MEMORY = 'memory';
 
@@ -67,41 +67,41 @@ class OrientDB
     const DATACLUSTER_TYPE_MEMORY = 'MEMORY';
 
     public static $clusterTypes = array(
-                    self::DATACLUSTER_TYPE_LOGICAL,
-                    self::DATACLUSTER_TYPE_PHYSICAL,
-                    self::DATACLUSTER_TYPE_MEMORY);
+        self::DATACLUSTER_TYPE_LOGICAL,
+        self::DATACLUSTER_TYPE_PHYSICAL,
+        self::DATACLUSTER_TYPE_MEMORY);
 
     public $cachedRecords = array();
 
     private static $requireConnect = array(
-                        OrientDBCommandAbstract::SHUTDOWN,
-                        OrientDBCommandAbstract::DB_CREATE,
-                        OrientDBCommandAbstract::DB_DELETE,
-                        OrientDBCommandAbstract::DB_EXIST,
-                        OrientDBCommandAbstract::CONFIG_GET,
-                        OrientDBCommandAbstract::CONFIG_SET,
-                        OrientDBCommandAbstract::CONFIG_LIST);
+        OrientDBCommandAbstract::SHUTDOWN,
+        OrientDBCommandAbstract::DB_CREATE,
+        OrientDBCommandAbstract::DB_DELETE,
+        OrientDBCommandAbstract::DB_EXIST,
+        OrientDBCommandAbstract::CONFIG_GET,
+        OrientDBCommandAbstract::CONFIG_SET,
+        OrientDBCommandAbstract::CONFIG_LIST);
 
     private static $requireDBOpen = array(
-                        OrientDBCommandAbstract::DB_CLOSE,
-                        OrientDBCommandAbstract::DATACLUSTER_ADD,
-                        OrientDBCommandAbstract::DATACLUSTER_REMOVE,
-                        OrientDBCommandAbstract::DATACLUSTER_COUNT,
-                        OrientDBCommandAbstract::DATACLUSTER_DATARANGE,
-                        //OrientDBCommandAbstract::DATASEGMENT_ADD,
-                        //OrientDBCommandAbstract::DATASEGMENT_REMOVE,
-                        OrientDBCommandAbstract::RECORD_LOAD,
-                        OrientDBCommandAbstract::RECORD_CREATE,
-                        OrientDBCommandAbstract::RECORD_UPDATE,
-                        OrientDBCommandAbstract::RECORD_DELETE,
-                        OrientDBCommandAbstract::COUNT,
-                        OrientDBCommandAbstract::COMMAND,
-                        OrientDBCommandAbstract::INDEX_LOOKUP,
-                        OrientDBCommandAbstract::INDEX_PUT,
-                        OrientDBCommandAbstract::INDEX_REMOVE,
-                        OrientDBCommandAbstract::INDEX_SIZE,
-                        OrientDBCommandAbstract::INDEX_KEYS,
-                        OrientDBCommandAbstract::TX_COMMIT);
+        OrientDBCommandAbstract::DB_CLOSE,
+        OrientDBCommandAbstract::DATACLUSTER_ADD,
+        OrientDBCommandAbstract::DATACLUSTER_REMOVE,
+        OrientDBCommandAbstract::DATACLUSTER_COUNT,
+        OrientDBCommandAbstract::DATACLUSTER_DATARANGE,
+        //OrientDBCommandAbstract::DATASEGMENT_ADD,
+        //OrientDBCommandAbstract::DATASEGMENT_REMOVE,
+        OrientDBCommandAbstract::RECORD_LOAD,
+        OrientDBCommandAbstract::RECORD_CREATE,
+        OrientDBCommandAbstract::RECORD_UPDATE,
+        OrientDBCommandAbstract::RECORD_DELETE,
+        OrientDBCommandAbstract::COUNT,
+        OrientDBCommandAbstract::COMMAND,
+        OrientDBCommandAbstract::INDEX_LOOKUP,
+        OrientDBCommandAbstract::INDEX_PUT,
+        OrientDBCommandAbstract::INDEX_REMOVE,
+        OrientDBCommandAbstract::INDEX_SIZE,
+        OrientDBCommandAbstract::INDEX_KEYS,
+        OrientDBCommandAbstract::TX_COMMIT);
 
     public function __construct($host, $port = 2424, $timeout = 30)
     {
@@ -132,8 +132,8 @@ class OrientDB
             $command = new $className($this);
             $this->canExecute($command);
             call_user_func_array(array(
-                            $command,
-                            'setAttribs'), $arguments);
+                $command,
+                'setAttribs'), $arguments);
 
             $command->prepare();
             $data = $command->execute();
@@ -259,8 +259,8 @@ class OrientDBWrongParamsException extends OrientDBException
 {
 }
 
-
 if (!function_exists('OrientDB_autoload')) {
+
     function OrientDB_autoload($className)
     {
         $prefix = 'OrientDB';
