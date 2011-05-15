@@ -8,7 +8,7 @@ class OrientDBClassBasicTest extends OrientDBBaseTesting
 
     protected function setUp()
     {
-        $this->db = new OrientDB('localhost', 2424);
+        $this->db = new OrientDB('localhost');
     }
 
     protected function tearDown()

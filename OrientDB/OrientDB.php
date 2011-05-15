@@ -103,7 +103,7 @@ class OrientDB
                         OrientDBCommandAbstract::INDEX_KEYS,
                         OrientDBCommandAbstract::TX_COMMIT);
 
-    public function __construct($host, $port, $timeout = 30)
+    public function __construct($host, $port = 2424, $timeout = 30)
     {
         $this->host = $host;
         $this->port = $port;
