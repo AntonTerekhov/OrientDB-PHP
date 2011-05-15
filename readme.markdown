@@ -85,7 +85,7 @@ Closes currently opened database.
 
 Silently closes currently opened database, if any. Socket to OrientDB server is closed, and no further commands are possible. Will throw an exception if no database are open on OrientDB instance.
 
-    $db->DBClose();
+    void $db->DBClose();
 
 #### DBCreate ####
 Creates new database. Return `true` on success or throw an exception.
