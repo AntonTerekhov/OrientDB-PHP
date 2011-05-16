@@ -1,8 +1,27 @@
 <?php
 
+/**
+ * @author Anton Terekhov <anton@netmonsters.ru>
+ * @copyright Copyright Anton Terekhov, NetMonsters LLC, 2011
+ * @license https://github.com/AntonTerekhov/OrientDB-PHP/blob/master/LICENSE
+ * @link https://github.com/AntonTerekhov/OrientDB-PHP
+ * @package OrientDB-PHP
+ */
+
+/**
+ * indexRemove() command for OrientDB-PHP
+ *
+ * @author Anton Terekhov <anton@netmonsters.ru>
+ * @package OrientDB-PHP
+ * @subpackage Command
+ */
 class OrientDBCommandIndexRemove extends OrientDBCommandAbstract
 {
 
+    /**
+     * Key to remove
+     * @var string
+     */
     protected $key;
 
     public function __construct($parent)
@@ -22,6 +41,11 @@ class OrientDBCommandIndexRemove extends OrientDBCommandAbstract
         $this->addString($this->key);
     }
 
+    /**
+     * (non-PHPdoc)
+     * @see OrientDBCommandAbstract::parse()
+     * @return bool|OrientDBTypeLink|OrientDBRecord
+     */
     protected function parse()
     {
         $record = $this->readRecord();

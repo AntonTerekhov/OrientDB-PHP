@@ -1,5 +1,20 @@
 <?php
 
+/**
+ * @author Anton Terekhov <anton@netmonsters.ru>
+ * @copyright Copyright Anton Terekhov, NetMonsters LLC, 2011
+ * @license https://github.com/AntonTerekhov/OrientDB-PHP/blob/master/LICENSE
+ * @link https://github.com/AntonTerekhov/OrientDB-PHP
+ * @package OrientDB-PHP
+ */
+
+/**
+ * configList() command for OrientDB-PHP
+ *
+ * @author Anton Terekhov <anton@netmonsters.ru>
+ * @package OrientDB-PHP
+ * @subpackage Command
+ */
 class OrientDBCommandConfigList extends OrientDBCommandAbstract
 {
 
@@ -9,6 +24,11 @@ class OrientDBCommandConfigList extends OrientDBCommandAbstract
         $this->opType = OrientDBCommandAbstract::CONFIG_LIST;
     }
 
+    /**
+     * (non-PHPdoc)
+     * @see OrientDBCommandAbstract::parse()
+     * @return array
+     */
     protected function parse()
     {
         $this->debugCommand('options_count');
@@ -24,5 +44,4 @@ class OrientDBCommandConfigList extends OrientDBCommandAbstract
 
         return $options;
     }
-
 }

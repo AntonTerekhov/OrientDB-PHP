@@ -1,5 +1,20 @@
 <?php
 
+/**
+ * @author Anton Terekhov <anton@netmonsters.ru>
+ * @copyright Copyright Anton Terekhov, NetMonsters LLC, 2011
+ * @license https://github.com/AntonTerekhov/OrientDB-PHP/blob/master/LICENSE
+ * @link https://github.com/AntonTerekhov/OrientDB-PHP
+ * @package OrientDB-PHP
+ */
+
+/**
+ * DBOpen() command for OrientDB-PHP
+ *
+ * @author Anton Terekhov <anton@netmonsters.ru>
+ * @package OrientDB-PHP
+ * @subpackage Command
+ */
 class OrientDBCommandDBOpen extends OrientDBCommandAbstract
 {
 
@@ -29,6 +44,11 @@ class OrientDBCommandDBOpen extends OrientDBCommandAbstract
         $this->addString($this->attribs[2]);
     }
 
+    /**
+     * (non-PHPdoc)
+     * @see OrientDBCommandAbstract::parse()
+     * @return array
+     */
     protected function parse()
     {
         $this->debugCommand('sessionID');
@@ -51,7 +71,7 @@ class OrientDBCommandDBOpen extends OrientDBCommandAbstract
         $config = $this->readBytes();
 
         return array(
-                        'clusters' => $clusters,
-                        'config' => $config);
+            'clusters' => $clusters,
+            'config' => $config);
     }
 }

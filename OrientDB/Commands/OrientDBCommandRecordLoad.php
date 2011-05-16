@@ -1,12 +1,39 @@
 <?php
 
+/**
+ * @author Anton Terekhov <anton@netmonsters.ru>
+ * @copyright Copyright Anton Terekhov, NetMonsters LLC, 2011
+ * @license https://github.com/AntonTerekhov/OrientDB-PHP/blob/master/LICENSE
+ * @link https://github.com/AntonTerekhov/OrientDB-PHP
+ * @package OrientDB-PHP
+ */
+
+/**
+ * recordLoad() command for OrientDB-PHP
+ *
+ * @author Anton Terekhov <anton@netmonsters.ru>
+ * @package OrientDB-PHP
+ * @subpackage Command
+ */
 class OrientDBCommandRecordLoad extends OrientDBCommandAbstract
 {
 
+    /**
+     * ClusterID
+     * @var int
+     */
     protected $clusterID;
 
+    /**
+     * Record position
+     * @var int
+     */
     protected $recordPos;
 
+    /**
+     * Fetchplan
+     * @var string
+     */
     protected $fetchPlan;
 
     public function __construct($parent)
@@ -43,6 +70,11 @@ class OrientDBCommandRecordLoad extends OrientDBCommandAbstract
         $this->addString($this->fetchPlan);
     }
 
+    /**
+     * (non-PHPdoc)
+     * @see OrientDBCommandAbstract::parse()
+     * bool|OrientDBTypeLink|OrientDBRecord
+     */
     protected function parse()
     {
         $this->debugCommand('record_status_first');

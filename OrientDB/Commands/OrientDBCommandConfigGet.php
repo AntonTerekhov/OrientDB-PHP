@@ -1,5 +1,20 @@
 <?php
 
+/**
+ * @author Anton Terekhov <anton@netmonsters.ru>
+ * @copyright Copyright Anton Terekhov, NetMonsters LLC, 2011
+ * @license https://github.com/AntonTerekhov/OrientDB-PHP/blob/master/LICENSE
+ * @link https://github.com/AntonTerekhov/OrientDB-PHP
+ * @package OrientDB-PHP
+ */
+
+/**
+ * configGet() command for OrientDB-PHP
+ *
+ * @author Anton Terekhov <anton@netmonsters.ru>
+ * @package OrientDB-PHP
+ * @subpackage Command
+ */
 class OrientDBCommandConfigGet extends OrientDBCommandAbstract
 {
 
@@ -19,6 +34,11 @@ class OrientDBCommandConfigGet extends OrientDBCommandAbstract
         $this->addString($this->attribs[0]);
     }
 
+    /**
+     * (non-PHPdoc)
+     * @see OrientDBCommandAbstract::parse()
+     * @return string
+     */
     protected function parse()
     {
         $this->debugCommand('config_value');
@@ -26,5 +46,4 @@ class OrientDBCommandConfigGet extends OrientDBCommandAbstract
 
         return $value;
     }
-
 }

@@ -1,5 +1,20 @@
 <?php
 
+/**
+ * @author Anton Terekhov <anton@netmonsters.ru>
+ * @copyright Copyright Anton Terekhov, NetMonsters LLC, 2011
+ * @license https://github.com/AntonTerekhov/OrientDB-PHP/blob/master/LICENSE
+ * @link https://github.com/AntonTerekhov/OrientDB-PHP
+ * @package OrientDB-PHP
+ */
+
+/**
+ * commit() command for OrientDB-PHP
+ *
+ * @author Anton Terekhov <anton@netmonsters.ru>
+ * @package OrientDB-PHP
+ * @subpackage Command
+ */
 class OrientDBCommandCommit extends OrientDBCommandAbstract
 {
 
@@ -17,21 +32,6 @@ class OrientDBCommandCommit extends OrientDBCommandAbstract
 
     protected function parse()
     {
-        $count = $this->readInt();
-        $records = array();
-        for ($i = 0; $i < $count; $i++) {
-            $clusterID = $this->readShort();
-            $recordPos = $this->readLong();
-            $recordVersion = $this->readInt();
 
-            $record = new StdClass();
-            $record->clusterID = $clusterID;
-            $record->recordPos = $recordPos;
-            $record->version = $recordVersion;
-            $record->recordID = $clusterID . ':' . $recordPos;
-
-            $records[] = $record;
-        }
-        return $records;
     }
 }

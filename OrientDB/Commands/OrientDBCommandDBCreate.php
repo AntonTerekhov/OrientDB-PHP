@@ -1,5 +1,20 @@
 <?php
 
+/**
+ * @author Anton Terekhov <anton@netmonsters.ru>
+ * @copyright Copyright Anton Terekhov, NetMonsters LLC, 2011
+ * @license https://github.com/AntonTerekhov/OrientDB-PHP/blob/master/LICENSE
+ * @link https://github.com/AntonTerekhov/OrientDB-PHP
+ * @package OrientDB-PHP
+ */
+
+/**
+ * DBCreate() command for OrientDB-PHP
+ *
+ * @author Anton Terekhov <anton@netmonsters.ru>
+ * @package OrientDB-PHP
+ * @subpackage Command
+ */
 class OrientDBCommandDBCreate extends OrientDBCommandAbstract
 {
 
@@ -19,17 +34,21 @@ class OrientDBCommandDBCreate extends OrientDBCommandAbstract
         $this->addString($this->attribs[0]);
         // Add DB type
         $db_types = array(
-                        OrientDB::DB_TYPE_MEMORY,
-                        OrientDB::DB_TYPE_LOCAL);
+            OrientDB::DB_TYPE_MEMORY,
+            OrientDB::DB_TYPE_LOCAL);
         if (!in_array($this->attribs[1], $db_types)) {
             throw new OrientDBWrongParamsException('Not supported DB type. Supported types is: ' . implode(', ', $db_types));
         }
         $this->addString($this->attribs[1]);
     }
 
+    /**
+     * (non-PHPdoc)
+     * @see OrientDBCommandAbstract::parse()
+     * @return bool
+     */
     protected function parse()
     {
         return true;
     }
-
 }

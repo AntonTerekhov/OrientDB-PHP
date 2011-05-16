@@ -1,8 +1,27 @@
 <?php
 
+/**
+ * @author Anton Terekhov <anton@netmonsters.ru>
+ * @copyright Copyright Anton Terekhov, NetMonsters LLC, 2011
+ * @license https://github.com/AntonTerekhov/OrientDB-PHP/blob/master/LICENSE
+ * @link https://github.com/AntonTerekhov/OrientDB-PHP
+ * @package OrientDB-PHP
+ */
+
+/**
+ * dataclusterRemove() command for OrientDB-PHP
+ *
+ * @author Anton Terekhov <anton@netmonsters.ru>
+ * @package OrientDB-PHP
+ * @subpackage Command
+ */
 class OrientDBCommandDataclusterRemove extends OrientDBCommandAbstract
 {
 
+    /**
+     * ClusterID used in command
+     * @var int
+     */
     protected $clusterID;
 
     public function __construct($parent)
@@ -26,6 +45,11 @@ class OrientDBCommandDataclusterRemove extends OrientDBCommandAbstract
         $this->addShort($this->clusterID);
     }
 
+    /**
+     * (non-PHPdoc)
+     * @see OrientDBCommandAbstract::parse()
+     * @return bool
+     */
     protected function parse()
     {
         $this->debugCommand('remove_result');

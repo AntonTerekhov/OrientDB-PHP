@@ -1,5 +1,20 @@
 <?php
 
+/**
+ * @author Anton Terekhov <anton@netmonsters.ru>
+ * @copyright Copyright Anton Terekhov, NetMonsters LLC, 2011
+ * @license https://github.com/AntonTerekhov/OrientDB-PHP/blob/master/LICENSE
+ * @link https://github.com/AntonTerekhov/OrientDB-PHP
+ * @package OrientDB-PHP
+ */
+
+/**
+ * Main class for OrientDB-PHP commands
+ *
+ * @author Anton Terekhov <anton@netmonsters.ru>
+ * @package OrientDB-PHP
+ * @subpackage Command
+ */
 abstract class OrientDBCommandAbstract
 {
 
@@ -69,6 +84,10 @@ abstract class OrientDBCommandAbstract
 
     const STATUS_ERROR = 0x01;
 
+    /**
+     * Inscanse of OrientDBSocket
+     * @var OrientDBSocket
+     */
     private $socket;
 
     /**
@@ -119,6 +138,10 @@ abstract class OrientDBCommandAbstract
      */
     protected $parent;
 
+    /**
+     * Consturct new instance
+     * @param OrientDB $parent
+     */
     public function __construct($parent)
     {
         $this->socket = $parent->socket;
@@ -126,6 +149,10 @@ abstract class OrientDBCommandAbstract
         $this->parent = $parent;
     }
 
+    /**
+     * Prepare command execution
+     * @throws OrientDBWrongCommandException
+     */
     public function prepare()
     {
         $this->addByte(chr($this->opType));
@@ -143,6 +170,9 @@ abstract class OrientDBCommandAbstract
         $this->addInt($this->currentTransactionID);
     }
 
+    /**
+     * Execute command by sending data to server, receive initial reply
+     */
     public function execute()
     {
         $this->socket->debug = $this->debug;
@@ -190,13 +220,25 @@ abstract class OrientDBCommandAbstract
         }
     }
 
+    /**
+     * Parse server reply
+     * @return mixed
+     */
     protected abstract function parse();
 
+    /**
+     * Get command attributes
+     */
     public function setAttribs()
     {
         $this->attribs = func_get_args();
     }
 
+    /**
+     * Read raw data from socket
+     * @param int $length
+     * @return string
+     */
     protected function readRaw($length)
     {
         $data = '';
@@ -206,17 +248,29 @@ abstract class OrientDBCommandAbstract
         return $data;
     }
 
+    /**
+     * Read 1 byte from socket
+     * @return string
+     */
     protected function readByte()
     {
         return $this->readRaw(1);
     }
 
+    /**
+     * Read short from server
+     * @return int
+     */
     protected function readShort()
     {
         $data = unpack('n', $this->readRaw(2));
         return reset($data);
     }
 
+    /**
+     * Read int from socket. Using custom function to convert twos-complement integer
+     * @return int
+     */
     protected function readInt()
     {
         $data = unpack('N', $this->readRaw(4));
@@ -224,10 +278,17 @@ abstract class OrientDBCommandAbstract
         return self::convertComplement($data);
     }
 
+    /**
+     * Read long from socket. Returns int
+     * @throws OrientDBException
+     * @return int
+     */
     protected function readLong()
     {
         $data = unpack('N', $this->readRaw(4));
-        // @TODO wtf? Java sends long as 64-bit
+        /**
+         * @TODO Java sends long as 64-bit
+         */
         if (reset($data) > 0) {
             throw new OrientDBException('64-bit long detected!');
         }
@@ -235,6 +296,10 @@ abstract class OrientDBCommandAbstract
         return reset($data);
     }
 
+    /**
+     * Read string from socket, including its length
+     * @return string
+     */
     protected function readString()
     {
         $size = $this->readInt();
@@ -244,6 +309,10 @@ abstract class OrientDBCommandAbstract
         return $this->readRaw($size);
     }
 
+    /**
+     * Read bytes stream from socket, including int length
+     * @return string
+     */
     protected function readBytes()
     {
         $size = $this->readInt();
@@ -253,13 +322,20 @@ abstract class OrientDBCommandAbstract
         return $this->readRaw($size);
     }
 
+    /**
+     * Read entire record from socket
+     * @return bool|OrientDBTypeLink|OrientDBRecord
+     */
     protected function readRecord()
     {
 
         $this->debugCommand('record_classID');
         $classID = $this->readShort();
-        // @TODO sinse PHP lack to support signed short with big endian byte order unpack we need to see it that way
-        // as seen at enterprise/src/main/java/com/orientechnologies/orient/enterprise/channel/binary/OChannelBinaryProtocol.java
+        /**
+         * @TODO sinse PHP lack to support signed short with big endian byte
+         * order unpack we need to see it that way
+         * as seen at enterprise/src/main/java/com/orientechnologies/orient/enterprise/channel/binary/OChannelBinaryProtocol.java
+         */
 
         // -2=no record
         if ($classID == 0xFFFE) {
@@ -300,39 +376,69 @@ abstract class OrientDBCommandAbstract
         return $record;
     }
 
+    /**
+     * Add byte to outgoing data
+     * @param string $byte
+     */
     protected function addByte($byte)
     {
         $this->requestBytes .= $byte;
     }
 
+    /**
+     * Add short to outgoing data. Short is represented by int
+     * @param int $short
+     */
     protected function addShort($short)
     {
         $this->requestBytes .= pack('n', $short);
     }
 
+    /**
+     * Add int to outgoing data
+     * @param int $int
+     */
     protected function addInt($int)
     {
         $this->requestBytes .= pack('N', $int);
     }
 
+    /**
+     * Add long to outgoing data. Long is represented by int
+     * @param int $long
+     */
     protected function addLong($long)
     {
-        // @TODO support 64-bit
+        /**
+         * @TODO support 64-bit
+         */
         $this->requestBytes .= str_repeat(chr(0), 4) . pack('N', $long);
     }
 
+    /**
+     * Add string to outgoing data. Length is calulated automatically
+     * @param string $string
+     */
     protected function addString($string)
     {
         $this->addInt(strlen($string));
         $this->requestBytes .= $string;
     }
 
+    /**
+     * Add byte stream to outgoing data. Length is calculated automatically
+     * @param string $string
+     */
     protected function addBytes($string)
     {
         $this->addInt(strlen($string));
         $this->requestBytes .= $string;
     }
 
+    /**
+     * If debug is enabled, output $commandName to stdout
+     * @param string $commandName
+     */
     protected function debugCommand($commandName)
     {
         if ($this->debug) {
@@ -341,8 +447,7 @@ abstract class OrientDBCommandAbstract
     }
 
     /**
-     *
-     * convert twos-complement integer after unpack() on x64 systems
+     * Convert twos-complement integer after unpack() on x64 systems
      * @param int $int
      * @return int
      */

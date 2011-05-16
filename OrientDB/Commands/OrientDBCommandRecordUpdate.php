@@ -1,14 +1,46 @@
 <?php
 
+/**
+ * @author Anton Terekhov <anton@netmonsters.ru>
+ * @copyright Copyright Anton Terekhov, NetMonsters LLC, 2011
+ * @license https://github.com/AntonTerekhov/OrientDB-PHP/blob/master/LICENSE
+ * @link https://github.com/AntonTerekhov/OrientDB-PHP
+ * @package OrientDB-PHP
+ */
+
+/**
+ * recordUpdate() command for OrientDB-PHP
+ *
+ * @author Anton Terekhov <anton@netmonsters.ru>
+ * @package OrientDB-PHP
+ * @subpackage Command
+ */
 class OrientDBCommandRecordUpdate extends OrientDBCommandAbstract
 {
 
+    /**
+     * ClusterID
+     * @var int
+     */
     protected $clusterID;
 
+    /**
+     * Record position
+     * @var int
+     */
     protected $recordPos;
 
+    /**
+     * Record type
+     * @var string
+     * @see OrientDB::$recordTypes
+     */
     protected $recordType;
 
+    /**
+     * record version
+     * @var int
+     */
     protected $version;
 
     public function __construct($parent)
@@ -60,6 +92,11 @@ class OrientDBCommandRecordUpdate extends OrientDBCommandAbstract
         $this->addByte($this->recordType);
     }
 
+    /**
+     * (non-PHPdoc)
+     * @see OrientDBCommandAbstract::parse()
+     * @return int
+     */
     protected function parse()
     {
         $this->debugCommand('record_version');

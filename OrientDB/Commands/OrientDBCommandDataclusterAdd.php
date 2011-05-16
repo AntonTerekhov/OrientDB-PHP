@@ -1,10 +1,34 @@
 <?php
 
+/**
+ * @author Anton Terekhov <anton@netmonsters.ru>
+ * @copyright Copyright Anton Terekhov, NetMonsters LLC, 2011
+ * @license https://github.com/AntonTerekhov/OrientDB-PHP/blob/master/LICENSE
+ * @link https://github.com/AntonTerekhov/OrientDB-PHP
+ * @package OrientDB-PHP
+ */
+
+/**
+ * dataclusterAdd() command for OrientDB-PHP
+ *
+ * @author Anton Terekhov <anton@netmonsters.ru>
+ * @package OrientDB-PHP
+ * @subpackage Command
+ */
 class OrientDBCommandDataclusterAdd extends OrientDBCommandAbstract
 {
 
+    /**
+     * Name of new cluster
+     * @var string
+     */
     protected $clusterName;
 
+    /**
+     * Cluster type
+     * @var string
+     * @see OrientDB::$recordTypes
+     */
     protected $clusterType;
 
     public function __construct($parent)
@@ -36,11 +60,16 @@ class OrientDBCommandDataclusterAdd extends OrientDBCommandAbstract
             break;
             case OrientDB::DATACLUSTER_TYPE_PHYSICAL:
                 $this->addString($this->clusterName);
-                $this->addInt(0); //@FIXME On wireshark FF FF FF FF captured here, is it a -0 ?
+                $this->addInt(0); // @FIXME On wireshark FF FF FF FF captured here, is it a -0 ?
             break;
         }
     }
 
+    /**
+     * (non-PHPdoc)
+     * @see OrientDBCommandAbstract::parse()
+     * @return int
+     */
     protected function parse()
     {
         $this->debugCommand('clusterID');

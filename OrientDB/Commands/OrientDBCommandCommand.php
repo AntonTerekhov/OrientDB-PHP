@@ -1,12 +1,39 @@
 <?php
 
+/**
+ * @author Anton Terekhov <anton@netmonsters.ru>
+ * @copyright Copyright Anton Terekhov, NetMonsters LLC, 2011
+ * @license https://github.com/AntonTerekhov/OrientDB-PHP/blob/master/LICENSE
+ * @link https://github.com/AntonTerekhov/OrientDB-PHP
+ * @package OrientDB-PHP
+ */
+
+/**
+ * command() command for OrientDB-PHP
+ *
+ * @author Anton Terekhov <anton@netmonsters.ru>
+ * @package OrientDB-PHP
+ * @subpackage Command
+ */
 class OrientDBCommandCommand extends OrientDBCommandAbstract
 {
 
+    /**
+     * Query text
+     * @var string
+     */
     protected $query;
 
+    /**
+     * Command mode
+     * @var string
+     */
     protected $mode;
 
+    /**
+     * Fetchplan
+     * @var string
+     */
     protected $fetchPlan;
 
     const MODE_SYNC = 's';
@@ -84,6 +111,11 @@ class OrientDBCommandCommand extends OrientDBCommandAbstract
         $this->addString($buff);
     }
 
+    /**
+     * (non-PHPdoc)
+     * @see OrientDBCommandAbstract::parse()
+     * @return bool|OrientDBTypeLink|OrientDBRecord|string|array
+     */
     protected function parse()
     {
         $this->debugCommand('status');
@@ -137,6 +169,5 @@ class OrientDBCommandCommand extends OrientDBCommandAbstract
                 return $this->readString();
             }
         }
-
     }
 }

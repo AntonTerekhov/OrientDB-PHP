@@ -1,8 +1,27 @@
 <?php
 
+/**
+ * @author Anton Terekhov <anton@netmonsters.ru>
+ * @copyright Copyright Anton Terekhov, NetMonsters LLC, 2011
+ * @license https://github.com/AntonTerekhov/OrientDB-PHP/blob/master/LICENSE
+ * @link https://github.com/AntonTerekhov/OrientDB-PHP
+ * @package OrientDB-PHP
+ */
+
+/**
+ * dataclusterDatarange() command for OrientDB-PHP
+ *
+ * @author Anton Terekhov <anton@netmonsters.ru>
+ * @package OrientDB-PHP
+ * @subpackage Command
+ */
 class OrientDBCommandDataclusterDatarange extends OrientDBCommandAbstract
 {
 
+    /**
+     * ClusterID used in command
+     * @var int
+     */
     protected $clusterID;
 
     public function __construct($parent)
@@ -25,6 +44,11 @@ class OrientDBCommandDataclusterDatarange extends OrientDBCommandAbstract
         $this->addShort($this->clusterID);
     }
 
+    /**
+     * (non-PHPdoc)
+     * @see OrientDBCommandAbstract::parse()
+     * @return array
+     */
     protected function parse()
     {
         $this->debugCommand('start_pos');
@@ -32,7 +56,7 @@ class OrientDBCommandDataclusterDatarange extends OrientDBCommandAbstract
         $this->debugCommand('end_pos');
         $endPos = $this->readLong();
         return array(
-                        'start' => $startPos,
-                        'end' => $endPos);
+            'start' => $startPos,
+            'end' => $endPos);
     }
 }

@@ -1,14 +1,46 @@
 <?php
 
+/**
+ * @author Anton Terekhov <anton@netmonsters.ru>
+ * @copyright Copyright Anton Terekhov, NetMonsters LLC, 2011
+ * @license https://github.com/AntonTerekhov/OrientDB-PHP/blob/master/LICENSE
+ * @link https://github.com/AntonTerekhov/OrientDB-PHP
+ * @package OrientDB-PHP
+ */
+
+/**
+ * recordDelete() command for OrientDB-PHP
+ *
+ * @author Anton Terekhov <anton@netmonsters.ru>
+ * @package OrientDB-PHP
+ * @subpackage Command
+ */
 class OrientDBCommandRecordDelete extends OrientDBCommandAbstract
 {
 
+    /**
+     * ClusterID
+     * @var int
+     */
     protected $clusterID;
 
+    /**
+     * Record position
+     * @var int
+     */
     protected $recordPos;
 
+    /**
+     * Record type
+     * @var string
+     * @see OrientDB::$recordTypes
+     */
     protected $recordType;
 
+    /**
+     * Record version
+     * @var int
+     */
     protected $version;
 
     public function __construct($parent)
@@ -47,6 +79,11 @@ class OrientDBCommandRecordDelete extends OrientDBCommandAbstract
         $this->addInt($this->version);
     }
 
+    /**
+     * (non-PHPdoc)
+     * @see OrientDBCommandAbstract::parse()
+     * @return bool
+     */
     protected function parse()
     {
         $this->debugCommand('delete_result');
