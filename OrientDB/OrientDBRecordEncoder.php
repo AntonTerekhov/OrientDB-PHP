@@ -1,5 +1,20 @@
 <?php
 
+/**
+ * @author Anton Terekhov <anton@netmonsters.ru>
+ * @copyright Copyright Anton Terekhov, NetMonsters LLC, 2011
+ * @license https://github.com/AntonTerekhov/OrientDB-PHP/blob/master/LICENSE
+ * @link https://github.com/AntonTerekhov/OrientDB-PHP
+ * @package OrientDB-PHP
+ */
+
+/**
+ * Class to encode OrientDB record
+ *
+ * @author Anton Terekhov <anton@netmonsters.ru>
+ * @package OrientDB-PHP
+ * @subpackage Datatypes
+ */
 class OrientDBRecordEncoder
 {
 
@@ -16,15 +31,13 @@ class OrientDBRecordEncoder
     protected $data;
 
     /**
-     *
      * Serialized record
      * @var string
      */
     public $buffer;
 
     /**
-     *
-     * Enter description here ...
+     * Construct new instance
      * @param StdClass $data Data from OrientDBRecord instance
      * @param string $className ClassName from OrientDBRecord instance
      * @return void
@@ -51,7 +64,6 @@ class OrientDBRecordEncoder
     }
 
     /**
-     *
      * Recursively encodes data to OrientDB representation
      * @param array|StdClass $data Data to be encoded
      * @param bool $isAssoc Is keys needs to be included
@@ -102,7 +114,9 @@ class OrientDBRecordEncoder
                         $boundEnd = chr(OrientDBRecordDecoder::CCODE_CLOSE_SQUARE);
                     }
                     $buffer .= $boundStart;
-                    // @TODO Fix possible PHP's fatal: Maximum function nesting level of '100' reached, aborting!
+                    /**
+                     * @TODO Fix possible PHP's fatal: Maximum function nesting level of '100' reached, aborting!
+                     */
                     $buffer .= implode(',', $this->process($value, $arrayAssoc, true));
                     $buffer .= $boundEnd;
                 break;
@@ -127,31 +141,31 @@ class OrientDBRecordEncoder
     }
 
     /**
-     *
      * Returns escaped string, suitable for OrientDB
      * @param string $string
      * @return string
      */
     protected static function encodeString($string)
     {
-        // @TODO Unittests
+        /**
+         * @TODO Unittests
+         */
         return '"' . addcslashes($string, '"\\') . '"';
     }
 
     /**
-     *
      * Check is array is associative or sequential
      * @param array $array
      * @return bool
      */
     protected static function isAssoc($array)
     {
-        // @TODO Unittests
+        /**
+         * @TODO Unittests
+         */
         if (!is_array($array)) {
             return;
         }
         return (bool) count(array_filter(array_keys($array), 'is_string'));
-
     }
-
 }

@@ -1,24 +1,46 @@
 <?php
 
 /**
- *
- * Class represent OrientDB link to other document
- *
+ * @author Anton Terekhov <anton@netmonsters.ru>
+ * @copyright Copyright Anton Terekhov, NetMonsters LLC, 2011
+ * @license https://github.com/AntonTerekhov/OrientDB-PHP/blob/master/LICENSE
+ * @link https://github.com/AntonTerekhov/OrientDB-PHP
+ * @package OrientDB-PHP
+ */
+
+/**
+ * Class represent OrientDB link to another document
+ * @author Anton Terekhov <anton@netmonsters.ru>
+ * @package OrientDB-PHP
+ * @subpackage Datatypes
  */
 class OrientDBTypeLink
 {
 
+    /**
+     * Link text without hash sign
+     * @var srting
+     */
     private $link;
 
+    /**
+     * Cluster ID in link
+     * @var int
+     */
     public $clusterID;
 
+    /**
+     * Record Position in link
+     * @var int
+     */
     public $recordPos;
 
     /**
      *
-     * Create object from string. Using a kind of overloading
+     * Create object from string or two ints. Using a kind of overloading
      * @example #10:1
      * @example 10:1
+     * @example 10, 1
      * @param string|int $link
      * @param int $recordPos
      */
@@ -48,6 +70,10 @@ class OrientDBTypeLink
         }
     }
 
+    /**
+     * Magic method overloading
+     * @return string
+     */
     public function __toString()
     {
         if ($this->link) {
@@ -57,7 +83,6 @@ class OrientDBTypeLink
     }
 
     /**
-     *
      * Return link without hash sign
      * @return string
      * @example 10:1
@@ -80,15 +105,24 @@ class OrientDBTypeLink
 }
 
 /**
- *
  * Class represent OrientDB date
- *
+ * @author Anton Terekhov <anton@netmonsters.ru>
+ * @package OrientDB-PHP
+ * @subpackage Datatypes
  */
 class OrientDBTypeDate
 {
 
+    /**
+     * Timestamp
+     * @var int
+     */
     private $timestamp;
 
+    /**
+     * Create object from string or int
+     * @param string|int $time
+     */
     public function __construct($time)
     {
         if (substr($time, -1, 1) === 't') {
@@ -99,6 +133,10 @@ class OrientDBTypeDate
         }
     }
 
+    /**
+     * Magic method overloading
+     * @return string
+     */
     public function __toString()
     {
         if ($this->timestamp) {
@@ -107,11 +145,19 @@ class OrientDBTypeDate
         return '';
     }
 
+    /**
+     * Return time for timestamp
+     * @return int
+     */
     public function getTime()
     {
         return $this->timestamp;
     }
 
+    /**
+     * Return timestamp in OrientDB format
+     * @return string
+     */
     public function getValue()
     {
         if ($this->timestamp) {

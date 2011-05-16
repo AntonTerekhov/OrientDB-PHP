@@ -1,33 +1,49 @@
 <?php
 
 /**
- *
+ * @author Anton Terekhov <anton@netmonsters.ru>
+ * @copyright Copyright Anton Terekhov, NetMonsters LLC, 2011
+ * @license https://github.com/AntonTerekhov/OrientDB-PHP/blob/master/LICENSE
+ * @link https://github.com/AntonTerekhov/OrientDB-PHP
+ * @package OrientDB-PHP
+ */
+
+/**
  * OrientDBHelpers cointains methods not needed in production use of this
  * library
- *
+ * @author Anton Terekhov <anton@netmonsters.ru>
+ * @package OrientDB-PHP
+ * @subpackage Debug
  */
 class OrientDBHelpers
 {
+
     /**
-     *
-     * Echoes bytes in $data to console
+     * Echoes bytes in $data to stdout
      * @param string $data
      * @param string $newline
      */
     static public function hexDump($data, $newline = PHP_EOL)
     {
-
+        /**
+         * @var string
+         */
         static $from = '';
 
+        /**
+         * @var string
+         */
         static $to = '';
 
         /**
          * number of bytes per line
+         * @var int
          */
         static $width = 16;
 
         /**
          * padding for non-visible characters
+         * @var string
          */
         static $pad = '.';
 

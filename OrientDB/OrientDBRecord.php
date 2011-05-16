@@ -1,10 +1,25 @@
 <?php
 
+/**
+ * @author Anton Terekhov <anton@netmonsters.ru>
+ * @copyright Copyright Anton Terekhov, NetMonsters LLC, 2011
+ * @license https://github.com/AntonTerekhov/OrientDB-PHP/blob/master/LICENSE
+ * @link https://github.com/AntonTerekhov/OrientDB-PHP
+ * @package OrientDB-PHP
+ */
+
+/**
+ * Class representing OrientDB Record
+ * @author Anton Terekhov <anton@netmonsters.ru>
+ * @package OrientDB-PHP
+ * @subpackage Datatypes
+ *
+ */
 class OrientDBRecord
 {
 
     /**
-     * ClassID
+     * ClassID in OrientDB
      * @var int
      */
     public $classID;
@@ -18,6 +33,7 @@ class OrientDBRecord
     /**
      * Document type
      * @example OrientDB::RECORD_TYPE_DOCUMENT
+     * @see OrientDB::$recordTypes
      * @var string
      */
     public $type;
@@ -59,13 +75,13 @@ class OrientDBRecord
      */
     public $data;
 
-	/**
-	 * Construct new instance
-	 */
-	public function __construct()
-	{
-		$this->data = new stdClass();
-	}
+    /**
+     * Construct new instance
+     */
+    public function __construct()
+    {
+        $this->data = new stdClass();
+    }
 
     /**
      * Parses $this->content and populates $this->data
@@ -82,6 +98,10 @@ class OrientDBRecord
         $this->data = $parser->data;
     }
 
+    /**
+     * Magic method
+     * @return string
+     */
     public function __toString()
     {
         $encoder = new OrientDBRecordEncoder($this->data, $this->className);
@@ -89,8 +109,7 @@ class OrientDBRecord
     }
 
     /**
-     *
-     * Parses recordID from $this->clusterID and $this->recordPos
+     * Parses recordID from $this->clusterID and $this->recordPos. Populated $this->recordID
      * @return void
      */
     private function parseRecordID()

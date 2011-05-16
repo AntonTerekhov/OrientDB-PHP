@@ -1,5 +1,20 @@
 <?php
 
+/**
+ * @author Anton Terekhov <anton@netmonsters.ru>
+ * @copyright Copyright Anton Terekhov, NetMonsters LLC, 2011
+ * @license https://github.com/AntonTerekhov/OrientDB-PHP/blob/master/LICENSE
+ * @link https://github.com/AntonTerekhov/OrientDB-PHP
+ * @package OrientDB-PHP
+ */
+
+/**
+ * Class to decode OrientDB records
+ *
+ * @author Anton Terekhov <anton@netmonsters.ru>
+ * @package OrientDB-PHP
+ * @subpackage Datatypes
+ */
 class OrientDBRecordDecoder
 {
 
@@ -389,7 +404,9 @@ class OrientDBRecordDecoder
                 break;
 
                 case self::STATE_KEY:
-                    // @TODO If map keys can contain escaping characters
+                    /**
+                     * @TODO If map keys can contain escaping characters
+                     */
                     if ($cCode === self::CCODE_COLON) {
                         // Colon found - swith state to value collecting
                         $this->state = self::STATE_VALUE;
@@ -620,7 +637,7 @@ class OrientDBRecordDecoder
                 break;
 
                 case self::TTYPE_CLASS:
-                    list(, $value) = $this->stackPop();
+                    list (, $value) = $this->stackPop();
                     $this->className = $value;
                 break;
 
@@ -630,8 +647,8 @@ class OrientDBRecordDecoder
                 case self::TTYPE_BOOLEAN:
                 case self::TTYPE_EMBEDDED:
                     if (!$isCollection && !$isMap) {
-                        list(, $value) = $this->stackPop();
-                        list(, $name) = $this->stackPop();
+                        list (, $value) = $this->stackPop();
+                        list (, $name) = $this->stackPop();
                         $this->data->$name = $value;
                     }
                 break;
@@ -639,7 +656,7 @@ class OrientDBRecordDecoder
                 case self::TTYPE_NULL:
                     if (!$isCollection && !$isMap) {
                         $this->stackPop();
-                        list(, $name) = $this->stackPop();
+                        list (, $name) = $this->stackPop();
                         $this->data->$name = null;
                     }
                 break;
@@ -647,13 +664,13 @@ class OrientDBRecordDecoder
                 case self::TTYPE_COLLECTION_END:
                     $values = array();
                     do {
-                        list($searchToken, $value) = $this->stackPop();
+                        list ($searchToken, $value) = $this->stackPop();
 
                         if ($searchToken !== self::TTYPE_COLLECTION_START && $searchToken !== self::TTYPE_COLLECTION_END) {
                             $values[] = $value;
                         }
                     } while ($searchToken !== self::TTYPE_COLLECTION_START);
-                    list(, $name) = $this->stackPop();
+                    list (, $name) = $this->stackPop();
                     $values = array_reverse($values);
                     $this->data->$name = $values;
                 break;
@@ -661,17 +678,17 @@ class OrientDBRecordDecoder
                 case self::TTYPE_MAP_END:
                     $values = array();
                     do {
-                        list($searchToken, $value) = $this->stackPop();
+                        list ($searchToken, $value) = $this->stackPop();
                         // check for null value
                         if ($searchToken === self::TTYPE_NULL) {
                             $value = null;
                         }
                         if ($searchToken !== self::TTYPE_MAP_START && $searchToken !== self::TTYPE_MAP_END) {
-                            list(, $key) = $this->stackPop();
+                            list (, $key) = $this->stackPop();
                             $values[$key] = $value;
                         }
                     } while ($searchToken !== self::TTYPE_MAP_START);
-                    list(, $name) = $this->stackPop();
+                    list (, $name) = $this->stackPop();
                     $values = array_reverse($values);
                     $this->data->$name = $values;
                 break;
@@ -683,7 +700,6 @@ class OrientDBRecordDecoder
     }
 
     /**
-     *
      * Pushes found value to internal stack and flushes $this->buffer. If no
      * $tokenValue is given, uses $this->buffer
      * @param int $tokenType
@@ -700,17 +716,17 @@ class OrientDBRecordDecoder
     }
 
     /**
-     *
      * Pop value from internal stack
      * @return array
      */
     protected function stackPop()
     {
-        return array(array_pop($this->stackTT), array_pop($this->stackTV));
+        return array(
+            array_pop($this->stackTT),
+            array_pop($this->stackTV));
     }
 
     /**
-     *
      * Return last token type
      * @return int
      * @example TTYPE_NAME
