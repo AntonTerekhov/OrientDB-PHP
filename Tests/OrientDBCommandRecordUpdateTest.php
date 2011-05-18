@@ -206,7 +206,7 @@ class OrientDBRecordUpdateTest extends OrientDBBaseTesting
         $result = $this->db->recordDelete($this->clusterID . ':' . $recordPos);
     }
 
-    public function testRecordDeleteWithCorrectVersion()
+    public function testRecordUpdateWithCorrectVersion()
     {
         $this->db->DBOpen('demo', 'writer', 'writer');
         $recordPos = $this->db->recordCreate($this->clusterID, $this->recordContent);
@@ -224,7 +224,7 @@ class OrientDBRecordUpdateTest extends OrientDBBaseTesting
         $result = $this->db->recordDelete($this->clusterID . ':' . $recordPos);
     }
 
-    public function testRecordDeleteWithIncorrectVersionIsGreater()
+    public function testRecordUpdateWithIncorrectVersionIsGreater()
     {
         $this->db->DBOpen('demo', 'writer', 'writer');
         $recordPos = $this->db->recordCreate($this->clusterID, $this->recordContent);
@@ -238,7 +238,7 @@ class OrientDBRecordUpdateTest extends OrientDBBaseTesting
         $version2 = $this->db->recordUpdate($this->clusterID . ':' . $recordPos, $this->recordContent, $version + 1);
     }
 
-    public function testRecordDeleteWithIncorrectVersionIsLesser()
+    public function testRecordUpdateWithIncorrectVersionIsLesser()
     {
         $this->db->DBOpen('demo', 'writer', 'writer');
         $recordPos = $this->db->recordCreate($this->clusterID, $this->recordContent);
