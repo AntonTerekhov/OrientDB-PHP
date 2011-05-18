@@ -182,7 +182,7 @@ Returns index size (count of keys in index).
 #### recordCreate ####
 Create record in specified cluster with content and type. Returns record position in cluster.
 
-    int $db->recordCreate( int  $clusterID, string $recordContent[, string $recordType]);
+    int $db->recordCreate( int  $clusterID, string|OrientDBRecord $recordContent[, string $recordType]);
 
 Available record types are:
 
@@ -192,9 +192,41 @@ Available record types are:
 
 Default type used is `OrientDB::RECORD_TYPE_DOCUMENT`.
 
-*Example:*
+*Example 1:*
 
     $recordPos = $db->recordCreate(1, 'name:"John"');
+
+You can, however, use instance of class OrientDBRecord to create new entry in OrientDB server. If so, some of this instance properties (`clusterID`, `recordPos`, `recordID`, `version`) will be filled with correct values. See example below:
+
+*Example 2:*
+
+    $record = new OrientDBRecord();
+    $record->data->name = 'John';
+
+    $recordPos = $db->recordCreate(1, $record);
+
+    echo $record->recordPos . PHP_EOL;
+    echo $record->clusterID . PHP_EOL;
+    echo $record->recordID . PHP_EOL;
+    echo $record->version . PHP_EOL;
+
+Can produce something like:
+
+    1
+    5
+    1:5
+    0
+
+Due to [PHP's behavior](http://www.php.net/manual/en/language.oop5.references.php), objects are always passed by reference instead of int, for example. This, if automatically updating of record fields is not an option, can get you in trouble. So, in that case you should see example below:
+
+*Example 3:*
+
+    $record = new OrientDBRecord();
+    $record->data->name = 'John';
+
+    $recordPos = $db->recordCreate(1, (string) $record);
+
+Please, note, that using OrientDBRecord instance doesn't automatically fill up other function parameters.
 
 #### recordDelete ####
 Delete record with specified recordID and optionally, version.
@@ -243,7 +275,7 @@ Will produce something like this:
 Update record with specified recordID and, optionally, version.
 Returns new record version on success, -1 otherwise or throws an exception.
 
-    int $db->recordUpdate(string $recordID, string $recordContent[, int $recordVersion[, string $recordType]]);
+    int $db->recordUpdate(string $recordID, string|OrientDBRecord $recordContent[, int $recordVersion[, string $recordType]]);
 
 Default version is `-1`. This means no version check will be done.
 
@@ -255,10 +287,42 @@ Available record types are:
 
 Default type used is `OrientDB::RECORD_TYPE_DOCUMENT`.
 
-*Examples:*
+*Examples 1:*
 
     $version = $db->recordUpdate('1:1', 'Name:"Bob"');
-    $version = $db->recordUpdate('1:1', 'Name:"Bob"', 1, OrientDB::RECORD_TYPE_DOCUMENT);
+    $version = $db->recordUpdate('1:1', 'Name:"Sam"', 1, OrientDB::RECORD_TYPE_DOCUMENT);
+
+You can, however, use instance of class OrientDBRecord to update record in OrientDB server. If so, some of this instance properties (`clusterID`, `recordPos`, `recordID`, `version`) will be filled with correct values. See example below:
+
+*Example 2:*
+
+    $record = new OrientDBRecord();
+    $record->data->name = 'John';
+
+    $recordPos = $db->recordUpdate('1:1', $record);
+
+    echo $record->recordPos . PHP_EOL;
+    echo $record->clusterID . PHP_EOL;
+    echo $record->recordID . PHP_EOL;
+    echo $record->version . PHP_EOL;
+
+Can produce something like:
+
+    1
+    1
+    1:1
+    3
+
+Due to [PHP's behavior](http://www.php.net/manual/en/language.oop5.references.php), objects are always passed by reference instead of int, for example. This, if automatically updating of record fields is not an option, can get you in trouble. So, in that case you should see example below:
+
+*Example 3:*
+
+    $record = new OrientDBRecord();
+    $record->data->name = 'John';
+
+    $recordPos = $db->recordUpdate('1:1', (string) $record);
+
+Please, note, that using OrientDBRecord instance doesn't automatically fill up other function parameters.
 
 ### Config commands ###
 

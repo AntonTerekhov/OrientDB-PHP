@@ -31,6 +31,12 @@ class OrientDBCommandRecordCreate extends OrientDBCommandAbstract
      */
     protected $recordType;
 
+    /**
+     * Record content
+     * @var string|OrientDBRecord
+     */
+    protected $recordContent;
+
     public function __construct($parent)
     {
         parent::__construct($parent);
@@ -47,8 +53,10 @@ class OrientDBCommandRecordCreate extends OrientDBCommandAbstract
         $this->clusterID = (int) $this->attribs[0];
         // Add ClusterID
         $this->addShort($this->clusterID);
+        // Process recordContent
+        $this->recordContent = $this->attribs[1];
         // Add RecordContent
-        $this->addBytes($this->attribs[1]);
+        $this->addBytes($this->recordContent);
         // recordType
         $this->recordType = OrientDB::RECORD_TYPE_DOCUMENT;
         if (count($this->attribs) == 3) {
@@ -70,6 +78,13 @@ class OrientDBCommandRecordCreate extends OrientDBCommandAbstract
     {
         $this->debugCommand('record_pos');
         $position = $this->readLong();
+
+        if ($this->recordContent instanceof OrientDBRecord) {
+            $this->recordContent->recordPos = $position;
+            $this->recordContent->clusterID = $this->clusterID;
+            $this->recordContent->version = 0;
+        }
+
         return $position;
     }
 }

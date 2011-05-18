@@ -26,9 +26,10 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
         $recordPos = 2;
 
         $record = new OrientDBRecord();
+        $this->assertNull($record->recordID);
         $record->clusterID = $clusterID;
         $record->recordPos = $recordPos;
-        $this->assertNull($record->recordID);
+        $this->assertSame($clusterID . ':' . $recordPos, $record->recordID);
         $record->parse();
         $this->assertSame($clusterID . ':' . $recordPos, $record->recordID);
     }
@@ -352,5 +353,48 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($record->data->False);
         $this->assertSame("Smith", $record->data->LastName);
         $this->assertTrue($record->data->true);
+    }
+
+    public function testRecordMagicMethods()
+    {
+        $clusterID = 9;
+        $recordPos = 8;
+        $version = 7;
+        $record = new OrientDBRecord();
+
+        $this->assertNull($record->clusterID);
+        $this->assertNull($record->recordPos);
+        $this->assertNull($record->recordID);
+        $this->assertNull($record->version);
+
+        $record->clusterID = $clusterID;
+
+        $this->assertSame($clusterID, $record->clusterID);
+        $this->assertNull($record->recordPos);
+        $this->assertNull($record->recordID);
+        $this->assertNull($record->version);
+
+        $record->clusterID = null;
+        $record->recordPos = $recordPos;
+
+        $this->assertNull($record->clusterID);
+        $this->assertSame($recordPos, $record->recordPos);
+        $this->assertNull($record->recordID);
+        $this->assertNull($record->version);
+
+        $record->clusterID = $clusterID;
+        $record->recordPos = $recordPos;
+
+        $this->assertSame($clusterID, $record->clusterID);
+        $this->assertSame($recordPos, $record->recordPos);
+        $this->assertSame($clusterID . ':' . $recordPos, $record->recordID);
+        $this->assertNull($record->version);
+
+        $record->version = $version;
+
+        $this->assertSame($clusterID, $record->clusterID);
+        $this->assertSame($recordPos, $record->recordPos);
+        $this->assertSame($clusterID . ':' . $recordPos, $record->recordID);
+        $this->assertSame($version, $record->version);
     }
 }

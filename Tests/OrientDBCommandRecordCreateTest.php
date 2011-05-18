@@ -106,4 +106,24 @@ class OrientDBRecordCreateTest extends OrientDBBaseTesting
         $this->setExpectedException('OrientDBWrongParamsException');
         $recordPos = $this->db->recordCreate($this->clusterID, $this->recordContent, '!');
     }
+
+    public function testRecordCreateWithOrientDBRecordType()
+    {
+        $this->db->DBOpen('demo', 'admin', 'admin');
+        $record = new OrientDBRecord();
+        $record->data->field = 'value';
+        $this->assertNull($record->recordPos);
+        $this->assertNull($record->clusterID);
+        $this->assertNull($record->recordID);
+        $this->assertNull($record->version);
+
+        $recordPos = $this->db->recordCreate($this->clusterID, $record);
+        $this->db->recordDelete($this->clusterID . ':' . $recordPos);
+
+        $this->assertInternalType('integer', $recordPos);
+        $this->assertSame($recordPos, $record->recordPos);
+        $this->assertSame($this->clusterID, $record->clusterID);
+        $this->assertSame($this->clusterID . ':' . $recordPos, $record->recordID);
+        $this->assertSame(0, $record->version);
+    }
 }

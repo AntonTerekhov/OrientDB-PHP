@@ -13,6 +13,9 @@
  * @author Anton Terekhov <anton@netmonsters.ru>
  * @package OrientDB-PHP
  * @subpackage Datatypes
+ * @property int clusterID ClusterID of record
+ * @property int recordPos Record position in cluster
+ * @property-read string recordID Fully-qualified recordID
  *
  */
 class OrientDBRecord
@@ -42,20 +45,20 @@ class OrientDBRecord
      * ClusterID
      * @var int
      */
-    public $clusterID;
+    private $clusterID;
 
     /**
      * Record position in cluster
      * @var int
      */
-    public $recordPos;
+    private $recordPos;
 
     /**
      * Full qualified record ID
      * @example 1:1
      * @var string
      */
-    public $recordID;
+    private $recordID;
 
     /**
      * Document version
@@ -119,6 +122,30 @@ class OrientDBRecord
         }
         if ($this->clusterID > 0 && $this->recordPos >= 0) {
             $this->recordID = $this->clusterID . ':' . $this->recordPos;
+        }
+    }
+
+    public function __get($name)
+    {
+        if ($name === 'recordPos' || $name === 'clusterID' || $name === 'recordID') {
+            return $this->$name;
+        }
+        $trace = debug_backtrace();
+        trigger_error('Undefined property via __get(): ' . $name . ' in ' . $trace[0]['file'] . ' on line ' . $trace[0]['line'], E_USER_NOTICE);
+        return null;
+    }
+
+    public function __set($name, $value)
+    {
+        if ($name === 'recordPos' || $name === 'clusterID') {
+            $this->$name = $value;
+            $this->parseRecordID();
+        } elseif ($name === 'recordID') {
+            $trace = debug_backtrace();
+            trigger_error('Can\'t directly set property ' . $name . ' in ' . $trace[0]['file'] . ' on line ' . $trace[0]['line'], E_USER_NOTICE);
+        } else {
+            $trace = debug_backtrace();
+            trigger_error('Can\'t set property ' . $name . ' via __set() in ' . $trace[0]['file'] . ' on line ' . $trace[0]['line'], E_USER_NOTICE);
         }
     }
 }

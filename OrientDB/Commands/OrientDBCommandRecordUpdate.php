@@ -43,6 +43,12 @@ class OrientDBCommandRecordUpdate extends OrientDBCommandAbstract
      */
     protected $version;
 
+    /**
+     * Record content param
+     * @var string|OrientDBRecord
+     */
+    protected $recordContent;
+
     public function __construct($parent)
     {
         parent::__construct($parent);
@@ -69,8 +75,10 @@ class OrientDBCommandRecordUpdate extends OrientDBCommandAbstract
         $this->addShort($this->clusterID);
         // Add Record pos
         $this->addLong($this->recordPos);
+        // Prepare recorn content
+        $this->recordContent = $this->attribs[1];
         // Add record content
-        $this->addBytes($this->attribs[1]);
+        $this->addBytes($this->recordContent);
         // Add version
         if (count($this->attribs) >= 3) {
             $this->version = (int) $this->attribs[2];
@@ -101,6 +109,12 @@ class OrientDBCommandRecordUpdate extends OrientDBCommandAbstract
     {
         $this->debugCommand('record_version');
         $version = $this->readInt();
+
+        if ($this->recordContent instanceof OrientDBRecord) {
+            $this->recordContent->recordPos = $this->recordPos;
+            $this->recordContent->clusterID = $this->clusterID;
+            $this->recordContent->version = $version;
+        }
         return $version;
     }
 }

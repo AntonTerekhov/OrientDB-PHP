@@ -251,4 +251,35 @@ class OrientDBRecordUpdateTest extends OrientDBBaseTesting
         $this->setExpectedException('OrientDBException');
         $version2 = $this->db->recordUpdate($this->clusterID . ':' . $recordPos, $this->recordContent, $version - 1);
     }
+
+    public function testRecordUpdateWithOrientDBRecordType()
+    {
+        $this->db->DBOpen('demo', 'admin', 'admin');
+        $recordPos = $this->db->recordCreate($this->clusterID, $this->recordContent);
+        $this->assertInternalType('integer', $recordPos);
+
+        $record = new OrientDBRecord();
+        $record->data->field = 'value';
+        $this->assertNull($record->recordPos);
+        $this->assertNull($record->clusterID);
+        $this->assertNull($record->recordID);
+        $this->assertNull($record->version);
+
+        $version = $this->db->recordUpdate($this->clusterID .':' . $recordPos, $record);
+
+        $this->assertInternalType('integer', $version);
+        $this->assertSame($recordPos, $record->recordPos);
+        $this->assertSame($this->clusterID, $record->clusterID);
+        $this->assertSame($this->clusterID . ':' . $recordPos, $record->recordID);
+        $this->assertSame(1, $version);
+        $this->assertSame($version, $record->version);
+
+        $record->content = $this->recordContent;
+        $record->parse();
+
+        $version2 = $this->db->recordUpdate($this->clusterID .':' . $recordPos, $record);
+        $this->assertSame(2, $record->version);
+
+        $this->db->recordDelete($this->clusterID . ':' . $recordPos);
+    }
 }
