@@ -52,9 +52,9 @@ class OrientDBDataclusterRemoveTest extends OrientDBBaseTesting
         $result = $this->db->dataclusterRemove();
     }
 
-    public function testDataclusterRemoveOnOpenDB()
+    public function testDataclusterRemoveOnOpenDBAdmin()
     {
-        $clusters = $this->db->DBOpen('demo', 'writer', 'writer');
+        $clusters = $this->db->DBOpen('demo', 'admin', 'admin');
         foreach ($clusters['clusters'] as $cluster) {
             if ($cluster->name === $this->clusterName) {
                 $this->db->dataclusterRemove($cluster->id);
@@ -65,6 +65,14 @@ class OrientDBDataclusterRemoveTest extends OrientDBBaseTesting
         $result = $this->db->dataclusterRemove($result);
         $this->assertInternalType('boolean', $result);
     }
+
+//    As of r3013 Its still possible to remove datacluster with user 'writer'
+//    public function testDataclusterRemoveOnOpenDBWriter()
+//    {
+//        $clusters = $this->db->DBOpen('demo', 'writer', 'writer');
+//        $this->setExpectedException('OrientDBException');
+//        $result = $this->db->dataclusterRemove(1);
+//    }
 
     public function testDataclusterRemoveWithWrongParamCount()
     {

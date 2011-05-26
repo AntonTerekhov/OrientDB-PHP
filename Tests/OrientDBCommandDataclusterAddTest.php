@@ -52,9 +52,9 @@ class OrientDBDataclusterAddTest extends OrientDBBaseTesting
         $result = $this->db->dataclusterAdd($this->clusterName, OrientDB::DATACLUSTER_TYPE_LOGICAL);
     }
 
-    public function testDataclusterAddOnOpenDB()
+    public function testDataclusterAddOnOpenDBAdmin()
     {
-        $clusters = $this->db->DBOpen('demo', 'writer', 'writer');
+        $clusters = $this->db->DBOpen('demo', 'admin', 'admin');
         foreach ($clusters['clusters'] as $cluster) {
             if ($cluster->name === $this->clusterName) {
                 $this->db->dataclusterRemove($cluster->id);
@@ -70,6 +70,13 @@ class OrientDBDataclusterAddTest extends OrientDBBaseTesting
         $this->assertInternalType('integer', $result);
         $this->db->dataclusterRemove($result);
         $this->assertInternalType('integer', $result);
+    }
+
+    public function testDataclusterAddOnOpenDBWriter()
+    {
+        $clusters = $this->db->DBOpen('demo', 'writer', 'writer');
+        $this->setExpectedException('OrientDBException');
+        $result = $this->db->dataclusterAdd($this->clusterName, OrientDB::DATACLUSTER_TYPE_LOGICAL);
     }
 
     public function testDataclusterAddWithWrongParamCount()
