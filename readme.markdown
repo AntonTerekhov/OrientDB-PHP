@@ -121,62 +121,6 @@ Checks if database with name provided is exists. Return `true` on success, `fals
 
     $isExists = $db->DBExists('demo');
 
-### Index functions ###
-
-#### indexKeys ####
-Returns list of keys in index as array.
-
-    array $db->indexKeys();
-
-*Example:*
-
-    $keys = $db->indexKeys();
-
-#### indexLookup ####
-Returns record by index key if any, otherwise return `false`.
-
-
-    OrientDBRecord $db->indexLookup(string $key);
-
-*Example:*
-
-    $record = $db->indexLookup('myindexvalue');
-
-#### indexPut ####
-Put a record into index on key. Returns record previously associated with that key if exist, otherwise returns `false`.
-
-    OrientDBRecord $db->indexPut(string $key, string $recordID[, string OrientDB::RECORD_TYPE]);
-
-Available record types are:
-
-* `OrientDB::RECORD_TYPE_BYTES`
-* `OrientDB::RECORD_TYPE_DOCUMENT`
-* `OrientDB::RECORD_TYPE_FLAT`
-
-Default value is `OrientDB::RECORD_TYPE_DOCUMENT`. For difference between types please consult with OrientDB manual.
-
-*Example:*
-
-    $record = $db->indexPut('myindexvalue', '1:1');
-
-#### indexRemove ####
-Remove key from index. Returns existed record, if any, or `false` if no key exists.
-
-    OrientDBRecord $db->indexRemove(string $key);
-
-*Example:*
-
-    $record = $db->indexRemove('myindexvalue');
-
-#### indexSize ####
-Returns index size (count of keys in index).
-
-    int $db->indexSize();
-
-*Example:*
-
-    $count = $db->indexSize();
-
 ### Record manipulation functions ###
 
 #### recordCreate ####
