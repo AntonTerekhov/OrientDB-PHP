@@ -183,6 +183,29 @@ class OrientDBCommandTest extends OrientDBBaseTesting
         $this->assertInstanceOf('OrientDBTypeLink', array_pop($links));
     }
 
+    /**
+     * Test 'n' type answer
+     */
+    public function testCommandCreateIndex()
+    {
+        $className = 'Foo';
+        $propertyName = 'Bar';
+        $clusterName = 'testcluster';
+        $this->db->DBOpen('demo', 'admin', 'admin');
+        $clusterID = $this->db->dataclusterAdd($clusterName, OrientDB::DATACLUSTER_TYPE_PHYSICAL);
+
+        $classID = $this->db->command('CREATE CLASS ' . $className . ' ' . $clusterID, OrientDB::COMMAND_QUERY);
+        $this->assertInternalType('string', $classID);
+        $propertyResult = $this->db->command('CREATE PROPERTY ' . $className . '.' . $propertyName . ' INTEGER', OrientDB::COMMAND_QUERY);
+        $this->assertSame('0', $propertyResult);
+        $indexResult = $this->db->command('CREATE INDEX ' . $className . '.' . $propertyName . ' UNIQUE', OrientDB::COMMAND_QUERY);
+        $this->assertNull($indexResult);
+        $dropResult = $this->db->command('DROP CLASS ' . $className);
+        $this->assertFalse($dropResult);
+
+        $this->db->dataclusterRemove($clusterID);
+    }
+
     public function testCommandDelete()
     {
         $this->db->DBOpen('demo', 'writer', 'writer');

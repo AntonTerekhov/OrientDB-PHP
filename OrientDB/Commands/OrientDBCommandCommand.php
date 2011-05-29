@@ -160,7 +160,7 @@ class OrientDBCommandCommand extends OrientDBCommandAbstract
                 return $records;
             } else if ($status == 'n') {
                 // Null
-                throw new OrientDBException('"n" answer type not implemented.');
+                return;
             } else if ($status == 'r') {
                 // Single record
                 return $this->readRecord();
