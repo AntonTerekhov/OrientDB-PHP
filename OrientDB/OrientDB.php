@@ -15,7 +15,6 @@
  * @package OrientDB-PHP
  * @subpackage Main
  *
- * @method mixed command() command(string $query[, int $commandMode[, string $fetchplan]]) Execute SQL-like command
  * @method void commit() commit() Not yet implemented
  * @method array configList() configList() Return list of server config options
  * @method string configGet() configGet(string $optionName) Get value of an option
@@ -36,10 +35,13 @@
  * @method OrientDBRecord indexPut() indexPut(string $key, string $recordID[, string OrientDB::RECORD_TYPE]) Put value to index
  * @method OrientDBRecord indexRemove() indexRemove(string $key) Remove value from index
  * @method int indexSize() indexSize() Count index size
+ * @method mixed query(string $query) Execute general style query, for SELECT query see select() method
  * @method int recordCreate() recordCreate(int $clusterID, string $recordContent[, string $recordType]) Create a new record
  * @method bool recordDelete() recordDelete(string $recordID[, int $recordVersion]) Delete a record
  * @method OrientDBRecord recordLoad() recordLoad(string $recordID[, string $fetchPlan]) Load a record
  * @method int recordUpdate() recordUpdate(string $recordID, string $recordContent[, int $recordVersion[, string $recordType]]) Update a record
+ * @method mixed select() select(string $query) Execute sync-style select query
+ * @method mixed selectAsync() selectAsync(string $query[, string $fetchplan]) Execute async-style select query with optional fetchplan
  * @method void shutdown() shutdown(string $userName, string $password) Shutdown OrientDB server remotely
  */
 class OrientDB
