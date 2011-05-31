@@ -171,7 +171,7 @@ class OrientDBCommandTest extends OrientDBBaseTesting
     public function testCommandUpdateZero()
     {
         $this->db->DBOpen('demo', 'writer', 'writer');
-        $record = $this->db->command('update city set name = "_" where name = "' . microtime(true) . '"', OrientDB::COMMAND_QUERY);
+        $record = $this->db->query('update city set name = "_" where name = "' . microtime(true) . '"');
         $this->assertInternalType('string', $record);
     }
 

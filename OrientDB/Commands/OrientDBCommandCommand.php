@@ -53,7 +53,6 @@ class OrientDBCommandCommand extends OrientDBCommandAbstract
             throw new OrientDBWrongParamsException('This command requires query and, optionally, mode');
         }
         $this->query = $this->attribs[0];
-        $this->mode = OrientDB::COMMAND_SELECT_ASYNC;
         if (count($this->attribs) >= 2) {
             if ($this->attribs[1] == OrientDB::COMMAND_SELECT_SYNC || $this->attribs[1] == OrientDB::COMMAND_SELECT_ASYNC || $this->attribs[1] == OrientDB::COMMAND_QUERY) {
                 $this->mode = $this->attribs[1];
