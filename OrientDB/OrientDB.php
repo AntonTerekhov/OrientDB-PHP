@@ -31,11 +31,6 @@
  * @method bool DBCreate() DBCreate(string $dbName, string $dbType) Create new database
  * @method bool DBDelete() DBDelete(string $dbName) Delete DB
  * @method bool DBExists() DBExists(string $dbName) Check if DB exists
- * @method array indexKeys() indexKeys() Get list of keys in index
- * @method OrientDBRecord indexLookup() indexLookup(string $key) Get value from index
- * @method OrientDBRecord indexPut() indexPut(string $key, string $recordID[, string OrientDB::RECORD_TYPE]) Put value to index
- * @method OrientDBRecord indexRemove() indexRemove(string $key) Remove value from index
- * @method int indexSize() indexSize() Count index size
  * @method int recordCreate() recordCreate(int $clusterID, string $recordContent[, string $recordType]) Create a new record
  * @method bool recordDelete() recordDelete(string $recordID[, int $recordVersion]) Delete a record
  * @method OrientDBRecord recordLoad() recordLoad(string $recordID[, string $fetchPlan]) Load a record
