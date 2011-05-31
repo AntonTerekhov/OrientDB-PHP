@@ -361,7 +361,7 @@ class OrientDB
     {
         $this->protocolVersion = $version;
         if ($this->protocolVersion != $this->clientVersion) {
-            throw new OrientDBException('Binary protocol is uncompatible with the Server connected: client=' . $this->clientVersion . ', server=' . $this->protocolVersion);
+            throw new OrientDBException('Binary protocol is uncompatible with the Server connected: clientVersion=' . $this->clientVersion . ', serverVersion=' . $this->protocolVersion);
         }
     }
 
