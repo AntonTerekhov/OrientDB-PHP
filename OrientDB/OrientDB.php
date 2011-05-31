@@ -15,6 +15,7 @@
  * @package OrientDB-PHP
  * @subpackage Main
  *
+ * @method mixed command() command(int $commandMode, string $query[, string $fetchplan]) Execute SQL-like command
  * @method void commit() commit() Not yet implemented
  * @method array configList() configList() Return list of server config options
  * @method string configGet() configGet(string $optionName) Get value of an option

@@ -360,10 +360,11 @@ Get count of records in cluster specified by clusterName. Returns `int` or throw
 
     $newcount = $db->count('default');
 
-### command (querying server) ###
+## Querying server ##
+### command ###
 This command provide an ability to execute remote [SQL commands](http://code.google.com/p/orient/wiki/SQL). Returns mixed or throws an exception.
 
-    mixed $db->command(string $query[, int $commandMode[, string $fetchplan]]);
+    mixed $db->command(int $commandMode, string $query[, string $fetchplan]);
 
 Command mode is required to be properly match with query text.
 
@@ -373,8 +374,6 @@ Command modes available are:
 * `OrientDB::COMMAND_SELECT_SYNC` - only for `SELECT` in synchronous mode
 * `OrientDB::COMMAND_SELECT_ASYNC` - only for `SELECT` in asynchronous mode
 
-Default mode is `OrientDB::COMMAND_SELECT_ASYNC`.
-
 [Fetchplan](http://code.google.com/p/orient/wiki/FetchingStrategies) is used to pre-fetch some records. **Fetchplan is only available in `OrientDB::COMMAND_SELECT_ASYNC` mode.**
 Using fetchplan will populate `$db->cachedRecords` array as for `recordLoad()`.
 
@@ -382,13 +381,40 @@ Default fetchplan is `*:0`.
 
 *Examples:*
 
-    $records = $db->command('select * from city limit 7');
-    $records = $db->command('select from city traverse( any() )', OrientDB::COMMAND_SELECT_ASYNC, '*:-1');
-    $false = $db->command('select from 11:4 where any() traverse(0,10) (address.city = "Rome")', OrientDB::COMMAND_SELECT_SYNC);
-    $links = $db->command('find references 14:1', OrientDB::COMMAND_QUERY);
-    $record = $db->command('insert into city (name, country) values ("Potenza", #14:1)', OrientDB::COMMAND_QUERY);
-    $updatedCount = $db->command('update city set name = "Taranto" where name = "Potenza"', OrientDB::COMMAND_QUERY);
-    $deletedCount = $this->db->command('delete from city where name = "Taranto"', OrientDB::COMMAND_QUERY);
+    $records = $db->command(OrientDB::COMMAND_SELECT_ASYNC, 'select * from city limit 7');
+    $records = $db->command(OrientDB::COMMAND_SELECT_ASYNC, 'select from city traverse( any() )', '*:-1');
+    $false = $db->command(OrientDB::COMMAND_SELECT_SYNC, 'select from 11:4 where any() traverse(0,10) (address.city = "Rome")');
+    $links = $db->command(OrientDB::COMMAND_QUERY, 'find references 14:1');
+    $record = $db->command(OrientDB::COMMAND_QUERY, 'insert into city (name, country) values ("Potenza", #14:1)');
+    $updatedCount = $db->command(OrientDB::COMMAND_QUERY, 'update city set name = "Taranto" where name = "Potenza"');
+    $deletedCount = $this->db->command(OrientDB::COMMAND_QUERY, 'delete from city where name = "Taranto"');
+
+### select ###
+Is an alias for command(OrientDB::COMMAND_SELECT_SYNC, string $query).
+
+    mixed $db->select(string $query);
+
+*Example:*
+
+    $records = $db->select('select from city traverse( any() )');
+
+### selectAsync ###
+Is an alias for command(OrientDB::COMMAND_SELECT_ASYNC, string $query[, string $fetchplan]).
+
+    mixed $db->selectAsync(string $query[, string $fetchplan]);
+
+*Example:*
+
+    $records = $db->selectAsync('select * from city limit 7', '*:-1');
+
+### query ###
+Is an alias for command(OrientDB::COMMAND_QUERY, string $query).
+
+    mixed $db->query(string $query);
+
+*Example:*
+
+    $records = $db->query('insert into city (name, country) values ("Potenza", #14:1)   ');
 
 ### shutdown ###
 Remotely shutdown OrientDB server. Require valid user name and password. See [manual](http://code.google.com/p/orient/wiki/NetworkBinaryProtocol#SHUTDOWN) for details.

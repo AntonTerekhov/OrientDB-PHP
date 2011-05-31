@@ -10,7 +10,7 @@
 
 /**
  * query() command for OrientDB-PHP
- *
+ * This is pseudo command, and its underlying is command()
  * @author Anton Terekhov <anton@netmonsters.ru>
  * @package OrientDB-PHP
  * @subpackage Command

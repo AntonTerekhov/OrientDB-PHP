@@ -49,13 +49,16 @@ class OrientDBCommandCommand extends OrientDBCommandAbstract
     public function prepare()
     {
         parent::prepare();
-        if (count($this->attribs) > 3 || count($this->attribs) < 1) {
-            throw new OrientDBWrongParamsException('This command requires query and, optionally, mode');
+        if (!empty($this->mode)) {
+            // Populate attribs with mode from child classes
+            array_unshift($this->attribs, $this->mode);
         }
-        $this->query = $this->attribs[0];
-        if (count($this->attribs) >= 2) {
-            if ($this->attribs[1] == OrientDB::COMMAND_SELECT_SYNC || $this->attribs[1] == OrientDB::COMMAND_SELECT_ASYNC || $this->attribs[1] == OrientDB::COMMAND_QUERY) {
-                $this->mode = $this->attribs[1];
+        if (count($this->attribs) > 3 || count($this->attribs) < 2) {
+            throw new OrientDBWrongParamsException('This command requires query and, optionally, fetchplan');
+        }
+        if (empty($this->mode)) {
+            if ($this->attribs[0] == OrientDB::COMMAND_SELECT_SYNC || $this->attribs[0] == OrientDB::COMMAND_SELECT_ASYNC || $this->attribs[0] == OrientDB::COMMAND_QUERY) {
+                $this->mode = $this->attribs[0];
             } else {
                 throw new OrientDBWrongParamsException('Wrong command mode');
             }
@@ -63,6 +66,7 @@ class OrientDBCommandCommand extends OrientDBCommandAbstract
         if (($this->mode == OrientDB::COMMAND_QUERY || $this->mode == OrientDB::COMMAND_SELECT_SYNC) && count($this->attribs) == 3) {
             throw new OrientDBWrongParamsException('Fetch is useless with COMMAND_QUERY');
         }
+        $this->query = $this->attribs[1];
         $this->fetchPlan = '*:0';
         if (count($this->attribs) == 3) {
             $this->fetchPlan = $this->attribs[2];
