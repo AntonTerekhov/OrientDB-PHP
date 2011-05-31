@@ -91,7 +91,7 @@ class OrientDBCommandTest extends OrientDBBaseTesting
     public function testCommandWithModeSync()
     {
         $this->db->DBOpen('demo', 'writer', 'writer');
-        $records = $this->db->command('select * from [13:1]', OrientDB::COMMAND_SELECT_SYNC);
+        $records = $this->db->select('select * from [13:1]');
         $this->assertInternalType('array', $records);
         $this->assertInstanceOf('OrientDBRecord', array_pop($records));
     }
