@@ -122,8 +122,8 @@ class OrientDBRecordUpdateTest extends OrientDBBaseTesting
         $this->assertInternalType('integer', $recordPos);
         $result = $this->db->recordDelete($this->clusterID . ':' . $recordPos);
         $this->assertTrue($result);
+        $this->setExpectedException('OrientDBException');
         $version = $this->db->recordUpdate($this->clusterID . ':' . $recordPos, $this->recordContentUpd);
-        $this->assertSame(-1, $version);
     }
 
     public function testRecordUpdateWithSameType()
