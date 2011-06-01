@@ -183,9 +183,6 @@ class OrientDBCommandTest extends OrientDBBaseTesting
         $this->assertInstanceOf('OrientDBTypeLink', array_pop($links));
     }
 
-    /**
-     * Test 'n' type answer
-     */
     public function testCommandCreateIndex()
     {
         $className = 'Foo';
@@ -199,7 +196,7 @@ class OrientDBCommandTest extends OrientDBBaseTesting
         $propertyResult = $this->db->command('CREATE PROPERTY ' . $className . '.' . $propertyName . ' INTEGER', OrientDB::COMMAND_QUERY);
         $this->assertSame('0', $propertyResult);
         $indexResult = $this->db->command('CREATE INDEX ' . $className . '.' . $propertyName . ' UNIQUE', OrientDB::COMMAND_QUERY);
-        $this->assertNull($indexResult);
+        $this->assertSame('0l', $indexResult); // 0Long, cause we had 0 items in index
         $dropResult = $this->db->command('DROP CLASS ' . $className);
         $this->assertFalse($dropResult);
 
