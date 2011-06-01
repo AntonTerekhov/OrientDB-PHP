@@ -53,29 +53,36 @@ class OrientDBCommandTest extends OrientDBBaseTesting
     public function testCommandOnOpenDB()
     {
         $this->db->DBOpen('demo', 'writer', 'writer');
-        $records = $this->db->command('select * from city limit 7');
+        $records = $this->db->command(OrientDB::COMMAND_SELECT_ASYNC, 'select * from city limit 7');
         $this->assertInternalType('array', $records);
         $this->assertInstanceOf('OrientDBRecord', array_pop($records));
     }
 
-    public function testCommandWithWrongOptionCount()
+    public function testCommandWithWrongOptionCountOne()
     {
         $this->db->DBOpen('demo', 'writer', 'writer');
         $this->setExpectedException('OrientDBWrongParamsException');
         $record = $this->db->command();
     }
 
+    public function testCommandWithWrongOptionCountTwo()
+    {
+        $this->db->DBOpen('demo', 'writer', 'writer');
+        $this->setExpectedException('OrientDBWrongParamsException');
+        $record = $this->db->command(OrientDB::COMMAND_QUERY);
+    }
+
     public function testCommandWithWrongMode()
     {
         $this->db->DBOpen('demo', 'writer', 'writer');
         $this->setExpectedException('OrientDBWrongParamsException');
-        $record = $this->db->command('', 'INVALID');
+        $record = $this->db->command('INVALID', '');
     }
 
     public function testCommandWithModeAsync()
     {
         $this->db->DBOpen('demo', 'writer', 'writer');
-        $records = $this->db->command('select from city traverse( any() )', OrientDB::COMMAND_SELECT_ASYNC);
+        $records = $this->db->command(OrientDB::COMMAND_SELECT_ASYNC, 'select from city traverse( any() )');
         $this->assertInternalType('array', $records);
         $this->assertInstanceOf('OrientDBRecord', array_pop($records));
     }
@@ -83,7 +90,7 @@ class OrientDBCommandTest extends OrientDBBaseTesting
     public function testCommandWithModeAsyncAndFetchPlan()
     {
         $this->db->DBOpen('demo', 'writer', 'writer');
-        $records = $this->db->command('select from city traverse( any() )', OrientDB::COMMAND_SELECT_ASYNC, '*:-1');
+        $records = $this->db->command(OrientDB::COMMAND_SELECT_ASYNC, 'select from city traverse( any() )', '*:-1');
         $this->assertInternalType('array', $records);
         $this->assertInstanceOf('OrientDBRecord', array_pop($records));
     }
@@ -91,7 +98,7 @@ class OrientDBCommandTest extends OrientDBBaseTesting
     public function testCommandWithModeSync()
     {
         $this->db->DBOpen('demo', 'writer', 'writer');
-        $records = $this->db->command('select * from [13:1]', OrientDB::COMMAND_SELECT_SYNC);
+        $records = $this->db->command(OrientDB::COMMAND_SELECT_SYNC, 'select * from [13:1]');
         $this->assertInternalType('array', $records);
         $this->assertInstanceOf('OrientDBRecord', array_pop($records));
     }
@@ -99,14 +106,14 @@ class OrientDBCommandTest extends OrientDBBaseTesting
     public function testCommandWithNoRecordsAsync()
     {
         $this->db->DBOpen('demo', 'writer', 'writer');
-        $records = $this->db->command('select from 11:4 where any() traverse(0,10) (address.city = "Rome")', OrientDB::COMMAND_SELECT_ASYNC);
+        $records = $this->db->command(OrientDB::COMMAND_SELECT_ASYNC, 'select from 11:4 where any() traverse(0,10) (address.city = "Rome")');
         $this->assertFalse($records);
     }
 
     public function testCommandWithNoRecordsSync()
     {
         $this->db->DBOpen('demo', 'writer', 'writer');
-        $records = $this->db->command('select from 11:4 where any() traverse(0,10) (address.city = "Rome")', OrientDB::COMMAND_SELECT_SYNC);
+        $records = $this->db->command(OrientDB::COMMAND_SELECT_SYNC, 'select from 11:4 where any() traverse(0,10) (address.city = "Rome")');
         $this->assertFalse($records);
     }
 
@@ -114,7 +121,7 @@ class OrientDBCommandTest extends OrientDBBaseTesting
     {
         $this->db->DBOpen('demo', 'writer', 'writer');
         $this->assertEmpty($this->db->cachedRecords);
-        $records = $this->db->command('select from city limit 1', OrientDB::COMMAND_SELECT_ASYNC, '*:0');
+        $records = $this->db->command(OrientDB::COMMAND_SELECT_ASYNC, 'select from city limit 1', '*:0');
         $this->assertInternalType('array', $records);
         $this->assertInstanceOf('OrientDBRecord', array_pop($records));
         $this->assertEmpty($this->db->cachedRecords);
@@ -124,12 +131,12 @@ class OrientDBCommandTest extends OrientDBBaseTesting
     {
         $this->db->DBOpen('demo', 'writer', 'writer');
         $this->assertEmpty($this->db->cachedRecords);
-        $records = $this->db->command('select from city limit 1', OrientDB::COMMAND_SELECT_ASYNC, '*:1');
+        $records = $this->db->command(OrientDB::COMMAND_SELECT_ASYNC, 'select from city limit 1', '*:1');
         $this->assertInternalType('array', $records);
         $this->assertInstanceOf('OrientDBRecord', array_pop($records));
         $this->AssertSame(1, count($this->db->cachedRecords));
         $this->assertInstanceOf('OrientDBRecord', array_pop($this->db->cachedRecords));
-        $records = $this->db->command('select from city limit 1', OrientDB::COMMAND_SELECT_ASYNC);
+        $records = $this->db->command(OrientDB::COMMAND_SELECT_ASYNC, 'select from city limit 1');
         $this->assertEmpty($this->db->cachedRecords);
     }
 
@@ -137,12 +144,12 @@ class OrientDBCommandTest extends OrientDBBaseTesting
     {
         $this->db->DBOpen('demo', 'writer', 'writer');
         $this->assertEmpty($this->db->cachedRecords);
-        $records = $this->db->command('select from city', OrientDB::COMMAND_SELECT_ASYNC, '*:1');
+        $records = $this->db->command(OrientDB::COMMAND_SELECT_ASYNC, 'select from city', '*:1');
         $this->assertInternalType('array', $records);
         $this->assertInstanceOf('OrientDBRecord', array_pop($records));
         $this->assertGreaterThan(1, count($this->db->cachedRecords));
         $this->assertInstanceOf('OrientDBRecord', array_pop($this->db->cachedRecords));
-        $records = $this->db->command('select from city limit 1', OrientDB::COMMAND_SELECT_ASYNC);
+        $records = $this->db->command(OrientDB::COMMAND_SELECT_ASYNC, 'select from city limit 1');
         $this->assertEmpty($this->db->cachedRecords);
     }
 
@@ -151,38 +158,41 @@ class OrientDBCommandTest extends OrientDBBaseTesting
         $this->db->DBOpen('demo', 'writer', 'writer');
         $this->assertEmpty($this->db->cachedRecords);
         $this->setExpectedException('OrientDBWrongParamsException');
-        $records = $this->db->command('select from city limit 1', OrientDB::COMMAND_SELECT_SYNC, '*:1');
+        $records = $this->db->command(OrientDB::COMMAND_SELECT_SYNC, 'select from city limit 1', '*:1');
     }
 
     public function testCommandInsert()
     {
         $this->db->DBOpen('demo', 'writer', 'writer');
-        $result = $this->db->command('insert into city (name, country) values ("Moscow", #14:1)', OrientDB::COMMAND_QUERY);
+        $result = $this->db->command(OrientDB::COMMAND_QUERY, 'insert into city (name, country) values ("Moscow", #14:1)');
         $this->assertInstanceOf('OrientDBRecord', $result);
     }
 
     public function testCommandUpdate()
     {
         $this->db->DBOpen('demo', 'writer', 'writer');
-        $record = $this->db->command('update city set name = "Moscow_" where name = "Moscow"', OrientDB::COMMAND_QUERY);
+        $record = $this->db->command(OrientDB::COMMAND_QUERY, 'update city set name = "Moscow_" where name = "Moscow"');
         $this->assertInternalType('string', $record);
     }
 
     public function testCommandUpdateZero()
     {
         $this->db->DBOpen('demo', 'writer', 'writer');
-        $record = $this->db->command('update city set name = "_" where name = "' . microtime(true) . '"', OrientDB::COMMAND_QUERY);
+        $record = $this->db->command(OrientDB::COMMAND_QUERY, 'update city set name = "_" where name = "' . microtime(true) . '"');
         $this->assertInternalType('string', $record);
     }
 
     public function testCommandFindReference()
     {
         $this->db->DBOpen('demo', 'writer', 'writer');
-        $links = $this->db->command('find references 14:1', OrientDB::COMMAND_QUERY);
+        $links = $this->db->command(OrientDB::COMMAND_QUERY, 'find references 14:1');
         $this->assertInternalType('array', $links);
         $this->assertInstanceOf('OrientDBTypeLink', array_pop($links));
     }
 
+    /**
+     * Test 'n' type answer
+     */
     public function testCommandCreateIndex()
     {
         $className = 'Foo';
@@ -191,14 +201,14 @@ class OrientDBCommandTest extends OrientDBBaseTesting
         $this->db->DBOpen('demo', 'admin', 'admin');
         $clusterID = $this->db->dataclusterAdd($clusterName, OrientDB::DATACLUSTER_TYPE_PHYSICAL);
 
-        $classID = $this->db->command('CREATE CLASS ' . $className . ' ' . $clusterID, OrientDB::COMMAND_QUERY);
+        $classID = $this->db->command(OrientDB::COMMAND_QUERY, 'CREATE CLASS ' . $className . ' ' . $clusterID);
         $this->assertInternalType('string', $classID);
-        $propertyResult = $this->db->command('CREATE PROPERTY ' . $className . '.' . $propertyName . ' INTEGER', OrientDB::COMMAND_QUERY);
+        $propertyResult = $this->db->command(OrientDB::COMMAND_QUERY, 'CREATE PROPERTY ' . $className . '.' . $propertyName . ' INTEGER');
         $this->assertSame('0', $propertyResult);
-        $indexResult = $this->db->command('CREATE INDEX ' . $className . '.' . $propertyName . ' UNIQUE', OrientDB::COMMAND_QUERY);
+        $indexResult = $this->db->command(OrientDB::COMMAND_QUERY, 'CREATE INDEX ' . $className . '.' . $propertyName . ' UNIQUE');
         $this->assertSame('0l', $indexResult); // 0Long, cause we had 0 items in index
-        $dropResult = $this->db->command('DROP CLASS ' . $className);
-        $this->assertFalse($dropResult);
+        $dropResult = $this->db->command(OrientDB::COMMAND_QUERY, 'DROP CLASS ' . $className);
+        $this->assertNull($dropResult);
 
         $this->db->dataclusterRemove($clusterID);
     }
@@ -206,14 +216,14 @@ class OrientDBCommandTest extends OrientDBBaseTesting
     public function testCommandDelete()
     {
         $this->db->DBOpen('demo', 'writer', 'writer');
-        $record = $this->db->command('delete from city where name = "moscow_"', OrientDB::COMMAND_QUERY);
+        $record = $this->db->command(OrientDB::COMMAND_QUERY, 'delete from city where name = "moscow_"');
         $this->assertInternalType('string', $record);
     }
 
     public function testCommandDeleteZero()
     {
         $this->db->DBOpen('demo', 'writer', 'writer');
-        $record = $this->db->command('delete from city where name = "' . microtime(true) . '"', OrientDB::COMMAND_QUERY);
+        $record = $this->db->command(OrientDB::COMMAND_QUERY, 'delete from city where name = "' . microtime(true) . '"');
         $this->assertInternalType('string', $record);
     }
 
@@ -221,7 +231,7 @@ class OrientDBCommandTest extends OrientDBBaseTesting
     {
         $this->db->DBOpen('demo', 'writer', 'writer');
         $this->setExpectedException('OrientDBWrongParamsException');
-        $records = $this->db->command('', OrientDB::COMMAND_QUERY, '*:-1');
+        $records = $this->db->command(OrientDB::COMMAND_QUERY, '', '*:-1');
     }
 
 }
