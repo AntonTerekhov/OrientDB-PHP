@@ -655,7 +655,7 @@ The above example will output debug messages only for `recordLoad()` to standard
 * Possible using [libevent](http://ru2.php.net/manual/en/book.libevent.php) for selectAsync(). 
 
 ## Known bugs ##
-None.
+Partial selects (SELECT FieldName FROM ClassName ) are not supported yet.
 
 ## If you found a bug ##
 If you found a bug - feel free to contact me via gitHub, email, or open a new issue.
