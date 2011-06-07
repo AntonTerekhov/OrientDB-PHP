@@ -121,7 +121,7 @@ class OrientDBDBCreateTest extends OrientDBBaseTesting
     }
 
     /**
-     * @TODO Its strange, but as 0.9.2.4 it is possible to create different databases types with same name
+     * In 0.9.2.4 till 1.0rc2-snapshot r3110 it was possible to create different databases types with same name
      */
     public function testDBCreateWithExistNameAndDifferentTypeOne()
     {
@@ -129,9 +129,16 @@ class OrientDBDBCreateTest extends OrientDBBaseTesting
         $this->db->connect('root', $this->root_password);
         $this->db->DBDelete($this->getDBName());
         $result = $this->db->DBCreate($this->getDBName(), OrientDB::DB_TYPE_LOCAL);
-        $result = $this->db->DBCreate($this->getDBName(), OrientDB::DB_TYPE_MEMORY);
         $this->assertTrue($result);
+        try {
+            $result = $this->db->DBCreate($this->getDBName(), OrientDB::DB_TYPE_MEMORY);
+        }
+        catch (OrientDBException $e) {
+            $this->db->DBDelete($this->getDBName());
+            return;
+        }
         $this->db->DBDelete($this->getDBName());
+        $this->fail('Created new DB with existed name');
     }
 
     /**
