@@ -160,4 +160,11 @@ class OrientDBRecordLoadTest extends OrientDBBaseTesting
         $record = $this->db->recordLoad(12 . ':' . 1, '*:0');
         $this->assertEmpty($this->db->cachedRecords);
     }
+
+    public function testRecordLoadWithIncorrectPlan()
+    {
+        $this->db->DBOpen('demo', 'writer', 'writer');
+        $this->setExpectedException('OrientDBException');
+        $record = $this->db->recordLoad($this->clusterID . ':' . 0, 'INCORRECT');
+    }
 }

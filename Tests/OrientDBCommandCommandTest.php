@@ -153,6 +153,14 @@ class OrientDBCommandTest extends OrientDBBaseTesting
         $this->assertEmpty($this->db->cachedRecords);
     }
 
+    public function testRecordLoadWithIncorrectPlan()
+    {
+        $this->db->DBOpen('demo', 'writer', 'writer');
+        $record = $this->db->command(OrientDB::COMMAND_SELECT_ASYNC, 'select from 13:0', 'INVALID');
+        $this->assertInternalType('array', $record);
+        $this->assertSame(0, count($this->db->cachedRecords));
+    }
+
     public function testCommandWithModeSyncAndFetchPlan()
     {
         $this->db->DBOpen('demo', 'writer', 'writer');
@@ -233,5 +241,4 @@ class OrientDBCommandTest extends OrientDBBaseTesting
         $this->setExpectedException('OrientDBWrongParamsException');
         $records = $this->db->command(OrientDB::COMMAND_QUERY, '', '*:-1');
     }
-
 }
