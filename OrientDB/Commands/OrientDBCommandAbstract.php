@@ -329,8 +329,8 @@ abstract class OrientDBCommandAbstract
     protected function readRecord()
     {
 
-        $this->debugCommand('record_classID');
-        $classID = $this->readShort();
+        $this->debugCommand('record_marker');
+        $marker = $this->readShort();
         /**
          * @TODO sinse PHP lack to support signed short with big endian byte
          * order unpack we need to see it that way
@@ -338,13 +338,13 @@ abstract class OrientDBCommandAbstract
          */
 
         // -2=no record
-        if ($classID == 0xFFFE) {
+        if ($marker == 0xFFFE) {
             // no record
             return false;
         }
 
         // -3=Only recordID
-        if ($classID == 0xFFFD) {
+        if ($marker == 0xFFFD) {
             // only recordID
             $this->debugCommand('record_clusterID');
             $clusterID = $this->readShort();
@@ -354,13 +354,6 @@ abstract class OrientDBCommandAbstract
         }
 
         $record = new OrientDBRecord();
-        // -1=no class id
-        if ($classID == 0xFFFF) {
-            // No class ID
-            $record->classID == null;
-        } else {
-            $record->classID = $classID;
-        }
         $this->debugCommand('record_type');
         $record->type = $this->readByte();
         $this->debugCommand('record_clusterID');

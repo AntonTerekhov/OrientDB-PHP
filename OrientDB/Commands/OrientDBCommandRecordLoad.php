@@ -101,8 +101,6 @@ class OrientDBCommandRecordLoad extends OrientDBCommandAbstract
             $this->parent->cachedRecords = $cachedRecords;
             // Form a record
             $record = new OrientDBRecord();
-            // @TODO fix classID
-            $record->classID = null;
             $record->type = $record_type;
             $record->clusterID = $this->clusterID;
             $record->recordPos = $this->recordPos;

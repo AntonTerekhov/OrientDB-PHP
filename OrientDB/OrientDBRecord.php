@@ -22,12 +22,6 @@ class OrientDBRecord
 {
 
     /**
-     * ClassID in OrientDB
-     * @var int
-     */
-    public $classID;
-
-    /**
      * ClassName as parsed from document
      * @var string
      */
