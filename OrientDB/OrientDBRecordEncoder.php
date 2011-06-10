@@ -83,20 +83,26 @@ class OrientDBRecordEncoder
                     $buffer = $key . ':';
                 }
             }
-            switch (1) {
-                case is_int($value):
+            /**
+             *
+             * PHP manual says what gettype() is slow and we should use is_* fucntions instead. But tests says that its approx. 5-10% faster encoding using single gettype() call instead of separate calls to is_int(), is_string(), etc.
+             * @var string
+             */
+            $valueType = gettype($value);
+            switch ($valueType) {
+                case 'integer':
                     $buffer .= $value;
                 break;
 
-                case is_float($value):
+                case 'double':
                     $buffer .= $value . chr(OrientDBRecordDecoder::CCODE_NUM_FLOAT);
                 break;
 
-                case is_string($value):
+                case 'string':
                     $buffer .= self::encodeString($value);
                 break;
 
-                case is_bool($value):
+                case 'boolean':
                     if ($value === true) {
                         $buffer .= 'true';
                     } else {
@@ -104,7 +110,7 @@ class OrientDBRecordEncoder
                     }
                 break;
 
-                case is_array($value):
+                case 'array':
                     $arrayAssoc = self::isAssoc($value);
                     if ($arrayAssoc === true) {
                         $boundStart = chr(OrientDBRecordDecoder::CCODE_OPEN_CURLY);
@@ -121,6 +127,10 @@ class OrientDBRecordEncoder
                     $buffer .= $boundEnd;
                 break;
 
+                case 'NULL':
+
+                break;
+
                 case is_a($value, 'OrientDBTypeLink'):
                     $buffer .= $value->getHash();
                 break;
@@ -134,6 +144,9 @@ class OrientDBRecordEncoder
                     $buffer .= $value->__toString();
                     $buffer .= chr(OrientDBRecordDecoder::CCODE_CLOSE_PARENTHESES);
                 break;
+
+                default:
+                    throw new OrientDBException('Can\'t serialize: ' . $valueType);
             }
             $tokens[] = $buffer;
         }
