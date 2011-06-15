@@ -156,9 +156,8 @@ class OrientDBCommandTest extends OrientDBBaseTesting
     public function testCommandWithModeAsyncAndFetchPlanIncorrect()
     {
         $this->db->DBOpen('demo', 'writer', 'writer');
+        $this->setExpectedException('OrientDBException');
         $record = $this->db->command(OrientDB::COMMAND_SELECT_ASYNC, 'select from 13:0', 'INVALID');
-        $this->assertInternalType('array', $record);
-        $this->assertSame(0, count($this->db->cachedRecords));
     }
 
     public function testCommandWithModeSyncAndFetchPlan()
