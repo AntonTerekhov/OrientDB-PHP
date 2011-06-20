@@ -66,7 +66,7 @@ class OrientDBSocket
     }
 
     /**
-     * Read bytes ftom socket
+     * Read bytes from socket
      * @param int $length Bytes to read
      */
     public function read($length = null)

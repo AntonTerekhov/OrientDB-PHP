@@ -308,6 +308,9 @@ abstract class OrientDBCommandAbstract
         if ($size === -1) {
             return null;
         }
+        if ($size === 0) {
+            return '';
+        }
         return $this->readRaw($size);
     }
 
@@ -320,6 +323,9 @@ abstract class OrientDBCommandAbstract
         $size = $this->readInt();
         if ($size === -1) {
             return null;
+        }
+        if ($size === 0) {
+            return '';
         }
         return $this->readRaw($size);
     }
