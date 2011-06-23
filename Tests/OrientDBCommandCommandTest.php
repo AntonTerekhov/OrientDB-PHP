@@ -213,8 +213,7 @@ class OrientDBCommandTest extends OrientDBBaseTesting
         $propertyResult = $this->db->command(OrientDB::COMMAND_QUERY, 'CREATE PROPERTY ' . $className . '.' . $propertyName . ' INTEGER');
         $this->assertSame('0', $propertyResult);
         $indexResult = $this->db->command(OrientDB::COMMAND_QUERY, 'CREATE INDEX ' . $className . '.' . $propertyName . ' UNIQUE');
-        $link = new OrientDBTypeLink(0, 2);
-        $this->assertEquals($link, $indexResult);
+        $this->assertEquals('0l', $indexResult); //seems to be 0 Long
         $dropResult = $this->db->command(OrientDB::COMMAND_QUERY, 'DROP CLASS ' . $className);
         $this->assertNull($dropResult);
 
