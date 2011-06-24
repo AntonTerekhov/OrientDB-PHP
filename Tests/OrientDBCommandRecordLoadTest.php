@@ -164,7 +164,23 @@ class OrientDBRecordLoadTest extends OrientDBBaseTesting
     public function testRecordLoadWithIncorrectPlan()
     {
         $this->db->DBOpen('demo', 'writer', 'writer');
-        $this->setExpectedException('OrientDBException');
-        $record = $this->db->recordLoad($this->clusterID . ':' . 0, 'INCORRECT');
+        $recordsToFetch = array('1:0', '1:1', '1:2', '2:0', '2:1', '2:2', '3:0', '3:1', '3:2', '4:0', '4:1', '4:2');
+        $failedCnt = 0;
+        $failedRIDs = array();
+
+        foreach ($recordsToFetch as $RID) {
+            try {
+                $record = $this->db->recordLoad($RID, 'INCORRECT');
+            }
+            catch (OrientDBException $e) {
+                $failedCnt++;
+                $failedRIDs[] = $RID;
+            }
+        }
+        if ($failedCnt != count($recordsToFetch)) {
+            $passedRIDs = array_diff($recordsToFetch, $failedRIDs);
+            $this->fail('Invalid fetchplan exception not thrown on: ' . join(', ', $passedRIDs));
+        }
+        $this->assertSame(count($recordsToFetch), $failedCnt);
     }
 }
