@@ -137,7 +137,7 @@ class OrientDBRecordLoadTest extends OrientDBBaseTesting
         $this->assertInstanceOf('OrientDBRecord', $record);
     }
 
-    public function testRecordLoadWithFetchPlanOneItem()
+    public function testRecordLoadWithFetchPlanAnyOneItem()
     {
         $this->db->DBOpen('demo', 'writer', 'writer');
         // Load record City:1
@@ -149,7 +149,7 @@ class OrientDBRecordLoadTest extends OrientDBBaseTesting
         $this->assertEmpty($this->db->cachedRecords);
     }
 
-    public function testRecordLoadWithFetchPlanManyItems()
+    public function testRecordLoadWithFetchPlanAnyManyItems()
     {
         $this->db->DBOpen('demo', 'writer', 'writer');
         // Load record City:1
@@ -158,6 +158,30 @@ class OrientDBRecordLoadTest extends OrientDBBaseTesting
         $this->assertInstanceOf('OrientDBRecord', $record);
         $this->AssertSame(2, count($this->db->cachedRecords));
         $record = $this->db->recordLoad(12 . ':' . 1, '*:0');
+        $this->assertEmpty($this->db->cachedRecords);
+    }
+
+    public function testRecordLoadWithFetchPlanFieldOneItemAny()
+    {
+        $this->db->DBOpen('demo', 'writer', 'writer');
+        // Load record City:1
+        $this->assertEmpty($this->db->cachedRecords);
+        $record = $this->db->recordLoad(12 . ':' . 1, 'country:1');
+        $this->assertInstanceOf('OrientDBRecord', $record);
+        $this->AssertSame(1, count($this->db->cachedRecords));
+        $record = $this->db->recordLoad(12 . ':' . 1, 'country:0');
+        $this->assertEmpty($this->db->cachedRecords);
+    }
+
+    public function testRecordLoadWithFetchPlanFieldManyItems()
+    {
+        $this->db->DBOpen('demo', 'writer', 'writer');
+        // Load record City:1
+        $this->assertEmpty($this->db->cachedRecords);
+        $record = $this->db->recordLoad(12 . ':' . 1, 'country:2');
+        $this->assertInstanceOf('OrientDBRecord', $record);
+        $this->AssertSame(2, count($this->db->cachedRecords));
+        $record = $this->db->recordLoad(12 . ':' . 1, 'country:0');
         $this->assertEmpty($this->db->cachedRecords);
     }
 

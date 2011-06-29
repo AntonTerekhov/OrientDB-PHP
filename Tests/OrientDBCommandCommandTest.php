@@ -87,12 +87,40 @@ class OrientDBCommandTest extends OrientDBBaseTesting
         $this->assertInstanceOf('OrientDBRecord', array_pop($records));
     }
 
-    public function testCommandWithModeAsyncAndFetchPlan()
+    public function testCommandWithModeAsyncAndFetchPlanAnyDepthUnlimited()
     {
         $this->db->DBOpen('demo', 'writer', 'writer');
         $records = $this->db->command(OrientDB::COMMAND_SELECT_ASYNC, 'select from city traverse( any() )', '*:-1');
         $this->assertInternalType('array', $records);
         $this->assertInstanceOf('OrientDBRecord', array_pop($records));
+        $this->assertGreaterThan(0, count($this->db->cachedRecords));
+    }
+
+    public function testCommandWithModeAsyncAndFetchPlanAnyDepthOne()
+    {
+        $this->db->DBOpen('demo', 'writer', 'writer');
+        $records = $this->db->command(OrientDB::COMMAND_SELECT_ASYNC, 'select from city traverse( any() )', '*:1');
+        $this->assertInternalType('array', $records);
+        $this->assertInstanceOf('OrientDBRecord', array_pop($records));
+        $this->assertGreaterThan(0, count($this->db->cachedRecords));
+    }
+
+    public function testCommandWithModeAsyncAndFetchPlanFieldDepthUnlimited()
+    {
+        $this->db->DBOpen('demo', 'writer', 'writer');
+        $records = $this->db->command(OrientDB::COMMAND_SELECT_ASYNC, 'select from city traverse( any() )', 'country:-1');
+        $this->assertInternalType('array', $records);
+        $this->assertInstanceOf('OrientDBRecord', array_pop($records));
+        $this->assertGreaterThan(0, count($this->db->cachedRecords));
+    }
+
+    public function testCommandWithModeAsyncAndFetchPlanFieldDepthOne()
+    {
+        $this->db->DBOpen('demo', 'writer', 'writer');
+        $records = $this->db->command(OrientDB::COMMAND_SELECT_ASYNC, 'select from city traverse( any() )', 'country:1');
+        $this->assertInternalType('array', $records);
+        $this->assertInstanceOf('OrientDBRecord', array_pop($records));
+        $this->assertGreaterThan(0, count($this->db->cachedRecords));
     }
 
     public function testCommandWithModeSync()
