@@ -161,15 +161,20 @@ class OrientDBRecordLoadTest extends OrientDBBaseTesting
         $this->assertEmpty($this->db->cachedRecords);
     }
 
-    public function testRecordLoadWithFetchPlanFieldOneItemAny()
+    public function testRecordLoadWithFetchPlanFieldOneItem()
     {
-        $this->db->DBOpen('demo', 'writer', 'writer');
+        $info = $this->db->DBOpen('demo', 'writer', 'writer');
+        foreach ($info['clusters'] as $cluster) {
+            if ($cluster->name === 'city') {
+                $cityClusterID = $cluster->id;
+            }
+        }
         // Load record City:1
         $this->assertEmpty($this->db->cachedRecords);
-        $record = $this->db->recordLoad(12 . ':' . 1, 'country:1');
+        $record = $this->db->recordLoad($cityClusterID . ':' . 1, 'country:1');
         $this->assertInstanceOf('OrientDBRecord', $record);
         $this->AssertSame(1, count($this->db->cachedRecords));
-        $record = $this->db->recordLoad(12 . ':' . 1, 'country:0');
+        $record = $this->db->recordLoad($cityClusterID . ':' . 1, 'country:0');
         $this->assertEmpty($this->db->cachedRecords);
     }
 
