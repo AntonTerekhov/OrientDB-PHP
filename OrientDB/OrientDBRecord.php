@@ -114,7 +114,7 @@ class OrientDBRecord
         if ((int) $this->clusterID !== $this->clusterID || (int) $this->recordPos !== $this->recordPos) {
             return;
         }
-        if ($this->clusterID > 0 && $this->recordPos >= 0) {
+        if ($this->clusterID >= 0 && $this->recordPos >= 0) {
             $this->recordID = $this->clusterID . ':' . $this->recordPos;
         }
     }

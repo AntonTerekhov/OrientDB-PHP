@@ -215,4 +215,13 @@ class OrientDBRecordLoadTest extends OrientDBBaseTesting
         }
         $this->assertSame(count($recordsToFetch), $failedCnt);
     }
+
+    public function testRecordLoadFromZeroCluster()
+    {
+        $rid = '0:2';
+        $this->db->DBOpen('demo', 'writer', 'writer');
+        $record = $this->db->recordLoad($rid);
+        $this->assertInstanceOf('OrientDBRecord', $record);
+        $this->assertSame($rid, $record->recordID);
+    }
 }

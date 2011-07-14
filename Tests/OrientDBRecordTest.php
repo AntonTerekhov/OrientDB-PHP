@@ -70,7 +70,7 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
         $record->clusterID = 0;
         $record->recordPos = $recordPos;
         $record->parse();
-        $this->assertNull($record->recordID);
+        $this->assertSame(0 . ':' . $recordPos, $record->recordID);
     }
 
     public function testParseRecordContentSimpleString()
@@ -396,6 +396,13 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
         $this->assertSame($recordPos, $record->recordPos);
         $this->assertSame($clusterID . ':' . $recordPos, $record->recordID);
         $this->assertSame($version, $record->version);
+
+        $record->clusterID = 0;
+        $record->recordPos = 0;
+
+        $this->assertSame(0, $record->clusterID);
+        $this->assertSame(0, $record->recordPos);
+        $this->assertSame(0 . ':' . 0, $record->recordID);
     }
 
     /**
