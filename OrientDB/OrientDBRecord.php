@@ -33,7 +33,7 @@ class OrientDBRecord
      * @see OrientDB::$recordTypes
      * @var string
      */
-    public $type;
+    public $type = OrientDB::RECORD_TYPE_DOCUMENT;
 
     /**
      * ClusterID
@@ -89,10 +89,14 @@ class OrientDBRecord
         // Form recordID
         $this->parseRecordID();
         // Parse record content
-        $parser = new OrientDBRecordDecoder(rtrim($this->content));
+        if ($this->type == OrientDB::RECORD_TYPE_DOCUMENT) {
+            $parser = new OrientDBRecordDecoder(rtrim($this->content));
 
-        $this->className = $parser->className;
-        $this->data = $parser->data;
+            $this->className = $parser->className;
+            $this->data = $parser->data;
+        } else {
+            $this->data = $this->content;
+        }
     }
 
     /**
