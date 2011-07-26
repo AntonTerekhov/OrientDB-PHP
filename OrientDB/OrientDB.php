@@ -20,7 +20,7 @@
  * @method array configList() configList() Return list of server config options
  * @method string configGet() configGet(string $optionName) Get value of an option
  * @method bool configSet() configSet(string $optionName, string $optionValue) Set value for config option
- * @method bool connect() connect(string $dbName, string $userName, string $password) Connect to OrientDB server
+ * @method bool connect() connect(string $userName, string $password) Connect to OrientDB server
  * @method int count() count(string $clusterName)  Count elements in cluster
  * @method int dataclusterAdd() dataclusterAdd(string $clusterName, string $clusterType) Add a datacluster to DB
  * @method bool dataclusterRemove() dataclusterRemove(int $clusterID) Remove datacluster from DB
