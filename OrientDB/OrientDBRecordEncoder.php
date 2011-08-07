@@ -163,8 +163,7 @@ class OrientDBRecordEncoder
         /**
          * @TODO Unittests
          */
-        // @TODO Really, in docs, single quote don't meat to be escaped. See http://code.google.com/p/orient/issues/detail?id=464
-        return '"' . addcslashes($string, '"\\\'') . '"';
+        return '"' . addcslashes($string, '"\\') . '"';
     }
 
     /**

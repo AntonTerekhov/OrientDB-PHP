@@ -161,11 +161,6 @@ class OrientDBRecordDecoder
      */
     const CCODE_DOUBLE_QUOTE = 0x22;
 
-    /*
-     * '
-     */
-    const CCODE_SINGLE_QUOTE = 0x27;
-
     /**
      * \
      */
@@ -551,10 +546,6 @@ class OrientDBRecordDecoder
                             // token type is string
                             $this->stackPush(self::TTYPE_STRING);
                         }
-                    } elseif ($cCode === self::CCODE_SINGLE_QUOTE) {
-                        // @TODO Really, in docs, single quote don't meat to be escaped. See http://code.google.com/p/orient/issues/detail?id=464
-                        $this->buffer .= $char;
-                        $escape = false;
                     } else {
                         // found next byte in string
                         $this->buffer .= $char;

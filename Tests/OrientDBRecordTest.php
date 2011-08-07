@@ -411,9 +411,8 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
      */
     public function testParseRecordContentWithSingleQuote()
     {
-        // @TODO Really, in docs, single quote don't meat to be escaped. See http://code.google.com/p/orient/issues/detail?id=464
         $record = new OrientDBRecord();
-        $record->content = 'automatic:true,ignoreChars:" ' . chr(0x0d) . chr(0x0a) . chr(0x09) . ':;,.|+*/\\\\=!?[]()\\\'\"",type:"FULLTEXT"';
+        $record->content = 'automatic:true,ignoreChars:" ' . chr(0x0d) . chr(0x0a) . chr(0x09) . ':;,.|+*/\\\\=!?[]()\'\"",type:"FULLTEXT"';
         $record->parse();
 
         $this->assertSame(true, $record->data->automatic);
@@ -427,11 +426,10 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
      */
     public function testCreateRecordWithSingleQuote()
     {
-        // @TODO Really, in docs, single quote don't meat to be escaped. See http://code.google.com/p/orient/issues/detail?id=464
         $record = new OrientDBRecord();
         $record->data->field = "'";
 
         $this->assertSame("'", $record->data->field);
-        $this->assertSame('field:"\\\'"', (string) $record);
+        $this->assertSame('field:"\'"', (string) $record);
     }
 }
