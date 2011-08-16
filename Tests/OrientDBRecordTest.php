@@ -441,4 +441,12 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
         $record->parse();
         $this->assertNotEmpty($record->data->$fieldName);
     }
+
+    public function testParseRecordWithInvalidBoolean()
+    {
+        $record = new OrientDBRecord();
+        $record->content = 'test:"test",fieldname:[fa]';
+        $this->setExpectedException('OrientDBDeSerializeException');
+        $record->parse();
+    }
 }

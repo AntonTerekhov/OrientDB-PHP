@@ -458,6 +458,16 @@ class OrientDBWrongParamsException extends OrientDBException
 {
 }
 
+/**
+ * Exception for de-serialization errors
+ * @author Anton Terekhov <anton@netmonsters.ru>
+ * @package OrientDB-PHP
+ * @subpackage Main
+ */
+class OrientDBDeSerializeException extends OrientDBException
+{
+}
+
 if (!function_exists('OrientDB_autoload')) {
 
     /**

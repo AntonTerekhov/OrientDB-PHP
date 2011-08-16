@@ -649,22 +649,21 @@ class OrientDBRecordDecoder
                 break;
 
                 case self::STATE_BOOLEAN:
-                    if ($cClass === self::CCLASS_WORD) {
-                        // found next byte in link
-                        $this->buffer .= $char;
-                        $this->i++;
+                    // Fast-forward
+                    // @TODO It's possible to gain more speed by checking not entire literal, but only first (really, second) character
+                    if (strpos($this->content, 'rue', $this->i) === $this->i) {
+                        $tokenValue = true;
+                        $this->i += 3;
+                    } elseif (strpos($this->content, 'alse', $this->i) === $this->i) {
+                        $tokenValue = false;
+                        $this->i += 4;
                     } else {
-                        // found end of boolean value - switch state to comma
-                        $this->state = self::STATE_COMMA;
-                        // fill token
-                        if ($this->buffer === 'true') {
-                            $tokenValue = true;
-                        } else {
-                            $tokenValue = false;
-                        }
-                        // token type is string
-                        $this->stackPush(self::TTYPE_BOOLEAN, $tokenValue);
+                        throw new OrientDBDeSerializeException('Can\'t de-serialize boolean value on key "' . $this->stackGetLastKey() . '"');
                     }
+                    // found end of boolean value - switch state to comma
+                    $this->state = self::STATE_COMMA;
+                    // token value is boolean
+                    $this->stackPush(self::TTYPE_BOOLEAN, $tokenValue);
                 break;
 
                 default:
@@ -779,5 +778,23 @@ class OrientDBRecordDecoder
     protected function stackGetLastType()
     {
         return end($this->stackTT);
+    }
+
+    /**
+     * Return string of last found key
+     * @return string
+     */
+    protected function stackGetLastKey()
+    {
+        $depth = false;
+        for ($i = count($this->stackTT) - 1; $i >= 0; $i--) {
+            if ($this->stackTT[$i] === self::TTYPE_NAME) {
+                $depth = $i;
+                break;
+            }
+        }
+        if ($depth !== false) {
+            return $this->stackTV[$depth];
+        }
     }
 }

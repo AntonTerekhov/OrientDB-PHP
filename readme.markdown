@@ -431,6 +431,7 @@ For present moment OrientDB-PHP is using this list of exceptions:
 
 * `OrientDBException` -  base exception, all exceptions listed below are extending this class. This class used as general error class (in case of OrientDB problems).
 * `OrientDBConnectException` -  thrown on connect errors.
+* `OrientDBDeSerializeException` -  thrown on de-serialization errors.
 * `OrientDBWrongCommandException` - wrong command sequence exception, for example thrown on call `recordLoad()` if DB is not opened yet.
 * `OrientDBWrongParamsException` - wrong params count or other param-related issues.
 
