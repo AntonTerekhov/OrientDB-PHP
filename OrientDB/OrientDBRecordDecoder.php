@@ -384,21 +384,19 @@ class OrientDBRecordDecoder
                 break;
 
                 case self::STATE_NAME:
-                    if ($cClass === self::CCLASS_WORD) {
+                    if ($cCode === self::CCODE_COLON) {
+                        // Colon found - switch state to value collecting
+                        $this->state = self::STATE_VALUE;
+                        // fill token with data
+                        $this->stackPush(self::TTYPE_NAME);
+                    } elseif ($cCode === self::CCODE_AT) {
+                        // @ found - this was class name
+                        // start to collect name - no state change
+                        // fill token with data
+                        $this->stackPush(self::TTYPE_CLASS);
+                    } else {
                         // Still collecting name
                         $this->buffer .= $char;
-                    } else {
-                        if ($cCode === self::CCODE_COLON) {
-                            // Colon found - switch state to value collecting
-                            $this->state = self::STATE_VALUE;
-                            // fill token with data
-                            $this->stackPush(self::TTYPE_NAME);
-                        } elseif ($cCode === self::CCODE_AT) {
-                            // @ found - this was class name
-                            // start to collect name - no state change
-                            // fill token with data
-                            $this->stackPush(self::TTYPE_CLASS);
-                        }
                     }
                     $this->i++;
                 break;
