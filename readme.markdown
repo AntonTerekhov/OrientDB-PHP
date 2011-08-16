@@ -209,8 +209,6 @@ Will produce something like this:
     array(2) {
         ["11:0"]=>
         object(OrientDBRecord)#178 (8) {
-            ["classID"]=>
-            int(7)
             ...
 
 *During next call to any method which is able to populate `$db->cachedRecords` (e.g. `recordLoad()` or `command()`) this **array will be reset**.*
@@ -444,7 +442,6 @@ Class is holding as much information from OrientDB as we received.
 
 Class fields are:
 
-* `classID` - Class ID from OrientDB server.
 * `className` - Class name from OrientDB.
 * `type` - Document type from OrientDB. E.g. `OrientDB::RECORD_TYPE_DOCUMENT`.
 * `clusterID` - Cluster ID, from which record was loaded.
@@ -456,7 +453,9 @@ Class fields are:
 
 For complete information on fields data types see PHPDoc in class.
 
-**At this point all class fields are public. Please, be careful.**
+**At this point most class fields are public. Please, be careful.**
+
+However, class fields `clusterID`, `recordPos` and `recordID` are using magic methods. All of them are available for reading, adn only `clusterID`, `recordPos` for writing.
 
 ### Class methods ###
 
@@ -477,8 +476,6 @@ Class is able to parse almost any [record format](http://code.google.com/p/orien
 will produce
 
     object(OrientDBRecord)#197 (9) {
-      ["classID"]=>
-      NULL
       ["className"]=>
       string(7) "Address"
       ["type"]=>
@@ -519,8 +516,6 @@ will produce
 will produce
 
     object(OrientDBRecord)#176 (9) {
-      ["classID"]=>
-      NULL
       ["className"]=>
       NULL
       ["type"]=>
