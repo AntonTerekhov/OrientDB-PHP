@@ -75,7 +75,7 @@ class OrientDBRecordDecoder
     protected $stackTT = array();
 
     /**
-     * List of possble states
+     * List of possible states
      */
 
     /**
@@ -528,6 +528,32 @@ class OrientDBRecordDecoder
                 break;
 
                 case self::STATE_STRING:
+                    // Check, if we can fast-forward to next " or \ symbol
+                    if ($this->i < strlen($this->content)) {
+                        // Separate search for symbols
+                        $pos_quote = strpos($this->content, '"', $this->i);
+                        $pos_escape = strpos($this->content, '\\', $this->i);
+                        // Get first position
+                        if ($pos_escape !== false) {
+                            $pos = min($pos_quote, $pos_escape);
+                        } else {
+                            $pos = $pos_quote;
+                        }
+                    } else {
+                        $pos = false;
+                    }
+                    if ($pos !== false) {
+                        // If position is found
+                        if ($pos > $this->i + 1) {
+                            // And position is before any possible escape symbol
+                            // Add to buffer
+                            $this->buffer .= substr($this->content, $this->i, ($pos - $this->i - 1));
+                            // Fast-forwarding
+                            $this->i = $pos - 1;
+                            break;
+                        }
+                    }
+
                     if ($cCode === self::CCODE_ESCAPE) {
                         // escaping 1 symbol
                         if ($escape === true) {

@@ -154,11 +154,11 @@ class OrientDBRecordEncoder
     }
 
     /**
-     * Returns escaped string, suitable for OrientDB
+     * Returns escaped string, suitable for OrientDBRecord format
      * @param string $string
      * @return string
      */
-    protected static function encodeString($string)
+    public static function encodeString($string)
     {
         /**
          * @TODO Unittests
