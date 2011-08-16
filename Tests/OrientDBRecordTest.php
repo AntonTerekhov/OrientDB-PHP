@@ -432,4 +432,13 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
         $this->assertSame("'", $record->data->field);
         $this->assertSame('field:"\'"', (string) $record);
     }
+
+    public function testParseRecordWithNumbersInFieldName()
+    {
+        $fieldName = 'FieldName_With-CharsAndNumbers56';
+        $record = new OrientDBRecord();
+        $record->content = $fieldName . ':1';
+        $record->parse();
+        $this->assertNotEmpty($record->data->$fieldName);
+    }
 }
