@@ -395,6 +395,27 @@ class OrientDBRecordDecoder
                         // fill token with data
                         $this->stackPush(self::TTYPE_CLASS);
                     } else {
+                        // Trying to fast-forward name collecting
+                        if ($this->i < strlen($this->content)) {
+                            // This can be fieldname or classname
+                            $pos_colon = strpos($this->content, ':', $this->i);
+                            $pos_at = strpos($this->content, '@', $this->i);
+                            // Check, which one is closest
+                            if ($pos_at !== false) {
+                                $pos = min($pos_at, $pos_colon);
+                            } else {
+                                $pos = $pos_colon;
+                            }
+                        } else {
+                            $pos = false;
+                        }
+
+                        if ($pos !== false && $pos > $this->i) {
+                            // Position is fond and we had enough length to perform fast-forward
+                            $this->buffer .= substr($this->content, $this->i, ($pos - $this->i));
+                            $this->i = $pos;
+                            break;
+                        }
                         // Still collecting name
                         $this->buffer .= $char;
                     }
