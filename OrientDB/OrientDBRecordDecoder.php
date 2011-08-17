@@ -599,10 +599,12 @@ class OrientDBRecordDecoder
                 break;
 
                 case self::STATE_LINK:
-                    if ($cClass === self::CCLASS_NUMBER || $cCode === self::CCODE_COLON) {
-                        // found next byte in link
-                        $this->buffer .= $char;
-                        $this->i++;
+                    // Fast-forward
+                    $result =  preg_match('/\d+:\d+/', $this->content, $matches, PREG_OFFSET_CAPTURE, $this->i);
+                    // And matches from current position
+                    if ($result && $matches[0][1] === $this->i) {
+                        $this->buffer = $matches[0][0];
+                        $this->i += strlen($this->buffer);
                     } else {
                         // switch state to
                         if ($cCode === self::CCODE_COMMA) {

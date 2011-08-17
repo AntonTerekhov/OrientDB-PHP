@@ -78,4 +78,26 @@ class OrientDBRecordSpeedTest extends PHPUnit_Framework_TestCase
         $this->assertNotEmpty($record->data);
         // echo $timeEnd - $timeStart;
     }
+
+    public function testDecodeRecordLinkValue()
+    {
+        $runs = 10;
+        $fieldCnt = 100;
+        // Prepare a document
+        $document = array();
+        $rid = 100;
+        for ($i = 0; $i < $fieldCnt; $i++) {
+            $document[] = sprintf('%1$s:#%1$s:%2$s',  $i, $rid--);
+        }
+        $document = implode(',', $document);
+        $timeStart = microtime(true);
+        for ($i = 0; $i < $runs; $i++) {
+            $record = new OrientDBRecord();
+            $record->content = $document;
+            $record->parse();
+        }
+        $timeEnd = microtime(true);
+        $this->assertNotEmpty($record->data);
+        // echo $timeEnd - $timeStart;
+    }
 }
