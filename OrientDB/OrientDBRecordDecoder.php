@@ -618,10 +618,12 @@ class OrientDBRecordDecoder
                 break;
 
                 case self::STATE_NUMBER:
-                    if ($cClass === self::CCLASS_NUMBER || $cCode === self::CCODE_PERIOD || $cCode === self::CCODE_MINUS || $cCode === self::CCODE_EXP_LOWER || $cCode === self::CCODE_EXP_UPPER) {
-                        // found next byte in link
-                        $this->buffer .= $char;
-                        $this->i++;
+                    // Fast-forward
+                    $result = preg_match('/[\d\.e-]+/i', $this->content, $matches, PREG_OFFSET_CAPTURE, $this->i);
+                    // And matches from current position
+                    if ($result && $matches[0][1] === $this->i) {
+                        $this->buffer .= $matches[0][0];
+                        $this->i += strlen($matches[0][0]);
                     } else {
                         // switch state to
                         if ($cCode === self::CCODE_COMMA) {
@@ -639,6 +641,7 @@ class OrientDBRecordDecoder
                             $tokenValue = (float) $this->buffer;
                             $this->i++;
                         } elseif ($cCode === self::CCODE_DATE) {
+                            // This is datetime
                             $tokenValue = new OrientDBTypeDate($this->buffer);
                             $this->i++;
                         } else {
