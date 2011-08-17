@@ -411,7 +411,7 @@ class OrientDBRecordDecoder
                         }
 
                         if ($pos !== false && $pos > $this->i) {
-                            // Position is fond and we had enough length to perform fast-forward
+                            // Position is found and we had enough length to perform fast-forward
                             $this->buffer .= substr($this->content, $this->i, ($pos - $this->i));
                             $this->i = $pos;
                             break;
@@ -431,8 +431,18 @@ class OrientDBRecordDecoder
                         $this->state = self::STATE_VALUE;
                         // fill token with data
                         $this->stackPush(self::TTYPE_KEY);
-                    } elseif ($cCode !== self::CCODE_DOUBLE_QUOTE) {
-                        $this->buffer .= $char;
+                    } else {
+                        // Fast-forwarding to " symbol
+                        if ($this->i < strlen($this->content)) {
+                            $pos = strpos($this->content, '"', $this->i);
+                        } else {
+                            $pos = false;
+                        }
+                        if ($pos !== false && $pos > $this->i) {
+                            // Before " symbol
+	                        $this->buffer = substr($this->content, $this->i, ($pos - $this->i));
+	                        $this->i = $pos;
+                        }
                     }
                     $this->i++;
                 break;
