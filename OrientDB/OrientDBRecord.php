@@ -68,7 +68,7 @@ class OrientDBRecord
 
     /**
      * A placeholder for document data
-     * @var StdClass
+     * @var OrientDBData
      */
     public $data;
 
@@ -77,7 +77,7 @@ class OrientDBRecord
      */
     public function __construct()
     {
-        $this->data = new stdClass();
+        $this->data = new OrientDBData();
     }
 
     /**
@@ -145,5 +145,19 @@ class OrientDBRecord
             $trace = debug_backtrace();
             trigger_error('Can\'t set property ' . $name . ' via __set() in ' . $trace[0]['file'] . ' on line ' . $trace[0]['line'], E_USER_NOTICE);
         }
+    }
+}
+
+class OrientDBData implements Countable
+{
+
+    /**
+     * Count elements of an object. The return value is cast to an integer.
+     * @link http://php.net/manual/en/countable.count.php
+     * @return int The custom count as an integer.
+     */
+    public function count()
+    {
+        return count(get_object_vars($this));
     }
 }

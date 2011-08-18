@@ -38,12 +38,13 @@ class OrientDBRecordEncoder
 
     /**
      * Construct new instance
-     * @param StdClass $data Data from OrientDBRecord instance
+     * @param OrientDBData $data Data from OrientDBRecord instance
      * @param string $className ClassName from OrientDBRecord instance
-     * @return void
+     * @return \OrientDBRecordEncoder
      */
     public function __construct($data, $className = null)
     {
+        var_dump(2);
         $this->data = $data;
         $this->className = $className;
         $this->encode();

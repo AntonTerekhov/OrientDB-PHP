@@ -353,7 +353,7 @@ class OrientDBRecordDecoder
     protected function decode()
     {
         // Parse record content
-        $this->data = new StdClass();
+        $this->data = new OrientDBData();
         // initial state
         $this->state = self::STATE_GUESS;
         // is parsing collection

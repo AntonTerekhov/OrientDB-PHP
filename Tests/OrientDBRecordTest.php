@@ -449,4 +449,20 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
         $this->setExpectedException('OrientDBDeSerializeException');
         $record->parse();
     }
+
+    public function testRecordCountable()
+    {
+        $record = new OrientDBRecord();
+        $record->content = 'field1:1,field2:2';
+        $record->parse();
+
+        $this->assertSame(1, $record->data->field1);
+        $this->assertSame(2, $record->data->field2);
+        $this->assertSame(2, count($record->data));
+        $fieldsAvailable = 0;
+        foreach ($record->data as $key => $value) {
+            $fieldsAvailable++;
+        }
+        $this->assertSame(2, $fieldsAvailable, 'Foreach failed');
+    }
 }
