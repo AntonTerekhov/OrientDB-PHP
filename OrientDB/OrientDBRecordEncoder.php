@@ -44,7 +44,6 @@ class OrientDBRecordEncoder
      */
     public function __construct($data, $className = null)
     {
-        var_dump(2);
         $this->data = $data;
         $this->className = $className;
         $this->encode();
@@ -66,7 +65,7 @@ class OrientDBRecordEncoder
 
     /**
      * Recursively encodes data to OrientDB representation
-     * @param array|StdClass $data Data to be encoded
+     * @param array|OrientDBData $data Data to be encoded
      * @param bool $isAssoc Is keys needs to be included
      * @param bool $isArray Is this array or class
      * @return array Array of tokens

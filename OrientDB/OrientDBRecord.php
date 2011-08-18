@@ -146,8 +146,30 @@ class OrientDBRecord
     }
 }
 
-class OrientDBData implements Countable
+/**
+ * Class representing OrientDB Record Data
+ * @author Anton Terekhov <anton@netmonsters.ru>
+ * @package OrientDB-PHP
+ * @subpackage Datatypes
+ *
+ */
+class OrientDBData implements Countable, Iterator
 {
+    /**
+     * Data holder
+     * @var array
+     */
+    private $data = array();
+
+    public function __get($name)
+    {
+        return $this->data[$name];
+    }
+
+    public function __set($name, $value)
+    {
+        $this->data[$name] = $value;
+    }
 
     /**
      * Count elements of an object. The return value is cast to an integer.
@@ -156,6 +178,58 @@ class OrientDBData implements Countable
      */
     public function count()
     {
-        return count(get_object_vars($this));
+        return count($this->data);
+    }
+
+    /**
+     * Return the current element
+     * @link http://php.net/manual/en/iterator.current.php
+     * @return mixed Can return any type.
+     */
+    public function current()
+    {
+        return current($this->data);
+    }
+
+    /**
+     * Move forward to next element
+     * @link http://php.net/manual/en/iterator.next.php
+     * @return void Any returned value is ignored.
+     */
+    public function next()
+    {
+        next($this->data);
+    }
+
+    /**
+     * Return the key of the current element
+     * @link http://php.net/manual/en/iterator.key.php
+     * @return scalar scalar on success, integer
+     * 0 on failure.
+     */
+    public function key()
+    {
+        return key($this->data);
+    }
+
+    /**
+     * Checks if current position is valid
+     * @link http://php.net/manual/en/iterator.valid.php
+     * @return boolean The return value will be casted to boolean and then evaluated.
+     * Returns true on success or false on failure.
+     */
+    public function valid()
+    {
+        return key($this->data) !== null;
+    }
+
+    /**
+     * Rewind the Iterator to the first element
+     * @link http://php.net/manual/en/iterator.rewind.php
+     * @return void Any returned value is ignored.
+     */
+    public function rewind()
+    {
+        reset($this->data);
     }
 }
