@@ -15,6 +15,7 @@
  * @subpackage Datatypes
  * @property int clusterID ClusterID of record
  * @property int recordPos Record position in cluster
+ * @property string className Class name of record
  * @property-read string recordID Fully-qualified recordID
  *
  */
@@ -25,7 +26,7 @@ class OrientDBRecord
      * ClassName as parsed from document
      * @var string
      */
-    public $className;
+    private $className;
 
     /**
      * Document type
@@ -108,7 +109,7 @@ class OrientDBRecord
     }
 
     /**
-     * Parses recordID from $this->clusterID and $this->recordPos. Populated $this->recordID
+     * Parses recordID from $this->clusterID and $this->recordPos. Populates $this->recordID
      * @return void
      */
     private function parseRecordID()
@@ -123,7 +124,7 @@ class OrientDBRecord
 
     public function __get($name)
     {
-        if ($name === 'recordPos' || $name === 'clusterID' || $name === 'recordID') {
+        if ($name === 'recordPos' || $name === 'clusterID' || $name === 'recordID' || $name === 'className') {
             return $this->$name;
         }
         $trace = debug_backtrace();
@@ -136,6 +137,8 @@ class OrientDBRecord
         if ($name === 'recordPos' || $name === 'clusterID') {
             $this->$name = $value;
             $this->parseRecordID();
+        } elseif ($name === 'className') {
+            $this->className = $value;
         } elseif ($name === 'recordID') {
             $trace = debug_backtrace();
             trigger_error('Can\'t directly set property ' . $name . ' in ' . $trace[0]['file'] . ' on line ' . $trace[0]['line'], E_USER_NOTICE);
