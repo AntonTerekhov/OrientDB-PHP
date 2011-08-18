@@ -649,7 +649,6 @@ The above example will output debug messages only for `recordLoad()` to standard
 * Full support on Java primitive data types, e.g. short or byte.
 * Possible more OOP-style work with OrientDBRecord.
 * Possible using [libevent](http://ru2.php.net/manual/en/book.libevent.php) for selectAsync(). 
-* Speedup of de-serializing records.
 
 ## Known bugs ##
 Partial selects (SELECT FieldName FROM ClassName ) are not supported yet.
