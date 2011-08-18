@@ -30,8 +30,6 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
         $record->clusterID = $clusterID;
         $record->recordPos = $recordPos;
         $this->assertSame($clusterID . ':' . $recordPos, $record->recordID);
-        $record->parse();
-        $this->assertSame($clusterID . ':' . $recordPos, $record->recordID);
     }
 
     public function testParseRecordIDNull()
@@ -41,17 +39,14 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
 
         $record = new OrientDBRecord();
         $this->assertNull($record->recordID);
-        $record->parse();
         $this->assertNull($record->recordID);
 
         $record = new OrientDBRecord();
         $record->clusterID = $clusterID;
-        $record->parse();
         $this->assertNull($record->recordID);
 
         $record = new OrientDBRecord();
         $record->recordPos = $recordPos;
-        $record->parse();
         $this->assertNull($record->recordID);
     }
 
@@ -63,13 +58,11 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
         $record = new OrientDBRecord();
         $record->clusterID = $clusterID;
         $record->recordPos = 0;
-        $record->parse();
         $this->assertSame($clusterID . ':' . 0, $record->recordID);
 
         $record = new OrientDBRecord();
         $record->clusterID = 0;
         $record->recordPos = $recordPos;
-        $record->parse();
         $this->assertSame(0 . ':' . $recordPos, $record->recordID);
     }
 

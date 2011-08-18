@@ -86,8 +86,6 @@ class OrientDBRecord
      */
     public function parse()
     {
-        // Form recordID
-        $this->parseRecordID();
         // Parse record content
         if ($this->type == OrientDB::RECORD_TYPE_DOCUMENT) {
             $parser = new OrientDBRecordDecoder(rtrim($this->content));
