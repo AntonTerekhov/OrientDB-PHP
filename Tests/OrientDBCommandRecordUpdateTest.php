@@ -275,7 +275,6 @@ class OrientDBRecordUpdateTest extends OrientDBBaseTesting
         $this->assertSame($version, $record->version);
 
         $record->content = $this->recordContent;
-        $record->parse();
 
         $version2 = $this->db->recordUpdate($this->clusterID .':' . $recordPos, $record);
         $this->assertSame(2, $record->version);

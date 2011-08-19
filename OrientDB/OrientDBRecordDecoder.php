@@ -353,7 +353,8 @@ class OrientDBRecordDecoder
     protected function decode()
     {
         // Parse record content
-        $this->data = new OrientDBData();
+        // There is no need to use OrientDBRecordData here, as data will be copied for root record, and no parsing on demand for embedded records is made
+        $this->data = new StdClass();
         // initial state
         $this->state = self::STATE_GUESS;
         // is parsing collection
@@ -512,6 +513,7 @@ class OrientDBRecordDecoder
                         $tokenValue = new OrientDBRecord();
                         $tokenValue->data = $parser->data;
                         $tokenValue->className = $parser->className;
+                        $tokenValue->setParsed();
                         // token type is embedded
                         $this->stackPush(self::TTYPE_EMBEDDED, $tokenValue);
                         // fast forward to embedded position

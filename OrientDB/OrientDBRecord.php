@@ -21,6 +21,11 @@
  */
 class OrientDBRecord
 {
+    /**
+     * Flag, if current $this->content was already decoded to $this->data
+     * @var bool
+     */
+    private $isParsed = false;
 
     /**
      * ClassName as parsed from document
@@ -69,7 +74,7 @@ class OrientDBRecord
 
     /**
      * A placeholder for document data
-     * @var OrientDBData
+     * @var OrientDBData|string
      */
     public $data;
 
@@ -78,7 +83,7 @@ class OrientDBRecord
      */
     public function __construct()
     {
-        $this->data = new OrientDBData();
+        $this->data = new OrientDBData($this);
     }
 
     /**
@@ -87,15 +92,30 @@ class OrientDBRecord
      */
     public function parse()
     {
-        // Parse record content
-        if ($this->type == OrientDB::RECORD_TYPE_DOCUMENT) {
-            $parser = new OrientDBRecordDecoder(rtrim($this->content));
+        // Check, if we already decoded current $this->content
+        if (!$this->isParsed) {
+            // Parse record content
+            if ($this->type == OrientDB::RECORD_TYPE_DOCUMENT) {
+                $parser = new OrientDBRecordDecoder(rtrim($this->content));
 
-            $this->className = $parser->className;
-            $this->data = $parser->data;
-        } else {
-            $this->data = $this->content;
+                $this->className = $parser->className;
+                foreach ($parser->data as $key => $value) {
+                    $this->data->$key = $value;
+                }
+            } else {
+                $this->data = $this->content;
+            }
+            $this->isParsed = true;
         }
+    }
+
+    /**
+     * Forces that record was already parsed
+     * @return void
+     */
+    public function setParsed()
+    {
+        $this->isParsed = true;
     }
 
     /**
@@ -124,6 +144,9 @@ class OrientDBRecord
 
     public function __get($name)
     {
+        if ($name === 'className') {
+            $this->parse();
+        }
         if ($name === 'recordPos' || $name === 'clusterID' || $name === 'recordID' || $name === 'className') {
             return $this->$name;
         }
@@ -150,7 +173,7 @@ class OrientDBRecord
 }
 
 /**
- * Class representing OrientDB Record Data
+ * Class representing OrientDB Record Data. Mainly used for parsing record "on demand" while any function for getting data is called
  * @author Anton Terekhov <anton@netmonsters.ru>
  * @package OrientDB-PHP
  * @subpackage Datatypes
@@ -164,8 +187,31 @@ class OrientDBData implements Countable, Iterator
      */
     private $data = array();
 
+    /**
+     * Link to parent record, for calling it's ->parse()
+     * @var OrientDBRecord|null
+     */
+    private $record;
+
+
+    /**
+     * Link to parent record
+     * @param $record OrientDBRecord|null
+     */
+    public function __construct($record = null)
+    {
+        if (!is_null($record)) {
+            if ($record instanceof OrientDBRecord) {
+                $this->record = $record;
+            } else {
+                throw new OrientDBException('Only OrientDBRecord instance can be used in __construct()');
+            }
+        }
+    }
+
     public function __get($name)
     {
+        $this->isParsed();
         return $this->data[$name];
     }
 
@@ -181,6 +227,7 @@ class OrientDBData implements Countable, Iterator
      */
     public function count()
     {
+        $this->isParsed();
         return count($this->data);
     }
 
@@ -191,6 +238,7 @@ class OrientDBData implements Countable, Iterator
      */
     public function current()
     {
+        $this->isParsed();
         return current($this->data);
     }
 
@@ -201,6 +249,7 @@ class OrientDBData implements Countable, Iterator
      */
     public function next()
     {
+        $this->isParsed();
         next($this->data);
     }
 
@@ -212,6 +261,7 @@ class OrientDBData implements Countable, Iterator
      */
     public function key()
     {
+        $this->isParsed();
         return key($this->data);
     }
 
@@ -223,6 +273,7 @@ class OrientDBData implements Countable, Iterator
      */
     public function valid()
     {
+        $this->isParsed();
         return key($this->data) !== null;
     }
 
@@ -233,6 +284,19 @@ class OrientDBData implements Countable, Iterator
      */
     public function rewind()
     {
+        $this->isParsed();
         reset($this->data);
+    }
+
+    /**
+     * Check, if current dataset was already de-serialized
+     * @return void
+     */
+    private function isParsed()
+    {
+        if (!is_null($this->record)) {
+            // If we have link to parent record
+            $this->record->parse();
+        }
     }
 }

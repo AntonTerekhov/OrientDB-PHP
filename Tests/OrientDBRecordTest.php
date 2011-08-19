@@ -72,7 +72,6 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
         $key = 'name';
         $value = 'Василий';
         $record->content = $key . ':"' . $value . '"';
-        $record->parse();
 
         $this->assertSame($value, $record->data->name);
     }
@@ -92,7 +91,6 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
             $temp[] = $keys[$i] . ':"' . $values[$i] . '"';
         }
         $record->content = implode(',', $temp);
-        $record->parse();
 
         for ($i = 0; $i < count($keys); $i++) {
             $this->assertSame($values[$i], $record->data->$keys[$i]);
@@ -103,7 +101,6 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
     {
         $record = new OrientDBRecord();
         $record->content = 'FirstName:"Василий\\\\",LastName:"Иванов\""';
-        $record->parse();
 
         $this->assertSame("Василий\\", $record->data->FirstName);
         $this->assertSame("Иванов\"", $record->data->LastName);
@@ -115,7 +112,6 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
     {
         $record = new OrientDBRecord();
         $record->content = 'False:false,LastName:"Smith",true:true';
-        $record->parse();
 
         $this->assertFalse($record->data->False);
         $this->assertSame("Smith", $record->data->LastName);
@@ -128,7 +124,6 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
     {
         $record = new OrientDBRecord();
         $record->content = 'City@name:"Rome",country:#14:0';
-        $record->parse();
 
         $this->assertSame('City', $record->className);
         $this->assertSame('Rome', $record->data->name);
@@ -142,7 +137,6 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
     {
         $record = new OrientDBRecord();
         $record->content = 'people:["Alice","Bob","Eva"]';
-        $record->parse();
 
         $this->assertInternalType('array', $record->data->people);
         $this->assertSame('Alice', $record->data->people[0]);
@@ -156,7 +150,6 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
     {
         $record = new OrientDBRecord();
         $record->content = 'Profile@nick:"ThePresident",follows:[],followers:[#10:5,#10:6],name:"Barack",surname:"Obama",location:#3:2,invitedBy:,salary_cloned:,salary:120.3f';
-        $record->parse();
 
         $this->assertSame('Profile', $record->className);
         $this->assertSame('ThePresident', $record->data->nick);
@@ -183,7 +176,6 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
     {
         $record = new OrientDBRecord();
         $record->content = 'ORole@name:"reader",inheritedRole:,mode:0,rules:{"database":2,"database.cluster.internal":2,"database.cluster.orole":2,"database.cluster.ouser":2,"database.class.*":2,"database.cluster.*":2,"database.query":2,"database.command":2,"database.hook.record":2}';
-        $record->parse();
 
         $this->assertSame('ORole', $record->className);
         $this->assertSame('reader', $record->data->name);
@@ -207,7 +199,6 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
     {
         $record = new OrientDBRecord();
         $record->content = 'name:"Rome",country:#14:0,district:#,sea:#';
-        $record->parse();
 
         $this->assertSame('Rome', $record->data->name);
         $this->assertInstanceOf('OrientDBTypeLink', $record->data->country);
@@ -224,7 +215,6 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
     {
         $record = new OrientDBRecord();
         $record->content = 'integer:123,byte:112b,short:30s,long:2147483648l,float:999.999f,double:456.7654d';
-        $record->parse();
 
         $this->assertSame(123, $record->data->integer);
         $this->assertSame(112, $record->data->byte);
@@ -238,7 +228,6 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
     {
         $record = new OrientDBRecord();
         $record->content = 'integer:-123,byte:-112b,short:-30s,long:-2147483648l,float:-999.999f,double:-456.7654d';
-        $record->parse();
 
         $this->assertSame(-123, $record->data->integer);
         $this->assertSame(-112, $record->data->byte);
@@ -252,7 +241,6 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
     {
         $record = new OrientDBRecord();
         $record->content = 'one:1.0E2f,two:-1.0E2f,three:9.8E-4f,four:1.0e2f,five:1.13e10f';
-        $record->parse();
 
         $this->assertSame(1.0E2, $record->data->one);
         $this->assertSame(-1.0e2, $record->data->two);
@@ -265,7 +253,6 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
     {
         $record = new OrientDBRecord();
         $record->content = 'filename:"readme.markdown",permissions:"0644",user:"nobody",group:"nobody",size:11958,modified:1302627138t';
-        $record->parse();
 
         $this->assertSame('readme.markdown', $record->data->filename);
         $this->assertSame('0644', $record->data->permissions);
@@ -281,7 +268,6 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
     {
         $record = new OrientDBRecord();
         $record->content = 'rules:{"database":,"database.cluster.internal":,"database.cluster.orole":}';
-        $record->parse();
 
         $this->assertInternalType('array', $record->data->rules);
         $this->assertNull($record->data->rules['database']);
@@ -295,7 +281,6 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
     {
         $record = new OrientDBRecord();
         $record->content = 'City@name:"Rome",country:#14:0,embedded:(City@name:"Rome",country:#14:0)';
-        $record->parse();
 
         $this->assertSame('City', $record->className);
         $this->assertSame('Rome', $record->data->name);
@@ -314,7 +299,6 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
     {
         $record = new OrientDBRecord();
         $record->content = 'values:[(name:"John"),(City:"New York"),(color:"#FFF")]';
-        $record->parse();
 
         $this->assertInternalType('array', $record->data->values);
         $this->assertInstanceOf('OrientDBRecord', $record->data->values[0]);
@@ -341,7 +325,6 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
     {
         $record = new OrientDBRecord();
         $record->content = 'False:false,LastName:"Smith",true:true     ';
-        $record->parse();
 
         $this->assertFalse($record->data->False);
         $this->assertSame("Smith", $record->data->LastName);
@@ -406,7 +389,6 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
     {
         $record = new OrientDBRecord();
         $record->content = 'automatic:true,ignoreChars:" ' . chr(0x0d) . chr(0x0a) . chr(0x09) . ':;,.|+*/\\\\=!?[]()\'\"",type:"FULLTEXT"';
-        $record->parse();
 
         $this->assertSame(true, $record->data->automatic);
         $this->assertSame(" \r\n\t:;,.|+*/\\=!?[]()'\"", $record->data->ignoreChars);
@@ -431,7 +413,7 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
         $fieldName = 'FieldName_With-CharsAndNumbers56';
         $record = new OrientDBRecord();
         $record->content = $fieldName . ':1';
-        $record->parse();
+
         $this->assertNotEmpty($record->data->$fieldName);
     }
 
@@ -447,7 +429,6 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
     {
         $record = new OrientDBRecord();
         $record->content = 'field1:1,field2:2';
-        $record->parse();
 
         $this->assertSame(1, $record->data->field1);
         $this->assertSame(2, $record->data->field2);
@@ -458,7 +439,6 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
     {
         $record = new OrientDBRecord();
         $record->content = 'field1:1,field2:2';
-        $record->parse();
 
         $fieldsAvailable = 0;
         foreach ($record->data as $key => $value) {
@@ -473,5 +453,27 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
 
         $this->setExpectedException('PHPUnit_Framework_Error_Notice');
         echo $record->data->noSuchKey;
+    }
+
+    public function testParseRecordForced()
+    {
+        $content = 'ClassName@field:"text",link:#,bool:false';
+        $record = new OrientDBRecord();
+        $record->content = $content;
+
+        $this->assertSame('ClassName', $record->className);
+        $this->assertSame('text', $record->data->field);
+        $this->assertSame('', (string) $record->data->link);
+        $this->assertSame(false, $record->data->bool);
+        $this->assertSame($content, (string) $record);
+
+        $recordForced = new OrientDBRecord();
+        $recordForced->content = $content;
+        $recordForced->parse();
+        $this->assertSame('ClassName', $recordForced->className);
+        $this->assertSame('text', $recordForced->data->field);
+        $this->assertSame('', (string) $recordForced->data->link);
+        $this->assertSame(false, $recordForced->data->bool);
+        $this->assertSame($content, (string) $recordForced);
     }
 }

@@ -453,15 +453,17 @@ Class fields are:
 
 For complete information on fields data types see PHPDoc in class.
 
-**At this point most class fields are public. Please, be careful.**
+**At this point some class fields are public. Please, be careful.**
 
-However, class fields `clusterID`, `recordPos` and `recordID` are using magic methods. All of them are available for reading, adn only `clusterID`, `recordPos` for writing.
+However, class fields `clusterID`, `recordPos`, `recordID` and `className` are using magic methods. All of them are available for reading, while fields `clusterID`, `recordPos` and `className` only for writing.
 
 ### Class methods ###
 
 Class methods are:
 
-* `parse()` - must be called after maximum amount of fields was populated. Parses `content` and fill up `data`. Also full up `recordID` from `clusterID` and `recordPos`. Called automatically inside OrientDB-PHP methods.
+* `parse()` - can be called after maximum amount of fields was populated. Parses `content` and fill up fields `data` and `className`. Field `recordPos` are filled up automatically on setting `recordID` or `clusterID` via magic method `__set()`.
+In general, there is no need to call this method directly from user code, as record content is parsed automatically on request to any `data` or `className` fields. This is done via `OrientDBRecordData` class. This magic parsing only done once.
+* `setParsed()` - forces that record was already parsed.
 * `__toString()` - serialize back all fields from `data`. Return a string. Also can be called implicitly as type casting, e.g. `(string) $record`.
 
 Class is able to parse almost any [record format](http://code.google.com/p/orient/wiki/NetworkBinaryProtocol#Record_format) as received from OrientDB server. However, there are some limitations about few [Java primitive data types](http://download.oracle.com/javase/tutorial/java/nutsandbolts/datatypes.html), e.g. short. This is a planned TODO.

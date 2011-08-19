@@ -372,7 +372,6 @@ abstract class OrientDBCommandAbstract
         $record->version = $this->readInt();
         $this->debugCommand('record_content');
         $record->content = $this->readBytes();
-        $record->parse();
 
         return $record;
     }

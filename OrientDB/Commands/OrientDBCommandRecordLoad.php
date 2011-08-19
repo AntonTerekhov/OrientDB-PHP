@@ -106,7 +106,6 @@ class OrientDBCommandRecordLoad extends OrientDBCommandAbstract
             $record->recordPos = $this->recordPos;
             $record->version = $record_version;
             $record->content = $record_content;
-            $record->parse();
 
             return $record;
         }
