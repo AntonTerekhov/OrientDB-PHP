@@ -46,10 +46,10 @@ class OrientDBCommandDBOpen extends OrientDBCommandAbstract
 
     /**
      * (non-PHPdoc)
-     * @see OrientDBCommandAbstract::parse()
+     * @see OrientDBCommandAbstract::parseResponse()
      * @return array
      */
-    protected function parse()
+    protected function parseResponse()
     {
         $this->debugCommand('sessionID');
         $this->sessionID = $this->readInt();

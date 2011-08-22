@@ -36,10 +36,10 @@ class OrientDBCommandConfigGet extends OrientDBCommandAbstract
 
     /**
      * (non-PHPdoc)
-     * @see OrientDBCommandAbstract::parse()
+     * @see OrientDBCommandAbstract::parseResponse()
      * @return string
      */
-    protected function parse()
+    protected function parseResponse()
     {
         $this->debugCommand('config_value');
         $value = $this->readString();

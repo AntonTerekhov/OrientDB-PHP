@@ -198,7 +198,7 @@ abstract class OrientDBCommandAbstract
         }
 
         if ($this->requestStatus === chr(OrientDBCommandAbstract::STATUS_SUCCESS)) {
-            $data = $this->parse();
+            $data = $this->parseResponse();
             if ($this->opType === self::DB_OPEN) {
                 $this->parent->setSessionIDDB($this->sessionID);
             } elseif ($this->opType === self::CONNECT) {
@@ -224,7 +224,7 @@ abstract class OrientDBCommandAbstract
      * Parse server reply
      * @return mixed
      */
-    protected abstract function parse();
+    protected abstract function parseResponse();
 
     /**
      * Get command attributes

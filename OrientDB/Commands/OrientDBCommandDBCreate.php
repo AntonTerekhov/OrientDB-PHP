@@ -44,10 +44,10 @@ class OrientDBCommandDBCreate extends OrientDBCommandAbstract
 
     /**
      * (non-PHPdoc)
-     * @see OrientDBCommandAbstract::parse()
+     * @see OrientDBCommandAbstract::parseResponse()
      * @return bool
      */
-    protected function parse()
+    protected function parseResponse()
     {
         return true;
     }
