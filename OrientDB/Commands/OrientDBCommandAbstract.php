@@ -266,7 +266,7 @@ abstract class OrientDBCommandAbstract
     protected function readShort()
     {
         $data = unpack('n', $this->readRaw(2));
-        return reset($data);
+        return self::convertComplementShort(reset($data));
     }
 
     /**
@@ -276,8 +276,7 @@ abstract class OrientDBCommandAbstract
     protected function readInt()
     {
         $data = unpack('N', $this->readRaw(4));
-        $data = reset($data);
-        return self::convertComplement($data);
+        return self::convertComplementInt(reset($data));
     }
 
     /**
@@ -340,19 +339,17 @@ abstract class OrientDBCommandAbstract
         $this->debugCommand('record_marker');
         $marker = $this->readShort();
         /**
-         * @TODO sinse PHP lack to support signed short with big endian byte
-         * order unpack we need to see it that way
-         * as seen at enterprise/src/main/java/com/orientechnologies/orient/enterprise/channel/binary/OChannelBinaryProtocol.java
+         * @see enterprise/src/main/java/com/orientechnologies/orient/enterprise/channel/binary/OChannelBinaryProtocol.java
          */
 
         // -2=no record
-        if ($marker == 0xFFFE) {
+        if ($marker == -2) {
             // no record
             return false;
         }
 
         // -3=Only recordID
-        if ($marker == 0xFFFD) {
+        if ($marker == -3) {
             // only recordID
             $this->debugCommand('record_clusterID');
             $clusterID = $this->readShort();
@@ -449,10 +446,11 @@ abstract class OrientDBCommandAbstract
 
     /**
      * Convert twos-complement integer after unpack() on x64 systems
+     * @static
      * @param int $int
      * @return int
      */
-    public static function convertComplement($int)
+    public static function convertComplementInt($int)
     {
         /*
          *  Valid 32-bit signed integer is -2147483648 < x < 2147483647
@@ -462,5 +460,23 @@ abstract class OrientDBCommandAbstract
             return -(($int ^ 0xFFFFFFFF) + 1);
         }
         return $int;
+    }
+
+    /**
+     * Convert twos-complement short after unpack() on x64 systems
+     * @static
+     * @param $short
+     * @return int
+     */
+    public static function convertComplementShort($short)
+    {
+        /*
+         *  Valid 16-bit signed integer is -32768 < x < 32767
+         *  -2^(n-1) < x < 2^(n-1) -1 where n = 16
+         */
+        if ($short > 32767) {
+            return -(($short ^ 0xFFFF) + 1);
+        }
+        return $short;
     }
 }
