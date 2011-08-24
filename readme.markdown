@@ -644,7 +644,6 @@ The above example will output debug messages only for `recordLoad()` to standard
          0 : 00                                              [.]
 
 ## Planned TODOs ##
-* Fix RecordPos with 64-bit Long.
 * Full support on Java primitive data types, e.g. short or byte.
 * Possible more OOP-style work with OrientDBRecord.
 * Possible using [libevent](http://ru2.php.net/manual/en/book.libevent.php) for selectAsync(). 
