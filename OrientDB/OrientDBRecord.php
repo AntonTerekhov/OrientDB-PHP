@@ -14,7 +14,7 @@
  * @package OrientDB-PHP
  * @subpackage Datatypes
  * @property int clusterID ClusterID of record
- * @property int recordPos Record position in cluster
+ * @property int|string recordPos Record position in cluster
  * @property-read string recordID Fully-qualified recordID
  *
  */
@@ -115,11 +115,13 @@ class OrientDBRecord
      */
     private function parseRecordID()
     {
-        if ((int) $this->clusterID !== $this->clusterID || (int) $this->recordPos !== $this->recordPos) {
+        if ((int) $this->clusterID !== $this->clusterID) {
             return;
         }
-        if ($this->clusterID >= 0 && $this->recordPos >= 0) {
-            $this->recordID = $this->clusterID . ':' . $this->recordPos;
+        if ($this->clusterID >= 0 && is_numeric($this->recordPos)) {
+            if ($this->recordPos >= 0) {
+                $this->recordID = $this->clusterID . ':' . $this->recordPos;
+            }
         }
     }
 
@@ -136,7 +138,9 @@ class OrientDBRecord
     public function __set($name, $value)
     {
         if ($name === 'recordPos' || $name === 'clusterID') {
-            $this->$name = $value;
+            if (is_numeric($value) || is_null($value)) {
+                $this->$name = $value;
+            }
             $this->parseRecordID();
         } elseif ($name === 'recordID') {
             $trace = debug_backtrace();

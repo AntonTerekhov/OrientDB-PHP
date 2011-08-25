@@ -286,15 +286,13 @@ abstract class OrientDBCommandAbstract
      */
     protected function readLong()
     {
-        $data = unpack('N', $this->readRaw(4));
-        /**
-         * @TODO Java sends long as 64-bit
-         */
-        if (reset($data) > 0) {
-            throw new OrientDBException('64-bit long detected!');
-        }
-        $data = unpack('N', $this->readRaw(4));
-        return reset($data);
+        // First of all, read 8 bytes, divided into hi and low parts
+        $hi = unpack('N', $this->readRaw(4));
+        $hi = reset($hi);
+        $low = unpack('N', $this->readRaw(4));
+        $low = reset($low);
+        // Unpack 64-bit signed long
+        return self::unpackI64($hi, $low);
     }
 
     /**

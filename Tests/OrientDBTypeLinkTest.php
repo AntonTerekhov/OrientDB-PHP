@@ -79,7 +79,6 @@ class OrientDBTypeLinkTest extends PHPUnit_Framework_TestCase
     {
         $clusterID = 'one';
         $recordPos = 0;
-        $value = $clusterID . ':' . $recordPos;
 
         $link = new OrientDBTypeLink($clusterID, $recordPos);
 
@@ -94,6 +93,39 @@ class OrientDBTypeLinkTest extends PHPUnit_Framework_TestCase
     {
         $clusterID = 101;
         $recordPos = '';
+
+        $link = new OrientDBTypeLink($clusterID, $recordPos);
+
+        $this->assertSame('', (string) $link);
+        $this->assertSame('#', $link->getHash());
+        $this->assertNull($link->get());
+        $this->assertNull($link->clusterID);
+        $this->assertNull($link->recordPos);
+    }
+
+    public function testOrientDBTypeLinkValuesCorrectLong()
+    {
+        $clusterID = 100;
+        if (PHP_INT_SIZE == 8) {
+            $recordPos = 9223372036854775807;
+        } else {
+            $recordPos = '9223372036854775807';
+        }
+        $value = $clusterID . ':' . $recordPos;
+
+        $link = new OrientDBTypeLink($clusterID, $recordPos);
+
+        $this->assertSame('#' . $value, (string) $link);
+        $this->assertSame('#' . $value, $link->getHash());
+        $this->assertSame($value, $link->get());
+        $this->assertSame($clusterID, $link->clusterID);
+        $this->assertSame($recordPos, $link->recordPos);
+    }
+
+    public function testOrientDBTypeLinkValuesincorrectLong()
+    {
+        $clusterID = 100;
+        $recordPos = '9223372036854775807 ';
         $value = $clusterID . ':' . $recordPos;
 
         $link = new OrientDBTypeLink($clusterID, $recordPos);
