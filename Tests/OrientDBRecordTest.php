@@ -500,6 +500,17 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
         echo $record->data->noSuchKey;
     }
 
+    public function testRecordDataIsSet()
+    {
+        $record =  new OrientDBRecord();
+
+        $this->assertFalse(isset($record->data->field));
+        $record =  new OrientDBRecord();
+        $record->content = 'field:"value"';
+        $this->assertTrue(isset($record->data->field));
+        $this->assertFalse(isset($record->data->none));
+    }
+
     public function testParseRecordForced()
     {
         $content = 'ClassName@field:"text",link:#,bool:false';

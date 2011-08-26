@@ -224,6 +224,18 @@ class OrientDBData implements Countable, Iterator
         $this->data[$name] = $value;
     }
 
+
+    /**
+     * Magic function for isset() call
+     * @param $name
+     * @return bool
+     */
+    public function __isset($name)
+    {
+        $this->isParsed();
+        return isset($this->data[$name]);
+    }
+
     /**
      * Count elements of an object. The return value is cast to an integer.
      * @link http://php.net/manual/en/countable.count.php
