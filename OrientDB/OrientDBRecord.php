@@ -237,6 +237,16 @@ class OrientDBData implements Countable, Iterator
     }
 
     /**
+     * Magic function for unset() calls
+     * @param $name
+     * @return void
+     */
+    public function __unset($name)
+    {
+        unset($this->data[$name]);
+    }
+
+    /**
      * Count elements of an object. The return value is cast to an integer.
      * @link http://php.net/manual/en/countable.count.php
      * @return int The custom count as an integer.
