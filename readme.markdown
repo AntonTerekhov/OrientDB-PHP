@@ -456,14 +456,14 @@ For complete information on fields data types see PHPDoc in class.
 
 **At this point some class fields are public. Please, be careful.**
 
-However, class fields `clusterID`, `recordPos`, `recordID` and `className` are using magic methods. All of them are available for reading, while fields `clusterID`, `recordPos` and `className` only for writing.
+However, class fields `content`, `clusterID`, `recordPos`, `recordID` and `className` are using magic methods. All of them are available for reading, while fields `clusterID`, `recordPos` and `className` only for writing.
 
 ### Class methods ###
 
 Class methods are:
 
 * `parse()` - can be called after maximum amount of fields was populated. Parses `content` and fill up fields `data` and `className`. Field `recordPos` are filled up automatically on setting `recordID` or `clusterID` via magic method `__set()`.
-In general, there is no need to call this method directly from user code, as record content is parsed automatically on request to any `data` or `className` fields. This is done via `OrientDBRecordData` class. This magic parsing only done once.
+In general, there is no need to call this method directly from user code, as record content is parsed automatically on request to any `data` or `className` fields. This is done via `OrientDBRecordData` class. This magic parsing only done once, until new `content` is assigned.
 * `setParsed()` - forces that record was already parsed.
 * `__toString()` - serialize back all fields from `data`. Return a string. Also can be called implicitly as type casting, e.g. `(string) $record`.
 

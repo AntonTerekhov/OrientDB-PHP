@@ -505,7 +505,7 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
         $record =  new OrientDBRecord();
 
         $this->assertFalse(isset($record->data->field));
-        $record =  new OrientDBRecord();
+
         $record->content = 'field:"value"';
         $this->assertTrue(isset($record->data->field));
         $this->assertFalse(isset($record->data->none));
@@ -540,5 +540,16 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
         $this->assertSame('', (string) $recordForced->data->link);
         $this->assertSame(false, $recordForced->data->bool);
         $this->assertSame($content, (string) $recordForced);
+    }
+
+    public function testRecordisParsedFlag()
+    {
+        $record =  new OrientDBRecord();
+        $record->content = 'field:"value"';
+        $this->assertTrue(isset($record->data->field));
+        $this->assertFalse(isset($record->data->none));
+        $record->content = 'none:true';
+        $this->assertTrue(isset($record->data->none));
+        $this->assertFalse(isset($record->data->field));
     }
 }

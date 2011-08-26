@@ -16,6 +16,7 @@
  * @property int clusterID ClusterID of record
  * @property int|string recordPos Record position in cluster
  * @property string className Class name of record
+ * @property string content Document source as delivered from OrientDB
  * @property-read string recordID Fully-qualified recordID
  *
  */
@@ -70,7 +71,7 @@ class OrientDBRecord
      * Document source as delivered from OrientDB
      * @var string
      */
-    public $content;
+    private $content;
 
     /**
      * A placeholder for document data
@@ -149,7 +150,7 @@ class OrientDBRecord
         if ($name === 'className') {
             $this->parse();
         }
-        if ($name === 'recordPos' || $name === 'clusterID' || $name === 'recordID' || $name === 'className') {
+        if ($name === 'recordPos' || $name === 'clusterID' || $name === 'recordID' || $name === 'className' || $name == 'content') {
             return $this->$name;
         }
         $trace = debug_backtrace();
@@ -164,6 +165,10 @@ class OrientDBRecord
                 $this->$name = $value;
             }
             $this->parseRecordID();
+        } elseif ($name === 'content') {
+            $this->content = $value;
+            $this->isParsed = false;
+            $this->data = new OrientDBData($this);
         } elseif ($name === 'className') {
             $this->className = $value;
         } elseif ($name === 'recordID') {
