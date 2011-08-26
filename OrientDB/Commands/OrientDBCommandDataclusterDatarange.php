@@ -46,10 +46,10 @@ class OrientDBCommandDataclusterDatarange extends OrientDBCommandAbstract
 
     /**
      * (non-PHPdoc)
-     * @see OrientDBCommandAbstract::parse()
+     * @see OrientDBCommandAbstract::parseResponse()
      * @return array
      */
-    protected function parse()
+    protected function parseResponse()
     {
         $this->debugCommand('start_pos');
         $startPos = $this->readLong();

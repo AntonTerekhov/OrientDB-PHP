@@ -7,7 +7,7 @@ Current status is: *Beta*.
 
 Code is licensed under New BSD License and provided "as is". For complete license information see file `LICENSE`.
 
-Current OrientDB version to work with is: `1.0rc5-snapshot` (revision 3642).
+Current OrientDB version to work with is: `1.0rc5` (revision 3738).
 It can be downloaded from OrientDB's [Downloads page](http://code.google.com/p/orient/downloads/list).
 
 Code compatible to previous [binary releases](http://code.google.com/p/orient/downloads/list) of OrientDB can be found in repository's tags or in [Downloads](https://github.com/AntonTerekhov/OrientDB-PHP/archives/master) section.
@@ -19,6 +19,7 @@ This library requires:
 * PHP 5.3.x
     * spl extension (since PHP 5.3.0 this extension is always available)
     * PCRE extension (as of PHP 5.3.0 this extension cannot be disabled and is therefore always present)
+    * bcmath extension (Since PHP 4.0.4, libbcmath is bundled with PHP. These functions are only available if PHP was configured with --enable-bcmath .). Used on 32bit systems for dealing with 64bit long.
 
 If PHP 5.3.x is a concern, you can try to run this code in version 5.2.x, however, this is not supported.
 
@@ -647,13 +648,12 @@ The above example will output debug messages only for `recordLoad()` to standard
          0 : 00                                              [.]
 
 ## Planned TODOs ##
-* Fix RecordPos with 64-bit Long.
 * Full support on Java primitive data types, e.g. short or byte.
 * Possible more OOP-style work with OrientDBRecord.
 * Possible using [libevent](http://ru2.php.net/manual/en/book.libevent.php) for selectAsync(). 
 
 ## Known bugs ##
-Partial selects (SELECT FieldName FROM ClassName ) are not supported yet.
+None.
 
 ## If you found a bug ##
 If you found a bug - feel free to contact me via gitHub, email, or open a new issue.

@@ -72,10 +72,10 @@ class OrientDBCommandRecordLoad extends OrientDBCommandAbstract
 
     /**
      * (non-PHPdoc)
-     * @see OrientDBCommandAbstract::parse()
-     * bool|OrientDBTypeLink|OrientDBRecord
+     * @see OrientDBCommandAbstract::parseResponse()
+     * @return bool|OrientDBTypeLink|OrientDBRecord
      */
-    protected function parse()
+    protected function parseResponse()
     {
         $this->debugCommand('record_status_first');
         $status = $this->readByte();

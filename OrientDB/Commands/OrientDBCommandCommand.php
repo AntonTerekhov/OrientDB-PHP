@@ -116,10 +116,10 @@ class OrientDBCommandCommand extends OrientDBCommandAbstract
 
     /**
      * (non-PHPdoc)
-     * @see OrientDBCommandAbstract::parse()
+     * @see OrientDBCommandAbstract::parseResponse()
      * @return bool|OrientDBTypeLink|OrientDBRecord|string|array
      */
-    protected function parse()
+    protected function parseResponse()
     {
         $this->debugCommand('status');
         $status = $this->readByte();

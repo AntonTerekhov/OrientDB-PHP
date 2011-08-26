@@ -67,10 +67,10 @@ class OrientDBCommandDataclusterAdd extends OrientDBCommandAbstract
 
     /**
      * (non-PHPdoc)
-     * @see OrientDBCommandAbstract::parse()
+     * @see OrientDBCommandAbstract::parseResponse()
      * @return int
      */
-    protected function parse()
+    protected function parseResponse()
     {
         $this->debugCommand('clusterID');
         $clusterID = $this->readShort();

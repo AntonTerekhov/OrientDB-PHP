@@ -30,7 +30,7 @@ class OrientDBCommandCommit extends OrientDBCommandAbstract
         throw new OrientDBException('Not implemented');
     }
 
-    protected function parse()
+    protected function parseResponse()
     {
 
     }

@@ -38,10 +38,10 @@ class OrientDBCommandShutdown extends OrientDBCommandAbstract
 
     /**
      * (non-PHPdoc)
-     * @see OrientDBCommandAbstract::parse()
+     * @see OrientDBCommandAbstract::parseResponse()
      * @return void
      */
-    protected function parse()
+    protected function parseResponse()
     {
     }
 }

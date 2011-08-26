@@ -36,10 +36,10 @@ class OrientDBCommandDBExists extends OrientDBCommandAbstract
 
     /**
      * (non-PHPdoc)
-     * @see OrientDBCommandAbstract::parse()
+     * @see OrientDBCommandAbstract::parseResponse()
      * @return bool
      */
-    protected function parse()
+    protected function parseResponse()
     {
         $this->debugCommand('exist_result');
         $result = $this->readByte();

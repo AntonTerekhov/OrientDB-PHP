@@ -42,7 +42,7 @@ class OrientDBTypeLink
      * @example 10:1
      * @example 10, 1
      * @param string|int $link
-     * @param int $recordPos
+     * @param null|int|string $recordPos
      */
     public function __construct($link, $recordPos = null)
     {
@@ -59,8 +59,8 @@ class OrientDBTypeLink
         } else {
             // Construct from two ints
             $this->clusterID = (int) $link;
-            $this->recordPos = (int) $recordPos;
-            if (((string) $this->clusterID !== (string) $link) || ((string) $this->recordPos !== (string) $recordPos)) {
+            $this->recordPos = $recordPos;
+            if (((string) $this->clusterID !== (string) $link) || (!is_numeric($this->recordPos))) {
                 $this->clusterID = null;
                 $this->recordPos = null;
             }

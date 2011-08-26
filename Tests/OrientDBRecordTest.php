@@ -66,6 +66,51 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
         $this->assertSame(0 . ':' . $recordPos, $record->recordID);
     }
 
+    public function testParseRecordPosLongCorrect()
+    {
+        $clusterID = 3;
+        $recordPos = '9223372036854775807';
+
+        $record = new OrientDBRecord();
+        $record->clusterID = $clusterID;
+        $record->recordPos = $recordPos;
+        $record->parse();
+
+        $this->assertSame($clusterID, $record->clusterID);
+        $this->assertSame($recordPos, $record->recordPos);
+        $this->assertSame($clusterID . ':' . $recordPos, $record->recordID);
+    }
+
+    public function testParseRecordPosNegative()
+    {
+        $clusterID = 3;
+        $recordPos = '-1';
+
+        $record = new OrientDBRecord();
+        $record->clusterID = $clusterID;
+        $record->recordPos = $recordPos;
+        $record->parse();
+
+        $this->assertSame($clusterID, $record->clusterID);
+        $this->assertSame($recordPos, $record->recordPos);
+        $this->assertNull($record->recordID);
+    }
+
+    public function testParseRecordPosLongIncorrect()
+    {
+        $clusterID = 3;
+        $recordPos = '9223372036854775807 ';
+
+        $record = new OrientDBRecord();
+        $record->clusterID = $clusterID;
+        $record->recordPos = $recordPos;
+        $record->parse();
+
+        $this->assertSame($clusterID, $record->clusterID);
+        $this->assertNull($record->recordPos);
+        $this->assertNull($record->recordID);
+    }
+
     public function testParseRecordContentSimpleString()
     {
         $record = new OrientDBRecord();
