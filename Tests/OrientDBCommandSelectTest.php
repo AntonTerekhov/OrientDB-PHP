@@ -79,4 +79,15 @@ class OrientDBSelectTest extends OrientDBBaseTesting
         $records = $this->db->select('select from 11:4 where any() traverse(0,10) (address.city = "Rome")');
         $this->assertFalse($records);
     }
+
+    public function testFieldsSelect()
+    {
+        $this->db->DBOpen('demo', 'writer', 'writer');
+        $record = $this->db->select('SELECT name FROM City WHERE name = "Rome" LIMIT 1');
+        $record = reset($record);
+        $this->assertSame($record->data->name, 'Rome');
+        $this->assertSame(-1, $record->clusterID);
+        $this->assertSame(-1, $record->recordPos);
+        $this->assertNull($record->recordID);
+    }
 }

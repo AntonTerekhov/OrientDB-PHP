@@ -7,7 +7,7 @@ Current status is: *Beta*.
 
 Code is licensed under New BSD License and provided "as is". For complete license information see file `LICENSE`.
 
-Current OrientDB version to work with is: `1.0rc5-snapshot` (revision 3642).
+Current OrientDB version to work with is: `1.0rc5` (revision 3738).
 It can be downloaded from OrientDB's [Downloads page](http://code.google.com/p/orient/downloads/list).
 
 Code compatible to previous [binary releases](http://code.google.com/p/orient/downloads/list) of OrientDB can be found in repository's tags or in [Downloads](https://github.com/AntonTerekhov/OrientDB-PHP/archives/master) section.
@@ -651,7 +651,7 @@ The above example will output debug messages only for `recordLoad()` to standard
 * Speedup of de-serializing records.
 
 ## Known bugs ##
-Partial selects (SELECT FieldName FROM ClassName ) are not supported yet.
+None.
 
 ## If you found a bug ##
 If you found a bug - feel free to contact me via gitHub, email, or open a new issue.
