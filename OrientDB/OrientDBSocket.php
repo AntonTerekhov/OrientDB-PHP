@@ -45,7 +45,11 @@ class OrientDBSocket
      */
     public function __construct($host, $port, $timeout = 30, $bufferLen = 16384)
     {
-        $socket = $this->socket = @fsockopen($host, $port, $errno, $errstr, $timeout);
+        try {
+            $socket = $this->socket = @fsockopen($host, $port, $errno, $errstr, $timeout);
+        } catch (Exception $e) {
+            throw new Exception("Socket error #{$errno}: {$errstr}");
+        }
 
         if ($socket === false) {
             throw new Exception("Socket error #{$errno}: {$errstr}");
