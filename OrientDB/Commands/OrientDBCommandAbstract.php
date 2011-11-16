@@ -172,6 +172,7 @@ abstract class OrientDBCommandAbstract
 
     /**
      * Execute command by sending data to server, receive initial reply
+     * @return mixed
      */
     public function execute()
     {
@@ -185,7 +186,7 @@ abstract class OrientDBCommandAbstract
         }
         if ($this->opType == self::DB_CLOSE) {
             // No incoming bytes
-            return;
+            return null;
         }
 
         $this->debugCommand('request_status');

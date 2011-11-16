@@ -15,7 +15,7 @@
  * @package OrientDB-PHP
  * @subpackage Main
  *
- * @method mixed command() command(int $commandMode, string $query[, string $fetchplan]) Execute SQL-like command
+ * @method mixed command() command(int $commandMode, string $query, string $fetchplan = null) Execute SQL-like command
  * @method void commit() commit() Not yet implemented
  * @method array configList() configList() Return list of server config options
  * @method string configGet() configGet(string $optionName) Get value of an option
@@ -32,12 +32,12 @@
  * @method bool DBDelete() DBDelete(string $dbName) Delete DB
  * @method bool DBExists() DBExists(string $dbName) Check if DB exists
  * @method mixed query(string $query) Execute general style query, for SELECT query see select() method
- * @method int recordCreate() recordCreate(int $clusterID, string $recordContent[, string $recordType]) Create a new record
- * @method bool recordDelete() recordDelete(string $recordID[, int $recordVersion]) Delete a record
- * @method OrientDBRecord recordLoad() recordLoad(string $recordID[, string $fetchPlan]) Load a record
- * @method int recordUpdate() recordUpdate(string $recordID, string $recordContent[, int $recordVersion[, string $recordType]]) Update a record
+ * @method int recordCreate() recordCreate(int $clusterID, string $recordContent, string $recordType  = OrientDB::RECORD_TYPE_DOCUMENT) Create a new record
+ * @method bool recordDelete() recordDelete(string $recordID, int $recordVersion = -1) Delete a record
+ * @method OrientDBRecord recordLoad() recordLoad(string $recordID, string $fetchPlan = null) Load a record
+ * @method int recordUpdate() recordUpdate(string $recordID, string $recordContent, int $recordVersion = -1, string $recordType = OrientDB::RECORD_TYPE_DOCUMENT) Update a record
  * @method mixed select() select(string $query) Execute sync-style select query
- * @method mixed selectAsync() selectAsync(string $query[, string $fetchplan]) Execute async-style select query with optional fetchplan
+ * @method mixed selectAsync() selectAsync(string $query, string $fetchplan = null) Execute async-style select query with optional fetchplan
  * @method void shutdown() shutdown(string $userName, string $password) Shutdown OrientDB server remotely
  */
 class OrientDB
@@ -269,6 +269,7 @@ class OrientDB
 
     /**
      * If DBOpen() called on class instance
+     * @return bool
      */
     public function isDBOpen()
     {
@@ -351,7 +352,7 @@ class OrientDB
     }
 
     /**
-     * Check if currenr client protocol version matches server version
+     * Check if current client protocol version matches server version
      * @param int $version Server version
      * @throws OrientDBException
      */
