@@ -552,4 +552,25 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
         $this->assertTrue(isset($record->data->none));
         $this->assertFalse(isset($record->data->field));
     }
+
+    public function testRecordGetClassName()
+    {
+        $class_name = 'testclass';
+        $record = new OrientDBRecord();
+        $record->className = $class_name;
+        $this->assertEquals($class_name, $record->className);
+    }
+
+    public function testRecordGetClassNameFromContent()
+    {
+        $content = 'NewClass@name:"Value"';
+        $class_name = 'OldClass';
+        $record = new OrientDBRecord();
+        $record->className = $class_name;
+        $this->assertEquals('OldClass', $record->className);
+        $record->content = $content;
+        $this->assertNotEquals($class_name, $record->className);
+        $this->assertEquals('NewClass', $record->className);
+    }
+
 }

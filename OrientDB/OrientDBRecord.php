@@ -85,6 +85,7 @@ class OrientDBRecord
     public function __construct()
     {
         $this->data = new OrientDBData($this);
+        $this->isParsed = true;
     }
 
     /**
