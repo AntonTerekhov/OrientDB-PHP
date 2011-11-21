@@ -68,7 +68,7 @@ class OrientDBSelectAsyncTest extends OrientDBBaseTesting
     public function testSelectAsyncWithFetchPlan()
     {
         $this->db->DBOpen('demo', 'writer', 'writer');
-        $records = $this->db->selectAsync('select from city traverse( any() )', '*:-1');
+        $records = $this->db->selectAsync('select from city limit 20', '*:-1');
         $this->assertInternalType('array', $records);
         $this->assertInstanceOf('OrientDBRecord', array_pop($records));
     }
