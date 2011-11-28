@@ -573,4 +573,127 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('NewClass', $record->className);
     }
 
+    public function testRecordFullResetWithData()
+    {
+        $class_name = 'ResetTest';
+        $cluster_id = 1;
+        $record_pos = 2;
+        $version = 3;
+
+        $record = new OrientDBRecord();
+        $record->className = $class_name;
+        $record->data->Field = true;
+        $record->clusterID = $cluster_id;
+        $record->recordPos = $record_pos;
+        $record->version = $version;
+
+        $this->assertEquals($class_name, $record->className);
+        $this->assertTrue($record->data->Field);
+        $this->assertEquals($cluster_id, $record->clusterID);
+        $this->assertEquals($record_pos, $record->recordPos);
+        $this->assertEquals($cluster_id . ':' . $record_pos, $record->recordID);
+        $this->assertEquals($version, $record->version);
+
+        $record->reset();
+
+        $this->assertNull($record->className);
+        $this->assertFalse(isset($record->data->Field));
+        $this->assertNull($record->clusterID);
+        $this->assertNull($record->recordPos);
+        $this->assertNull($record->recordID);
+        $this->assertNull($record->version);
+    }
+
+    public function testRecordFullResetWithString()
+    {
+        $class_name = 'ResetTest';
+        $cluster_id = 1;
+        $record_pos = 2;
+        $version = 3;
+
+        $record = new OrientDBRecord();
+        $content = $class_name . '@Key:"Value"';
+        $record->content = $content;
+        $record->clusterID = $cluster_id;
+        $record->recordPos = $record_pos;
+        $record->version = $version;
+
+        $this->assertEquals('Value', $record->data->Key);
+        $this->assertEquals($class_name, $record->className);
+        $this->assertEquals($content, $record->content);
+
+        $record->reset();
+
+        $this->assertNull($record->className);
+        $this->assertFalse(isset($record->data->Key));
+        $this->assertNull($record->clusterID);
+        $this->assertNull($record->recordPos);
+        $this->assertNull($record->recordID);
+        $this->assertNull($record->version);
+        $this->assertNull($record->content);
+    }
+
+    public function testRecordResetDataWithData()
+    {
+        $class_name = 'ResetTest';
+        $cluster_id = 1;
+        $record_pos = 2;
+        $version = 3;
+
+        $record = new OrientDBRecord();
+        $record->className = $class_name;
+        $record->data->Field = true;
+        $record->clusterID = $cluster_id;
+        $record->recordPos = $record_pos;
+        $record->version = $version;
+
+
+        $this->assertEquals($class_name, $record->className);
+        $this->assertTrue($record->data->Field);
+        $this->assertEquals($cluster_id, $record->clusterID);
+        $this->assertEquals($record_pos, $record->recordPos);
+        $this->assertEquals($cluster_id . ':' . $record_pos, $record->recordID);
+        $this->assertEquals($version, $record->version);
+
+        $record->resetData();
+
+        $this->assertEquals($class_name, $record->className);
+        $this->assertFalse(isset($record->data->Field));
+        $this->assertEquals($cluster_id, $record->clusterID);
+        $this->assertNull($record->recordPos);
+        $this->assertNull($record->recordID);
+        $this->assertNull($record->version);
+    }
+
+    public function testRecordResetDataWithString()
+    {
+        $class_name = 'ResetTest';
+        $cluster_id = 1;
+        $record_pos = 2;
+        $version = 3;
+
+        $record = new OrientDBRecord();
+        $content = $class_name . '@Key:"Value"';
+        $record->content = $content;
+        $record->clusterID = $cluster_id;
+        $record->recordPos = $record_pos;
+        $record->version = $version;
+
+        $this->assertEquals('Value', $record->data->Key);
+        $this->assertEquals($class_name, $record->className);
+        $this->assertEquals($content, $record->content);
+        $this->assertEquals($record_pos, $record->recordPos);
+        $this->assertEquals($cluster_id . ':' . $record_pos, $record->recordID);
+        $this->assertEquals($version, $record->version);
+
+        $record->resetData();
+
+        $this->assertEquals($class_name, $record->className);
+        $this->assertFalse(isset($record->data->Key));
+        $this->assertEquals($cluster_id, $record->clusterID);
+        $this->assertNull($record->recordPos);
+        $this->assertNull($record->recordID);
+        $this->assertNull($record->version);
+        $this->assertNull($record->content);
+    }
 }

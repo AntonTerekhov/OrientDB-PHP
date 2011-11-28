@@ -142,4 +142,57 @@ class OrientDBRecordSpeedTest extends PHPUnit_Framework_TestCase
         $this->assertNotEmpty($record->data->map);
         // echo $timeEnd - $timeStart;
     }
+
+    public function testFullResetSpeed()
+    {
+        $steps = 10000;
+
+        $new_start = microtime(true);
+        for ($i = 0; $i < $steps; $i++) {
+            $record = new OrientDBRecord();
+            $record->className = 'TestClass';
+            $record->data->field1 = 'Data 1';
+            $record->data->field2 = 13121982;
+            $record->data->field3 = true;
+        }
+        $new_end = microtime(true) - $new_start;
+
+        $reset_start = microtime(true);
+        $record = new OrientDBRecord();
+        for ($i = 0; $i < $steps; $i++) {
+            $record->reset();
+            $record->className = 'TestClass';
+            $record->data->field1 = 'Data 1';
+            $record->data->field2 = 13121982;
+            $record->data->field3 = true;
+        }
+        $reset_end = microtime(true) - $reset_start;
+        $this->assertLessThanOrEqual($new_end, $reset_end, $new_end . ' !> ' . $reset_end);
+    }
+
+    public function testResetDataSpeed()
+    {
+        $steps = 10000;
+
+        $new_start = microtime(true);
+        for ($i = 0; $i < $steps; $i++) {
+            $record = new OrientDBRecord();
+            $record->className = 'TestClass';
+            $record->data->field1 = 'Data 1';
+            $record->data->field2 = 13121982;
+            $record->data->field3 = true;
+        }
+        $new_end = microtime(true) - $new_start;
+
+        $reset_start = microtime(true);
+        $record = new OrientDBRecord();
+        for ($i = 0; $i < $steps; $i++) {
+            $record->resetData();
+            $record->data->field1 = 'Data 1';
+            $record->data->field2 = 13121982;
+            $record->data->field3 = true;
+        }
+        $reset_end = microtime(true) - $reset_start;
+        $this->assertLessThanOrEqual($new_end, $reset_end, $new_end . ' !> ' . $reset_end);
+    }
 }
