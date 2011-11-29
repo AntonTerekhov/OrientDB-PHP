@@ -173,9 +173,6 @@ class OrientDBRecordEncoder
      */
     protected static function isAssoc($array)
     {
-        /**
-         * @TODO Unittests
-         */
         if (!is_array($array)) {
             return;
         }
