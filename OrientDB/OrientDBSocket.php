@@ -45,18 +45,14 @@ class OrientDBSocket
      */
     public function __construct($host, $port, $timeout = 30, $bufferLen = 16384)
     {
-        try {
-            $socket = $this->socket = @fsockopen($host, $port, $errno, $errstr, $timeout);
-        } catch (Exception $e) {
+        $this->socket = @fsockopen($host, $port, $errno, $errstr, $timeout);
+
+        if ($this->socket === false) {
             throw new OrientDBConnectException("Socket error #{$errno}: {$errstr}");
         }
 
-        if ($socket === false) {
-            throw new OrientDBConnectException("Socket error #{$errno}: {$errstr}");
-        }
-
-        stream_set_blocking($socket, 1);
-        stream_set_timeout($socket, 1);
+        stream_set_blocking($this->socket, 1);
+        stream_set_timeout($this->socket, 1);
 
         $this->bufferLen = $bufferLen;
     }
