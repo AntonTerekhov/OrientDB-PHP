@@ -22,7 +22,7 @@ class OrientDBConnectTest extends PHPUnit_Framework_TestCase
 
     public function testNewFailedConnection()
     {
-        $this->setExpectedException('Exception');
+        $this->setExpectedException('OrientDBConnectException');
         $db = new OrientDB('localhost', 2000);
     }
 

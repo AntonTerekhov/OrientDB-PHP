@@ -48,11 +48,11 @@ class OrientDBSocket
         try {
             $socket = $this->socket = @fsockopen($host, $port, $errno, $errstr, $timeout);
         } catch (Exception $e) {
-            throw new Exception("Socket error #{$errno}: {$errstr}");
+            throw new OrientDBConnectException("Socket error #{$errno}: {$errstr}");
         }
 
         if ($socket === false) {
-            throw new Exception("Socket error #{$errno}: {$errstr}");
+            throw new OrientDBConnectException("Socket error #{$errno}: {$errstr}");
         }
 
         stream_set_blocking($socket, 1);
