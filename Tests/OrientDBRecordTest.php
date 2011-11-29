@@ -426,6 +426,28 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
         $this->assertSame(0 . ':' . 0, $record->recordID);
     }
 
+    public function testSetRecordID()
+    {
+        $record = new OrientDBRecord();
+        $this->setExpectedException('PHPUnit_Framework_Error_Notice');
+        $record->recordID = '#1:1';
+    }
+
+    public function testSetUnknownProperty()
+    {
+        $record = new OrientDBRecord();
+        $this->setExpectedException('PHPUnit_Framework_Error_Notice');
+        $record->unknown = true;
+    }
+
+    public function testGetUnknownProperty()
+    {
+        $record = new OrientDBRecord();
+        $this->setExpectedException('PHPUnit_Framework_Error_Notice');
+        $var = $record->unknown;
+    }
+
+
     /**
      * @return void
      * @see http://code.google.com/p/orient/issues/detail?id=464
