@@ -9,7 +9,7 @@
  */
 
 require_once 'OrientDB/OrientDB.php';
-require_once 'OrientDBBaseTest.php';
+require_once 'OrientDB_TestCase.php';
 
 /**
  * recordCreate() test in OrientDB tests
@@ -18,7 +18,7 @@ require_once 'OrientDBBaseTest.php';
  * @package OrientDB-PHP
  * @subpackage Tests
  */
-class OrientDBRecordCreateTest extends OrientDBBaseTesting
+class OrientDBRecordCreateTest extends OrientDB_TestCase
 {
 
     protected $clusterID = 1;

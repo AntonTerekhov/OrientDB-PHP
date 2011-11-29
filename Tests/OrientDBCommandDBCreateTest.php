@@ -9,7 +9,7 @@
  */
 
 require_once 'OrientDB/OrientDB.php';
-require_once 'OrientDBBaseTest.php';
+require_once 'OrientDB_TestCase.php';
 
 /**
  * DBCreate() test in OrientDB tests
@@ -18,7 +18,7 @@ require_once 'OrientDBBaseTest.php';
  * @package OrientDB-PHP
  * @subpackage Tests
  */
-class OrientDBDBCreateTest extends OrientDBBaseTesting
+class OrientDBDBCreateTest extends OrientDB_TestCase
 {
 
     protected $dbName = 'unittest_';

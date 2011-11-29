@@ -14,7 +14,7 @@
  * @package OrientDB-PHP
  * @subpackage Tests
  */
-abstract class OrientDBBaseTesting extends PHPUnit_Framework_TestCase
+abstract class OrientDB_TestCase extends PHPUnit_Framework_TestCase
 {
 
     /**

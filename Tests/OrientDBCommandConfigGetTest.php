@@ -9,7 +9,7 @@
  */
 
 require_once 'OrientDB/OrientDB.php';
-require_once 'OrientDBBaseTest.php';
+require_once 'OrientDB_TestCase.php';
 
 /**
  * configGet() test in OrientDB tests
@@ -18,7 +18,7 @@ require_once 'OrientDBBaseTest.php';
  * @package OrientDB-PHP
  * @subpackage Tests
  */
-class OrientDBConfigGetTest extends OrientDBBaseTesting
+class OrientDBConfigGetTest extends OrientDB_TestCase
 {
 
     protected function setUp()

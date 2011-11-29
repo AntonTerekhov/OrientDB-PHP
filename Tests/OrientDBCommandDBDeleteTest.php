@@ -9,7 +9,7 @@
  */
 
 require_once 'OrientDB/OrientDB.php';
-require_once 'OrientDBBaseTest.php';
+require_once 'OrientDB_TestCase.php';
 
 /**
  * DBDelete() test in OrientDB tests
@@ -18,7 +18,7 @@ require_once 'OrientDBBaseTest.php';
  * @package OrientDB-PHP
  * @subpackage Tests
  */
-class OrientDBDBDeleteTest extends OrientDBBaseTesting
+class OrientDBDBDeleteTest extends OrientDB_TestCase
 {
 
     protected $dbName = 'unittest_';
