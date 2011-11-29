@@ -15,5 +15,5 @@
          syntaxCheck="false"
          testSuiteLoaderClass="PHPUnit_Runner_StandardTestSuiteLoader"
          strict="true"
-         verbose="false">
+         verbose="true">
 </phpunit>
