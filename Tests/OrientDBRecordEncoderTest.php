@@ -11,25 +11,49 @@
 require_once 'OrientDB/OrientDB.php';
 
 /**
- * OrientDBData() test in OrientDB tests
+ * OrientDBRecordEncoder test in OrientDB tests
  *
  * @author Anton Terekhov <anton@netmonsters.ru>
  * @package OrientDB-PHP
  * @subpackage Tests
  */
-class OrientDBDataTest extends PHPUnit_Framework_TestCase
+class OrientDBRecordEncoderTest extends PHPUnit_Framework_TestCase
 {
-    public function  testConstructWithOrientDBRecord()
+    public function  testIsAssocWithNonArray()
     {
-        $record = $this->getMock('OrientDBRecord');
-        $data = new OrientDBData($record);
-        $this->assertInstanceOf('OrientDBData', $data);
+        $method = new ReflectionMethod('OrientDBRecordEncoder', 'isAssoc');
+        $method->setAccessible(true);
+
+        $this->assertNull($method->invoke(null, null));
     }
 
-    public function  testConstructWithOther()
+    public function  testIsAssocWithSequentialArray()
     {
-        $this->setExpectedException('OrientDBException');
-        $data = new OrientDBData(true);
+        $method = new ReflectionMethod('OrientDBRecordEncoder', 'isAssoc');
+        $method->setAccessible(true);
+
+        $array = range(1, 10);
+
+        $this->assertFalse($method->invoke(null, $array));
     }
-    // @TODO: add more unittests
+
+    public function  testIsAssocWithAssocArray()
+    {
+        $method = new ReflectionMethod('OrientDBRecordEncoder', 'isAssoc');
+        $method->setAccessible(true);
+
+        $array = array(1 => 1, 'two' => 2);
+
+        $this->assertTrue($method->invoke(null, $array));
+    }
+
+    public function  testIsAssocWithPseudoAssocArray()
+    {
+        $method = new ReflectionMethod('OrientDBRecordEncoder', 'isAssoc');
+        $method->setAccessible(true);
+
+        $array = array(1 => 1, '2' => 2);
+
+        $this->assertFalse($method->invoke(null, $array));
+    }
 }
