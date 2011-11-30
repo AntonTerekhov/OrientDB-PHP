@@ -524,7 +524,7 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
 
     public function testRecordDataIsSet()
     {
-        $record =  new OrientDBRecord();
+        $record = new OrientDBRecord();
 
         $this->assertFalse(isset($record->data->field));
 
@@ -535,7 +535,7 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
 
     public function testRecordDataUnset()
     {
-        $record =  new OrientDBRecord();
+        $record = new OrientDBRecord();
         $record->content = 'field:"value"';
         $this->assertTrue(isset($record->data->field));
         unset($record->data->field);
@@ -566,7 +566,7 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
 
     public function testRecordisParsedFlag()
     {
-        $record =  new OrientDBRecord();
+        $record = new OrientDBRecord();
         $record->content = 'field:"value"';
         $this->assertTrue(isset($record->data->field));
         $this->assertFalse(isset($record->data->none));
@@ -668,7 +668,6 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
         $record->clusterID = $cluster_id;
         $record->recordPos = $record_pos;
         $record->version = $version;
-
 
         $this->assertEquals($class_name, $record->className);
         $this->assertTrue($record->data->Field);

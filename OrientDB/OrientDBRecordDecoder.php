@@ -441,8 +441,8 @@ class OrientDBRecordDecoder
                         }
                         if ($pos !== false && $pos > $this->i) {
                             // Before " symbol
-	                        $this->buffer = substr($this->content, $this->i, ($pos - $this->i));
-	                        $this->i = $pos;
+                            $this->buffer = substr($this->content, $this->i, ($pos - $this->i));
+                            $this->i = $pos;
                         }
                     }
                     $this->i++;
@@ -612,7 +612,7 @@ class OrientDBRecordDecoder
 
                 case self::STATE_LINK:
                     // Fast-forward
-                    $result =  preg_match('/\d+:\d+/', $this->content, $matches, PREG_OFFSET_CAPTURE, $this->i);
+                    $result = preg_match('/\d+:\d+/', $this->content, $matches, PREG_OFFSET_CAPTURE, $this->i);
                     // And matches from current position
                     if ($result && $matches[0][1] === $this->i) {
                         $this->buffer = $matches[0][0];
