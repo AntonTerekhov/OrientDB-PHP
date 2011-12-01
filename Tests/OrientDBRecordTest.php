@@ -580,7 +580,7 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
         $class_name = 'testclass';
         $record = new OrientDBRecord();
         $record->className = $class_name;
-        $this->assertEquals($class_name, $record->className);
+        $this->assertSame($class_name, $record->className);
     }
 
     public function testRecordGetClassNameFromContent()
@@ -589,10 +589,10 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
         $class_name = 'OldClass';
         $record = new OrientDBRecord();
         $record->className = $class_name;
-        $this->assertEquals('OldClass', $record->className);
+        $this->assertSame('OldClass', $record->className);
         $record->content = $content;
-        $this->assertNotEquals($class_name, $record->className);
-        $this->assertEquals('NewClass', $record->className);
+        $this->assertNotSame($class_name, $record->className);
+        $this->assertSame('NewClass', $record->className);
     }
 
     public function testRecordFullResetWithData()
@@ -609,12 +609,12 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
         $record->recordPos = $record_pos;
         $record->version = $version;
 
-        $this->assertEquals($class_name, $record->className);
+        $this->assertSame($class_name, $record->className);
         $this->assertTrue($record->data->Field);
-        $this->assertEquals($cluster_id, $record->clusterID);
-        $this->assertEquals($record_pos, $record->recordPos);
-        $this->assertEquals($cluster_id . ':' . $record_pos, $record->recordID);
-        $this->assertEquals($version, $record->version);
+        $this->assertSame($cluster_id, $record->clusterID);
+        $this->assertSame($record_pos, $record->recordPos);
+        $this->assertSame($cluster_id . ':' . $record_pos, $record->recordID);
+        $this->assertSame($version, $record->version);
 
         $record->reset();
 
@@ -640,9 +640,9 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
         $record->recordPos = $record_pos;
         $record->version = $version;
 
-        $this->assertEquals('Value', $record->data->Key);
-        $this->assertEquals($class_name, $record->className);
-        $this->assertEquals($content, $record->content);
+        $this->assertSame('Value', $record->data->Key);
+        $this->assertSame($class_name, $record->className);
+        $this->assertSame($content, $record->content);
 
         $record->reset();
 
@@ -669,18 +669,18 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
         $record->recordPos = $record_pos;
         $record->version = $version;
 
-        $this->assertEquals($class_name, $record->className);
+        $this->assertSame($class_name, $record->className);
         $this->assertTrue($record->data->Field);
-        $this->assertEquals($cluster_id, $record->clusterID);
-        $this->assertEquals($record_pos, $record->recordPos);
-        $this->assertEquals($cluster_id . ':' . $record_pos, $record->recordID);
-        $this->assertEquals($version, $record->version);
+        $this->assertSame($cluster_id, $record->clusterID);
+        $this->assertSame($record_pos, $record->recordPos);
+        $this->assertSame($cluster_id . ':' . $record_pos, $record->recordID);
+        $this->assertSame($version, $record->version);
 
         $record->resetData();
 
-        $this->assertEquals($class_name, $record->className);
+        $this->assertSame($class_name, $record->className);
         $this->assertFalse(isset($record->data->Field));
-        $this->assertEquals($cluster_id, $record->clusterID);
+        $this->assertSame($cluster_id, $record->clusterID);
         $this->assertNull($record->recordPos);
         $this->assertNull($record->recordID);
         $this->assertNull($record->version);
@@ -700,18 +700,18 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
         $record->recordPos = $record_pos;
         $record->version = $version;
 
-        $this->assertEquals('Value', $record->data->Key);
-        $this->assertEquals($class_name, $record->className);
-        $this->assertEquals($content, $record->content);
-        $this->assertEquals($record_pos, $record->recordPos);
-        $this->assertEquals($cluster_id . ':' . $record_pos, $record->recordID);
-        $this->assertEquals($version, $record->version);
+        $this->assertSame('Value', $record->data->Key);
+        $this->assertSame($class_name, $record->className);
+        $this->assertSame($content, $record->content);
+        $this->assertSame($record_pos, $record->recordPos);
+        $this->assertSame($cluster_id . ':' . $record_pos, $record->recordID);
+        $this->assertSame($version, $record->version);
 
         $record->resetData();
 
-        $this->assertEquals($class_name, $record->className);
+        $this->assertSame($class_name, $record->className);
         $this->assertFalse(isset($record->data->Key));
-        $this->assertEquals($cluster_id, $record->clusterID);
+        $this->assertSame($cluster_id, $record->clusterID);
         $this->assertNull($record->recordPos);
         $this->assertNull($record->recordID);
         $this->assertNull($record->version);
