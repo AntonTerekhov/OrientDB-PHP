@@ -107,12 +107,20 @@ class OrientDBRecordUpdateTest extends OrientDB_TestCase
 
     public function testRecordUpdateWithRecordPosZero()
     {
+        $cluster_name = 'recordposzero_' . rand(10, 99);
+        $content = 'value:"testrecord"';
         $recordPos = 0;
-        $this->db->DBOpen('demo', 'writer', 'writer');
-        $record = $this->db->recordLoad($this->clusterID . ':' . $recordPos, '');
-        $version = $this->db->recordUpdate($this->clusterID . ':' . $recordPos, $record->content, -1, $record->type);
-        $record2 = $this->db->recordLoad($this->clusterID . ':' . $recordPos, '');
+        $this->db->DBOpen('demo', 'admin', 'admin');
+        $cluster_id = $this->db->dataclusterAdd($cluster_name, OrientDB::DATACLUSTER_TYPE_PHYSICAL);
+        $this->assertInternalType('integer', $cluster_id);
+        $pos = $this->db->recordCreate($cluster_id, $content);
+        $this->assertSame(0, $pos);
+        $record = $this->db->recordLoad($cluster_id . ':' . $pos);
+        $version = $this->db->recordUpdate($cluster_id . ':' . $pos, $content);
+        $record2 = $this->db->recordLoad($cluster_id . ':' . $pos);
         $this->AssertSame($version, $record2->version);
+        $this->assertGreaterThan(0, $version);
+        $this->db->dataclusterRemove($cluster_id);
     }
 
     public function testRecordUpdateWithRecordNotExist()
@@ -265,7 +273,7 @@ class OrientDBRecordUpdateTest extends OrientDB_TestCase
         $this->assertNull($record->recordID);
         $this->assertNull($record->version);
 
-        $version = $this->db->recordUpdate($this->clusterID .':' . $recordPos, $record);
+        $version = $this->db->recordUpdate($this->clusterID . ':' . $recordPos, $record);
 
         $this->assertInternalType('integer', $version);
         $this->assertSame($recordPos, $record->recordPos);
@@ -276,7 +284,7 @@ class OrientDBRecordUpdateTest extends OrientDB_TestCase
 
         $record->content = $this->recordContent;
 
-        $version2 = $this->db->recordUpdate($this->clusterID .':' . $recordPos, $record);
+        $version2 = $this->db->recordUpdate($this->clusterID . ':' . $recordPos, $record);
         $this->assertSame(2, $record->version);
 
         $this->db->recordDelete($this->clusterID . ':' . $recordPos);
