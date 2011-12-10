@@ -21,11 +21,12 @@ require_once 'OrientDB_TestCase.php';
 class OrientDBDataclusterRemoveTest extends OrientDB_TestCase
 {
 
-    protected $clusterName = 'testdatacluster';
+    protected $clusterName;
 
     protected function setUp()
     {
         $this->db = new OrientDB('localhost', 2424);
+        $this->clusterName = 'testdataclusterremove_' . rand(10, 99);
     }
 
     protected function tearDown()

@@ -232,7 +232,7 @@ class OrientDBCommandTest extends OrientDB_TestCase
     {
         $className = 'Foo';
         $propertyName = 'Bar';
-        $clusterName = 'testcluster';
+        $clusterName = 'testclusterindex_' . rand(10, 99);
         $this->db->DBOpen('demo', 'admin', 'admin');
         $clusterID = $this->db->dataclusterAdd($clusterName, OrientDB::DATACLUSTER_TYPE_PHYSICAL);
 

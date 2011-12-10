@@ -21,11 +21,12 @@ require_once 'OrientDB_TestCase.php';
 class OrientDBDataclusterAddTest extends OrientDB_TestCase
 {
 
-    protected $clusterName = 'testdatacluster';
+    protected $clusterName;
 
     protected function setUp()
     {
         $this->db = new OrientDB('localhost', 2424);
+        $this->clusterName = 'testdataclusteradd_' . rand(10, 99);
     }
 
     protected function tearDown()
@@ -92,5 +93,4 @@ class OrientDBDataclusterAddTest extends OrientDB_TestCase
         $this->setExpectedException('OrientDBWrongParamsException');
         $result = $this->db->dataclusterAdd('name', 'INVALID');
     }
-
 }
