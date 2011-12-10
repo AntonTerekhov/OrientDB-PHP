@@ -122,8 +122,9 @@ class OrientDBRecordDeleteTest extends OrientDB_TestCase
         $this->db->DBOpen('demo', 'writer', 'writer');
         $recPos = $this->db->recordCreate($this->clusterID, 'name:"test"');
         $result = $this->db->recordDelete($this->clusterID . ':' . $recPos);
-        $this->setExpectedException('OrientDBException');
+        $this->assertTrue($result);
         $result = $this->db->recordDelete($this->clusterID . ':' . $recPos);
+        $this->assertFalse($result);
     }
 
     public function testRecordDeleteWithPessimisticVersion()
