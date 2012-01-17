@@ -37,6 +37,8 @@ class OrientDBCommandRecordCreate extends OrientDBCommandAbstract
      */
     protected $recordContent;
 
+    protected $mode = 0x00;
+
     public function __construct($parent)
     {
         parent::__construct($parent);
@@ -67,6 +69,7 @@ class OrientDBCommandRecordCreate extends OrientDBCommandAbstract
             }
         }
         $this->addByte($this->recordType);
+        $this->addByte(chr($this->mode));
     }
 
     /**

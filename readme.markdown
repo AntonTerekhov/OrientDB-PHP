@@ -7,7 +7,7 @@ Current status is: *Beta*.
 
 Code is licensed under New BSD License and provided "as is". For complete license information see file `LICENSE`.
 
-Current OrientDB version to work with is: `1.0rc7` (revision 4228).
+Current OrientDB version to work with is: `1.0rc8` (revision 4538).
 It can be downloaded from OrientDB's [Downloads page](http://code.google.com/p/orient/downloads/list).
 
 Code compatible to previous [binary releases](http://code.google.com/p/orient/downloads/list) of OrientDB can be found in repository's tags or in [Downloads](https://github.com/AntonTerekhov/OrientDB-PHP/archives/master) section.
@@ -653,6 +653,7 @@ The above example will output debug messages only for `recordLoad()` to standard
 * Full support on Java primitive data types, e.g. short or byte.
 * Possible more OOP-style work with OrientDBRecord.
 * Possible using [libevent](http://php.net/manual/en/book.libevent.php) for selectAsync().
+* Support for async mode for RECORD_CREATE, RECORD_UPDATE, RECORD_DELETE
 
 ## Known bugs ##
 * Connecting to OrientDB instance, which is listening 0.0.0.0 (default for OrientDB) can cause errors. Change to 127.0.0.1 in Orient's configuration. [See issue](http://code.google.com/p/orient/issues/detail?id=605)

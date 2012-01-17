@@ -49,6 +49,8 @@ class OrientDBCommandRecordUpdate extends OrientDBCommandAbstract
      */
     protected $recordContent;
 
+    protected $mode = 0x00;
+
     public function __construct($parent)
     {
         parent::__construct($parent);
@@ -98,6 +100,7 @@ class OrientDBCommandRecordUpdate extends OrientDBCommandAbstract
         }
         // Add recordType
         $this->addByte($this->recordType);
+        $this->addByte(chr($this->mode));
     }
 
     /**

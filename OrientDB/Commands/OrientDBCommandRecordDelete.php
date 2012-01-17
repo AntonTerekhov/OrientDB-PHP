@@ -43,6 +43,8 @@ class OrientDBCommandRecordDelete extends OrientDBCommandAbstract
      */
     protected $version;
 
+    protected $mode = 0x00;
+
     public function __construct($parent)
     {
         parent::__construct($parent);
@@ -77,6 +79,7 @@ class OrientDBCommandRecordDelete extends OrientDBCommandAbstract
         $this->addLong($this->recordPos);
         // Add version
         $this->addInt($this->version);
+        $this->addByte(chr($this->mode));
     }
 
     /**
