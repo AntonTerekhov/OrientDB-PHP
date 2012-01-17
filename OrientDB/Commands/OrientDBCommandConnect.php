@@ -36,6 +36,14 @@ class OrientDBCommandConnect extends OrientDBCommandAbstract
         if (count($this->attribs) != 2) {
             throw new OrientDBWrongParamsException('This command requires login and password');
         }
+        // Add Driver name
+        $this->addString(OrientDB::DRIVER_NAME);
+        // Add Driver version
+        $this->addString(OrientDB::DRIVER_VERSION);
+        // Add protocol version
+        $this->addShort($this->parent->getProtocolVersionClient());
+        // Add client ID
+        $this->addString('');
         // Add login
         $this->addString($this->attribs[0]);
         // Add password

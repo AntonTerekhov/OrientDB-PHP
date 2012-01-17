@@ -71,7 +71,7 @@ class OrientDB
      * Client protocol version
      * @var int
      */
-    public $clientVersion = 6;
+    public $clientVersion = 7;
 
     /**
      * Server's protocol version.
@@ -108,6 +108,11 @@ class OrientDB
      * @var int
      */
     private $sessionIDDB;
+
+
+    const DRIVER_NAME = 'OrientDB-PHP';
+
+    const DRIVER_VERSION = 'beta-0.4.4';
 
     /**
      * Record type Bytes
@@ -362,6 +367,15 @@ class OrientDB
         if ($this->protocolVersion != $this->clientVersion) {
             throw new OrientDBException('Binary protocol is uncompatible with the Server connected: clientVersion=' . $this->clientVersion . ', serverVersion=' . $this->protocolVersion);
         }
+    }
+
+    /**
+     * Return this driver supported protocol version
+     * @return int
+     */
+    public function getProtocolVersionClient()
+    {
+        return $this->clientVersion;
     }
 
     /**

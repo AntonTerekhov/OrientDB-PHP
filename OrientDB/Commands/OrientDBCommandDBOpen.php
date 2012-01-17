@@ -36,6 +36,14 @@ class OrientDBCommandDBOpen extends OrientDBCommandAbstract
         if (count($this->attribs) != 3) {
             throw new OrientDBWrongParamsException('This command requires DB name, login and password');
         }
+        // Add Driver name
+        $this->addString(OrientDB::DRIVER_NAME);
+        // Add Driver version
+        $this->addString(OrientDB::DRIVER_VERSION);
+        // Add protocol version
+        $this->addShort($this->parent->getProtocolVersionClient());
+        // Add client ID
+        $this->addString('');
         // Add DB name
         $this->addString($this->attribs[0]);
         // Add login
@@ -55,7 +63,7 @@ class OrientDBCommandDBOpen extends OrientDBCommandAbstract
         $this->sessionID = $this->readInt();
 
         $this->debugCommand('clusters');
-        $numClusters = $this->readInt();
+        $numClusters = $this->readShort();
 
         $clusters = array();
         for ($i = 0; $i < $numClusters; $i++) {
@@ -63,7 +71,7 @@ class OrientDBCommandDBOpen extends OrientDBCommandAbstract
             $this->debugCommand('cluster_name');
             $cluster->name = $this->readString();
             $this->debugCommand('clusterID');
-            $cluster->id = $this->readInt();
+            $cluster->id = $this->readShort();
             $this->debugCommand('cluster_type');
             $cluster->type = $this->readString();
         }
