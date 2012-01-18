@@ -230,7 +230,7 @@ class OrientDBCommandTest extends OrientDB_TestCase
      */
     public function testCommandCreateIndex()
     {
-        $className = 'Foo';
+        $className = 'Foo_' . rand(1000, 9999);
         $propertyName = 'Bar';
         $clusterName = 'testclusterindex_' . rand(10, 99);
         $this->db->DBOpen('demo', 'admin', 'admin');
@@ -243,7 +243,7 @@ class OrientDBCommandTest extends OrientDB_TestCase
         $indexResult = $this->db->command(OrientDB::COMMAND_QUERY, 'CREATE INDEX ' . $className . '.' . $propertyName . ' UNIQUE');
         $this->assertSame('0l', $indexResult); //seems to be 0 Long
         $dropResult = $this->db->command(OrientDB::COMMAND_QUERY, 'DROP CLASS ' . $className);
-        $this->assertNull($dropResult);
+        $this->assertSame('true', $dropResult);
 
         $this->db->dataclusterRemove($clusterID);
     }
