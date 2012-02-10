@@ -23,6 +23,8 @@ class OrientDBRecordLoadTest extends OrientDB_TestCase
 
     protected $clusterID = 1;
 
+    protected $addressClusterID = 16;
+
     protected $recordContent = 'testrecord:0';
 
     protected function setUp()
@@ -133,7 +135,7 @@ class OrientDBRecordLoadTest extends OrientDB_TestCase
     {
         $this->db->DBOpen('demo', 'writer', 'writer');
         // Load record Address:100
-        $record = $this->db->recordLoad(13 . ':' . 100, '*:-1');
+        $record = $this->db->recordLoad($this->addressClusterID . ':' . 100, '*:-1');
         $this->assertInstanceOf('OrientDBRecord', $record);
     }
 
@@ -142,10 +144,10 @@ class OrientDBRecordLoadTest extends OrientDB_TestCase
         $this->db->DBOpen('demo', 'writer', 'writer');
         // Load record Address:1
         $this->assertEmpty($this->db->cachedRecords);
-        $record = $this->db->recordLoad(13 . ':' . 100, '*:1');
+        $record = $this->db->recordLoad($this->addressClusterID . ':' . 100, '*:1');
         $this->assertInstanceOf('OrientDBRecord', $record);
         $this->AssertSame(1, count($this->db->cachedRecords));
-        $record = $this->db->recordLoad(13 . ':' . 100, '*:0');
+        $record = $this->db->recordLoad($this->addressClusterID . ':' . 100, '*:0');
         $this->assertEmpty($this->db->cachedRecords);
     }
 
@@ -154,10 +156,10 @@ class OrientDBRecordLoadTest extends OrientDB_TestCase
         $this->db->DBOpen('demo', 'writer', 'writer');
         // Load record Address:1
         $this->assertEmpty($this->db->cachedRecords);
-        $record = $this->db->recordLoad(13 . ':' . 100, '*:2');
+        $record = $this->db->recordLoad($this->addressClusterID . ':' . 100, '*:2');
         $this->assertInstanceOf('OrientDBRecord', $record);
         $this->AssertSame(2, count($this->db->cachedRecords));
-        $record = $this->db->recordLoad(13 . ':' . 100, '*:0');
+        $record = $this->db->recordLoad($this->addressClusterID . ':' . 100, '*:0');
         $this->assertEmpty($this->db->cachedRecords);
     }
 
