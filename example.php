@@ -44,90 +44,64 @@ echo 'Creating DB...' . PHP_EOL;
 
 try {
     $result = $db->DBCreate($dbName, OrientDB::DB_TYPE_LOCAL);
-}
-catch (OrientDBException $e) {
-    echo $e->getMessage() . PHP_EOL;
-}
 
-echo 'Opening DB...' . PHP_EOL;
-try {
+    echo 'Opening DB...' . PHP_EOL;
     $clusters = $db->DBOpen($dbName, 'writer', 'writer');
     foreach ($clusters['clusters'] as $cluster) {
         if ($cluster->name === $clusterName) {
             $clusterID = $cluster->id;
         }
     }
-}
-catch (OrientDBException $e) {
-    echo $e->getMessage() . PHP_EOL;
-}
 
-echo 'Create record...' . PHP_EOL;
-$record = new OrientDBRecord();
-$record->data->FirstName = 'Bruce';
-$record->data->LastName = 'Wayne';
-$record->data->appearance = 1938;
-try {
+    echo 'Create record...' . PHP_EOL;
+    $record = new OrientDBRecord();
+    $record->data->FirstName = 'Bruce';
+    $record->data->LastName = 'Wayne';
+    $record->data->appearance = 1938;
+
     $recordPos = $db->recordCreate($clusterID, $record);
-}
-catch (OrientDBException $e) {
-    echo $e->getMessage() . PHP_EOL;
-}
-echo 'Created record position: ' . $recordPos . PHP_EOL . PHP_EOL;
 
-echo 'Load record...' . PHP_EOL;
-try {
+    echo 'Created record position: ' . $recordPos . PHP_EOL . PHP_EOL;
+
+    echo 'Load record...' . PHP_EOL;
+
     $recordLoaded = $db->recordLoad($clusterID . ':' . $recordPos);
-}
-catch (OrientDBException $e) {
-    echo $e->getMessage() . PHP_EOL;
-}
-echo 'Load record result: ' . $recordLoaded . PHP_EOL . PHP_EOL;
+    echo 'Load record result: ' . $recordLoaded . PHP_EOL . PHP_EOL;
 
-printf('%1$s %2$s first appears in %3$d' . PHP_EOL . PHP_EOL, $recordLoaded->data->FirstName, $recordLoaded->data->LastName, $recordLoaded->data->appearance);
+    printf('%1$s %2$s first appears in %3$d' . PHP_EOL . PHP_EOL, $recordLoaded->data->FirstName, $recordLoaded->data->LastName, $recordLoaded->data->appearance);
 
-echo 'Update record...' . PHP_EOL;
-try {
+    echo 'Update record...' . PHP_EOL;
+
     $recordLoaded->data->appearance = 1939;
     $version = $db->recordUpdate($recordLoaded->recordID, $recordLoaded);
-}
-catch (OrientDBException $e) {
-    echo $e->getMessage() . PHP_EOL;
-}
-echo 'Updated record version: ' . $version . PHP_EOL . PHP_EOL;
 
-printf('No, %1$s %2$s first appears in %3$d!' . PHP_EOL . PHP_EOL, $recordLoaded->data->FirstName, $recordLoaded->data->LastName, $recordLoaded->data->appearance);
+    echo 'Updated record version: ' . $version . PHP_EOL . PHP_EOL;
 
-echo 'Delete record with old version (' . $recordLoaded->version . ') ...' . PHP_EOL;
-try {
+    printf('No, %1$s %2$s first appears in %3$d!' . PHP_EOL . PHP_EOL, $recordLoaded->data->FirstName, $recordLoaded->data->LastName, $recordLoaded->data->appearance);
+
+    echo 'Delete record with old version (' . $recordLoaded->version . ') ...' . PHP_EOL;
+
     $result = $db->recordDelete($recordLoaded->recordID, $recordLoaded->version);
-}
-catch (OrientDBException $e) {
-    echo $e->getMessage() . PHP_EOL;
-}
 
-echo 'Delete record with correct version (' . $version . ') ...' . PHP_EOL;
-try {
+    echo 'Delete record with correct version (' . $version . ') ...' . PHP_EOL;
+
     $result = $db->recordDelete($recordLoaded->recordID, $version);
-}
-catch (OrientDBException $e) {
-    echo $e->getMessage() . PHP_EOL;
-}
-echo 'Delete record result: ' . var_export($result, true) . PHP_EOL . PHP_EOL;
+    echo 'Delete record result: ' . var_export($result, true) . PHP_EOL . PHP_EOL;
 
-echo 'Retry load record...' . PHP_EOL;
-try {
+    echo 'Retry load record...' . PHP_EOL;
+
     $recordLoaded2 = $db->recordLoad($recordLoaded->recordID);
+    echo 'Load record result: ' . var_export($recordLoaded2, true) . PHP_EOL . PHP_EOL;
 }
 catch (OrientDBException $e) {
     echo $e->getMessage() . PHP_EOL;
 }
-echo 'Load record result: ' . var_export($recordLoaded2, true) . PHP_EOL . PHP_EOL;
+
 
 echo 'Deleting DB...' . PHP_EOL;
 try {
     $db->DBDelete($dbName);
 }
 catch (OrientDBException $e) {
-    die('Failed to DBDelete(): ' . $e->getMessage());
+    die('Failed to DBDelete(): ' . $e->getMessage() . PHP_EOL);
 }
