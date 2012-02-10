@@ -237,6 +237,11 @@ class OrientDBRecordDecoder
     const CCODE_NUM_FLOAT = 0x66;
 
     /**
+     * c
+     */
+    const CCODE_NUM_DECIMAL = 0x63;
+
+    /**
      * d
      */
     const CCODE_NUM_DOUBLE = 0x64;
@@ -649,7 +654,7 @@ class OrientDBRecordDecoder
                         if ($cCode === self::CCODE_NUM_BYTE || $cCode === self::CCODE_NUM_SHORT) {
                             $tokenValue = (int) $this->buffer;
                             $this->i++;
-                        } elseif ($cCode === self::CCODE_NUM_LONG || $cCode === self::CCODE_NUM_FLOAT || $cCode === self::CCODE_NUM_DOUBLE) {
+                        } elseif ($cCode === self::CCODE_NUM_LONG || $cCode === self::CCODE_NUM_FLOAT || $cCode === self::CCODE_NUM_DOUBLE || $cCode === self::CCODE_NUM_DECIMAL) {
                             $tokenValue = (float) $this->buffer;
                             $this->i++;
                         } elseif ($cCode === self::CCODE_DATE) {

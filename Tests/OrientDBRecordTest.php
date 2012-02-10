@@ -259,7 +259,7 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
     public function testParseRecordContentNumberFormats()
     {
         $record = new OrientDBRecord();
-        $record->content = 'integer:123,byte:112b,short:30s,long:2147483648l,float:999.999f,double:456.7654d';
+        $record->content = 'integer:123,byte:112b,short:30s,long:2147483648l,float:999.999f,double:456.7654d,decimal:12.34c';
 
         $this->assertSame(123, $record->data->integer);
         $this->assertSame(112, $record->data->byte);
@@ -272,7 +272,7 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
     public function testParseRecordContentNumberFormatsNegative()
     {
         $record = new OrientDBRecord();
-        $record->content = 'integer:-123,byte:-112b,short:-30s,long:-2147483648l,float:-999.999f,double:-456.7654d';
+        $record->content = 'integer:-123,byte:-112b,short:-30s,long:-2147483648l,float:-999.999f,double:-456.7654d,decimal:12.34c';
 
         $this->assertSame(-123, $record->data->integer);
         $this->assertSame(-112, $record->data->byte);
