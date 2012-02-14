@@ -3,7 +3,7 @@ A *plain* PHP driver to [OrientDB graph database](http://code.google.com/p/orien
 
 ## Description ##
 
-Current status is: *Beta*.
+Current status is: *Beta*. (Meaning specs can be changed. However, it's surely usable right now)
 
 Code is licensed under New BSD License and provided "as is". For complete license information see file `LICENSE`.
 
@@ -655,6 +655,7 @@ The above example will output debug messages only for `recordLoad()` to standard
 * Possible using [libevent](http://php.net/manual/en/book.libevent.php) for selectAsync().
 * Support for async mode for RECORD_CREATE, RECORD_UPDATE, RECORD_DELETE
 * Support for converting string `'true'` to actual boolean `true` (and other values) in SQL
+* Use aliases for query serialization ('q' and 'c') instead of long class names
 
 ## Known bugs ##
 * Connecting to OrientDB instance, which is listening 0.0.0.0 (default for OrientDB) can cause errors. Change to 127.0.0.1 in Orient's configuration. [See issue](http://code.google.com/p/orient/issues/detail?id=605)
