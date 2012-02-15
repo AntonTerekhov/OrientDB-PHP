@@ -46,6 +46,8 @@ class OrientDBCommandDBOpen extends OrientDBCommandAbstract
         $this->addString('');
         // Add DB name
         $this->addString($this->attribs[0]);
+        // Add DB type. Since rc9. Right now only document is supported
+        $this->addString('document');
         // Add login
         $this->addString($this->attribs[1]);
         // Add password

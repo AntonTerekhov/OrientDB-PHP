@@ -32,7 +32,9 @@ class OrientDBCommandDBCreate extends OrientDBCommandAbstract
         }
         // Add DB name
         $this->addString($this->attribs[0]);
-        // Add DB type
+        // Add DB type. Since rc9. Right now only document is supported
+        $this->addString('document');
+        // Add DB storage type
         $db_types = array(
             OrientDB::DB_TYPE_MEMORY,
             OrientDB::DB_TYPE_LOCAL);

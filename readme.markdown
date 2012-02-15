@@ -7,7 +7,7 @@ Current status is: *Beta*. (Meaning specs can be changed. However, it's surely u
 
 Code is licensed under New BSD License and provided "as is". For complete license information see file `LICENSE`.
 
-Current OrientDB version to work with is: `1.0rc8` (revision 4780).
+Current OrientDB version to work with is: `1.0rc9-snapshot` (revision 4838).
 It can be downloaded from OrientDB's [Downloads page](http://code.google.com/p/orient/downloads/list).
 
 Code compatible to previous [binary releases](http://code.google.com/p/orient/downloads/list) of OrientDB can be found in repository's tags or in [Downloads](https://github.com/AntonTerekhov/OrientDB-PHP/archives/master) section.
@@ -659,6 +659,7 @@ The above example will output debug messages only for `recordLoad()` to standard
 
 ## Known bugs ##
 * Connecting to OrientDB instance, which is listening 0.0.0.0 (default for OrientDB) can cause errors. Change to 127.0.0.1 in Orient's configuration. [See issue](http://code.google.com/p/orient/issues/detail?id=605)
+* Only database with type 'document' is supported right now.
 
 ## If you found a bug ##
 If you found a bug - feel free to contact me via gitHub, email, or open a new issue.
