@@ -125,7 +125,7 @@ Checks if database with name provided is exists. Return `true` on success, `fals
 #### DBList ####
 Returns list of databases on server as array, where key is database name and value is string with schema and full disk path to database files on server.
 
-    bool $db->DBList();
+    array $db->DBList();
 
 *Example:*
 
