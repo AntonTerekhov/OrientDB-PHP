@@ -53,14 +53,16 @@ class OrientDBCommandDataclusterAdd extends OrientDBCommandAbstract
         $this->addString($this->clusterType);
         // Add clusterName
         $this->addString($this->clusterName);
-        // @TODO find out why we need to send name one more time and why this strange int. Captured by Wireshark
         switch ($this->clusterType) {
             case OrientDB::DATACLUSTER_TYPE_LOGICAL:
+                // This int is physical-cluster-container-id
                 $this->addInt(0);
             break;
             case OrientDB::DATACLUSTER_TYPE_PHYSICAL:
+                // This is file-name where datacluster would be stored
                 $this->addString($this->clusterName);
-                $this->addInt(0); // @FIXME On wireshark FF FF FF FF captured here, is it a -0 ?
+                // This is size in bytes
+                $this->addInt(-1);
             break;
         }
     }
