@@ -68,6 +68,8 @@ class OrientDBCommandRecordLoad extends OrientDBCommandAbstract
             $this->fetchPlan = $this->attribs[1];
         }
         $this->addString($this->fetchPlan);
+        // Cache ignore - use cache
+        $this->addByte(0);
     }
 
     /**
