@@ -32,12 +32,20 @@ catch (OrientDBException $e) {
     die('Failed to connect(): ' . $e->getMessage());
 }
 
-echo 'Deleting DB (in case of previous run failed)...' . PHP_EOL;
 try {
-    $db->DBDelete($dbName);
+    $exists = $db->DBExists($dbName);
 }
 catch (OrientDBException $e) {
-    die('Failed to DBDelete(): ' . $e->getMessage());
+    die('Failed to execute DBExists(): ' . $e->getMessage());
+}
+if ($exists) {
+    echo 'Deleting DB (in case of previous run failed)...' . PHP_EOL;
+    try {
+        $db->DBDelete($dbName);
+    }
+    catch (OrientDBException $e) {
+        die('Failed to DBDelete(): ' . $e->getMessage());
+    }
 }
 
 echo 'Creating DB...' . PHP_EOL;
