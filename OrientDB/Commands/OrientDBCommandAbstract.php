@@ -68,6 +68,10 @@ abstract class OrientDBCommandAbstract
 
     const CONFIG_LIST = 72;
 
+    // const DB_RELOAD = 73;
+
+    const DB_LIST = 74;
+
     const STATUS_SUCCESS = 0x00;
 
     const STATUS_ERROR = 0x01;

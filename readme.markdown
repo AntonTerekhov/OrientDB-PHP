@@ -122,6 +122,25 @@ Checks if database with name provided is exists. Return `true` on success, `fals
 
     $isExists = $db->DBExists('demo');
 
+#### DBList ####
+Returns list of databases on server as array, where key is database name and value is string with schema and full disk path to database files on server.
+
+    bool $db->DBList();
+
+*Example:*
+
+    $list = $db->DBExists('demo');
+    var_dump($list);
+
+Can produce something like:
+
+    array(3) {
+      ["demo"]=>
+      string(76) "local:/home/orientdb/databases/demo"
+      ["temp"]=>
+      string(11) "memory:temp"
+    }
+
 ### Record manipulation functions ###
 
 #### recordCreate ####

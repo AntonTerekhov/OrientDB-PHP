@@ -31,6 +31,7 @@
  * @method bool DBCreate() DBCreate(string $dbName, string $dbType) Create new database
  * @method bool DBDelete() DBDelete(string $dbName) Delete DB
  * @method bool DBExists() DBExists(string $dbName) Check if DB exists
+ * @method bool DBList() DBList() Return DB list
  * @method mixed query(string $query) Execute general style query, for SELECT query see select() method
  * @method int recordCreate() recordCreate(int $clusterID, string $recordContent, string $recordType  = OrientDB::RECORD_TYPE_DOCUMENT) Create a new record
  * @method bool recordDelete() recordDelete(string $recordID, int $recordVersion = -1) Delete a record
@@ -215,7 +216,8 @@ class OrientDB
         OrientDBCommandAbstract::DB_EXIST,
         OrientDBCommandAbstract::CONFIG_GET,
         OrientDBCommandAbstract::CONFIG_SET,
-        OrientDBCommandAbstract::CONFIG_LIST);
+        OrientDBCommandAbstract::CONFIG_LIST,
+        OrientDBCommandAbstract::DB_LIST);
 
     /**
      * List of commands, requires to be DBOpen()ed first
