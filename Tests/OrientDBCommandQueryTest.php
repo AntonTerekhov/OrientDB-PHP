@@ -55,7 +55,7 @@ class OrientDBQueryTest extends OrientDB_TestCase
         $this->db->DBOpen('demo', 'writer', 'writer');
         $links = $this->db->query('find references 14:1');
         $this->assertInternalType('array', $links);
-        $this->assertInstanceOf('OrientDBTypeLink', array_pop($links));
+        $this->assertInstanceOf('OrientDBRecord', array_pop($links));
     }
 
     public function testQueryWithModeQueryAndFetchPlan()

@@ -222,7 +222,7 @@ class OrientDBCommandTest extends OrientDB_TestCase
         $this->db->DBOpen('demo', 'writer', 'writer');
         $links = $this->db->command(OrientDB::COMMAND_QUERY, 'find references 14:1');
         $this->assertInternalType('array', $links);
-        $this->assertInstanceOf('OrientDBTypeLink', array_pop($links));
+        $this->assertInstanceOf('OrientDBRecord', array_pop($links));
     }
 
     /**

@@ -656,6 +656,7 @@ The above example will output debug messages only for `recordLoad()` to standard
 * Support for async mode for RECORD_CREATE, RECORD_UPDATE, RECORD_DELETE
 * Support for converting string `'true'` to actual boolean `true` (and other values) in SQL
 * Use aliases for query serialization ('q' and 'c') instead of long class names
+* Parse [special Linkset](http://code.google.com/p/orient/wiki/NetworkBinaryProtocol#Special_use_of_LINKSET_types)
 
 ## Known bugs ##
 * Connecting to OrientDB instance, which is listening 0.0.0.0 (default for OrientDB) can cause errors. Change to 127.0.0.1 in Orient's configuration. [See issue](http://code.google.com/p/orient/issues/detail?id=605)
