@@ -176,7 +176,7 @@ class OrientDBRecordLoadTest extends OrientDB_TestCase
         $record = $this->db->recordLoad($cityClusterID . ':' . 1, 'country:1');
         $this->assertInstanceOf('OrientDBRecord', $record);
         $this->AssertSame(1, count($this->db->cachedRecords));
-        $record = $this->db->recordLoad($cityClusterID . ':' . 1, 'country:0');
+        $record = $this->db->recordLoad($cityClusterID . ':' . 1, '*:0');
         $this->assertEmpty($this->db->cachedRecords);
     }
 
