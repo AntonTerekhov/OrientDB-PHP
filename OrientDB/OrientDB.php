@@ -235,11 +235,6 @@ class OrientDB
         OrientDBCommandAbstract::RECORD_DELETE,
         OrientDBCommandAbstract::COUNT,
         OrientDBCommandAbstract::COMMAND,
-        OrientDBCommandAbstract::INDEX_LOOKUP,
-        OrientDBCommandAbstract::INDEX_PUT,
-        OrientDBCommandAbstract::INDEX_REMOVE,
-        OrientDBCommandAbstract::INDEX_SIZE,
-        OrientDBCommandAbstract::INDEX_KEYS,
         OrientDBCommandAbstract::TX_COMMIT);
 
     /**

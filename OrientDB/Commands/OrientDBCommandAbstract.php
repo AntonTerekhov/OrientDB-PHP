@@ -60,18 +60,6 @@ abstract class OrientDBCommandAbstract
 
     const COMMAND = 41;
 
-    const INDEX_LOOKUP = 50;
-
-    const INDEX_PUT = 51;
-
-    const INDEX_REMOVE = 52;
-
-    const INDEX_SIZE = 53;
-
-    const INDEX_KEYS = 54;
-
-    // const INDEX_QUERY = 55;
-
     const TX_COMMIT = 60;
 
     const CONFIG_GET = 70;
