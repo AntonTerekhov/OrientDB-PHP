@@ -32,7 +32,7 @@ catch (OrientDBException $e) {
     die('Failed to connect(): ' . $e->getMessage());
 }
 
-echo 'Deleting DB (in case of previous example)...' . PHP_EOL;
+echo 'Deleting DB (in case of previous run failed)...' . PHP_EOL;
 try {
     $db->DBDelete($dbName);
 }
