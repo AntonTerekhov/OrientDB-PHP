@@ -85,7 +85,9 @@ try {
 
     echo 'Updated record version: ' . $version . PHP_EOL . PHP_EOL;
 
-    printf('No, %1$s %2$s first appears in %3$d!' . PHP_EOL . PHP_EOL, $recordLoaded->data->FirstName, $recordLoaded->data->LastName, $recordLoaded->data->appearance);
+	$recordReLoaded = $db->recordLoad($clusterID . ':' . $recordPos);
+
+    printf('No, %1$s %2$s first appears in %3$d!' . PHP_EOL . PHP_EOL, $recordReLoaded->data->FirstName, $recordReLoaded->data->LastName, $recordReLoaded->data->appearance);
 
     echo 'Delete record with old version (' . $recordLoaded->version . ') ...' . PHP_EOL;
 
