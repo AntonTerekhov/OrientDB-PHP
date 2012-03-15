@@ -97,10 +97,9 @@ class OrientDBDBDeleteTest extends OrientDB_TestCase
 
     public function testDBDeleteWithNonExistDB()
     {
-        $this->sequenceInc();
         $this->db->connect('root', $this->root_password);
+        $this->setExpectedException('OrientDBException', 'com.orientechnologies.orient.core.exception.OStorageException: Database with name \'INVALID\' doesn\'t exits.');
         $result = $this->db->DBDelete('INVALID');
-        $this->assertTrue($result);
     }
 
     public function testDBDeleteWithWrongOptionCount()

@@ -33,7 +33,11 @@ class OrientDBDBCreateTest extends OrientDB_TestCase
     protected function tearDown()
     {
         if ($this->db->isConnected()) {
-            $result = $this->db->DBDelete($this->getDBName());
+            try {
+                $result = $this->db->DBDelete($this->getDBName());
+            } catch (OrientDBException $e) {
+
+            }
         }
         $this->db = null;
     }
@@ -127,7 +131,6 @@ class OrientDBDBCreateTest extends OrientDB_TestCase
     {
         $this->sequenceInc();
         $this->db->connect('root', $this->root_password);
-        $this->db->DBDelete($this->getDBName());
         $result = $this->db->DBCreate($this->getDBName(), OrientDB::DB_TYPE_LOCAL);
         $this->assertTrue($result);
         try {
@@ -148,7 +151,6 @@ class OrientDBDBCreateTest extends OrientDB_TestCase
     {
         $this->sequenceInc();
         $this->db->connect('root', $this->root_password);
-        $this->db->DBDelete($this->getDBName());
         $result = $this->db->DBCreate($this->getDBName(), OrientDB::DB_TYPE_MEMORY);
         $this->assertTrue($result);
         try {
