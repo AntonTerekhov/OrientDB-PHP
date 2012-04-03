@@ -54,7 +54,7 @@ Some functions requires to be already connected to OrientDB server (using `conne
 
 ### Create a new instance of OrientDB class ###
 
-    $db = new OrientDB(string $host, int $port[, int $connectTimeout]);
+    $db = new OrientDB(string $host[, int $port[, int $connectTimeout]]);
 
 *Example:*
 
