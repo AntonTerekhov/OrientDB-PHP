@@ -249,10 +249,13 @@ class OrientDBData implements Countable, Iterator
         }
     }
 
-    public function __get($name)
+    public function &__get($name)
     {
         $this->isParsed();
-        return $this->data[$name];
+        if (array_key_exists($name, $this->data)) {
+            return $this->data[$name];
+        }
+        trigger_error('Undefined index: ' . $name, E_USER_NOTICE);
     }
 
     public function __set($name, $value)

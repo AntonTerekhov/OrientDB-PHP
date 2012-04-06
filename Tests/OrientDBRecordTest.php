@@ -518,8 +518,8 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
     {
         $record = new OrientDBRecord();
 
-        $this->setExpectedException('PHPUnit_Framework_Error_Notice');
-        echo $record->data->noSuchKey;
+        $this->setExpectedException('PHPUnit_Framework_Error_Notice', 'Undefined index: noSuchKey');
+        $value = $record->data->noSuchKey;
     }
 
     public function testRecordDataIsSet()
