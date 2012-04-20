@@ -257,7 +257,9 @@ class OrientDB
      */
     public function __destruct()
     {
-        unset($this->socket);
+        if ($this->isDBOpen()) {
+            $this->DBClose();
+        }
     }
 
     /**
