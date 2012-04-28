@@ -37,6 +37,10 @@ class OrientDBCommandRecordCreate extends OrientDBCommandAbstract
      */
     protected $recordContent;
 
+    /**
+     * Mode. 0 = synchronous (default mode waits for the answer) 1 = asynchronous (don't need an answer)
+     * @var int
+     */
     protected $mode = 0x00;
 
     public function __construct($parent)
@@ -69,6 +73,7 @@ class OrientDBCommandRecordCreate extends OrientDBCommandAbstract
             }
         }
         $this->addByte($this->recordType);
+        // Synchronous mode
         $this->addByte(chr($this->mode));
     }
 

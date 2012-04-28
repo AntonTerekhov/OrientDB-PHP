@@ -43,6 +43,10 @@ class OrientDBCommandRecordDelete extends OrientDBCommandAbstract
      */
     protected $version;
 
+    /**
+     * Mode. 0 = synchronous (default mode waits for the answer) 1 = asynchronous (don't need an answer)
+     * @var int
+     */
     protected $mode = 0x00;
 
     public function __construct($parent)
@@ -79,6 +83,7 @@ class OrientDBCommandRecordDelete extends OrientDBCommandAbstract
         $this->addLong($this->recordPos);
         // Add version
         $this->addInt($this->version);
+        // Synchronous mode
         $this->addByte(chr($this->mode));
     }
 
