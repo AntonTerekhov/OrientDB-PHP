@@ -115,7 +115,7 @@ class OrientDB
 
     const DRIVER_NAME = 'OrientDB-PHP';
 
-    const DRIVER_VERSION = 'beta-0.4.5';
+    const DRIVER_VERSION = 'beta-0.4.6';
 
     /**
      * Record type Bytes
