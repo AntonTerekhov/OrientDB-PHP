@@ -43,6 +43,11 @@ class OrientDBCommandRecordCreate extends OrientDBCommandAbstract
      */
     protected $mode = 0x00;
 
+    /**
+     * @var int
+     */
+    protected $datasegmentID = 0;
+
     public function __construct($parent)
     {
         parent::__construct($parent);
@@ -55,6 +60,8 @@ class OrientDBCommandRecordCreate extends OrientDBCommandAbstract
         if (count($this->attribs) > 3 || count($this->attribs) < 2) {
             throw new OrientDBWrongParamsException('This command requires cluster ID, record content and, optionally, record Type');
         }
+        // Add datasegment ID
+        $this->addInt($this->datasegmentID);
         // Process clusterID
         $this->clusterID = (int) $this->attribs[0];
         // Add ClusterID
