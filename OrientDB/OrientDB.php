@@ -19,24 +19,24 @@
  * @method void commit() commit() Not yet implemented
  * @method array configList() configList() Return list of server config options
  * @method string configGet() configGet(string $optionName) Get value of an option
- * @method bool configSet() configSet(string $optionName, string $optionValue) Set value for config option
- * @method bool connect() connect(string $userName, string $password) Connect to OrientDB server
+ * @method boolean configSet() configSet(string $optionName, string $optionValue) Set value for config option
+ * @method boolean connect() connect(string $userName, string $password) Connect to OrientDB server
  * @method int count() count(string $clusterName)  Count elements in cluster
  * @method int dataclusterAdd() dataclusterAdd(string $clusterName, string $clusterType) Add a datacluster to DB
- * @method bool dataclusterRemove() dataclusterRemove(int $clusterID) Remove datacluster from DB
+ * @method boolean dataclusterRemove() dataclusterRemove(int $clusterID) Remove datacluster from DB
  * @method int dataclusterCount() dataclusterCount(array $clusterIDs) Count elements in clusters
  * @method array dataclusterDatarange() dataclusterDatarange(int $clusterID) Return datarange for datacluster
- * @method int datasegmentAdd() datasegmentAdd(string $name, string $location) Not yet implemented. Create new datasegmant
- * @method boolean datasegmentDelete() datasegmentDelete(string $name) Not yet implemented. Drop datasegmant by name.
+ * @method int datasegmentAdd() datasegmentAdd(string $name, string $location) Not yet implemented. Create new datasegment
+ * @method boolean datasegmentDelete() datasegmentDelete(string $name) Not yet implemented. Drop datasegment by name.
  * @method array DBOpen() DBOpen(string $dbName, string $userName, string $password) Open OrientDB database
  * @method void DBClose() DBClose() Closes currently opened DB
- * @method bool DBCreate() DBCreate(string $dbName, string $dbType) Create new database
- * @method bool DBDelete() DBDelete(string $dbName) Delete DB
- * @method bool DBExists() DBExists(string $dbName) Check if DB exists
- * @method bool DBList() DBList() Return DB list
+ * @method boolean DBCreate() DBCreate(string $dbName, string $dbType) Create new database
+ * @method boolean DBDelete() DBDelete(string $dbName) Delete DB
+ * @method boolean DBExists() DBExists(string $dbName) Check if DB exists
+ * @method array DBList() DBList() Return DB list
  * @method mixed query(string $query) Execute general style query, for SELECT query see select() method
- * @method int recordCreate() recordCreate(int $clusterID, string $recordContent, string $recordType  = OrientDB::RECORD_TYPE_DOCUMENT) Create a new record
- * @method bool recordDelete() recordDelete(string $recordID, int $recordVersion = -1) Delete a record
+ * @method int recordCreate() recordCreate(int $clusterID, string $recordContent, string $recordType = OrientDB::RECORD_TYPE_DOCUMENT) Create a new record
+ * @method boolean recordDelete() recordDelete(string $recordID, int $recordVersion = -1) Delete a record
  * @method OrientDBRecord recordLoad() recordLoad(string $recordID, string $fetchPlan = null) Load a record
  * @method int recordUpdate() recordUpdate(string $recordID, string $recordContent, int $recordVersion = -1, string $recordType = OrientDB::RECORD_TYPE_DOCUMENT) Update a record
  * @method mixed select() select(string $query) Execute sync-style select query
@@ -195,7 +195,7 @@ class OrientDB
         self::DATACLUSTER_TYPE_MEMORY);
 
     /**
-     * Assotiative list of cached records, if any
+     * Associative list of cached records, if any
      * @var array
      */
     public $cachedRecords = array();
@@ -279,12 +279,16 @@ class OrientDB
      * Main magic method
      * @param string $name
      * @param array $arguments
+     * @throws OrientDBWrongCommandException
      * @return mixed
      */
     public function __call($name, $arguments)
     {
         $className = 'OrientDBCommand' . ucfirst($name);
         if (class_exists($className)) {
+            /**
+             * @var OrientDBCommandAbstract
+             */
             $command = new $className($this);
             $this->canExecute($command);
             call_user_func_array(array(
@@ -307,14 +311,13 @@ class OrientDB
             }
             return $data;
         } else {
-            throw new OrientDBWrongCommandException('Command ' . $className . ' currenty not implemented');
+            throw new OrientDBWrongCommandException('Command ' . $className . ' currently not implemented');
         }
-
     }
 
     /**
      * Check if command's requirements are met
-     * @param int $command Command type
+     * @param OrientDBCommandAbstract $command Command instance
      * @throws OrientDBWrongCommandException
      * @see OrientDBCommandAbstract
      */
@@ -322,7 +325,7 @@ class OrientDB
     {
 
         if (!$this->active) {
-            throw new OrientDBWrongCommandException('DBClose was executed. No interaction posibble.');
+            throw new OrientDBWrongCommandException('DBClose was executed. No interaction is possible.');
         }
         if (in_array($command->opType, $this->getCommandsRequiresConnect()) && !$this->isConnected()) {
             throw new OrientDBWrongCommandException('Not connected to server');
@@ -418,7 +421,7 @@ class OrientDB
     }
 
     /**
-     * Return sessinID for DB queries
+     * Return sessionID for DB queries
      * @return int
      */
     public function getSessionIDDB()

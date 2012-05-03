@@ -86,7 +86,7 @@ class OrientDBRecordEncoder
             }
             /**
              *
-             * PHP manual says what gettype() is slow and we should use is_* fucntions instead. But tests says that its approx. 5-10% faster encoding using single gettype() call instead of separate calls to is_int(), is_string(), etc.
+             * PHP manual says what gettype() is slow and we should use is_* functions instead. But tests says that its approx. 5-10% faster encoding using single gettype() call instead of separate calls to is_int(), is_string(), etc.
              * @var string
              */
             $valueType = gettype($value);
@@ -122,7 +122,7 @@ class OrientDBRecordEncoder
                     }
                     $buffer .= $boundStart;
                     /**
-                     * @TODO Fix possible PHP's fatal: Maximum function nesting level of '100' reached, aborting!
+                     * @TODO Fix possible PHP fatal: Maximum function nesting level of '100' reached, aborting!
                      */
                     $buffer .= implode(',', $this->process($value, $arrayAssoc, true));
                     $buffer .= $boundEnd;
@@ -162,7 +162,7 @@ class OrientDBRecordEncoder
     public static function encodeString($string)
     {
         /**
-         * @TODO Unittests
+         * @TODO Unit tests
          */
         return '"' . addcslashes($string, '"\\') . '"';
     }

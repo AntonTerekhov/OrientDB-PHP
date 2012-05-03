@@ -77,7 +77,7 @@ class OrientDBCommandRecordUpdate extends OrientDBCommandAbstract
         $this->addShort($this->clusterID);
         // Add Record pos
         $this->addLong($this->recordPos);
-        // Prepare recorn content
+        // Prepare record content
         $this->recordContent = $this->attribs[1];
         // Add record content
         $this->addBytes($this->recordContent);
@@ -93,7 +93,7 @@ class OrientDBCommandRecordUpdate extends OrientDBCommandAbstract
             if (in_array($this->attribs[3], OrientDB::$recordTypes)) {
                 $this->recordType = $this->attribs[3];
             } else {
-                throw new OrientDBWrongParamsException('Incorrect record Type: ' . $this->attribs[2] . '. Awaliable types is: ' . implode(', ', OrientDB::$recordTypes));
+                throw new OrientDBWrongParamsException('Incorrect record Type: ' . $this->attribs[2] . '. Available types is: ' . implode(', ', OrientDB::$recordTypes));
             }
         } else {
             $this->recordType = OrientDB::RECORD_TYPE_DOCUMENT;

@@ -19,7 +19,7 @@ class OrientDBTypeLink
 
     /**
      * Link text without hash sign
-     * @var srting
+     * @var string
      */
     private $link;
 
@@ -37,7 +37,7 @@ class OrientDBTypeLink
 
     /**
      *
-     * Create object from string or two ints. Using a kind of overloading
+     * Create object from string or two integers. Using a kind of overloading
      * @example #10:1
      * @example 10:1
      * @example 10, 1
@@ -57,7 +57,7 @@ class OrientDBTypeLink
                 $this->recordPos = (int) $matches[2];
             }
         } else {
-            // Construct from two ints
+            // Construct from two integers
             $this->clusterID = (int) $link;
             $this->recordPos = $recordPos;
             if (((string) $this->clusterID !== (string) $link) || (!is_numeric($this->recordPos))) {

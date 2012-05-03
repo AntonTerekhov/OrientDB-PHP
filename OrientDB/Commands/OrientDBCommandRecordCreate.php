@@ -69,7 +69,7 @@ class OrientDBCommandRecordCreate extends OrientDBCommandAbstract
             if (in_array($this->attribs[2], OrientDB::$recordTypes)) {
                 $this->recordType = $this->attribs[2];
             } else {
-                throw new OrientDBWrongParamsException('Incorrect record Type: ' . $this->attribs[2] . '. Awaliable types is: ' . implode(', ', OrientDB::$recordTypes));
+                throw new OrientDBWrongParamsException('Incorrect record Type: ' . $this->attribs[2] . '. Available types is: ' . implode(', ', OrientDB::$recordTypes));
             }
         }
         $this->addByte($this->recordType);

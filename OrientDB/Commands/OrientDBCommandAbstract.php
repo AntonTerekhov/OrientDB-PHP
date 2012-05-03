@@ -77,7 +77,7 @@ abstract class OrientDBCommandAbstract
     const STATUS_ERROR = 0x01;
 
     /**
-     * Inscanse of OrientDBSocket
+     * Instance of OrientDBSocket
      * @var OrientDBSocket
      */
     private $socket;
@@ -89,7 +89,7 @@ abstract class OrientDBCommandAbstract
     public $opType;
 
     /**
-     * Attributes
+     * Attributes list
      * @var array
      */
     protected $attribs;
@@ -107,13 +107,13 @@ abstract class OrientDBCommandAbstract
     protected $currentTransactionID;
 
     /**
-     * Request Status, Success or Error
-     * @var unknown_type
+     * Request Status, OrientDBCommandAbstract::STATUS_SUCCESS or OrientDBCommandAbstract::STATUS_ERROR
+     * @var string
      */
     protected $requestStatus;
 
     /**
-     * Request bytes tranferred to server
+     * Request bytes transferred to server
      * @var string
      */
     protected $requestBytes;
@@ -125,13 +125,13 @@ abstract class OrientDBCommandAbstract
     protected $debug;
 
     /**
-     * Link to OrientDB instanse
+     * Link to OrientDB instance
      * @var OrientDB
      */
     protected $parent;
 
     /**
-     * Consturct new instance
+     * Construct new instance
      * @param OrientDB $parent
      */
     public function __construct($parent)
@@ -164,6 +164,8 @@ abstract class OrientDBCommandAbstract
 
     /**
      * Execute command by sending data to server, receive initial reply
+     * @throws null|OrientDBException
+     * @throws OrientDBException
      * @return mixed
      */
     public function execute()
@@ -322,7 +324,7 @@ abstract class OrientDBCommandAbstract
 
     /**
      * Read entire record from socket
-     * @return bool|OrientDBTypeLink|OrientDBRecord
+     * @return boolean|OrientDBTypeLink|OrientDBRecord
      */
     protected function readRecord()
     {
@@ -478,6 +480,7 @@ abstract class OrientDBCommandAbstract
      * @static
      * @param $hi int Hi bytes of long
      * @param $low int Low bytes of long
+     * @throws OrientDBException
      * @return int|string
      */
     public static function unpackI64($hi, $low)

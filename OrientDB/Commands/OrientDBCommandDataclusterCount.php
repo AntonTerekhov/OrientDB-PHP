@@ -9,7 +9,7 @@
  */
 
 /**
- * dataclusterСount() command for OrientDB-PHP
+ * dataclusterCount() command for OrientDB-PHP
  *
  * @author Anton Terekhov <anton@netmonsters.ru>
  * @package OrientDB-PHP

@@ -9,7 +9,7 @@
  */
 
 /**
- * OrientDBHelpers cointains methods not needed in production use of this
+ * OrientDBHelpers contains methods not needed in production use of this
  * library
  * @author Anton Terekhov <anton@netmonsters.ru>
  * @package OrientDB-PHP

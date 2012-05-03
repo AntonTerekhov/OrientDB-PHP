@@ -237,6 +237,7 @@ class OrientDBData implements Countable, Iterator
     /**
      * Link to parent record
      * @param $record OrientDBRecord|null
+     * @throws OrientDBException
      */
     public function __construct($record = null)
     {
@@ -321,7 +322,7 @@ class OrientDBData implements Countable, Iterator
     /**
      * Return the key of the current element
      * @link http://php.net/manual/en/iterator.key.php
-     * @return scalar scalar on success, integer
+     * @return integer scalar on success
      * 0 on failure.
      */
     public function key()

@@ -50,7 +50,7 @@ class OrientDBCommandCommand extends OrientDBCommandAbstract
     {
         parent::prepare();
         if (!empty($this->mode)) {
-            // Populate attribs with mode from child classes
+            // Populate $this->attribs with mode from child classes
             array_unshift($this->attribs, $this->mode);
         }
         if (count($this->attribs) > 3 || count($this->attribs) < 2) {
@@ -155,7 +155,7 @@ class OrientDBCommandCommand extends OrientDBCommandAbstract
                 return $records;
             } else if ($status == 'n') {
                 // Null
-                return;
+                return null;
             } else if ($status == 'r') {
                 // Single record
                 return $this->readRecord();
@@ -164,5 +164,6 @@ class OrientDBCommandCommand extends OrientDBCommandAbstract
                 return $this->readString();
             }
         }
+        return null;
     }
 }

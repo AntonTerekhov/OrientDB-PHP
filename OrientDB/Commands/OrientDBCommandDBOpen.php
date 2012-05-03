@@ -69,13 +69,14 @@ class OrientDBCommandDBOpen extends OrientDBCommandAbstract
 
         $clusters = array();
         for ($i = 0; $i < $numClusters; $i++) {
-            $cluster = $clusters[] = new stdClass();
+            $cluster = new stdClass();
             $this->debugCommand('cluster_name');
             $cluster->name = $this->readString();
             $this->debugCommand('clusterID');
             $cluster->id = $this->readShort();
             $this->debugCommand('cluster_type');
             $cluster->type = $this->readString();
+            $clusters[] = $cluster;
         }
         $this->debugCommand('config_bytes');
         $config = $this->readBytes();

@@ -89,7 +89,7 @@ class OrientDBRecordDecoder
     const STATE_NAME = 1;
 
     /**
-     * collectiong field value
+     * collecting field value
      */
     const STATE_VALUE = 2;
 
@@ -353,6 +353,7 @@ class OrientDBRecordDecoder
 
     /**
      * Parses $this->content and populates $this->data and $this->className
+     * @throws OrientDBDeSerializeException
      * @return void
      */
     protected function decode()
@@ -403,7 +404,7 @@ class OrientDBRecordDecoder
                     } else {
                         // Trying to fast-forward name collecting
                         if ($this->i < strlen($this->content)) {
-                            // This can be fieldname or classname
+                            // This can be field name or class name
                             $pos_colon = strpos($this->content, ':', $this->i);
                             $pos_at = strpos($this->content, '@', $this->i);
                             // Check, which one is closest

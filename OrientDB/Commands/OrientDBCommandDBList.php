@@ -27,7 +27,7 @@ class OrientDBCommandDBList extends OrientDBCommandAbstract
     /**
      * (non-PHPdoc)
      * @see OrientDBCommandAbstract::parseResponse()
-     * @return void
+     * @return array
      */
     protected function parseResponse()
     {
