@@ -76,20 +76,15 @@ class OrientDBDataclusterCountTest extends OrientDB_TestCase
     {
         $this->db->DBOpen('demo', 'writer', 'writer');
         $this->setExpectedException('OrientDBException');
-        $result = $this->db->dataclusterCount(array(
-                        10000));
+        $result = $this->db->dataclusterCount(array(10000));
     }
 
     public function testDataclusteCountOnManyClusters()
     {
         $this->db->DBOpen('demo', 'writer', 'writer');
-        $result1 = $this->db->dataclusterCount(array(
-                        1));
-        $result2 = $this->db->dataclusterCount(array(
-                        2));
-        $result = $this->db->dataclusterCount(array(
-                        1,
-                        2));
+        $result1 = $this->db->dataclusterCount(array(1));
+        $result2 = $this->db->dataclusterCount(array(2));
+        $result = $this->db->dataclusterCount(array(1, 2));
         $this->AssertSame($result1 + $result2, $result);
     }
 }
