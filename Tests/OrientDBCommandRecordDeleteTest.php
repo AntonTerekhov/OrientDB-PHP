@@ -104,7 +104,9 @@ class OrientDBRecordDeleteTest extends OrientDB_TestCase
         $clusterName = 'test';
         $recordContent = 'testrecord:0';
         $this->db->connect('root', $this->root_password);
-        $this->db->DBDelete($dbName);
+        if ($this->db->DBExists($dbName)) {
+            $this->db->DBDelete($dbName);
+        }
         $result = $this->db->DBCreate($dbName, OrientDB::DB_TYPE_LOCAL);
         $this->assertTrue($result);
         $this->db->DBOpen($dbName, 'admin', 'admin');
