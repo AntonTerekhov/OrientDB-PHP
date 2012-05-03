@@ -20,6 +20,7 @@ require_once 'OrientDB_TestCase.php';
  */
 class OrientDBDataclusterDatarangeTest extends OrientDB_TestCase
 {
+    protected $clusterID = 1;
 
     protected function setUp()
     {
@@ -34,26 +35,26 @@ class OrientDBDataclusterDatarangeTest extends OrientDB_TestCase
     public function testDataclusterDatarangeOnNotConnectedDB()
     {
         $this->setExpectedException('OrientDBWrongCommandException');
-        $result = $this->db->dataclusterDatarange(1);
+        $result = $this->db->dataclusterDatarange($this->clusterID);
     }
 
     public function testDataclusterDatarangeOnConnectedDB()
     {
         $this->db->connect('root', $this->root_password);
         $this->setExpectedException('OrientDBWrongCommandException');
-        $result = $this->db->dataclusterDatarange(1);
+        $result = $this->db->dataclusterDatarange($this->clusterID);
     }
 
     public function testDataclusterDatarangeOnNotOpenDB()
     {
         $this->setExpectedException('OrientDBWrongCommandException');
-        $result = $this->db->dataclusterDatarange(1);
+        $result = $this->db->dataclusterDatarange($this->clusterID);
     }
 
     public function testDataclusterDatarangeOnOpenDB()
     {
         $this->db->DBOpen('demo', 'writer', 'writer');
-        $result = $this->db->dataclusterDatarange(1);
+        $result = $this->db->dataclusterDatarange($this->clusterID);
         $this->assertInternalType('array', $result);
     }
 
