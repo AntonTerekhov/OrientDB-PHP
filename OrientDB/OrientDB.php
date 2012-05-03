@@ -26,6 +26,8 @@
  * @method bool dataclusterRemove() dataclusterRemove(int $clusterID) Remove datacluster from DB
  * @method int dataclusterCount() dataclusterCount(array $clusterIDs) Count elements in clusters
  * @method array dataclusterDatarange() dataclusterDatarange(int $clusterID) Return datarange for datacluster
+ * @method int datasegmentAdd() datasegmentAdd(string $name, string $location) Not yet implemented. Create new datasegmant
+ * @method boolean datasegmentDelete() datasegmentDelete(string $name) Not yet implemented. Drop datasegmant by name.
  * @method array DBOpen() DBOpen(string $dbName, string $userName, string $password) Open OrientDB database
  * @method void DBClose() DBClose() Closes currently opened DB
  * @method bool DBCreate() DBCreate(string $dbName, string $dbType) Create new database
@@ -222,8 +224,8 @@ class OrientDB
         OrientDBCommandAbstract::DATACLUSTER_REMOVE,
         OrientDBCommandAbstract::DATACLUSTER_COUNT,
         OrientDBCommandAbstract::DATACLUSTER_DATARANGE,
-        //OrientDBCommandAbstract::DATASEGMENT_ADD,
-        //OrientDBCommandAbstract::DATASEGMENT_REMOVE,
+        OrientDBCommandAbstract::DATASEGMENT_ADD,
+        OrientDBCommandAbstract::DATASEGMENT_REMOVE,
         OrientDBCommandAbstract::RECORD_LOAD,
         OrientDBCommandAbstract::RECORD_CREATE,
         OrientDBCommandAbstract::RECORD_UPDATE,

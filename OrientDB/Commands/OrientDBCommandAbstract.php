@@ -44,9 +44,9 @@ abstract class OrientDBCommandAbstract
 
     const DATACLUSTER_DATARANGE = 13;
 
-    // const DATASEGMENT_ADD = 20;
+    const DATASEGMENT_ADD = 20;
 
-    // const DATASEGMENT_REMOVE = 21;
+    const DATASEGMENT_REMOVE = 21;
 
     const RECORD_LOAD = 30;
 

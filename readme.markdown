@@ -12,6 +12,8 @@ It can be downloaded from OrientDB's [Downloads page](http://code.google.com/p/o
 
 Code compatible to previous [binary releases](http://code.google.com/p/orient/downloads/list) of OrientDB can be found in repository's tags or in [Downloads](https://github.com/AntonTerekhov/OrientDB-PHP/archives/master) section.
 
+Current protocol version implemented: *10*
+
 ## Requirements ##
 
 This library requires:
@@ -365,6 +367,9 @@ Returns datarange for specified cluster ID. Returns array of `start` and `end` p
         ["end"]=>
         int(126)
     }
+
+### Datasegment commands ###
+Not implemented yet.
 
 ### commit ###
 Commits a transaction. **Not yet implemented**.
