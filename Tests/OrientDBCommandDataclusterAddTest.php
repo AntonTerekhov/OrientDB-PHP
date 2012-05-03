@@ -37,20 +37,20 @@ class OrientDBDataclusterAddTest extends OrientDB_TestCase
     public function testDataclusterAddOnNotConnectedDB()
     {
         $this->setExpectedException('OrientDBWrongCommandException');
-        $result = $this->db->dataclusterAdd('name', OrientDB::DATACLUSTER_TYPE_LOGICAL);
+        $result = $this->db->dataclusterAdd('name', OrientDB::DATACLUSTER_TYPE_PHYSICAL);
     }
 
     public function testDataclusterAddOnConnectedDB()
     {
         $this->db->connect('root', $this->root_password);
         $this->setExpectedException('OrientDBWrongCommandException');
-        $result = $this->db->dataclusterAdd($this->clusterName, OrientDB::DATACLUSTER_TYPE_LOGICAL);
+        $result = $this->db->dataclusterAdd($this->clusterName, OrientDB::DATACLUSTER_TYPE_PHYSICAL);
     }
 
     public function testDataclusterAddOnNotOpenDB()
     {
         $this->setExpectedException('OrientDBWrongCommandException');
-        $result = $this->db->dataclusterAdd($this->clusterName, OrientDB::DATACLUSTER_TYPE_LOGICAL);
+        $result = $this->db->dataclusterAdd($this->clusterName, OrientDB::DATACLUSTER_TYPE_PHYSICAL);
     }
 
     public function testDataclusterAddOnOpenDBAdmin()
@@ -61,9 +61,6 @@ class OrientDBDataclusterAddTest extends OrientDB_TestCase
                 $this->db->dataclusterRemove($cluster->id);
             }
         }
-        $result = $this->db->dataclusterAdd($this->clusterName, OrientDB::DATACLUSTER_TYPE_LOGICAL);
-        $this->assertInternalType('integer', $result);
-        $this->db->dataclusterRemove($result);
         $result = $this->db->dataclusterAdd($this->clusterName, OrientDB::DATACLUSTER_TYPE_PHYSICAL);
         $this->assertInternalType('integer', $result);
         $this->db->dataclusterRemove($result);
@@ -77,7 +74,7 @@ class OrientDBDataclusterAddTest extends OrientDB_TestCase
     {
         $clusters = $this->db->DBOpen('demo', 'writer', 'writer');
         $this->setExpectedException('OrientDBException');
-        $result = $this->db->dataclusterAdd($this->clusterName, OrientDB::DATACLUSTER_TYPE_LOGICAL);
+        $result = $this->db->dataclusterAdd($this->clusterName, OrientDB::DATACLUSTER_TYPE_PHYSICAL);
     }
 
     public function testDataclusterAddWithWrongParamCount()

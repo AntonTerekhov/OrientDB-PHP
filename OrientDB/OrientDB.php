@@ -72,7 +72,7 @@ class OrientDB
      * Client protocol version
      * @var int
      */
-    public $clientVersion = 9;
+    public $clientVersion = 10;
 
     /**
      * Server's protocol version.
@@ -173,12 +173,6 @@ class OrientDB
     const COMMAND_SELECT_ASYNC = 3;
 
     /**
-     * Datacluster type logical
-     * @var string
-     */
-    const DATACLUSTER_TYPE_LOGICAL = 'LOGICAL';
-
-    /**
      * Datacluster type physical (disk)
      * @var string
      */
@@ -195,7 +189,6 @@ class OrientDB
      * @var array
      */
     public static $clusterTypes = array(
-        self::DATACLUSTER_TYPE_LOGICAL,
         self::DATACLUSTER_TYPE_PHYSICAL,
         self::DATACLUSTER_TYPE_MEMORY);
 

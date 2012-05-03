@@ -61,7 +61,7 @@ class OrientDBDataclusterRemoveTest extends OrientDB_TestCase
                 $this->db->dataclusterRemove($cluster->id);
             }
         }
-        $result = $this->db->dataclusterAdd($this->clusterName, OrientDB::DATACLUSTER_TYPE_LOGICAL);
+        $result = $this->db->dataclusterAdd($this->clusterName, OrientDB::DATACLUSTER_TYPE_PHYSICAL);
         $this->assertInternalType('integer', $result);
         $result = $this->db->dataclusterRemove($result);
         $this->assertInternalType('boolean', $result);
