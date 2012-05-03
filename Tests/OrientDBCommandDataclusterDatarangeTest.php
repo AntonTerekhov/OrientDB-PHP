@@ -20,7 +20,7 @@ require_once 'OrientDB_TestCase.php';
  */
 class OrientDBDataclusterDatarangeTest extends OrientDB_TestCase
 {
-    protected $clusterID = 1;
+    protected $clusterID = 2;
 
     protected function setUp()
     {

@@ -21,7 +21,7 @@ require_once 'OrientDB_TestCase.php';
 class OrientDBRecordCreateTest extends OrientDB_TestCase
 {
 
-    protected $clusterID = 1;
+    protected $clusterID = 2;
 
     protected $recordContent = 'testrecord:0';
 
