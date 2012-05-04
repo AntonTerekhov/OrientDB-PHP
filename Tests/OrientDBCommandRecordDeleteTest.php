@@ -141,9 +141,11 @@ class OrientDBRecordDeleteTest extends OrientDB_TestCase
     public function testRecordDeleteWithCorrectVersion()
     {
         $this->db->DBOpen('demo', 'writer', 'writer');
-        $recordPos = $this->db->recordCreate($this->clusterID, $this->recordContent);
+        $record = new OrientDBRecord();
+        $record->content = $this->recordContent;
+        $recordPos = $this->db->recordCreate($this->clusterID, $record);
         $this->assertInternalType('integer', $recordPos);
-        $result = $this->db->recordDelete($this->clusterID . ':' . $recordPos, 0);
+        $result = $this->db->recordDelete($this->clusterID . ':' . $recordPos, $record->version);
         $this->assertTrue($result);
     }
 

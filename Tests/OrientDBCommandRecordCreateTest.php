@@ -124,6 +124,6 @@ class OrientDBRecordCreateTest extends OrientDB_TestCase
         $this->assertSame($recordPos, $record->recordPos);
         $this->assertSame($this->clusterID, $record->clusterID);
         $this->assertSame($this->clusterID . ':' . $recordPos, $record->recordID);
-        $this->assertSame(0, $record->version);
+        $this->assertInternalType('integer', $record->version);
     }
 }

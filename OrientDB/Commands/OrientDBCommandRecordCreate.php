@@ -93,11 +93,13 @@ class OrientDBCommandRecordCreate extends OrientDBCommandAbstract
     {
         $this->debugCommand('record_pos');
         $position = $this->readLong();
+        $this->debugCommand('record_version');
+        $version = $this->readInt();
 
         if ($this->recordContent instanceof OrientDBRecord) {
             $this->recordContent->recordPos = $position;
             $this->recordContent->clusterID = $this->clusterID;
-            $this->recordContent->version = 0;
+            $this->recordContent->version = $version;
         }
 
         return $position;
