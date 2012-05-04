@@ -83,11 +83,12 @@ class OrientDBSelectTest extends OrientDB_TestCase
     public function testFieldsSelect()
     {
         $this->db->DBOpen('demo', 'writer', 'writer');
-        $record = $this->db->select('SELECT name FROM City WHERE name = "Rome" LIMIT 1');
-        $record = reset($record);
+        $records = $this->db->select('SELECT name FROM City WHERE name = "Rome" LIMIT 1');
+        $this->assertInternalType('array', $records);
+        $record = reset($records);
         $this->assertSame($record->data->name, 'Rome');
-        $this->assertSame(-1, $record->clusterID);
-        $this->assertSame(-1, $record->recordPos);
+        $this->assertSame(-2, $record->clusterID);
+        $this->assertSame(0, $record->recordPos);
         $this->assertNull($record->recordID);
     }
 
@@ -98,8 +99,8 @@ class OrientDBSelectTest extends OrientDB_TestCase
         $record = reset($record);
         $this->assertSame('Rome', $record->data->name);
         $this->assertSame('#17:0', (string) $record->data->rid);
-        $this->assertSame(-1, $record->clusterID);
-        $this->assertSame(-1, $record->recordPos);
+        $this->assertSame(-2, $record->clusterID);
+        $this->assertSame(0, $record->recordPos);
         $this->assertNull($record->recordID);
     }
 }
