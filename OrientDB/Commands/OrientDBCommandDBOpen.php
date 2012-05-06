@@ -76,6 +76,8 @@ class OrientDBCommandDBOpen extends OrientDBCommandAbstract
             $cluster->id = $this->readShort();
             $this->debugCommand('cluster_type');
             $cluster->type = $this->readString();
+            $this->debugCommand('cluster_datasegment_id');
+            $cluster->datasegmentid = $this->readShort();
             $clusters[] = $cluster;
         }
         $this->debugCommand('config_bytes');

@@ -7,12 +7,12 @@ Current status is: *Beta*. (Meaning specs can be changed. However, it's surely u
 
 Code is licensed under New BSD License and provided "as is". For complete license information see file `LICENSE`.
 
-Current OrientDB version to work with is: `1.0-snapshot` (revision r5747).
+Current OrientDB version to work with is: `1.0-snapshot` (revision r5488).
 It can be downloaded from OrientDB's [Downloads page](http://code.google.com/p/orient/downloads/list).
 
 Code compatible to previous [binary releases](http://code.google.com/p/orient/downloads/list) of OrientDB can be found in repository's tags or in [Downloads](https://github.com/AntonTerekhov/OrientDB-PHP/archives/master) section.
 
-Current protocol version implemented: *11*
+Current protocol version implemented: **12**
 
 ## Requirements ##
 
