@@ -66,7 +66,7 @@ class OrientDBCommandCommand extends OrientDBCommandAbstract
         if (($this->mode == OrientDB::COMMAND_QUERY || $this->mode == OrientDB::COMMAND_SELECT_SYNC) && count($this->attribs) == 3) {
             throw new OrientDBWrongParamsException('Fetch is useless with COMMAND_QUERY');
         }
-        $this->query = $this->attribs[1];
+        $this->query = trim($this->attribs[1]);
         $this->fetchPlan = '*:0';
         if (count($this->attribs) == 3) {
             $this->fetchPlan = $this->attribs[2];
