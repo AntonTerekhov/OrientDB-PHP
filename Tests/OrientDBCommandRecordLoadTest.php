@@ -127,8 +127,8 @@ class OrientDBRecordLoadTest extends OrientDB_TestCase
     public function testRecordLoadWithOutOfBoundsRecordId()
     {
         $this->db->DBOpen('demo', 'writer', 'writer');
-        $this->setExpectedException('OrientDBException');
         $record = $this->db->recordLoad($this->clusterID . ':' . 1000000, '');
+        $this->assertFalse($record);
     }
 
     public function testRecordLoadWithFetchPlan()
