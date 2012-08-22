@@ -480,9 +480,9 @@ For complete information on fields data types see PHPDoc in class.
 
 **At this point some class fields are public. Please, be careful.**
 
-However, class fields `content`, `clusterID`, `recordPos`, `recordID` and `className` are using magic methods. All of them are available for reading, while fields `clusterID`, `recordPos` and `className` only for writing.
+However, class fields `content`, `clusterID`, `recordPos`, `recordID` and `className` are using magic methods. All of them are available for reading, while only fields `content`, `clusterID`, `recordPos` and `className` for writing.
 
-### Class methods ###
+### OrientDBRecord Class methods ###
 
 Class methods are:
 
@@ -494,6 +494,25 @@ In general, there is no need to call this method directly from user code, as rec
 * `resetData()` - will reset class data, except for `clusterID` and `className`.
 
 Class is able to parse almost any [record format](http://code.google.com/p/orient/wiki/NetworkBinaryProtocol#Record_format) as received from OrientDB server. However, there are some limitations about few [Java primitive data types](http://download.oracle.com/javase/tutorial/java/nutsandbolts/datatypes.html), e.g. short. This is a planned TODO.
+
+### OrientDBData Class ###
+This class is used to store deserialized content of record. Deserialization is done "on the fly" while code accessing some of the class fields.
+
+Class `OrientDBData` implements `Countable`, `Iterator` interfaces. As a result, you can use `foreach()` loop and `count()`:
+
+    foreach ($record->data as $key => $value) {
+        echo $key . '=' . $value . PHP_EOL;
+    }
+
+    echo count($record->data);
+
+Class `OrientDBData` contains magic methods `__isset()` and `__unset()`, so any of class's properties can be checked with `isset()` and unsetted with `unset()`.
+
+    if (isset($reord->data->key)) {
+        unset($record->data->key);
+    }
+
+Also, class has method `getKeys()` which is similar to `array_keys`.
 
 ### Examples ###
 

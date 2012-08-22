@@ -109,6 +109,7 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
         $this->assertSame($clusterID, $record->clusterID);
         $this->assertNull($record->recordPos);
         $this->assertNull($record->recordID);
+        $this->assertEmpty($record->data->getKeys());
     }
 
     public function testParseRecordContentSimpleString()
@@ -119,6 +120,7 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
         $record->content = $key . ':"' . $value . '"';
 
         $this->assertSame($value, $record->data->name);
+        $this->assertSame(array($key), $record->data->getKeys());
     }
 
     public function testParseRecordContentTwoStrings()
@@ -140,6 +142,7 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
         for ($i = 0; $i < count($keys); $i++) {
             $this->assertSame($values[$i], $record->data->$keys[$i]);
         }
+        $this->assertSame($record->data->getKeys(), $keys);
     }
 
     public function testParseRecordContentStringsWithEscape()
@@ -187,6 +190,7 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
         $this->assertSame('Alice', $record->data->people[0]);
         $this->assertSame('Bob', $record->data->people[1]);
         $this->assertSame('Eva', $record->data->people[2]);
+        $this->assertSame($record->data->getKeys(), array('people'));
 
         $this->assertSame($record->content, $record->__toString());
     }
@@ -354,6 +358,8 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
         $this->assertSame('#FFF', $record->data->values[2]->data->color);
 
         $this->assertSame($record->content, $record->__toString());
+
+        $this->assertSame($record->data->getKeys(), array('values'));
     }
 
     public function testCreateRecord()
@@ -538,8 +544,10 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
         $record = new OrientDBRecord();
         $record->content = 'field:"value"';
         $this->assertTrue(isset($record->data->field));
+        $this->assertSame($record->data->getKeys(), array('field'));
         unset($record->data->field);
         $this->assertFalse(isset($record->data->field));
+        $this->assertSame($record->data->getKeys(), array());
     }
 
     public function testParseRecordForced()
@@ -553,6 +561,7 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
         $this->assertSame('', (string) $record->data->link);
         $this->assertSame(false, $record->data->bool);
         $this->assertSame($content, (string) $record);
+        $this->assertSame($record->data->getKeys(), array('field', 'link', 'bool'));
 
         $recordForced = new OrientDBRecord();
         $recordForced->content = $content;
@@ -562,6 +571,7 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
         $this->assertSame('', (string) $recordForced->data->link);
         $this->assertSame(false, $recordForced->data->bool);
         $this->assertSame($content, (string) $recordForced);
+        $this->assertSame($recordForced->data->getKeys(), array('field', 'link', 'bool'));
     }
 
     public function testRecordisParsedFlag()
@@ -621,6 +631,7 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
         $this->assertSame($record_pos, $record->recordPos);
         $this->assertSame($cluster_id . ':' . $record_pos, $record->recordID);
         $this->assertSame($version, $record->version);
+        $this->assertSame($record->data->getKeys(), array('Field'));
 
         $record->reset();
 
@@ -630,6 +641,7 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
         $this->assertNull($record->recordPos);
         $this->assertNull($record->recordID);
         $this->assertNull($record->version);
+        $this->assertSame($record->data->getKeys(), array());
     }
 
     public function testRecordFullResetWithString()
@@ -649,6 +661,7 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
         $this->assertSame('Value', $record->data->Key);
         $this->assertSame($class_name, $record->className);
         $this->assertSame($content, $record->content);
+        $this->assertSame($record->data->getKeys(), array('Key'));
 
         $record->reset();
 
@@ -659,6 +672,7 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
         $this->assertNull($record->recordID);
         $this->assertNull($record->version);
         $this->assertNull($record->content);
+        $this->assertSame($record->data->getKeys(), array());
     }
 
     public function testRecordResetDataWithData()
@@ -681,6 +695,7 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
         $this->assertSame($record_pos, $record->recordPos);
         $this->assertSame($cluster_id . ':' . $record_pos, $record->recordID);
         $this->assertSame($version, $record->version);
+        $this->assertSame($record->data->getKeys(), array('Field'));
 
         $record->resetData();
 
@@ -690,6 +705,7 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
         $this->assertNull($record->recordPos);
         $this->assertNull($record->recordID);
         $this->assertNull($record->version);
+        $this->assertSame($record->data->getKeys(), array());
     }
 
     public function testRecordResetDataWithString()
@@ -712,6 +728,7 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
         $this->assertSame($record_pos, $record->recordPos);
         $this->assertSame($cluster_id . ':' . $record_pos, $record->recordID);
         $this->assertSame($version, $record->version);
+        $this->assertSame($record->data->getKeys(), array('Key'));
 
         $record->resetData();
 
@@ -722,5 +739,6 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
         $this->assertNull($record->recordID);
         $this->assertNull($record->version);
         $this->assertNull($record->content);
+        $this->assertSame($record->data->getKeys(), array());
     }
 }

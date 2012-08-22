@@ -365,4 +365,13 @@ class OrientDBData implements Countable, Iterator
             $this->record->parse();
         }
     }
+
+    /**
+     * Get all keys for data
+     * @return array
+     */
+    public function getKeys()
+    {
+        return array_keys($this->data);
+    }
 }
