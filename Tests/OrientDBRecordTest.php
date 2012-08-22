@@ -567,12 +567,18 @@ class OrientDBRecordTest extends PHPUnit_Framework_TestCase
     public function testRecordisParsedFlag()
     {
         $record = new OrientDBRecord();
+        $flag = new ReflectionProperty('OrientDBRecord', 'isParsed');
+        $flag->setAccessible(true);
         $record->content = 'field:"value"';
+        $this->assertFalse($flag->getValue($record));
         $this->assertTrue(isset($record->data->field));
         $this->assertFalse(isset($record->data->none));
+        $this->assertTrue($flag->getValue($record));
         $record->content = 'none:true';
+        $this->assertFalse($flag->getValue($record));
         $this->assertTrue(isset($record->data->none));
         $this->assertFalse(isset($record->data->field));
+        $this->assertTrue($flag->getValue($record));
     }
 
     public function testRecordGetClassName()
