@@ -115,7 +115,7 @@ class OrientDB
 
     const DRIVER_NAME = 'OrientDB-PHP';
 
-    const DRIVER_VERSION = 'beta-0.4.6';
+    const DRIVER_VERSION = 'beta-0.4.7';
 
     /**
      * Record type Bytes
@@ -252,7 +252,8 @@ class OrientDB
      */
     public function __destruct()
     {
-        if ($this->isDBOpen()) {
+        if ($this->isDBOpen() &&
+                $this->socket->isValid()) {
             $this->DBClose();
         }
     }

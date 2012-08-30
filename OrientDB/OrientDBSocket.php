@@ -90,4 +90,13 @@ class OrientDBSocket
             OrientDBHelpers::hexDump($data);
         }
     }
+
+    /**
+     * Check if socket still a valid resource
+     * @return bool
+     */
+    public function isValid()
+    {
+        return is_resource($this->socket);
+    }
 }
