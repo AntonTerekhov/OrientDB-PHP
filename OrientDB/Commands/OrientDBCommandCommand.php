@@ -73,7 +73,7 @@ class OrientDBCommandCommand extends OrientDBCommandAbstract
         }
 
         // Add mode
-        if ($this->mode == OrientDB::COMMAND_QUERY || $this->mode == OrientDB::COMMAND_SELECT_SYNC) {
+        if ($this->mode == OrientDB::COMMAND_QUERY || $this->mode == OrientDB::COMMAND_SELECT_SYNC || $this->mode == OrientDB::COMMAND_SELECT_GREMLIN) {
             $this->addByte(self::MODE_SYNC);
         } else {
             $this->addByte(self::MODE_ASYNC);
@@ -82,6 +82,8 @@ class OrientDBCommandCommand extends OrientDBCommandAbstract
             $objName = 'com.orientechnologies.orient.core.sql.query.OSQLAsynchQuery';
         } elseif ($this->mode == OrientDB::COMMAND_SELECT_SYNC) {
             $objName = 'com.orientechnologies.orient.core.sql.query.OSQLSynchQuery';
+        } elseif ($this->mode == OrientDB::COMMAND_SELECT_GREMLIN) {
+            $objName = 'com.orientechnologies.orient.graph.gremlin.OCommandGremlin';
         } else {
             $objName = 'com.orientechnologies.orient.core.sql.OCommandSQL';
         }

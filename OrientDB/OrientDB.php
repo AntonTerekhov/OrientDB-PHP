@@ -175,6 +175,12 @@ class OrientDB
     const COMMAND_SELECT_ASYNC = 3;
 
     /**
+     * Query type asynchronous select
+     * @var int
+     */
+    const COMMAND_SELECT_GREMLIN = 4;
+
+    /**
      * Datacluster type physical (disk)
      * @var string
      */
