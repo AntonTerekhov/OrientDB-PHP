@@ -396,8 +396,9 @@ Command modes available are:
 * `OrientDB::COMMAND_QUERY` - for general queries, including `INSERT`, `UPDATE`, `DELETE`, `FIND REFERENCES`, etc.
 * `OrientDB::COMMAND_SELECT_SYNC` - only for `SELECT` in synchronous mode
 * `OrientDB::COMMAND_SELECT_ASYNC` - only for `SELECT` in asynchronous mode
+* `OrientDB::COMMAND_SELECT_GREMLIN` - only for Gremlin engine, available with OrientDB - Graph Edition only
 
-[Fetchplan](http://code.google.com/p/orient/wiki/FetchingStrategies) is used to pre-fetch some records. **Fetchplan is only available in `OrientDB::COMMAND_SELECT_ASYNC` mode.**
+[Fetchplan](http://code.google.com/p/orient/wiki/FetchingStrategies) is used to pre-fetch some records.
 Using fetchplan will populate `$db->cachedRecords` array as for `recordLoad()`.
 
 Default fetchplan is `*:0`.
@@ -439,6 +440,16 @@ Is an alias for command(OrientDB::COMMAND_QUERY, string $query).
 
     $records = $db->query('insert into city (name, country) values ("Potenza", #14:1)   ');
 
+### selectGremlin ###
+Is an alias for command(OrientDB::COMMAND_SELECT_GREMLIN, string $query[, string $fetchplan]). Please referrer to [Gremlin page](http://code.google.com/p/orient/wiki/Gremlin).
+
+    mixed $db->selectGremlin(string $query[, string $fetchplan]);
+
+*Example:*
+
+    $records = $db->selectGremlin('g.V', '*:-1');
+
+## Other commands ##
 ### shutdown ###
 Remotely shutdown OrientDB server. Require valid user name and password. See [manual](http://code.google.com/p/orient/wiki/NetworkBinaryProtocol#SHUTDOWN) for details.
 Returns nothing on success or throws an exception.

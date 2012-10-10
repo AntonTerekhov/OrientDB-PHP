@@ -95,7 +95,7 @@ class OrientDBCommandCommand extends OrientDBCommandAbstract
         // Query text serialization in TEXT mode
         $buff .= pack('N', strlen($this->query));
         $buff .= $this->query;
-        if ($this->mode == OrientDB::COMMAND_SELECT_ASYNC || $this->mode == OrientDB::COMMAND_SELECT_SYNC) {
+        if ($this->mode == OrientDB::COMMAND_SELECT_ASYNC || $this->mode == OrientDB::COMMAND_SELECT_SYNC || $this->mode == OrientDB::COMMAND_SELECT_GREMLIN) {
             // Limit set to -1 to ignore and use TEXT MODE
             $buff .= pack('N', -1);
             // Add a fetchplan
