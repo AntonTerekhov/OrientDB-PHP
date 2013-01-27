@@ -74,7 +74,7 @@ class OrientDB
      * Client protocol version
      * @var int
      */
-    public $clientVersion = 12;
+    public $clientVersion = 13;
 
     /**
      * Server's protocol version.
