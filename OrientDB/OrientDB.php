@@ -41,6 +41,7 @@
  * @method int recordUpdate() recordUpdate(string $recordID, string $recordContent, int $recordVersion = -1, string $recordType = OrientDB::RECORD_TYPE_DOCUMENT) Update a record
  * @method mixed select() select(string $query) Execute sync-style select query
  * @method mixed selectAsync() selectAsync(string $query, string $fetchplan = null) Execute async-style select query with optional fetchplan
+ * @method mixed selectGremlin() selectGremlin(string $query, string $fetchplan = null) Execute Gremlin-style select query. Only for OrientDB - Graph Edition
  * @method void shutdown() shutdown(string $userName, string $password) Shutdown OrientDB server remotely
  */
 class OrientDB
@@ -173,6 +174,12 @@ class OrientDB
      * @var int
      */
     const COMMAND_SELECT_ASYNC = 3;
+
+    /**
+     * Query type asynchronous select
+     * @var int
+     */
+    const COMMAND_SELECT_GREMLIN = 4;
 
     /**
      * Datacluster type physical (disk)
