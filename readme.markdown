@@ -442,6 +442,7 @@ Is an alias for command(OrientDB::COMMAND_QUERY, string $query).
 
 ### selectGremlin ###
 Is an alias for command(OrientDB::COMMAND_SELECT_GREMLIN, string $query[, string $fetchplan]). Please referrer to [Gremlin page](http://code.google.com/p/orient/wiki/Gremlin).
+**Gremlin support is experimental.**
 
     mixed $db->selectGremlin(string $query[, string $fetchplan]);
 
