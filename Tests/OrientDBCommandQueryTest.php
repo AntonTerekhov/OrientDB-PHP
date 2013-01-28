@@ -50,6 +50,9 @@ class OrientDBQueryTest extends OrientDB_TestCase
         $list = $this->db->query('');
     }
 
+    /**
+     * @medium
+     */
     public function testQueryOnOpenDB()
     {
         $this->db->DBOpen('demo', 'writer', 'writer');

@@ -37,6 +37,9 @@ class OrientDBConfigListTest extends OrientDB_TestCase
         $list = $this->db->configList();
     }
 
+    /**
+     * @medium
+     */
     public function testConfigListOnConnectedDB()
     {
         $this->db->connect('root', $this->root_password);

@@ -217,6 +217,9 @@ class OrientDBCommandTest extends OrientDB_TestCase
         $this->assertInternalType('string', $record);
     }
 
+    /**
+     * @medium
+     */
     public function testCommandFindReference()
     {
         $this->db->DBOpen('demo', 'writer', 'writer');

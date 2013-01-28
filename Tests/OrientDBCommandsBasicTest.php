@@ -151,6 +151,9 @@ class OrientDBCommandsBasicTest extends OrientDB_TestCase
         $this->db->DBOpen('demo', 'writer', 'writer');
     }
 
+    /**
+     * @large
+     */
     public function testDBOpenCount()
     {
         $i = 0;
