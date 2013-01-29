@@ -7,7 +7,7 @@ Current status is: *Beta*. (Meaning specs can be changed. However, it's surely u
 
 Code is licensed under New BSD License and provided "as is". For complete license information see file `LICENSE`.
 
-Current OrientDB version to work with is: `1.3.0-SNAPSHOT`  (2012-12-14) (revision [e18c2cb1bc](https://github.com/nuvolabase/orientdb/commit/e18c2cb1bc385a24a3f10f939167e737a38164bd)).
+Current OrientDB version to work with is: `1.3.0`  (2012-12-20) (revision [0b929937c6](https://github.com/nuvolabase/orientdb/commit/0b929937c68b224527b65296c23437537b499c25)).
 It can be downloaded from OrientDB's [Wiki Downloads page](https://github.com/nuvolabase/orientdb/wiki/Download).
 
 Code compatible to previous binary releases of OrientDB can be found in repository's tags or in [Downloads](https://github.com/AntonTerekhov/OrientDB-PHP/archives/master) section.
