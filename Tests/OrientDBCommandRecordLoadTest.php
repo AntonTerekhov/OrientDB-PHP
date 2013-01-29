@@ -238,6 +238,5 @@ class OrientDBRecordLoadTest extends OrientDB_TestCase
         $record = $this->db->recordLoad($rid);
         $this->assertInstanceOf('OrientDBRecord', $record);
         $this->assertSame($rid, $record->recordID);
-        $this->assertNotEmpty($record->data->indexes);
     }
 }
