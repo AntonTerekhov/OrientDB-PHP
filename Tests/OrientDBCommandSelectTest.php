@@ -94,13 +94,14 @@ class OrientDBSelectTest extends OrientDB_TestCase
 
     public function testFieldsSelectWithRid()
     {
-        $this->db->DBOpen('demo', 'writer', 'writer');
+        $info = $this->db->DBOpen('demo', 'writer', 'writer');
+        $city_cluster_id = $this->getClusterIdByClusterName($info, 'city');
         $record = $this->db->select('SELECT name, @rid FROM City WHERE name = "Rome" LIMIT 1');
         $record = reset($record);
         $this->assertSame('Rome', $record->data->name);
-        $this->assertSame('#18:0', (string) $record->data->rid);
+        $this->assertSame('#' . $city_cluster_id . ':0', (string) $record->data->rid);
         $this->assertSame(-2, $record->clusterID);
-        $this->assertSame(0, $record->recordPos);
+        $this->assertSame(1, $record->recordPos);
         $this->assertNull($record->recordID);
     }
 }

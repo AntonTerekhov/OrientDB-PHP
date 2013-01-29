@@ -29,4 +29,24 @@ abstract class OrientDB_TestCase extends PHPUnit_Framework_TestCase
      * @var OrientDB
      */
     protected $db;
+
+    protected function getClusterIdByClusterName($info, $cluster_name)
+    {
+        foreach ($info['clusters'] as $cluster_info) {
+            if ($cluster_info->name === $cluster_name) {
+                return $cluster_info->id;
+            }
+        }
+        return false;
+    }
+
+    protected function getClusterNameByClusterId($info, $cluster_id)
+    {
+        foreach ($info['clusters'] as $cluster_info) {
+            if ($cluster_info->id === $cluster_id) {
+                return $cluster_info->name;
+            }
+        }
+        return false;
+    }
 }
