@@ -228,6 +228,9 @@ class OrientDBRecordLoadTest extends OrientDB_TestCase
         $this->assertNotEmpty($record->data);
     }
 
+    /**
+     * @medium
+     */
     public function testRecordLoadFromZeroClusterPosOne()
     {
         $rid = '0:1';

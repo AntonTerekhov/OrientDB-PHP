@@ -38,10 +38,14 @@ class OrientDBConfigListTest extends OrientDB_TestCase
     }
 
     /**
-     * @medium
+     * @large
      */
     public function testConfigListOnConnectedDB()
     {
+        /**
+         * @TODO
+         */
+        $this->markTestSkipped('See issue https://github.com/nuvolabase/orientdb/issues/1027');
         $this->db->connect('root', $this->root_password);
         $list = $this->db->configList();
         $this->assertInternalType('array', $list);
