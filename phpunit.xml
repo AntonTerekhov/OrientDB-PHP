@@ -18,5 +18,5 @@
          verbose="true"
          timeoutForSmallTests="3"
          timeoutForMediumTests="6"
-         timeoutForLargeTests="20">
+         timeoutForLargeTests="40">
 </phpunit>
