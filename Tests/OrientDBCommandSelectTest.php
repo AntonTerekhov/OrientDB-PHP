@@ -88,7 +88,7 @@ class OrientDBSelectTest extends OrientDB_TestCase
         $record = reset($records);
         $this->assertSame($record->data->name, 'Rome');
         $this->assertSame(-2, $record->clusterID);
-        $this->assertSame(0, $record->recordPos);
+        $this->assertSame(1, $record->recordPos);
         $this->assertNull($record->recordID);
     }
 
