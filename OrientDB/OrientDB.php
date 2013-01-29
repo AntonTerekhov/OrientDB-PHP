@@ -75,7 +75,7 @@ class OrientDB
      * Client protocol version
      * @var int
      */
-    public $clientVersion = 12;
+    public $clientVersion = 13;
 
     /**
      * Server's protocol version.
@@ -116,7 +116,7 @@ class OrientDB
 
     const DRIVER_NAME = 'OrientDB-PHP';
 
-    const DRIVER_VERSION = 'beta-0.4.7';
+    const DRIVER_VERSION = 'beta-0.4.8';
 
     /**
      * Record type Bytes

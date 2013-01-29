@@ -118,8 +118,18 @@ class OrientDBRecordUpdateTest extends OrientDB_TestCase
         $record = $this->db->recordLoad($cluster_id . ':' . $pos);
         $version = $this->db->recordUpdate($cluster_id . ':' . $pos, $content);
         $record2 = $this->db->recordLoad($cluster_id . ':' . $pos);
-        $this->AssertSame($version, $record2->version);
-        $this->assertGreaterThan(0, $version);
+        if ($version > -1) {
+            // Version control is in effect, @see https://github.com/nuvolabase/orientdb/wiki/Network-Binary-Protocol
+            $this->assertSame($version, $record2->version);
+            $this->assertGreaterThan(0, $version);
+        } elseif ($version === -1) {
+            // Document update, version increment, no version control
+            $this->assertSame($record2->version, $record->version);
+        } elseif ($version === -2) {
+            // Document update, no version control nor increment.
+
+        }
+
         $this->db->dataclusterRemove($cluster_id);
     }
 

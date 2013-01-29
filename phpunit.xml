@@ -15,5 +15,8 @@
          syntaxCheck="false"
          testSuiteLoaderClass="PHPUnit_Runner_StandardTestSuiteLoader"
          strict="true"
-         verbose="true">
+         verbose="true"
+         timeoutForSmallTests="3"
+         timeoutForMediumTests="6"
+         timeoutForLargeTests="40">
 </phpunit>

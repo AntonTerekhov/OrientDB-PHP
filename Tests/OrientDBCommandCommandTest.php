@@ -217,6 +217,9 @@ class OrientDBCommandTest extends OrientDB_TestCase
         $this->assertInternalType('string', $record);
     }
 
+    /**
+     * @medium
+     */
     public function testCommandFindReference()
     {
         $this->db->DBOpen('demo', 'writer', 'writer');
@@ -236,7 +239,7 @@ class OrientDBCommandTest extends OrientDB_TestCase
         $this->db->DBOpen('demo', 'admin', 'admin');
         $clusterID = $this->db->dataclusterAdd($clusterName, OrientDB::DATACLUSTER_TYPE_PHYSICAL);
 
-        $classID = $this->db->command(OrientDB::COMMAND_QUERY, 'CREATE CLASS ' . $className . ' ' . $clusterID);
+        $classID = $this->db->command(OrientDB::COMMAND_QUERY, 'CREATE CLASS ' . $className . ' CLUSTER ' . $clusterID);
         $this->assertInternalType('string', $classID);
         $propertyResult = $this->db->command(OrientDB::COMMAND_QUERY, 'CREATE PROPERTY ' . $className . '.' . $propertyName . ' INTEGER');
         $this->assertSame('1', $propertyResult);

@@ -125,8 +125,8 @@ class OrientDBRecordDeleteTest extends OrientDB_TestCase
         $recPos = $this->db->recordCreate($this->clusterID, 'name:"test"');
         $result = $this->db->recordDelete($this->clusterID . ':' . $recPos);
         $this->assertTrue($result);
+        $this->setExpectedException('OrientDBException', 'com.orientechnologies.orient.core.exception.ORecordNotFoundException: The record with id ');
         $result = $this->db->recordDelete($this->clusterID . ':' . $recPos);
-        $this->assertFalse($result);
     }
 
     public function testRecordDeleteWithPessimisticVersion()
@@ -170,7 +170,8 @@ class OrientDBRecordDeleteTest extends OrientDB_TestCase
         $updateVersion = $this->db->recordUpdate($this->clusterID . ':' . $recordPos, $this->recordContent);
         $this->setExpectedException('OrientDBException');
         $result = $this->db->recordDelete($this->clusterID . ':' . $recordPos, $updateVersion + 1);
-        $this->assertFalse($result);
+        // Always return true
+        $this->assertTrue($result);
         $result = $this->db->recordDelete($this->clusterID . ':' . $recordPos, $updateVersion);
         $this->assertTrue($result);
     }

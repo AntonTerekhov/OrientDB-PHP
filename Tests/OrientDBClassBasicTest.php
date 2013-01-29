@@ -33,6 +33,7 @@ class OrientDBClassBasicTest extends OrientDB_TestCase
 
     /**
      * @outputBuffering enabled
+     * @medium
      */
     public function testDebug()
     {
@@ -43,6 +44,7 @@ class OrientDBClassBasicTest extends OrientDB_TestCase
         $this->assertTrue($this->db->isDebug());
         $this->db->setDebug(false);
         $this->assertFalse($this->db->isDebug());
+        $this->expectOutputRegex('/protocol_version/');
     }
 
     public function testMethodNotImplemented()
