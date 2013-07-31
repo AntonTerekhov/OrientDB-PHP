@@ -369,9 +369,16 @@ class OrientDB
     public function setProtocolVersion($version)
     {
         $this->protocolVersion = $version;
-        if ($this->protocolVersion != $this->clientVersion) {
-            throw new OrientDBException('Binary protocol is uncompatible with the Server connected: clientVersion=' . $this->clientVersion . ', serverVersion=' . $this->protocolVersion);
-        }
+	
+	/*
+	 * Commented out binary protocol check because it will destroy binary compatibility with
+	 * new OrientDB server versions which, hopefully, are retro compatible with us!
+	 * 
+         * if ($this->protocolVersion != $this->clientVersion) {
+         *    throw new OrientDBException('Binary protocol is uncompatible with the Server connected: clientVersion=' . $this->clientVersion . ', serverVersion=' . $this->protocolVersion);
+         * }
+	 *
+	 */
     }
 
     /**
