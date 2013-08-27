@@ -1,5 +1,8 @@
 {
-    "name": "antonterekhov/orientdb-php",
+    "name": "orientdb-php/orientdb-php",
+    "type": "library",
+    "keywords": ["orientdb","graphdb"],
+    "homepage": "https://github.com/AntonTerekhov/OrientDB-PHP",
     "description": "A plain PHP driver to OrientDB graph database using its binary protocol.",
     "license": "BSD-3-Clause",
     "authors": [
@@ -9,6 +12,6 @@
         }
     ],
     "require": {
-
+        "php": ">=5.3.0"
     }
 }
