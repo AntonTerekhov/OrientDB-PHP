@@ -3,7 +3,7 @@
  * This file can be used as a starting point to understand way OrientDB-PHP
  * works.
  * @author Anton Terekhov <anton@netmonsters.ru>
- * @copyright Copyright Anton Terekhov, NetMonsters LLC, 2011
+ * @copyright Copyright Anton Terekhov, NetMonsters LLC, 2011-2012
  * @license https://github.com/AntonTerekhov/OrientDB-PHP/blob/master/LICENSE
  * @link https://github.com/AntonTerekhov/OrientDB-PHP
  * @package OrientDB-PHP
