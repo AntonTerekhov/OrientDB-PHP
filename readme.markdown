@@ -34,6 +34,8 @@ To install most recent version of library, just type
 
 where you want its file to be located.
 
+You can also install library [via Composer](https://packagist.org/packages/orientdb-php/orientdb-php): https://packagist.org/packages/orientdb-php/orientdb-php
+
 You can also want to get latest stable version, so check out [Downloads](https://github.com/AntonTerekhov/OrientDB-PHP/archives/master) section. Stables are marked with tags including this library version and OrientDB version.
 
 ## Using OrientDB-PHP ##
