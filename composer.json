@@ -1,0 +1,14 @@
+{
+    "name": "antonterekhov/orientdb-php",
+    "description": "A plain PHP driver to OrientDB graph database using its binary protocol.",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Anton Terekhov",
+            "email": "anton.a.terekhov@gmail.com"
+        }
+    ],
+    "require": {
+
+    }
+}
