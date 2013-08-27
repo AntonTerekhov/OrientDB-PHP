@@ -34,6 +34,7 @@ class OrientDBCommandTest extends OrientDB_TestCase
     public function testCommandOnNotConnectedDB()
     {
         $this->setExpectedException('OrientDBWrongCommandException');
+        /** @noinspection PhpParamsInspection */
         $list = $this->db->command('');
     }
 
@@ -41,12 +42,14 @@ class OrientDBCommandTest extends OrientDB_TestCase
     {
         $this->db->connect('root', $this->root_password);
         $this->setExpectedException('OrientDBWrongCommandException');
+        /** @noinspection PhpParamsInspection */
         $list = $this->db->command('');
     }
 
     public function testCommandOnNotOpenDB()
     {
         $this->setExpectedException('OrientDBWrongCommandException');
+        /** @noinspection PhpParamsInspection */
         $list = $this->db->command('');
     }
 
@@ -62,6 +65,7 @@ class OrientDBCommandTest extends OrientDB_TestCase
     {
         $this->db->DBOpen('demo', 'writer', 'writer');
         $this->setExpectedException('OrientDBWrongParamsException');
+        /** @noinspection PhpParamsInspection */
         $record = $this->db->command();
     }
 
@@ -69,6 +73,7 @@ class OrientDBCommandTest extends OrientDB_TestCase
     {
         $this->db->DBOpen('demo', 'writer', 'writer');
         $this->setExpectedException('OrientDBWrongParamsException');
+        /** @noinspection PhpParamsInspection */
         $record = $this->db->command(OrientDB::COMMAND_QUERY);
     }
 
@@ -126,7 +131,7 @@ class OrientDBCommandTest extends OrientDB_TestCase
     public function testCommandWithModeSync()
     {
         $this->db->DBOpen('demo', 'writer', 'writer');
-        $records = $this->db->command(OrientDB::COMMAND_SELECT_SYNC, 'select * from [18:1]');
+        $records = $this->db->command(OrientDB::COMMAND_SELECT_SYNC, 'select * from [21:1]');
         $this->assertInternalType('array', $records);
         $this->assertInstanceOf('OrientDBRecord', array_pop($records));
     }

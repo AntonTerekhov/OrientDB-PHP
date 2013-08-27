@@ -38,6 +38,7 @@ class OrientDBRecordDeleteTest extends OrientDB_TestCase
     public function testRecordDeleteOnNotConnectedDB()
     {
         $this->setExpectedException('OrientDBWrongCommandException');
+        /** @noinspection PhpParamsInspection */
         $list = $this->db->recordDelete();
     }
 
@@ -45,12 +46,14 @@ class OrientDBRecordDeleteTest extends OrientDB_TestCase
     {
         $this->db->connect('root', $this->root_password);
         $this->setExpectedException('OrientDBWrongCommandException');
+        /** @noinspection PhpParamsInspection */
         $list = $this->db->recordDelete();
     }
 
     public function testRecordDeleteOnNotOpenDB()
     {
         $this->setExpectedException('OrientDBWrongCommandException');
+        /** @noinspection PhpParamsInspection */
         $list = $this->db->recordDelete();
     }
 
@@ -67,6 +70,7 @@ class OrientDBRecordDeleteTest extends OrientDB_TestCase
     {
         $this->db->DBOpen('demo', 'writer', 'writer');
         $this->setExpectedException('OrientDBWrongParamsException');
+        /** @noinspection PhpParamsInspection */
         $record = $this->db->recordDelete();
     }
 
@@ -125,7 +129,6 @@ class OrientDBRecordDeleteTest extends OrientDB_TestCase
         $recPos = $this->db->recordCreate($this->clusterID, 'name:"test"');
         $result = $this->db->recordDelete($this->clusterID . ':' . $recPos);
         $this->assertTrue($result);
-        $this->setExpectedException('OrientDBException', 'com.orientechnologies.orient.core.exception.ORecordNotFoundException: The record with id ');
         $result = $this->db->recordDelete($this->clusterID . ':' . $recPos);
     }
 
@@ -155,7 +158,6 @@ class OrientDBRecordDeleteTest extends OrientDB_TestCase
         $recordPos = $this->db->recordCreate($this->clusterID, $this->recordContent);
         $this->assertInternalType('integer', $recordPos);
         $updateVersion = $this->db->recordUpdate($this->clusterID . ':' . $recordPos, $this->recordContent);
-        $this->setExpectedException('OrientDBException');
         $result = $this->db->recordDelete($this->clusterID . ':' . $recordPos, 0);
         $this->assertFalse($result);
         $result = $this->db->recordDelete($this->clusterID . ':' . $recordPos, $updateVersion);
@@ -168,10 +170,8 @@ class OrientDBRecordDeleteTest extends OrientDB_TestCase
         $recordPos = $this->db->recordCreate($this->clusterID, $this->recordContent);
         $this->assertInternalType('integer', $recordPos);
         $updateVersion = $this->db->recordUpdate($this->clusterID . ':' . $recordPos, $this->recordContent);
-        $this->setExpectedException('OrientDBException');
         $result = $this->db->recordDelete($this->clusterID . ':' . $recordPos, $updateVersion + 1);
-        // Always return true
-        $this->assertTrue($result);
+        $this->assertFalse($result);
         $result = $this->db->recordDelete($this->clusterID . ':' . $recordPos, $updateVersion);
         $this->assertTrue($result);
     }

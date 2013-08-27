@@ -48,6 +48,7 @@ class OrientDBCommandsBasicTest extends OrientDB_TestCase
     public function testConnectWithNotEnougnParams()
     {
         $this->setExpectedException('OrientDBWrongParamsException');
+        /** @noinspection PhpParamsInspection */
         $this->db->connect('root');
     }
 
@@ -84,6 +85,7 @@ class OrientDBCommandsBasicTest extends OrientDB_TestCase
     public function testOpenDBWithNotEnoughParams()
     {
         $this->setExpectedException('OrientDBWrongParamsException');
+        /** @noinspection PhpParamsInspection */
         $clusters = $this->db->DBOpen('demo');
     }
 

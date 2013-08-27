@@ -62,6 +62,7 @@ class OrientDBDataclusterDatarangeTest extends OrientDB_TestCase
     {
         $this->db->DBOpen('demo', 'writer', 'writer');
         $this->setExpectedException('OrientDBWrongParamsException');
+        /** @noinspection PhpParamsInspection */
         $result = $this->db->dataclusterDatarange();
     }
 

@@ -169,6 +169,7 @@ class OrientDBDBCreateTest extends OrientDB_TestCase
         $this->sequenceInc();
         $this->db->connect('root', $this->root_password);
         $this->setExpectedException('OrientDBWrongParamsException');
+        /** @noinspection PhpParamsInspection */
         $result = $this->db->DBCreate($this->getDBName());
     }
 

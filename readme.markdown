@@ -3,16 +3,16 @@ A *plain* PHP driver to [OrientDB graph database](https://github.com/nuvolabase/
 
 ## Description ##
 
-Current status is: *Beta*. (Meaning specs can be changed. However, it's surely usable right now)
+Current status is: *Beta*. (Meaning specs can be changed slightly. However, driver is surely usable right now)
 
 Code is licensed under New BSD License and provided "as is". For complete license information see file `LICENSE`.
 
-Current OrientDB version to work with is: `1.4.0-SNAPSHOT`  (2013-01-29) (revision [0bbdfda](https://github.com/nuvolabase/orientdb/commit/0bbdfda)).
+Current OrientDB version to work with is: `1.4.0-RELEASE`  (2013-01-29) (revision [9719cea](https://github.com/nuvolabase/orientdb/commit/9719cea)).
 It can be downloaded from OrientDB's [Wiki Downloads page](https://github.com/nuvolabase/orientdb/wiki/Download).
 
 Code compatible to previous binary releases of OrientDB can be found in repository's tags or in [Downloads](https://github.com/AntonTerekhov/OrientDB-PHP/archives/master) section.
 
-Current protocol version implemented: **13**
+Current protocol version implemented: **14**
 
 ## Requirements ##
 
@@ -50,7 +50,7 @@ You can always re-test the whole library by typing
 
     phpunit Tests/
 
-Don't forget to change root password.
+Don't forget to change root password BEFORE running tests.
 
 ## Function list ##
 

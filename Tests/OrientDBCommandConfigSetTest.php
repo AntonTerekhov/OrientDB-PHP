@@ -68,6 +68,7 @@ class OrientDBConfigSetTest extends OrientDB_TestCase
     {
         $this->db->connect('root', $this->root_password);
         $this->setExpectedException('OrientDBWrongParamsException');
+        /** @noinspection PhpParamsInspection */
         $result = $this->db->configSet();
     }
 
@@ -75,6 +76,7 @@ class OrientDBConfigSetTest extends OrientDB_TestCase
     {
         $this->db->connect('root', $this->root_password);
         $this->setExpectedException('OrientDBWrongParamsException');
+        /** @noinspection PhpParamsInspection */
         $result = $this->db->configSet('log.console.level');
     }
 

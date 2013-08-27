@@ -40,6 +40,7 @@ class OrientDBRecordLoadTest extends OrientDB_TestCase
     public function testRecordLoadOnNotConnectedDB()
     {
         $this->setExpectedException('OrientDBWrongCommandException');
+        /** @noinspection PhpParamsInspection */
         $list = $this->db->recordLoad();
     }
 
@@ -47,12 +48,14 @@ class OrientDBRecordLoadTest extends OrientDB_TestCase
     {
         $this->db->connect('root', $this->root_password);
         $this->setExpectedException('OrientDBWrongCommandException');
+        /** @noinspection PhpParamsInspection */
         $list = $this->db->recordLoad();
     }
 
     public function testRecordLoadOnNotOpenDB()
     {
         $this->setExpectedException('OrientDBWrongCommandException');
+        /** @noinspection PhpParamsInspection */
         $list = $this->db->recordLoad();
     }
 
@@ -74,6 +77,7 @@ class OrientDBRecordLoadTest extends OrientDB_TestCase
     {
         $this->db->DBOpen('demo', 'writer', 'writer');
         $this->setExpectedException('OrientDBWrongParamsException');
+        /** @noinspection PhpParamsInspection */
         $record = $this->db->recordLoad();
     }
 

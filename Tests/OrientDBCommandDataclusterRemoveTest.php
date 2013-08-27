@@ -50,6 +50,7 @@ class OrientDBDataclusterRemoveTest extends OrientDB_TestCase
     public function testDataclusterRemoveOnNotOpenDB()
     {
         $this->setExpectedException('OrientDBWrongCommandException');
+        /** @noinspection PhpParamsInspection */
         $result = $this->db->dataclusterRemove();
     }
 
@@ -79,6 +80,7 @@ class OrientDBDataclusterRemoveTest extends OrientDB_TestCase
     {
         $this->db->DBOpen('demo', 'writer', 'writer');
         $this->setExpectedException('OrientDBWrongParamsException');
+        /** @noinspection PhpParamsInspection */
         $result = $this->db->dataclusterRemove();
     }
 

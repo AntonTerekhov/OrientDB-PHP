@@ -65,6 +65,7 @@ class OrientDBDBExistsTest extends OrientDB_TestCase
     {
         $this->db->connect('root', $this->root_password);
         $this->setExpectedException('OrientDBWrongParamsException');
+        /** @noinspection PhpParamsInspection */
         $result = $this->db->DBExists();
     }
 }

@@ -82,6 +82,8 @@ class OrientDBCommandDBOpen extends OrientDBCommandAbstract
         }
         $this->debugCommand('config_bytes');
         $config = $this->readBytes();
+        $this->debugCommand('orientdb-release-string');
+        $this->readString();
 
         return array(
             'clusters' => $clusters,
