@@ -388,7 +388,7 @@ class OrientDBRecordDecoder
                     $this->state = self::STATE_NAME;
                     $this->buffer = $char;
                     $this->i++;
-                break;
+                    break;
 
                 case self::STATE_NAME:
                     if ($cCode === self::CCODE_COLON) {
@@ -427,7 +427,7 @@ class OrientDBRecordDecoder
                         $this->buffer .= $char;
                     }
                     $this->i++;
-                break;
+                    break;
 
                 case self::STATE_KEY:
                     /**
@@ -452,7 +452,7 @@ class OrientDBRecordDecoder
                         }
                     }
                     $this->i++;
-                break;
+                    break;
 
                 case self::STATE_VALUE:
                     if ($cCode === self::CCODE_COMMA) {
@@ -546,7 +546,7 @@ class OrientDBRecordDecoder
                             $this->i++;
                         }
                     }
-                break;
+                    break;
 
                 case self::STATE_COMMA:
                     if ($cCode === self::CCODE_COMMA) {
@@ -562,7 +562,7 @@ class OrientDBRecordDecoder
                     } else {
                         $this->state = self::STATE_VALUE;
                     }
-                break;
+                    break;
 
                 case self::STATE_STRING:
                     // Check, if we can fast-forward to next " or \ symbol
@@ -614,7 +614,7 @@ class OrientDBRecordDecoder
                         $this->buffer .= $char;
                     }
                     $this->i++;
-                break;
+                    break;
 
                 case self::STATE_LINK:
                     // Fast-forward
@@ -633,7 +633,7 @@ class OrientDBRecordDecoder
                         // token type is link
                         $this->stackPush(self::TTYPE_LINK, new OrientDBTypeLink($this->buffer));
                     }
-                break;
+                    break;
 
                 case self::STATE_NUMBER:
                     // Fast-forward
@@ -669,7 +669,7 @@ class OrientDBRecordDecoder
                         // token type is number
                         $this->stackPush(self::TTYPE_NUMBER, $tokenValue);
                     }
-                break;
+                    break;
 
                 case self::STATE_BOOLEAN:
                     // Fast-forward
@@ -687,11 +687,11 @@ class OrientDBRecordDecoder
                     $this->state = self::STATE_COMMA;
                     // token value is boolean
                     $this->stackPush(self::TTYPE_BOOLEAN, $tokenValue);
-                break;
+                    break;
 
                 default:
                     return;
-                break;
+                    break;
             }
 
             switch ($this->stackGetLastType()) {
@@ -700,13 +700,13 @@ class OrientDBRecordDecoder
                 case self::TTYPE_KEY:
                 case self::TTYPE_COLLECTION_START:
                 case self::TTYPE_MAP_START:
-                // some speed up
-                break;
+                    // some speed up
+                    break;
 
                 case self::TTYPE_CLASS:
                     list (, $value) = $this->stackPop();
                     $this->className = $value;
-                break;
+                    break;
 
                 case self::TTYPE_STRING:
                 case self::TTYPE_LINK:
@@ -718,7 +718,7 @@ class OrientDBRecordDecoder
                         list (, $name) = $this->stackPop();
                         $this->data->$name = $value;
                     }
-                break;
+                    break;
 
                 case self::TTYPE_NULL:
                     if (!$isCollection && !$isMap) {
@@ -726,7 +726,7 @@ class OrientDBRecordDecoder
                         list (, $name) = $this->stackPop();
                         $this->data->$name = null;
                     }
-                break;
+                    break;
 
                 case self::TTYPE_COLLECTION_END:
                     $values = array();
@@ -740,7 +740,7 @@ class OrientDBRecordDecoder
                     list (, $name) = $this->stackPop();
                     $values = array_reverse($values);
                     $this->data->$name = $values;
-                break;
+                    break;
 
                 case self::TTYPE_MAP_END:
                     $values = array();
@@ -758,10 +758,10 @@ class OrientDBRecordDecoder
                     list (, $name) = $this->stackPop();
                     $values = array_reverse($values, true);
                     $this->data->$name = $values;
-                break;
+                    break;
 
                 default:
-                break;
+                    break;
             }
         }
     }
