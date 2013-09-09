@@ -40,7 +40,7 @@ class OrientDBCommandDataclusterCount extends OrientDBCommandAbstract
             $this->addShort($this->attribs[0][$i]);
         }
         // Flag - Tombstone
-        if($this->parent->protocolVersion >= 13){
+        if ($this->parent->protocolVersion >= 13) {
             $this->addByte(0);
         }
     }

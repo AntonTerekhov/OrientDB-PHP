@@ -40,8 +40,7 @@ for ($i = 0; $i < $records; $i++) {
 echo 'Done create ' . $records . PHP_EOL;
 echo microtime(true) - $time_c . PHP_EOL;
 
-$callback = function (&$item, $key)
-{
+$callback = function (&$item, $key) {
     $item = '#2:' . $item;
 };
 
@@ -78,7 +77,6 @@ try {
 }
 catch (OrientDBException $e) {
     echo $e->getMessage() . PHP_EOL;
-    echo OrientDBCommandAbstract::$transactionId . PHP_EOL;
 }
 $db->setDebug(false);
 echo 'Done get linked' . PHP_EOL;

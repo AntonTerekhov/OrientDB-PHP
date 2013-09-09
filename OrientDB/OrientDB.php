@@ -259,8 +259,7 @@ class OrientDB
      */
     public function __destruct()
     {
-        if ($this->isDBOpen() &&
-                $this->socket->isValid()) {
+        if ($this->isDBOpen() && $this->socket->isValid()) {
             $this->DBClose();
         }
     }
@@ -507,13 +506,13 @@ if (!function_exists('OrientDB_autoload')) {
             switch ($classToken) {
                 case 'Command':
                     $fileName = 'Commands/' . $className . '.php';
-                break;
+                    break;
                 case 'Type':
                     $fileName = 'OrientDBDataTypes.php';
-                break;
+                    break;
                 default:
                     $fileName = $className . '.php';
-                break;
+                    break;
             }
             $fullName = dirname(__FILE__) . '/' . $fileName;
             if (file_exists($fullName)) {

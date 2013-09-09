@@ -32,6 +32,5 @@ class OrientDBCommandDatasegmentDelete extends OrientDBCommandAbstract
 
     protected function parseResponse()
     {
-
     }
 }

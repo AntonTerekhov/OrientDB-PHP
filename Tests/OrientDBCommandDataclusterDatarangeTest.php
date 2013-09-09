@@ -79,5 +79,4 @@ class OrientDBDataclusterDatarangeTest extends OrientDB_TestCase
         $this->setExpectedException('OrientDBException');
         $result = $this->db->dataclusterDatarange(10000);
     }
-
 }

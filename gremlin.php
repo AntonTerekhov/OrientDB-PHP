@@ -2,7 +2,6 @@
 
 require_once('OrientDB/OrientDB.php');
 
-
 $db = new OrientDB('localhost');
 
 $db->DBOpen('tinkerpop', 'admin', 'admin');

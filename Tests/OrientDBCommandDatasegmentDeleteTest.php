@@ -56,5 +56,4 @@ class OrientDBDatagesmentDeleteTest extends OrientDB_TestCase
         $this->setExpectedException('OrientDBException', 'Not implemented');
         $recordPos = $this->db->datasegmentDelete('');
     }
-
 }

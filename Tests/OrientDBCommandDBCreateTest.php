@@ -35,8 +35,8 @@ class OrientDBDBCreateTest extends OrientDB_TestCase
         if ($this->db->isConnected()) {
             try {
                 $result = $this->db->DBDelete($this->getDBName());
-            } catch (OrientDBException $e) {
-
+            }
+            catch (OrientDBException $e) {
             }
         }
         $this->db = null;

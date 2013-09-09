@@ -71,7 +71,7 @@ class OrientDBCommandRecordLoad extends OrientDBCommandAbstract
         // Cache ignore - use cache
         $this->addByte(0);
         // Flag - Tombstone
-        if($this->parent->protocolVersion >= 13){
+        if ($this->parent->protocolVersion >= 13) {
             $this->addByte(0);
         }
     }

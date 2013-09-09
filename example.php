@@ -85,7 +85,7 @@ try {
 
     echo 'Updated record version: ' . $version . PHP_EOL . PHP_EOL;
 
-	$recordReLoaded = $db->recordLoad($clusterID . ':' . $recordPos);
+    $recordReLoaded = $db->recordLoad($clusterID . ':' . $recordPos);
 
     printf('No, %1$s %2$s first appears in %3$d!' . PHP_EOL . PHP_EOL, $recordReLoaded->data->FirstName, $recordReLoaded->data->LastName, $recordReLoaded->data->appearance);
 
@@ -106,7 +106,6 @@ try {
 catch (OrientDBException $e) {
     echo $e->getMessage() . PHP_EOL;
 }
-
 
 echo 'Deleting DB...' . PHP_EOL;
 try {

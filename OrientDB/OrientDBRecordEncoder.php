@@ -93,15 +93,15 @@ class OrientDBRecordEncoder
             switch ($valueType) {
                 case 'integer':
                     $buffer .= $value;
-                break;
+                    break;
 
                 case 'double':
                     $buffer .= $value . chr(OrientDBRecordDecoder::CCODE_NUM_FLOAT);
-                break;
+                    break;
 
                 case 'string':
                     $buffer .= self::encodeString($value);
-                break;
+                    break;
 
                 case 'boolean':
                     if ($value === true) {
@@ -109,7 +109,7 @@ class OrientDBRecordEncoder
                     } else {
                         $buffer .= 'false';
                     }
-                break;
+                    break;
 
                 case 'array':
                     $arrayAssoc = self::isAssoc($value);
@@ -128,27 +128,27 @@ class OrientDBRecordEncoder
                      */
                     $buffer .= implode(',', $this->process($value, $arrayAssoc, true));
                     $buffer .= $boundEnd;
-                break;
+                    break;
 
                 case 'NULL':
 
-                break;
+                    break;
 
                 case is_a($value, 'OrientDBTypeLink'):
                     /** @var $value OrientDBTypeLink */
                     $buffer .= $value->getHash();
-                break;
+                    break;
 
                 case is_a($value, 'OrientDBTypeDate'):
                     $buffer .= (string) $value;
-                break;
+                    break;
 
                 case is_a($value, 'OrientDBRecord'):
                     $buffer .= chr(OrientDBRecordDecoder::CCODE_OPEN_PARENTHESES);
                     /** @var $value OrientDBRecord */
                     $buffer .= $value->__toString();
                     $buffer .= chr(OrientDBRecordDecoder::CCODE_CLOSE_PARENTHESES);
-                break;
+                    break;
 
                 default:
                     throw new OrientDBException('Can\'t serialize: ' . $valueType);
