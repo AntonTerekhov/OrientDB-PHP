@@ -40,7 +40,7 @@ class OrientDBRecordSpeedBigTest extends PHPUnit_Framework_TestCase
         }
         // Prepare some booleans
         for ($i = 0; $i < $fieldsCnt; $i++) {
-            $content[] = sprintf('bool_%1$s:%2$s',  $i, (rand(0, 1) ? 'true' : 'false'));
+            $content[] = sprintf('bool_%1$s:%2$s', $i, (rand(0, 1) ? 'true' : 'false'));
         }
         // Prepare some links
         for ($i = 0; $i < $fieldsCnt; $i++) {
@@ -48,12 +48,12 @@ class OrientDBRecordSpeedBigTest extends PHPUnit_Framework_TestCase
         }
         // Prepare some numbers
         for ($i = 0; $i < $fieldsCnt; $i++) {
-            $content[] = sprintf('num_%1$s:%2$ff',  $i, rand(-2000000, 2000000));
+            $content[] = sprintf('num_%1$s:%2$ff', $i, rand(-2000000, 2000000));
         }
         // Some map
         $map = array();
         for ($i = 0; $i < $fieldsCnt; $i++) {
-            $map[] = sprintf('"very.long.map_%1$05d":%2$d',  $i, rand(-2000, 2000));
+            $map[] = sprintf('"very.long.map_%1$05d":%2$d', $i, rand(-2000, 2000));
         }
         $content[] = 'map:{' . implode(',', $map) . '}';
         $content = implode(',', $content);
@@ -66,6 +66,6 @@ class OrientDBRecordSpeedBigTest extends PHPUnit_Framework_TestCase
         }
         $timeEnd = microtime(true);
         $this->assertNotEmpty($record->data);
-         echo $timeEnd - $timeStart;
+        echo $timeEnd - $timeStart;
     }
 }

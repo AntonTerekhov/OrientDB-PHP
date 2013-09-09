@@ -163,5 +163,6 @@ class OrientDBTypeDate
         if ($this->timestamp) {
             return $this->timestamp . 't';
         }
+        return null;
     }
 }

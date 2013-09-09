@@ -7,12 +7,12 @@ Current status is: *Beta*. (Meaning specs can be changed slightly. However, driv
 
 Code is licensed under New BSD License and provided "as is". For complete license information see file `LICENSE`.
 
-Current OrientDB version to work with is: `1.4.0-RELEASE`  (2013-01-29) (revision [9719cea](https://github.com/nuvolabase/orientdb/commit/9719cea)).
+Current OrientDB version to work with is: `1.5.0-RELEASE`  (2013-07-30) (revision [4d28095](https://github.com/nuvolabase/orientdb/commit/4d28095)).
 It can be downloaded from OrientDB's [Wiki Downloads page](https://github.com/nuvolabase/orientdb/wiki/Download).
 
 Code compatible to previous binary releases of OrientDB can be found in repository's tags or in [Downloads](https://github.com/AntonTerekhov/OrientDB-PHP/archives/master) section.
 
-Current protocol version implemented: **14**
+Current protocol version implemented: **15**
 
 ## Requirements ##
 
@@ -33,6 +33,8 @@ To install most recent version of library, just type
     git clone git://github.com/AntonTerekhov/OrientDB-PHP.git
 
 where you want its file to be located.
+
+You can also install library [via Composer](https://packagist.org/packages/orientdb-php/orientdb-php): https://packagist.org/packages/orientdb-php/orientdb-php
 
 You can also want to get latest stable version, so check out [Downloads](https://github.com/AntonTerekhov/OrientDB-PHP/archives/master) section. Stables are marked with tags including this library version and OrientDB version.
 

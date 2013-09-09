@@ -50,6 +50,7 @@ class OrientDBClassBasicTest extends OrientDB_TestCase
     public function testMethodNotImplemented()
     {
         $this->setExpectedException('OrientDBWrongCommandException');
+        /** @noinspection PhpUndefinedMethodInspection */
         $this->db->methodNotExist();
     }
 
@@ -58,5 +59,4 @@ class OrientDBClassBasicTest extends OrientDB_TestCase
         $this->setExpectedException('OrientDBException');
         $this->db->setProtocolVersion(1);
     }
-
 }

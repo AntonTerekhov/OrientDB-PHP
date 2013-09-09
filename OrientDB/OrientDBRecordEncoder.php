@@ -2,7 +2,7 @@
 
 /**
  * @author Anton Terekhov <anton@netmonsters.ru>
- * @copyright Copyright Anton Terekhov, NetMonsters LLC, 2011-2012
+ * @copyright Copyright Anton Terekhov, NetMonsters LLC, 2011-2013
  * @license https://github.com/AntonTerekhov/OrientDB-PHP/blob/master/LICENSE
  * @link https://github.com/AntonTerekhov/OrientDB-PHP
  * @package OrientDB-PHP
@@ -93,15 +93,15 @@ class OrientDBRecordEncoder
             switch ($valueType) {
                 case 'integer':
                     $buffer .= $value;
-                break;
+                    break;
 
                 case 'double':
                     $buffer .= $value . chr(OrientDBRecordDecoder::CCODE_NUM_FLOAT);
-                break;
+                    break;
 
                 case 'string':
                     $buffer .= self::encodeString($value);
-                break;
+                    break;
 
                 case 'boolean':
                     if ($value === true) {
@@ -109,14 +109,16 @@ class OrientDBRecordEncoder
                     } else {
                         $buffer .= 'false';
                     }
-                break;
+                    break;
 
                 case 'array':
                     $arrayAssoc = self::isAssoc($value);
                     if ($arrayAssoc === true) {
+//                        This is assoc array, using map
                         $boundStart = chr(OrientDBRecordDecoder::CCODE_OPEN_CURLY);
                         $boundEnd = chr(OrientDBRecordDecoder::CCODE_CLOSE_CURLY);
-                    } elseif ($arrayAssoc === false) {
+                    } else {
+//                        Array will always be encoded as a set, as 1) Orient itself converts set to list (and vice-versa too) 2) PHP lacks build-in set type
                         $boundStart = chr(OrientDBRecordDecoder::CCODE_OPEN_SQUARE);
                         $boundEnd = chr(OrientDBRecordDecoder::CCODE_CLOSE_SQUARE);
                     }
@@ -126,25 +128,27 @@ class OrientDBRecordEncoder
                      */
                     $buffer .= implode(',', $this->process($value, $arrayAssoc, true));
                     $buffer .= $boundEnd;
-                break;
+                    break;
 
                 case 'NULL':
 
-                break;
+                    break;
 
                 case is_a($value, 'OrientDBTypeLink'):
+                    /** @var $value OrientDBTypeLink */
                     $buffer .= $value->getHash();
-                break;
+                    break;
 
                 case is_a($value, 'OrientDBTypeDate'):
                     $buffer .= (string) $value;
-                break;
+                    break;
 
                 case is_a($value, 'OrientDBRecord'):
                     $buffer .= chr(OrientDBRecordDecoder::CCODE_OPEN_PARENTHESES);
+                    /** @var $value OrientDBRecord */
                     $buffer .= $value->__toString();
                     $buffer .= chr(OrientDBRecordDecoder::CCODE_CLOSE_PARENTHESES);
-                break;
+                    break;
 
                 default:
                     throw new OrientDBException('Can\'t serialize: ' . $valueType);
@@ -175,7 +179,7 @@ class OrientDBRecordEncoder
     protected static function isAssoc($array)
     {
         if (!is_array($array)) {
-            return;
+            return null;
         }
         return (bool) count(array_filter(array_keys($array), 'is_string'));
     }

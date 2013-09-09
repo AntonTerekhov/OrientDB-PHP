@@ -45,5 +45,4 @@ class OrientDBCommandConfigSet extends OrientDBCommandAbstract
     {
         return true;
     }
-
 }

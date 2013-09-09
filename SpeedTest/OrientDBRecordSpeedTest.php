@@ -65,7 +65,7 @@ class OrientDBRecordSpeedTest extends PHPUnit_Framework_TestCase
         // Prepare a document
         $document = array();
         for ($i = 0; $i < $fieldCnt; $i++) {
-            $document[] = sprintf('%1$s:%2$s',  $i, (rand(0, 1) ? 'true' : 'false'));
+            $document[] = sprintf('%1$s:%2$s', $i, (rand(0, 1) ? 'true' : 'false'));
         }
         $document = implode(',', $document);
         $timeStart = microtime(true);
@@ -87,7 +87,7 @@ class OrientDBRecordSpeedTest extends PHPUnit_Framework_TestCase
         $document = array();
         $rid = 100;
         for ($i = 0; $i < $fieldCnt; $i++) {
-            $document[] = sprintf('%1$s:#%1$s:%2$s',  $i, $rid--);
+            $document[] = sprintf('%1$s:#%1$s:%2$s', $i, $rid--);
         }
         $document = implode(',', $document);
         $timeStart = microtime(true);
@@ -108,7 +108,7 @@ class OrientDBRecordSpeedTest extends PHPUnit_Framework_TestCase
         // Prepare a document
         $document = array();
         for ($i = 0; $i < $fieldCnt; $i++) {
-            $document[] = sprintf('%1$s:%2$ff',  $i, rand(-2000000, 2000000));
+            $document[] = sprintf('%1$s:%2$ff', $i, rand(-2000000, 2000000));
         }
         $document = implode(',', $document);
         $timeStart = microtime(true);
@@ -129,7 +129,7 @@ class OrientDBRecordSpeedTest extends PHPUnit_Framework_TestCase
         // Prepare a document
         $map = array();
         for ($i = 0; $i < $fieldCnt; $i++) {
-            $map[] = sprintf('"very.long.fieldname_%1$05d":%2$d',  $i, rand(-2000, 2000));
+            $map[] = sprintf('"very.long.fieldname_%1$05d":%2$d', $i, rand(-2000, 2000));
         }
         $map = implode(',', $map);
         $timeStart = microtime(true);

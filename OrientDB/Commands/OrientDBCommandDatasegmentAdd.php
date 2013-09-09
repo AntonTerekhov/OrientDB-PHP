@@ -32,6 +32,5 @@ class OrientDBCommandDatasegmentAdd extends OrientDBCommandAbstract
 
     protected function parseResponse()
     {
-
     }
 }
