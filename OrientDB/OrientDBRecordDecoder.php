@@ -756,7 +756,7 @@ class OrientDBRecordDecoder
                         }
                     } while ($searchToken !== self::TTYPE_MAP_START);
                     list (, $name) = $this->stackPop();
-                    $values = array_reverse($values);
+                    $values = array_reverse($values, true);
                     $this->data->$name = $values;
                 break;
 
