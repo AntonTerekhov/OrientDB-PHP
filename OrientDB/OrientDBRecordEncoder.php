@@ -133,6 +133,7 @@ class OrientDBRecordEncoder
                 break;
 
                 case is_a($value, 'OrientDBTypeLink'):
+                    /** @var $value OrientDBTypeLink */
                     $buffer .= $value->getHash();
                 break;
 
@@ -142,6 +143,7 @@ class OrientDBRecordEncoder
 
                 case is_a($value, 'OrientDBRecord'):
                     $buffer .= chr(OrientDBRecordDecoder::CCODE_OPEN_PARENTHESES);
+                    /** @var $value OrientDBRecord */
                     $buffer .= $value->__toString();
                     $buffer .= chr(OrientDBRecordDecoder::CCODE_CLOSE_PARENTHESES);
                 break;
@@ -175,7 +177,7 @@ class OrientDBRecordEncoder
     protected static function isAssoc($array)
     {
         if (!is_array($array)) {
-            return;
+            return null;
         }
         return (bool) count(array_filter(array_keys($array), 'is_string'));
     }
