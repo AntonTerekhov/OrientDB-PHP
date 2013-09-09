@@ -2,7 +2,7 @@
 
 /**
  * @author Anton Terekhov <anton@netmonsters.ru>
- * @copyright Copyright Anton Terekhov, NetMonsters LLC, 2011-2012
+ * @copyright Copyright Anton Terekhov, NetMonsters LLC, 2011-2013
  * @license https://github.com/AntonTerekhov/OrientDB-PHP/blob/master/LICENSE
  * @link https://github.com/AntonTerekhov/OrientDB-PHP
  * @package OrientDB-PHP
@@ -322,7 +322,7 @@ class OrientDBData implements Countable, Iterator
     /**
      * Return the key of the current element
      * @link http://php.net/manual/en/iterator.key.php
-     * @return integer scalar on success
+     * @return int scalar on success
      * 0 on failure.
      */
     public function key()

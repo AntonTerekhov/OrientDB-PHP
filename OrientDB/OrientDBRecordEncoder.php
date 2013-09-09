@@ -2,7 +2,7 @@
 
 /**
  * @author Anton Terekhov <anton@netmonsters.ru>
- * @copyright Copyright Anton Terekhov, NetMonsters LLC, 2011-2012
+ * @copyright Copyright Anton Terekhov, NetMonsters LLC, 2011-2013
  * @license https://github.com/AntonTerekhov/OrientDB-PHP/blob/master/LICENSE
  * @link https://github.com/AntonTerekhov/OrientDB-PHP
  * @package OrientDB-PHP
@@ -114,9 +114,11 @@ class OrientDBRecordEncoder
                 case 'array':
                     $arrayAssoc = self::isAssoc($value);
                     if ($arrayAssoc === true) {
+//                        This is assoc array, using map
                         $boundStart = chr(OrientDBRecordDecoder::CCODE_OPEN_CURLY);
                         $boundEnd = chr(OrientDBRecordDecoder::CCODE_CLOSE_CURLY);
-                    } elseif ($arrayAssoc === false) {
+                    } else {
+//                        Array will always be encoded as a set, as 1) Orient itself converts set to list (and vice-versa too) 2) PHP lacks build-in set type
                         $boundStart = chr(OrientDBRecordDecoder::CCODE_OPEN_SQUARE);
                         $boundEnd = chr(OrientDBRecordDecoder::CCODE_CLOSE_SQUARE);
                     }

@@ -182,22 +182,32 @@ class OrientDBRecordDecoder
     const CCODE_CLOSE_PARENTHESES = 0x29;
 
     /**
-     * [
+     * [ Set start
+     */
+    const CCODE_OPEN_ARROW = 0x3C;
+
+    /**
+     * ] Set end
+     */
+    const CCODE_CLOSE_ARROW = 0x3E;
+
+    /**
+     * [ List start
      */
     const CCODE_OPEN_SQUARE = 0x5B;
 
     /**
-     * ]
+     * ] List end
      */
     const CCODE_CLOSE_SQUARE = 0x5D;
 
     /**
-     * {
+     * { Map start
      */
     const CCODE_OPEN_CURLY = 0x7B;
 
     /**
-     * }
+     * } Map end
      */
     const CCODE_CLOSE_CURLY = 0x7D;
 
@@ -303,12 +313,12 @@ class OrientDBRecordDecoder
     /**
      * Start of collection
      */
-    const TTYPE_COLLECTION_START = 5;
+    const TTYPE_SET_START = 5;
 
     /**
      * End of collection
      */
-    const TTYPE_COLLECTION_END = 6;
+    const TTYPE_SET_END = 6;
 
     /**
      * Link to recordID
@@ -345,6 +355,16 @@ class OrientDBRecordDecoder
      */
     const TTYPE_EMBEDDED = 13;
 
+    /**
+     * Start of list
+     */
+    const TTYPE_LIST_START = 14;
+
+    /**
+     * End of list
+     */
+    const TTYPE_LIST_END = 15;
+
     public function __construct($content)
     {
         $this->content = $content;
@@ -363,8 +383,10 @@ class OrientDBRecordDecoder
         $this->data = new StdClass();
         // initial state
         $this->state = self::STATE_GUESS;
-        // is parsing collection
-        $isCollection = false;
+        // is parsing set
+        $isSet = false;
+        // is parsing list
+        $isList = false;
         // is parsing a map
         $isMap = false;
         // is escape symbol
@@ -470,21 +492,37 @@ class OrientDBRecordDecoder
                         // add hash to value
                         $this->buffer = $char;
                         $this->i++;
+                    } elseif ($cCode === self::CCODE_OPEN_ARROW) {
+                        // < found, state is still value
+                        $this->state = self::STATE_VALUE;
+                        // token type is set start
+                        $this->stackPush(self::TTYPE_SET_START);
+                        // started set
+                        $isSet = true;
+                        $this->i++;
+                    } elseif ($cCode === self::CCODE_CLOSE_ARROW) {
+                        // > found,
+                        $this->state = self::STATE_COMMA;
+                        // token type is set end
+                        $this->stackPush(self::TTYPE_SET_END);
+                        // stopped set
+                        $isSet = false;
+                        $this->i++;
                     } elseif ($cCode === self::CCODE_OPEN_SQUARE) {
                         // [ found, state is still value
                         $this->state = self::STATE_VALUE;
-                        // token type is collection start
-                        $this->stackPush(self::TTYPE_COLLECTION_START);
-                        // started collection
-                        $isCollection = true;
+                        // token type is list start
+                        $this->stackPush(self::TTYPE_LIST_START);
+                        // started list
+                        $isList = true;
                         $this->i++;
                     } elseif ($cCode === self::CCODE_CLOSE_SQUARE) {
                         // ] found,
                         $this->state = self::STATE_COMMA;
                         // token type is collection end
-                        $this->stackPush(self::TTYPE_COLLECTION_END);
-                        // stopped collection
-                        $isCollection = false;
+                        $this->stackPush(self::TTYPE_LIST_END);
+                        // stopped list
+                        $isList = false;
                         $this->i++;
                     } elseif ($cCode === self::CCODE_OPEN_CURLY) {
                         // found { switch state to name
@@ -551,7 +589,9 @@ class OrientDBRecordDecoder
                 case self::STATE_COMMA:
                     if ($cCode === self::CCODE_COMMA) {
                         // Found a comma -  switch to
-                        if ($isCollection) {
+                        if ($isSet) {
+                            $this->state = self::STATE_VALUE;
+                        } elseif ($isList) {
                             $this->state = self::STATE_VALUE;
                         } elseif ($isMap) {
                             $this->state = self::STATE_KEY;
@@ -698,7 +738,8 @@ class OrientDBRecordDecoder
                 case false:
                 case self::TTYPE_NAME:
                 case self::TTYPE_KEY:
-                case self::TTYPE_COLLECTION_START:
+                case self::TTYPE_SET_START:
+                case self::TTYPE_LIST_START:
                 case self::TTYPE_MAP_START:
                     // some speed up
                     break;
@@ -713,7 +754,7 @@ class OrientDBRecordDecoder
                 case self::TTYPE_NUMBER:
                 case self::TTYPE_BOOLEAN:
                 case self::TTYPE_EMBEDDED:
-                    if (!$isCollection && !$isMap) {
+                    if (!$isSet && !$isMap && !$isList) {
                         list (, $value) = $this->stackPop();
                         list (, $name) = $this->stackPop();
                         $this->data->$name = $value;
@@ -721,22 +762,36 @@ class OrientDBRecordDecoder
                     break;
 
                 case self::TTYPE_NULL:
-                    if (!$isCollection && !$isMap) {
+                    if (!$isSet && !$isMap && !$isList) {
                         $this->stackPop();
                         list (, $name) = $this->stackPop();
                         $this->data->$name = null;
                     }
                     break;
 
-                case self::TTYPE_COLLECTION_END:
+                case self::TTYPE_SET_END:
                     $values = array();
                     do {
                         list ($searchToken, $value) = $this->stackPop();
 
-                        if ($searchToken !== self::TTYPE_COLLECTION_START && $searchToken !== self::TTYPE_COLLECTION_END) {
+                        if ($searchToken !== self::TTYPE_SET_START && $searchToken !== self::TTYPE_SET_END) {
                             $values[] = $value;
                         }
-                    } while ($searchToken !== self::TTYPE_COLLECTION_START);
+                    } while ($searchToken !== self::TTYPE_SET_START);
+                    list (, $name) = $this->stackPop();
+                    $values = array_reverse($values);
+                    $this->data->$name = $values;
+                    break;
+
+                case self::TTYPE_LIST_END:
+                    $values = array();
+                    do {
+                        list ($searchToken, $value) = $this->stackPop();
+
+                        if ($searchToken !== self::TTYPE_LIST_START && $searchToken !== self::TTYPE_LIST_END) {
+                            $values[] = $value;
+                        }
+                    } while ($searchToken !== self::TTYPE_LIST_START);
                     list (, $name) = $this->stackPop();
                     $values = array_reverse($values);
                     $this->data->$name = $values;
@@ -819,5 +874,6 @@ class OrientDBRecordDecoder
         if ($depth !== false) {
             return $this->stackTV[$depth];
         }
+        return null;
     }
 }
