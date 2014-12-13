@@ -146,16 +146,18 @@ class OrientDB
         self::RECORD_TYPE_FLAT);
 
     /**
-     * Database type memory
+     * Database type memory.
+     * See: http://www.orientechnologies.com/docs/2.0/orientdb.wiki/Concepts.html#storage
      * @var string
      */
     const DB_TYPE_MEMORY = 'memory';
 
     /**
-     * Database type local (disk)
+     * Database type local (disk).
+     * See: http://www.orientechnologies.com/docs/2.0/orientdb.wiki/Concepts.html#storage
      * @var string
      */
-    const DB_TYPE_LOCAL = 'local';
+    const DB_TYPE_LOCAL = 'plocal';
 
     /**
      * Query type general
